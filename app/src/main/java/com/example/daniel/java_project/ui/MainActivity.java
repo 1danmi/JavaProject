@@ -1,4 +1,4 @@
-package com.example.daniel.java_project.UI;
+package com.example.daniel.java_project.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
