@@ -17,9 +17,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-//        getActionBar().hide();
-        setTitle("Login");
-        //checkLogin();
+
+        setTitle(getString(R.string.title_activity_login));
+
+
         final LoadingButton signInBtn = (LoadingButton) findViewById(R.id.sign_in_btn);
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO: Implement transition to register activity.
-                Toast.makeText(getApplicationContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.not_yet_implemented), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -41,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkLogin() {
         final MaterialEditText emailEditText = (MaterialEditText) findViewById(R.id.emailEditText);
-        emailEditText.addValidator(new RegexpValidator("Wrong email address", "^([a-zA-Z0-9]+(?:(\\.|_)[A-Za-z0-9!#$%&'*+/=?^`{|}~-]+)*@(?!([a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)$"));
+        emailEditText.addValidator(new RegexpValidator(getString(R.string.error_invalid_email), "^([a-zA-Z0-9]+(?:(\\.|_)[A-Za-z0-9!#$%&'*+/=?^`{|}~-]+)*@(?!([a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)$"));
         final LoadingButton signIn = (LoadingButton) findViewById(R.id.sign_in_btn);
         emailEditText.setError(null);
         signIn.startLoading();
@@ -51,13 +52,13 @@ public class LoginActivity extends AppCompatActivity {
             public void run() {
                 final String emailAddress = emailEditText.getText().toString();
                 if(emailAddress.length()==0) {
-                    emailEditText.setError("Please enter your email address!");
+                    emailEditText.setError(getString(R.string.error_empty_email));
                     signIn.loadingFailed();
-                    Toast.makeText(getApplicationContext(),"login failed, try again",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),getString(R.string.error_login),Toast.LENGTH_SHORT).show();
                 }
                 else if(emailEditText.validate()){  //TODO: Implement signing in here
 
-                    Toast.makeText(getApplicationContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.not_yet_implemented), Toast.LENGTH_SHORT).show();
                     signIn.loadingSuccessful();
 
                 }
@@ -65,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     //emailEditText.validate();
                     signIn.loadingFailed();
-                    Toast.makeText(getApplicationContext(),"login failed,try again",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),getString(R.string.error_login),Toast.LENGTH_SHORT).show();
                 }
             }
         },3000);
