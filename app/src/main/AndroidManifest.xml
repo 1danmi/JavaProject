@@ -19,11 +19,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".ui.MainActivity"
-            android:theme="@style/AppThemeWithoutActionBar"
-            />
+        <activity
+            android:name=".ui.MainActivity"
+            android:theme="@style/AppThemeWithoutActionBar" />
+        <activity android:name=".ui.RegisterActivity" />
+
+        <provider
+            android:name=".provider.MyContentProvider"
+            android:authorities="com.example.daniel.java_project.provider"
+            android:enabled="true"
+            android:exported="true"></provider>
     </application>
 
 </manifest>

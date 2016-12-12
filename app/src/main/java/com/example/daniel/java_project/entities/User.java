@@ -34,6 +34,7 @@ public class User {
         setUserAddress(address);
     }
 
+
     public String getUserFullName() {
         return userFullName;
     }

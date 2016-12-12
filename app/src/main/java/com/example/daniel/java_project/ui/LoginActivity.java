@@ -13,13 +13,27 @@ import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String email = "EMAIL_KEY";
+    public static final String password = "PASSWORD_KEY";
+    public static final String mypreference = "mypref";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        final MaterialEditText emailEditText = (MaterialEditText) findViewById(R.id.emailEditText);
+        final MaterialEditText pwdEditText = (MaterialEditText) findViewById(R.id.pwdEditText);
 
         setTitle(getString(R.string.title_activity_login));
-
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        String mEmail = sharedPreferences.getString(email,"");
+//        if(mEmail.length()>0){
+//            emailEditText.setText(mEmail);
+//        }
+//        String mPassword = sharedPreferences.getString(password,"");
+//        if(mPassword.length()>0){
+//            pwdEditText.setText(mPassword);
+//        }
 
         final LoadingButton signInBtn = (LoadingButton) findViewById(R.id.sign_in_btn);
         signInBtn.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkLogin() {
         final MaterialEditText emailEditText = (MaterialEditText) findViewById(R.id.emailEditText);
+        final MaterialEditText pwdEditText = (MaterialEditText) findViewById(R.id.pwdEditText);
         emailEditText.addValidator(new RegexpValidator(getString(R.string.error_invalid_email), "^([a-zA-Z0-9]+(?:(\\.|_)[A-Za-z0-9!#$%&'*+/=?^`{|}~-]+)*@(?!([a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)$"));
         final LoadingButton signIn = (LoadingButton) findViewById(R.id.sign_in_btn);
         emailEditText.setError(null);
@@ -57,6 +72,8 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),getString(R.string.error_login),Toast.LENGTH_SHORT).show();
                 }
                 else if(emailEditText.validate()){  //TODO: Implement signing in here
+                    //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    //sharedPreferences.edit().putString(email,emailAddress).apply();
 
                     Toast.makeText(getApplicationContext(), getString(R.string.not_yet_implemented), Toast.LENGTH_SHORT).show();
                     signIn.loadingSuccessful();

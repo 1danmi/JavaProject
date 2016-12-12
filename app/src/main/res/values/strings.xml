@@ -6,8 +6,6 @@
     <string name="not_yet_implemented">Not yet implemented</string>
 
 
-
-
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -26,5 +24,6 @@
     <string name="sign_up">
         <u><b>Sign Up</b></u>
     </string>
+    <string name="remember_me">Remember me  </string>
 
 </resources>
