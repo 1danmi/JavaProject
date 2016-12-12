@@ -51,13 +51,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="50dp"
         android:layout_width="0dp"
-        android:inputType="textNoSuggestions"
+        android:inputType="textEmailAddress"
         app:met_floatingLabel="highlight"
         app:met_baseColor="#007688"
         app:met_primaryColor="#ffffff"
         app:met_textColor="#FAFAFA"
         app:met_textColorHint="#9E9E9E"
-        app:met_errorColor="#ddaa00"
+        app:met_errorColor="#212121"
         app:met_helperTextColor="#795548"
         app:met_underlineColor="#FAFAFA"
         app:met_floatingLabelTextColor="#FFFFFF"
@@ -88,14 +88,65 @@
         app:met_primaryColor="#ffffff"
         app:met_textColor="#FAFAFA"
         app:met_textColorHint="#9E9E9E"
-        app:met_errorColor="#ddaa00"
+        app:met_errorColor="#212121"
         app:met_helperTextColor="#795548"
         app:met_underlineColor="#FAFAFA"
         app:met_floatingLabelTextColor="#FFFFFF"
         app:layout_constraintTop_toBottomOf="@+id/emailEditText"
         android:layout_marginTop="8dp" />
 
+    <!--<com.dx.dxloadingbutton.widget.LoadingButton-->
+        <!--android:id="@+id/loading_btn"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_width="228dp"-->
+        <!--android:layout_height="48dp"-->
+        <!--app:resetAfterFailed="true"-->
+        <!--app:rippleColor="#000000"-->
+        <!--app:text="@string/button_text"-->
+        <!--app:layout_constraintRight_toRightOf="@+id/pwdEditText"-->
+        <!--android:layout_marginTop="24dp"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/pwdEditText"-->
+    <!--app:layout_constraintLeft_toLeftOf="@+id/pwdEditText" />-->
 
+    <com.dx.dxloadingbutton.lib.LoadingButton
+        android:id="@+id/sign_in_btn"
+        android:layout_gravity="center"
+        android:layout_width="228dp"
+        android:layout_height="48dp"
+        app:resetAfterFailed="true"
+        app:rippleColor="#000000"
+        app:btnColor="#f44336"
+        app:text="@string/button_text"
+        app:layout_constraintRight_toRightOf="@+id/pwdEditText"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/pwdEditText"
+        app:layout_constraintLeft_toLeftOf="@+id/pwdEditText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/newAccountTextView"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_btn"
+        app:layout_constraintLeft_toLeftOf="@+id/pwdEditText"
+        android:text="@string/new_account"
+        android:textColor="#FAFAFA"
+        android:textSize="12dp"
+        />
+
+    <TextView
+        android:text="@string/sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/signUpTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/newAccountTextView"
+        app:layout_constraintLeft_toRightOf="@+id/newAccountTextView"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_btn"
+        android:textColor="#FAFAFA"
+        android:textSize="12dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp" />
 
 
 </android.support.constraint.ConstraintLayout>
