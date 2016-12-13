@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.daniel.java_project">
+    package="com.foodie.app">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppThemeWithoutActionBar">
-        <activity android:name=".ui.LoginActivity">
+        <activity android:name="com.foodie.app.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,12 +21,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.foodie.app.ui.MainActivity"
             android:theme="@style/AppThemeWithoutActionBar" />
-        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name="com.foodie.app.ui.RegisterActivity" />
 
         <provider
-            android:name=".provider.MyContentProvider"
+            android:name="com.foodie.app.provider.MyContentProvider"
             android:authorities="com.example.daniel.java_project.provider"
             android:enabled="true"
             android:exported="true"></provider>

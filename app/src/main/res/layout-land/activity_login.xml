@@ -21,7 +21,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/fingerprint_content_description" />
 
     <ImageView
         android:id="@+id/logoImage"
@@ -32,14 +33,15 @@
         android:layout_marginStart="64dp"
         android:layout_marginLeft="64dp"
         android:layout_width="165dp"
-        android:layout_height="165dp" />
+        android:layout_height="165dp"
+        android:contentDescription="@string/logo_content_description" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/emailEditText"
         android:layout_height="wrap_content"
         android:hint="@string/prompt_email"
         android:textCursorDrawable="@drawable/text_cursor_cyan"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:met_singleLineEllipsis="true"
         android:layout_marginEnd="70dp"
         app:layout_constraintRight_toRightOf="parent"
@@ -71,7 +73,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/prompt_password"
         android:textCursorDrawable="@drawable/text_cursor_cyan"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:met_singleLineEllipsis="true"
         android:layout_width="0dp"
         android:inputType="textPassword"
@@ -122,7 +124,7 @@
         android:id="@+id/newAccountTextView"
         android:text="@string/new_account"
         android:textColor="#FAFAFA"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/sign_in_btn"
         app:layout_constraintLeft_toLeftOf="@+id/pwdEditText"
@@ -137,7 +139,7 @@
         android:id="@+id/signUpTextView"
         app:layout_constraintLeft_toRightOf="@+id/newAccountTextView"
         android:textColor="#FAFAFA"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/newAccountTextView" />
