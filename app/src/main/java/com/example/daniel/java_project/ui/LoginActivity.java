@@ -1,6 +1,8 @@
 package com.example.daniel.java_project.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -25,15 +27,15 @@ public class LoginActivity extends AppCompatActivity {
         final MaterialEditText pwdEditText = (MaterialEditText) findViewById(R.id.pwdEditText);
 
         setTitle(getString(R.string.title_activity_login));
-//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        String mEmail = sharedPreferences.getString(email,"");
-//        if(mEmail.length()>0){
-//            emailEditText.setText(mEmail);
-//        }
-//        String mPassword = sharedPreferences.getString(password,"");
-//        if(mPassword.length()>0){
-//            pwdEditText.setText(mPassword);
-//        }
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String mEmail = sharedPreferences.getString(email,"");
+        if(mEmail.length()>0){
+            emailEditText.setText(mEmail);
+        }
+        String mPassword = sharedPreferences.getString(password,"");
+        if(mPassword.length()>0){
+            pwdEditText.setText(mPassword);
+        }
 
         final LoadingButton signInBtn = (LoadingButton) findViewById(R.id.sign_in_btn);
         signInBtn.setOnClickListener(new View.OnClickListener() {
@@ -72,8 +74,8 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),getString(R.string.error_login),Toast.LENGTH_SHORT).show();
                 }
                 else if(emailEditText.validate()){  //TODO: Implement signing in here
-                    //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    //sharedPreferences.edit().putString(email,emailAddress).apply();
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    sharedPreferences.edit().putString(email,emailAddress).apply();
 
                     Toast.makeText(getApplicationContext(), getString(R.string.not_yet_implemented), Toast.LENGTH_SHORT).show();
                     signIn.loadingSuccessful();
