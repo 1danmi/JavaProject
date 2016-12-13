@@ -126,11 +126,11 @@ public class User {
         return userPwdHash;
     }
 
-    public static int getId() {
+    public static int get_ID() {
         return _ID;
     }
 
-    public static void setId(int Id) {
+    public static void set_ID(int Id) {
         _ID = Id;
     }
 

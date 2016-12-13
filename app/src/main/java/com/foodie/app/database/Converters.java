@@ -53,7 +53,7 @@ public class Converters {
     public static ContentValues BusinessToContentValues(Business business) {
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(AppContract.Business.BUSINESS_ID,business.getId());
+        contentValues.put(AppContract.Business.BUSINESS_ID,business.get_ID());
         contentValues.put(AppContract.Business.BUSINESS_NAME,business.getBusinessName());
         contentValues.put(AppContract.Business.BUSINESS_ADDRESS,business.getBusinessAddress());
         contentValues.put(AppContract.Business.BUSINESS_PHONE_NUMBER,business.getBusinessPhoneNo());
@@ -102,7 +102,7 @@ public class Converters {
     public static User ContentValuesToUser(ContentValues contentValues) throws Exception {
 
         User user = new User();
-        user.setId(contentValues.getAsInteger(AppContract.User.USER_ID));
+        user.set_ID(contentValues.getAsInteger(AppContract.User.USER_ID));
         user.setUserFullName(contentValues.getAsString(AppContract.User.USER_FULL_NAME));
         user.setUserEmail(contentValues.getAsString(AppContract.User.USER_FULL_NAME));
         user.setUserPwdHash(contentValues.getAsByteArray(AppContract.User.USER_PWD));
@@ -117,7 +117,7 @@ public class Converters {
     public static Business ContentValuesToBusiness(ContentValues contentValues) throws Exception {
 
         Business business = new Business();
-        business.setId(contentValues.getAsInteger(AppContract.Business.BUSINESS_ID));
+        business.set_ID(contentValues.getAsInteger(AppContract.Business.BUSINESS_ID));
         business.setBusinessName(contentValues.getAsString(AppContract.Business.BUSINESS_NAME));
         business.setBusinessAddress(contentValues.getAsString(AppContract.Business.BUSINESS_ADDRESS));
         business.setBusinessPhoneNo(contentValues.getAsString(AppContract.Business.BUSINESS_PHONE_NUMBER));
@@ -204,7 +204,7 @@ public class Converters {
         MatrixCursor matrixCursor = new MatrixCursor(columns);
 
         for (Business b : businesses) {
-            matrixCursor.addRow(new Object[]{b.getId(), b.getBusinessName(), b.getBusinessEmail(), b.getBusinessWebsite(),
+            matrixCursor.addRow(new Object[]{b.get_ID(), b.getBusinessName(), b.getBusinessEmail(), b.getBusinessWebsite(),
                                                 b.getBusinessPhoneNo(), b.getBusinessAddress(), b.getCpuserID()});
         }
 

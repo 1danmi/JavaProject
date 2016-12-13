@@ -96,11 +96,11 @@ public class Business {
             throw new InputException("Wrong URL", FIELD.URL);
     }
 
-    public int getId() {
+    public int get_ID() {
         return _ID;
     }
 
-    public void setId(int Id) {
+    public void set_ID(int Id) {
         _ID = Id;
     }
 
