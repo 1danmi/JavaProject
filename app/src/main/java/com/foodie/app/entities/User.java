@@ -24,13 +24,16 @@ public class User {
 
     private byte[] userImage;
 
-    public User(String userFullName, String userEmail, String userPhoneNumber, String password,Address address) throws Exception {
+    public User() {
+    }
+
+    public User(String userFullName, String userEmail, String userPhoneNumber, String password, Address address) throws Exception {
 
         _ID++;
         setUserFullName(userFullName);
         setUserEmail(userEmail);
         setUserPhoneNumber(userPhoneNumber);
-        setUserPwdHash(password);
+        setUserPwd(password);
         setUserAddress(address);
     }
 
@@ -89,7 +92,7 @@ public class User {
         return digest == this.userPwdHash;
     }
 
-    public void setUserPwdHash(String userPassword) throws Exception {
+    public void setUserPwd(String userPassword) throws Exception {
         if(userPassword.length()<6)
             throw new InputException("Password must contains at least 6 characters", FIELD.PWD);
         MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -121,5 +124,21 @@ public class User {
 
     public byte[] getUserPwdHash() {
         return userPwdHash;
+    }
+
+    public static int getId() {
+        return _ID;
+    }
+
+    public static void setId(int Id) {
+        _ID = Id;
+    }
+
+    public void setUserPwdHash(byte[] userPwdHash) {
+        this.userPwdHash = userPwdHash;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
     }
 }

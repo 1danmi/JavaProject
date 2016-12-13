@@ -33,6 +33,10 @@ public class Activity {
 
     private byte[] activityImages; //for future use
 
+    private String feature;
+
+    public Activity() {
+    }
 
     public Activity(String name, String activityDescription, double activityCost, double activityRating) throws Exception {
         setActivityName(activityName);
@@ -117,5 +121,13 @@ public class Activity {
 
     public void set_ID(int _ID) {
         this._ID = _ID;
+    }
+
+    public String getFeature() {
+        return feature;
+    }
+
+    public void setFeature(String feature) {
+        this.feature = feature;
     }
 }

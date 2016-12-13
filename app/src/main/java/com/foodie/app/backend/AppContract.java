@@ -69,6 +69,7 @@ public class AppContract {
         public static final String ACTIVITY_RATING = "activityRating";
         public static final String ACTIVITY_BUSINESS_ID = "businessID";
         public static final String ACTIVITY_Image = "activityImage";
+        public static final String ACTIVITY_FEATURE = "activityFeature";
 
         /**
          * The content:// style URI for this table
