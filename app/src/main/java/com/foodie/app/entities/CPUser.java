@@ -15,8 +15,13 @@ public class CPUser {
 
     String userEmail;
 
+
+
     byte[] userPwdHash;
 
+    public byte[] getUserPwdHash() {
+        return userPwdHash;
+    }
 
     public int getUserId() {
         return _ID;
@@ -30,7 +35,7 @@ public class CPUser {
         return digest == this.userPwdHash;
     }
 
-    public void setUserPwdHash(String userPassword) throws Exception {
+    public void setUserPwd(String userPassword) throws Exception {
         if(userPassword.length()<6)
             throw new InputException("Password must contains at least 6 characters", FIELD.PWD);
         MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -68,5 +73,17 @@ public class CPUser {
             this.userEmail = userEmail;
         else
             throw new InputException("Double check your email address, I think you got a mistake there",FIELD.EMAIL);
+    }
+
+    public int get_ID() {
+        return _ID;
+    }
+
+    public void set_ID(int _ID) {
+        this._ID = _ID;
+    }
+
+    public void setUserPwdHash(byte[] userPwdHash) {
+        this.userPwdHash = userPwdHash;
     }
 }

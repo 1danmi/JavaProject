@@ -22,7 +22,7 @@ public class User {
 
     private String userEmail;
 
-    //private Image userImage; //For future use.
+    private byte[] userImage;
 
     public User(String userFullName, String userEmail, String userPhoneNumber, String password,Address address) throws Exception {
 
@@ -109,8 +109,17 @@ public class User {
     public int getUserId() {
         return _ID;
     }
-//    public void setUserId(int _ID) {
-//        this._ID = _ID;
-//    }
 
+
+    public byte[] getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(byte[] userImage) {
+        this.userImage = userImage;
+    }
+
+    public byte[] getUserPwdHash() {
+        return userPwdHash;
+    }
 }

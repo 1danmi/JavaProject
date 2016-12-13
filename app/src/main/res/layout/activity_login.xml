@@ -9,7 +9,7 @@
     android:background="@drawable/login_background_narrow2"
 
 
-    tools:context="com.example.daniel.java_project.ui.LoginActivity">
+    tools:context="com.foodie.app.ui.LoginActivity">
 
 
 

@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
  */
 
 public class Business {
+
     private String businessName;
 
     private static int _ID = 0;
@@ -22,6 +23,8 @@ public class Business {
     private String businessEmail;
 
     private String businessWebsite;
+
+    private int cpuserID;
 
     public String getBusinessAddress() {
         return businessAddress;
@@ -91,5 +94,25 @@ public class Business {
             this.businessWebsite = businessWebsite;
         else
             throw new InputException("Wrong URL", FIELD.URL);
+    }
+
+    public int getId() {
+        return _ID;
+    }
+
+    public void setId(int Id) {
+        _ID = Id;
+    }
+
+    public void setBusinessAddress(String businessAddress) {
+        this.businessAddress = businessAddress;
+    }
+
+    public int getCpuserID() {
+        return cpuserID;
+    }
+
+    public void setCpuserID(int cpuserID) {
+        this.cpuserID = cpuserID;
     }
 }

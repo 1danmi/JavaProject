@@ -1,8 +1,6 @@
 package com.foodie.app.entities;
 
 
-
-
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +31,7 @@ public class Activity {
 
     private int businessId;
 
-    //private Image activityImages; //for future use
+    private byte[] activityImages; //for future use
 
 
     public Activity(String name, String activityDescription, double activityCost, double activityRating) throws Exception {
@@ -105,5 +103,19 @@ public class Activity {
         this.businessId = businessId;
     }
 
+    public byte[] getActivityImages() {
+        return activityImages;
+    }
 
+    public void setActivityImages(byte[] activityImages) {
+        this.activityImages = activityImages;
+    }
+
+    public int get_ID() {
+        return _ID;
+    }
+
+    public void set_ID(int _ID) {
+        this._ID = _ID;
+    }
 }
