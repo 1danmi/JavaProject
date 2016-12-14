@@ -47,7 +47,7 @@ public class User {
                 Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))+)$");
         Matcher matcher =
                 pattern.matcher(userFullName);
-        if(matcher.find())
+        if (matcher.find())
             this.userFullName = userFullName;
         else
             throw new InputException("Name must contains only letters and must consists of at least 2 words (Private and Last name)", FIELD.NAME);
@@ -62,10 +62,10 @@ public class User {
                 Pattern.compile("^([a-zA-Z0-9]+(?:(\\.|_)[A-Za-z0-9!#$%&'*+/=?^`{|}~-]+)*@(?!([a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)$");
         Matcher matcher =
                 pattern.matcher(userEmail);
-        if(matcher.find())
+        if (matcher.find())
             this.userEmail = userEmail;
         else
-            throw new InputException("Double check your email address, I think you got a mistake there",FIELD.EMAIL);
+            throw new InputException("Double check your email address, I think you got a mistake there", FIELD.EMAIL);
     }
 
     public String getUserPhoneNumber() {
@@ -77,10 +77,10 @@ public class User {
                 Pattern.compile("^(0\\d{1,2}-?\\d{7})$$");
         Matcher matcher =
                 pattern.matcher(userPhoneNumber);
-        if(matcher.find())
+        if (matcher.find())
             this.userPhoneNumber = userPhoneNumber;
         else
-            throw new InputException("Double check your phone number, I think you got a mistake there",FIELD.PHONE);
+            throw new InputException("Double check your phone number, I think you got a mistake there", FIELD.PHONE);
 
     }
 
@@ -93,7 +93,7 @@ public class User {
     }
 
     public void setUserPwd(String userPassword) throws Exception {
-        if(userPassword.length()<6)
+        if (userPassword.length() < 6)
             throw new InputException("Password must contains at least 6 characters", FIELD.PWD);
         MessageDigest md = MessageDigest.getInstance("SHA-256");
 

@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  * Created by Daniel on 11/30/2016.
  */
 
-public class Address {
+class Address {
     private String street;
     private String city;
     private int houseNumber;
@@ -31,12 +31,12 @@ public class Address {
         return country;
     }
 
-    public void setCountry(String country) throws Exception {
+    private void setCountry(String country) throws Exception {
         Pattern pattern =
                 Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))*)$");
         Matcher matcher =
                 pattern.matcher(country);
-        if(matcher.find())
+        if (matcher.find())
             this.country = country;
         else
             throw new InputException("Country name must contain at least 2 characters!", FIELD.COUNTRY);
@@ -47,12 +47,12 @@ public class Address {
         return street;
     }
 
-    public void setStreet(String street) throws Exception {
+    private void setStreet(String street) throws Exception {
         Pattern pattern =
                 Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))*)$");
         Matcher matcher =
                 pattern.matcher(street);
-        if(matcher.find())
+        if (matcher.find())
             this.street = street;
         else
             throw new InputException("Street name must contain at least 2 characters!", FIELD.STREET);
@@ -63,12 +63,12 @@ public class Address {
         return city;
     }
 
-    public void setCity(String city) throws Exception {
+    private void setCity(String city) throws Exception {
         Pattern pattern =
                 Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))*)$");
         Matcher matcher =
                 pattern.matcher(city);
-        if(matcher.find())
+        if (matcher.find())
             this.city = city;
         else
             throw new InputException("City name must contain at least 2 characters!", FIELD.CITY);
@@ -78,12 +78,12 @@ public class Address {
         return houseNumber;
     }
 
-    public void setHouseNumber(String houseNumber) throws Exception {
+    private void setHouseNumber(String houseNumber) throws Exception {
         Pattern pattern =
                 Pattern.compile("^\\d{1,4}$");
         Matcher matcher =
                 pattern.matcher(houseNumber);
-        if(matcher.find())
+        if (matcher.find())
             this.houseNumber = Integer.parseInt(houseNumber);
         else
             throw new InputException("House number can contain only digits", FIELD.HOUSE);
@@ -94,12 +94,12 @@ public class Address {
         return zip;
     }
 
-    public void setZip(String zip) throws Exception {
+    private void setZip(String zip) throws Exception {
         Pattern pattern =
                 Pattern.compile("^\\d{5,7}$");
         Matcher matcher =
                 pattern.matcher(zip);
-        if(matcher.find())
+        if (matcher.find())
             this.zip = zip;
         else
             throw new InputException("Zip number must be 5-7 characters long", FIELD.ZIP);

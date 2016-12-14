@@ -53,13 +53,13 @@ public class Converters {
     public static ContentValues BusinessToContentValues(Business business) {
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(AppContract.Business.BUSINESS_ID,business.get_ID());
-        contentValues.put(AppContract.Business.BUSINESS_NAME,business.getBusinessName());
-        contentValues.put(AppContract.Business.BUSINESS_ADDRESS,business.getBusinessAddress());
-        contentValues.put(AppContract.Business.BUSINESS_PHONE_NUMBER,business.getBusinessPhoneNo());
-        contentValues.put(AppContract.Business.BUSINESS_EMAIL,business.getBusinessEmail());
-        contentValues.put(AppContract.Business.BUSINESS_CPUSER_ID,business.getCpuserID());
-        contentValues.put(AppContract.Business.BUSINESS_WEBSITE,business.getBusinessWebsite());
+        contentValues.put(AppContract.Business.BUSINESS_ID, business.get_ID());
+        contentValues.put(AppContract.Business.BUSINESS_NAME, business.getBusinessName());
+        contentValues.put(AppContract.Business.BUSINESS_ADDRESS, business.getBusinessAddress());
+        contentValues.put(AppContract.Business.BUSINESS_PHONE_NUMBER, business.getBusinessPhoneNo());
+        contentValues.put(AppContract.Business.BUSINESS_EMAIL, business.getBusinessEmail());
+        contentValues.put(AppContract.Business.BUSINESS_CPUSER_ID, business.getCpuserID());
+        contentValues.put(AppContract.Business.BUSINESS_WEBSITE, business.getBusinessWebsite());
 
         return contentValues;
     }
@@ -70,9 +70,9 @@ public class Converters {
         ContentValues contentValues = new ContentValues();
         contentValues.put(AppContract.Activity.ACTIVITY_ID, activity.get_ID());
         contentValues.put(AppContract.Activity.ACTIVITY_NAME, activity.getActivityName());
-        SimpleDateFormat formatter=new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         String date = formatter.format(activity.getActivityDate().getTime());
-        contentValues.put(AppContract.Activity.ACTIVITY_DATE,date);
+        contentValues.put(AppContract.Activity.ACTIVITY_DATE, date);
         contentValues.put(AppContract.Activity.ACTIVITY_DESCRIPTION, activity.getActivityDescription());
         contentValues.put(AppContract.Activity.ACTIVITY_COST, activity.getActivityCost());
         contentValues.put(AppContract.Activity.ACTIVITY_BUSINESS_ID, activity.getBusinessId());
@@ -83,7 +83,6 @@ public class Converters {
 
         return contentValues;
     }
-
 
 
     public static CPUser ContentValuesToCPUser(ContentValues contentValues) throws Exception {
@@ -134,7 +133,7 @@ public class Converters {
         Activity activity = new Activity();
         activity.set_ID(contentValues.getAsInteger(AppContract.Activity.ACTIVITY_ID));
         activity.setActivityName(contentValues.getAsString(AppContract.Activity.ACTIVITY_NAME));
-        SimpleDateFormat formatter=new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         String dateString = contentValues.getAsString(AppContract.Activity.ACTIVITY_DATE);
         activity.getActivityDate().setTime(formatter.parse(dateString));
         activity.setActivityDescription(contentValues.getAsString(AppContract.Activity.ACTIVITY_DESCRIPTION));
@@ -182,7 +181,7 @@ public class Converters {
 
         for (User u : users) {
             matrixCursor.addRow(new Object[]{u.getUserId(), u.getUserFullName(), u.getUserEmail(), u.getUserPwdHash(),
-                                                u.getUserPhoneNumber(),u.getUserAddress(), u.getUserImage()});
+                    u.getUserPhoneNumber(), u.getUserAddress(), u.getUserImage()});
         }
 
         return matrixCursor;
@@ -205,13 +204,11 @@ public class Converters {
 
         for (Business b : businesses) {
             matrixCursor.addRow(new Object[]{b.get_ID(), b.getBusinessName(), b.getBusinessEmail(), b.getBusinessWebsite(),
-                                                b.getBusinessPhoneNo(), b.getBusinessAddress(), b.getCpuserID()});
+                    b.getBusinessPhoneNo(), b.getBusinessAddress(), b.getCpuserID()});
         }
 
         return matrixCursor;
     }
-
-
 
 
     public static Cursor ActivitiesListToCursor(List<Activity> activities) {
@@ -232,14 +229,11 @@ public class Converters {
 
         for (Activity a : activities) {
             matrixCursor.addRow(new Object[]{a.get_ID(), a.getActivityName(), a.getActivityDate(), a.getActivityDescription(),
-                                                a.getActivityCost(), a.getActivityRating(), a.getBusinessId(), a.getActivityImages(), a.getFeature()});
+                    a.getActivityCost(), a.getActivityRating(), a.getBusinessId(), a.getActivityImages(), a.getFeature()});
         }
 
         return matrixCursor;
     }
-
-
-
 
 
 }

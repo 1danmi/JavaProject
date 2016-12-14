@@ -1,6 +1,8 @@
 package com.foodie.app.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -28,12 +30,12 @@ public class LoginActivity extends AppCompatActivity {
 
         setTitle(getString(R.string.title_activity_login));
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String mEmail = sharedPreferences.getString(email,"");
-        if(mEmail.length()>0){
+        String mEmail = sharedPreferences.getString(email, "");
+        if (mEmail.length() > 0) {
             emailEditText.setText(mEmail);
         }
-        String mPassword = sharedPreferences.getString(password,"");
-        if(mPassword.length()>0){
+        String mPassword = sharedPreferences.getString(password, "");
+        if (mPassword.length() > 0) {
             pwdEditText.setText(mPassword);
         }
 
@@ -49,8 +51,15 @@ public class LoginActivity extends AppCompatActivity {
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Implement transition to register activity.
-                Toast.makeText(getApplicationContext(), getString(R.string.not_yet_implemented), Toast.LENGTH_SHORT).show();
+                //TODO: Implement transition animation to register activity.
+                signUpTextView.setTextColor(Color.parseColor("#BDBDBD"));
+
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+
+                signUpTextView.setTextColor(Color.parseColor("#FAFAFA"));
+
+
             }
         });
 
@@ -68,27 +77,28 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 final String emailAddress = emailEditText.getText().toString();
-                if(emailAddress.length()==0) {
+                if (emailAddress.length() == 0) {
                     emailEditText.setError(getString(R.string.error_empty_email));
                     signIn.loadingFailed();
-                    Toast.makeText(getApplicationContext(),getString(R.string.error_login),Toast.LENGTH_SHORT).show();
-                }
-                else if(emailEditText.validate()){  //TODO: Implement signing in here
+                    Toast.makeText(getApplicationContext(), getString(R.string.error_login), Toast.LENGTH_SHORT).show();
+                } else if (emailEditText.validate()) {
+                    //TODO: Implement signing in here
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    sharedPreferences.edit().putString(email,emailAddress).apply();
+                    sharedPreferences.edit().putString(email, emailAddress).apply();
 
                     Toast.makeText(getApplicationContext(), getString(R.string.not_yet_implemented), Toast.LENGTH_SHORT).show();
                     signIn.loadingSuccessful();
 
-                }
-                else
-                {
+                } else {
                     //emailEditText.validate();
                     signIn.loadingFailed();
-                    Toast.makeText(getApplicationContext(),getString(R.string.error_login),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.error_login), Toast.LENGTH_SHORT).show();
                 }
             }
-        },3000);
+        }, 3000);
 
     }
+
+
 }
+

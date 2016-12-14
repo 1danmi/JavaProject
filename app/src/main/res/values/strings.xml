@@ -28,9 +28,17 @@
 
 
     <string name="new_account">Don\'t have an account yet?</string>
-    <string name="sign_up">
+    <string name="existing_account">Already have an account?</string>
+    <string name="sign_up_view">
         <u><b>Sign Up</b></u>
     </string>
+
+    <string name="sign_in_view">
+        <u><b>Sign In</b></u>
+    </string>
     <string name="remember_me">Remember me  </string>
+    <string name="user_full_name">Full Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up_button">Sign Up</string>
 
 </resources>

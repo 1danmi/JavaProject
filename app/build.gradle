@@ -30,5 +30,10 @@ dependencies {
     compile project('libs:materialEditText')
     compile project('libs:loadingButton')
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
-
+    compile 'com.github.ppamorim:dragger:1.2'
+}
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
@@ -9,140 +8,137 @@
     android:background="@drawable/login_background2"
 
 
-    tools:context="com.example.daniel.java_project.ui.LoginActivity">
-
+    tools:context="com.foodie.app.ui.LoginActivity">
 
 
     <ImageView
         android:id="@+id/fingerprintImage"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        app:srcCompat="@drawable/ic_fingerprint_white_48dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
-        android:contentDescription="@string/fingerprint_content_description" />
+        android:contentDescription="@string/fingerprint_content_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/ic_fingerprint_white_48dp" />
 
     <ImageView
         android:id="@+id/logoImage"
-        app:srcCompat="@drawable/logo4"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="64dp"
-        android:layout_marginLeft="64dp"
         android:layout_width="165dp"
         android:layout_height="165dp"
-        android:contentDescription="@string/logo_content_description" />
+        android:layout_marginLeft="64dp"
+        android:layout_marginStart="64dp"
+        android:contentDescription="@string/logo_content_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo4" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/emailEditText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginStart="70dp"
         android:hint="@string/prompt_email"
+        android:inputType="textEmailAddress"
         android:textCursorDrawable="@drawable/text_cursor_cyan"
         android:textSize="16sp"
-        app:met_singleLineEllipsis="true"
-        android:layout_marginEnd="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/logoImage"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="70dp"
-        android:layout_width="0dp"
-        android:inputType="textEmailAddress"
-        app:met_floatingLabel="highlight"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2"
         app:met_baseColor="#007688"
+        app:met_errorColor="#212121"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelTextColor="#FFFFFF"
+        app:met_helperTextColor="#795548"
         app:met_primaryColor="#ffffff"
+        app:met_singleLineEllipsis="true"
         app:met_textColor="#FAFAFA"
         app:met_textColorHint="#9E9E9E"
-        app:met_errorColor="#212121"
-        app:met_helperTextColor="#795548"
-        app:met_underlineColor="#FAFAFA"
-        app:met_floatingLabelTextColor="#FFFFFF"
-        android:layout_marginStart="70dp"
-        app:layout_constraintLeft_toRightOf="@+id/logoImage"
-        android:layout_marginLeft="70dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintVertical_bias="0.2" />
-
-
+        app:met_underlineColor="#FAFAFA" />
 
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/pwdEditText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:hint="@string/prompt_password"
+        android:inputType="textPassword"
         android:textCursorDrawable="@drawable/text_cursor_cyan"
         android:textSize="16sp"
-        app:met_singleLineEllipsis="true"
-        android:layout_width="0dp"
-        android:inputType="textPassword"
-        app:met_floatingLabel="highlight"
+        app:layout_constraintLeft_toLeftOf="@+id/emailEditText"
+        app:layout_constraintRight_toRightOf="@+id/emailEditText"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
         app:met_baseColor="#007688"
+        app:met_errorColor="#212121"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelTextColor="#FFFFFF"
+        app:met_helperTextColor="#795548"
         app:met_primaryColor="#ffffff"
+        app:met_singleLineEllipsis="true"
         app:met_textColor="#FAFAFA"
         app:met_textColorHint="#9E9E9E"
-        app:met_errorColor="#212121"
-        app:met_helperTextColor="#795548"
-        app:met_underlineColor="#FAFAFA"
-        app:met_floatingLabelTextColor="#FFFFFF"
-        app:layout_constraintRight_toRightOf="@+id/emailEditText"
-        app:layout_constraintLeft_toLeftOf="@+id/emailEditText"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
+        app:met_underlineColor="#FAFAFA" />
 
     <!--<com.dx.dxloadingbutton.widget.LoadingButton-->
-        <!--android:id="@+id/loading_btn"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_width="228dp"-->
-        <!--android:layout_height="48dp"-->
-        <!--app:resetAfterFailed="true"-->
-        <!--app:rippleColor="#000000"-->
-        <!--app:text="@string/button_text"-->
-        <!--app:layout_constraintRight_toRightOf="@+id/pwdEditText"-->
-        <!--android:layout_marginTop="24dp"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/pwdEditText"-->
+    <!--android:id="@+id/loading_btn"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_width="228dp"-->
+    <!--android:layout_height="48dp"-->
+    <!--app:resetAfterFailed="true"-->
+    <!--app:rippleColor="#000000"-->
+    <!--app:text="@string/button_text"-->
+    <!--app:layout_constraintRight_toRightOf="@+id/pwdEditText"-->
+    <!--android:layout_marginTop="24dp"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/pwdEditText"-->
     <!--app:layout_constraintLeft_toLeftOf="@+id/pwdEditText" />-->
 
     <com.dx.dxloadingbutton.lib.LoadingButton
         android:id="@+id/sign_in_btn"
-        android:layout_gravity="center"
+        android:layout_width="180dp"
         android:layout_height="48dp"
-        app:resetAfterFailed="true"
-        app:rippleColor="#000000"
-        app:btnColor="#f44336"
-        app:text="@string/button_text"
+        android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/pwdEditText"
+        app:btnColor="#f44336"
         app:layout_constraintLeft_toLeftOf="@+id/pwdEditText"
         app:layout_constraintRight_toRightOf="@+id/pwdEditText"
-        android:layout_width="180dp" />
+        app:layout_constraintTop_toBottomOf="@+id/pwdEditText"
+        app:resetAfterFailed="true"
+        app:rippleColor="#000000"
+        app:text="@string/button_text" />
 
     <TextView
+        android:id="@+id/newAccountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/newAccountTextView"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/new_account"
         android:textColor="#FAFAFA"
         android:textSize="12sp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_btn"
-        app:layout_constraintLeft_toLeftOf="@+id/pwdEditText"
         app:layout_constraintBottom_toTopOf="@+id/fingerprintImage"
-        android:layout_marginBottom="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/pwdEditText"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_btn"
         app:layout_constraintVertical_bias="0.060000002" />
 
     <TextView
-        android:text="@string/sign_up"
+        android:id="@+id/signUpTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/signUpTextView"
-        app:layout_constraintLeft_toRightOf="@+id/newAccountTextView"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:text="@string/sign_up_view"
         android:textColor="#FAFAFA"
         android:textSize="12sp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/newAccountTextView" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/newAccountTextView"
+        app:layout_constraintLeft_toRightOf="@+id/newAccountTextView" />
 
 
 </android.support.constraint.ConstraintLayout>

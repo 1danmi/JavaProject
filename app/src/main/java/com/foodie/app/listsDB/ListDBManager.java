@@ -167,30 +167,30 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public Cursor getCPUser(){
+    public Cursor getCPUser() {
         return Converters.CPUserListToCursor(cpusers);
     }
 
     @Override
-    public Cursor getBusiness(){
+    public Cursor getBusiness() {
         return Converters.BusinessListToCursor(businesses);
     }
 
     @Override
-    public Cursor getActivity(){
+    public Cursor getActivity() {
         return Converters.ActivitiesListToCursor(activities);
     }
 
     @Override
-    public Cursor getUser(){
+    public Cursor getUser() {
         return Converters.UserListToCursor(users);
     }
 
     @Override
     public boolean updateCPUser(int id, ContentValues values) throws Exception {
         CPUser cpuser = Converters.ContentValuesToCPUser(values);
-        for(CPUser cp :cpusers) {
-            if (cp.get_ID()==id) {
+        for (CPUser cp : cpusers) {
+            if (cp.get_ID() == id) {
                 cp.set_ID(cpuser.get_ID());
                 cp.setUserFullName(cpuser.getUserFullName());
                 cp.setUserEmail(cpuser.getUserFullName());
@@ -205,8 +205,8 @@ public class ListDBManager implements IDBManager {
     @Override
     public boolean updateBusiness(int id, ContentValues values) throws Exception {
         Business business = Converters.ContentValuesToBusiness(values);
-        for(Business b : businesses) {
-            if (b.get_ID()==id) {
+        for (Business b : businesses) {
+            if (b.get_ID() == id) {
                 b.set_ID(business.get_ID());
                 b.setBusinessName(business.getBusinessName());
                 b.setBusinessAddress(business.getBusinessAddress());
@@ -225,8 +225,8 @@ public class ListDBManager implements IDBManager {
     @Override
     public boolean updateActivity(int id, ContentValues values) throws Exception {
         Activity activity = Converters.ContentValuesToActivity(values);
-        for(Activity a : activities) {
-            if (a.get_ID()==id) {
+        for (Activity a : activities) {
+            if (a.get_ID() == id) {
                 a.set_ID(activity.get_ID());
                 a.setActivityName(activity.getActivityName());
                 a.setActivityDate(activity.getActivityDate());
@@ -247,8 +247,8 @@ public class ListDBManager implements IDBManager {
     @Override
     public boolean updateUser(int id, ContentValues values) throws Exception {
         User user = Converters.ContentValuesToUser(values);
-        for(User u : users) {
-            if (u.get_ID()==id) {
+        for (User u : users) {
+            if (u.get_ID() == id) {
                 u.set_ID(user.get_ID());
                 u.setUserPhoneNumber(user.getUserPhoneNumber());
                 u.setUserPwdHash(user.getUserPwdHash());
@@ -256,7 +256,7 @@ public class ListDBManager implements IDBManager {
                 u.setUserFullName(user.getUserFullName());
                 u.setUserEmail(user.getUserEmail());
                 u.setUserImage(user.getUserImage());
-                
+
                 isUpdated = true;
                 return true;
             }

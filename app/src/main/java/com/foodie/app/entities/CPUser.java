@@ -9,15 +9,14 @@ import java.util.regex.Pattern;
  */
 
 public class CPUser {
-    int _ID;
+    private int _ID;
 
-    String userFullName;
+    private String userFullName;
 
-    String userEmail;
+    private String userEmail;
 
 
-
-    byte[] userPwdHash;
+    private byte[] userPwdHash;
 
     public byte[] getUserPwdHash() {
         return userPwdHash;
@@ -36,7 +35,7 @@ public class CPUser {
     }
 
     public void setUserPwd(String userPassword) throws Exception {
-        if(userPassword.length()<6)
+        if (userPassword.length() < 6)
             throw new InputException("Password must contains at least 6 characters", FIELD.PWD);
         MessageDigest md = MessageDigest.getInstance("SHA-256");
 
@@ -51,10 +50,10 @@ public class CPUser {
 
     public void setUserFullName(String userFullName) throws Exception {
         Pattern pattern =
-                Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))+)$");
+                Pattern.compile("^(([a-zA-Z]{2,15})(\\s([a-zA-Z]{2,15}))+)$");
         Matcher matcher =
                 pattern.matcher(userFullName);
-        if(matcher.find())
+        if (matcher.find())
             this.userFullName = userFullName;
         else
             throw new InputException("Name must contains only letters and must consists of at least 2 words (Private and Last name)", FIELD.NAME);
@@ -69,10 +68,10 @@ public class CPUser {
                 Pattern.compile("^([a-zA-Z0-9]+(?:(\\.|_)[A-Za-z0-9!#$%&'*+/=?^`{|}~-]+)*@(?!([a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)$");
         Matcher matcher =
                 pattern.matcher(userEmail);
-        if(matcher.find())
+        if (matcher.find())
             this.userEmail = userEmail;
         else
-            throw new InputException("Double check your email address, I think you got a mistake there",FIELD.EMAIL);
+            throw new InputException("Double check your email address, I think you got a mistake there", FIELD.EMAIL);
     }
 
     public int get_ID() {

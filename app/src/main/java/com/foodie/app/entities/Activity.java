@@ -55,7 +55,7 @@ public class Activity {
                 Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))*)$");
         Matcher matcher =
                 pattern.matcher(activityName);
-        if(matcher.find())
+        if (matcher.find())
             this.activityName = activityName;
         else
             throw new InputException("Activity name must contains at least 2 characters!", NAME);
@@ -82,7 +82,7 @@ public class Activity {
     }
 
     public void setActivityCost(double activityCost) throws Exception {
-        if(activityCost<0)
+        if (activityCost < 0)
             throw new InputException("Cost must be a positive number", COST);
         this.activityCost = activityCost;
     }
@@ -91,8 +91,8 @@ public class Activity {
         return activityRating;
     }
 
-    public void setActivityRating(double activityRating) throws Exception{
-        if(activityRating>5 || activityRating<1)
+    public void setActivityRating(double activityRating) throws Exception {
+        if (activityRating > 5 || activityRating < 1)
             throw new InputException("Rating must be between 1 to 5", RATING);
         this.activityRating = activityRating;
     }
@@ -103,7 +103,7 @@ public class Activity {
 
     public void setBusinessId(int businessId) {
         //if(!isExist(businessId, TYPE.BUSINESS)
-            //throw new Exception("Business does not exist");
+        //throw new Exception("Business does not exist");
         this.businessId = businessId;
     }
 
