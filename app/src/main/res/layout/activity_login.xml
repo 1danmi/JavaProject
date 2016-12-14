@@ -45,25 +45,27 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
         android:textCursorDrawable="@drawable/text_cursor_cyan"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintHorizontal_bias="0.66"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoImage"
-        app:met_baseColor="#007688"
+        app:met_baseColor="#ffffff"
         app:met_errorColor="#212121"
         app:met_floatingLabel="highlight"
-        app:met_floatingLabelTextColor="#FFFFFF"
+        app:met_floatingLabelTextColor="#ffffff"
         app:met_helperTextColor="#795548"
         app:met_primaryColor="#ffffff"
         app:met_singleLineEllipsis="true"
         app:met_textColor="#FAFAFA"
-        app:met_textColorHint="#9E9E9E"
-        app:met_underlineColor="#FAFAFA" />
+        app:met_textColorHint="@color/hint_color"
+        app:met_underlineColor="#FAFAFA"
+
+        />
 
 
     <com.rengwuxian.materialedittext.MaterialEditText
@@ -77,20 +79,21 @@
         android:hint="@string/prompt_password"
         android:inputType="textPassword"
         android:textCursorDrawable="@drawable/text_cursor_cyan"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditText"
-        app:met_baseColor="#007688"
+        app:met_baseColor="#ffffff"
         app:met_errorColor="#212121"
         app:met_floatingLabel="highlight"
-        app:met_floatingLabelTextColor="#FFFFFF"
+        app:met_floatingLabelTextColor="#ffffff"
         app:met_helperTextColor="#795548"
         app:met_primaryColor="#ffffff"
         app:met_singleLineEllipsis="true"
         app:met_textColor="#FAFAFA"
-        app:met_textColorHint="#9E9E9E"
-        app:met_underlineColor="#FAFAFA" />
+        app:met_textColorHint="@color/hint_color"
+        app:met_underlineColor="#FAFAFA"
+        />
 
 
     <com.dx.dxloadingbutton.lib.LoadingButton

@@ -214,6 +214,7 @@ public class ListDBManager implements IDBManager {
                 b.setBusinessEmail(business.getBusinessEmail());
                 b.setBusinessWebsite(business.getBusinessWebsite());
                 b.setCpuserID(business.getCpuserID());
+                b.setBusinessLogo(business.getBusinessLogo());
 
                 isUpdated = true;
                 return true;

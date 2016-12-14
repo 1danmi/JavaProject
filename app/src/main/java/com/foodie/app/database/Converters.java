@@ -60,6 +60,7 @@ public class Converters {
         contentValues.put(AppContract.Business.BUSINESS_EMAIL, business.getBusinessEmail());
         contentValues.put(AppContract.Business.BUSINESS_CPUSER_ID, business.getCpuserID());
         contentValues.put(AppContract.Business.BUSINESS_WEBSITE, business.getBusinessWebsite());
+        contentValues.put(AppContract.Business.BUSINESS_LOGO, business.getBusinessLogo());
 
         return contentValues;
     }
@@ -96,7 +97,6 @@ public class Converters {
         return cpuser;
     }
 
-//  TODO: Finish the conversion methods
 
     public static User ContentValuesToUser(ContentValues contentValues) throws Exception {
 
@@ -123,6 +123,7 @@ public class Converters {
         business.setBusinessEmail(contentValues.getAsString(AppContract.Business.BUSINESS_EMAIL));
         business.setBusinessWebsite(contentValues.getAsString(AppContract.Business.BUSINESS_WEBSITE));
         business.setCpuserID(contentValues.getAsInteger(AppContract.Business.BUSINESS_CPUSER_ID));
+        business.setBusinessLogo(contentValues.getAsByteArray(AppContract.Business.BUSINESS_LOGO));
 
         return business;
     }
@@ -165,6 +166,7 @@ public class Converters {
         return matrixCursor;
     }
 
+
     public static Cursor UserListToCursor(List<User> users) {
         String[] columns = new String[]
                 {
@@ -197,14 +199,15 @@ public class Converters {
                         AppContract.Business.BUSINESS_WEBSITE,
                         AppContract.Business.BUSINESS_PHONE_NUMBER,
                         AppContract.Business.BUSINESS_ADDRESS,
-                        AppContract.Business.BUSINESS_CPUSER_ID
+                        AppContract.Business.BUSINESS_CPUSER_ID,
+                        AppContract.Business.BUSINESS_LOGO
                 };
 
         MatrixCursor matrixCursor = new MatrixCursor(columns);
 
         for (Business b : businesses) {
             matrixCursor.addRow(new Object[]{b.get_ID(), b.getBusinessName(), b.getBusinessEmail(), b.getBusinessWebsite(),
-                    b.getBusinessPhoneNo(), b.getBusinessAddress(), b.getCpuserID()});
+                    b.getBusinessPhoneNo(), b.getBusinessAddress(), b.getCpuserID() , b.getBusinessLogo()});
         }
 
         return matrixCursor;

@@ -24,6 +24,8 @@ public class Business {
 
     private int cpuserID;
 
+    private byte[] businessLogo;
+
     public String getBusinessAddress() {
         return businessAddress;
     }
@@ -112,5 +114,13 @@ public class Business {
 
     public void setCpuserID(int cpuserID) {
         this.cpuserID = cpuserID;
+    }
+
+    public byte[] getBusinessLogo() {
+        return businessLogo;
+    }
+
+    public void setBusinessLogo(byte[] businessLogo) {
+        this.businessLogo = businessLogo;
     }
 }

@@ -51,6 +51,7 @@ public class AppContract {
         public static final String BUSINESS_PHONE_NUMBER = "businessPhoneNo";
         public static final String BUSINESS_ADDRESS = "businessAddress";
         public static final String BUSINESS_CPUSER_ID = "cpuserID";
+        public static final String BUSINESS_LOGO = "businessLogo";
 
 
         /**
