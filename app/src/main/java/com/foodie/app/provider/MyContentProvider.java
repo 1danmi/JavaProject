@@ -1,50 +1,164 @@
 package com.foodie.app.provider;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
+
+import com.foodie.app.database.DBManagerFactory;
+import com.foodie.app.database.IDBManager;
+
+/**
+ * Created by David on 14/13/2016.
+ */
+
 
 public class MyContentProvider extends ContentProvider {
+
+    IDBManager manager = DBManagerFactory.getManager();
+    final String TAG = "foodie";
+
     public MyContentProvider() {
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // Implement this to handle requests to delete one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        Log.d(TAG, "insert " + uri.toString());
+        String listName = uri.getLastPathSegment();
+        long id = ContentUris.parseId(uri);
+        try {
+            switch (listName) {
+                case "user":
+                    if(manager.removeUser(id))
+                    return 1;
+
+
+                case "Business":
+                    if(manager.removeBusiness(id))
+                        return 1;
+
+                case "activity":
+                    if(manager.removeActivity(id))
+                        return 1;
+
+                case "cpuser":
+                    if(manager.removeCPUser(id))
+                        return 1;
+
+            }
+        }catch (Exception ex)
+        {
+            return 0;
+        }
+        return 0;
     }
 
     @Override
     public String getType(Uri uri) {
-        // TODO: Implement this to handle requests for the MIME type of the data
-        // at the given URI.
-        throw new UnsupportedOperationException("Not yet implemented");
+       return DBManagerFactory.getDBtype();
     }
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        // TODO: Implement this to handle requests to insert a new row.
-        throw new UnsupportedOperationException("Not yet implemented");
+        Log.d(TAG, "insert " + uri.toString());
+        String listName = uri.getLastPathSegment();
+        long id = -1;
+        try {
+            switch (listName) {
+                case "user":
+                    id = manager.addUser(values);
+                    return ContentUris.withAppendedId(uri, id);
+
+
+                case "Business":
+                    id = manager.addBusiness(values);
+                    return ContentUris.withAppendedId(uri, id);
+
+                case "activity":
+                    id = manager.addActivity(values);
+                    return ContentUris.withAppendedId(uri, id);
+
+                case "cpuser":
+                    id = manager.addCPUser(values);
+                    return ContentUris.withAppendedId(uri, id);
+
+            }
+        }catch (Exception ex)
+        {
+
+        }
+        return null;
     }
 
     @Override
     public boolean onCreate() {
-        // TODO: Implement this to initialize your content provider on startup.
+
         return false;
     }
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        // TODO: Implement this to handle query requests from clients.
-        throw new UnsupportedOperationException("Not yet implemented");
+        Log.d(TAG, "insert " + uri.toString());
+        String listName = uri.getLastPathSegment();
+        long id = -1;
+        try {
+            switch (listName) {
+                case "user":
+                   return  manager.getUser();
+
+
+                case "Business":
+                    return  manager.getBusiness();
+
+
+                case "activity":
+                    return  manager.getActivity();
+
+
+                case "cpuser":
+                    return  manager.getCPUser();
+
+            }
+        }catch (Exception ex)
+        {
+            return null;
+        }
+        return null;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        // TODO: Implement this to handle requests to update one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        Log.d(TAG, "insert " + uri.toString());
+        String listName = uri.getLastPathSegment();
+        int id = (int) ContentUris.parseId(uri);
+        try {
+            switch (listName) {
+                case "user":
+                    if(manager.updateUser(id,values))
+                        return 1;
+
+
+                case "Business":
+                    if(manager.updateBusiness(id,values))
+                        return 1;
+
+                case "activity":
+                    if(manager.updateActivity(id,values))
+                        return 1;
+
+                case "cpuser":
+                    if(manager.updateCPUser(id,values))
+                        return 1;
+
+            }
+        }catch (Exception ex)
+        {
+            return 0;
+        }
+        return 0;
     }
 }

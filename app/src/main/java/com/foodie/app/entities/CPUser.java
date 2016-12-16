@@ -1,5 +1,9 @@
 package com.foodie.app.entities;
 
+
+import android.content.ContentValues;
+import android.net.Uri;
+
 import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +13,7 @@ import java.util.regex.Pattern;
  */
 
 public class CPUser {
+
     private int _ID;
 
     private String userFullName;
@@ -84,5 +89,21 @@ public class CPUser {
 
     public void setUserPwdHash(byte[] userPwdHash) {
         this.userPwdHash = userPwdHash;
+    }
+
+    public ContentValues toContentValues(int id, String userFullName, String userEmail, String userPwdHash)
+    {
+        final ContentValues contentValues = new ContentValues();
+
+        contentValues.put("_ID",this.getUserFullName());
+        contentValues.put("userFullName",this.getUserEmail());
+        contentValues.put("userFullName",this.getUserPwdHash());
+
+        return  contentValues;
+    }
+
+    public static Uri getCPUser_URI()
+    {
+        return Uri.parse("content://com.foodie.app/cpuser");
     }
 }

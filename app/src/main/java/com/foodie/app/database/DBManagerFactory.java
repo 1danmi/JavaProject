@@ -10,8 +10,15 @@ public class DBManagerFactory {
 
     static IDBManager manager = null;
 
+    private static String DBtype = "List";
+
+    public static String getDBtype()
+    {
+        return DBtype;
+    }
+
     public static IDBManager getManager() {
-        if (manager == null)
+        if (DBtype.equals("list") && manager == null)
             manager = new ListDBManager();
         return manager;
     }

@@ -21,10 +21,14 @@ import static com.foodie.app.entities.User.get_ID;
  */
 
 public class ListDBManager implements IDBManager {
+
+    //lists
     static List<User> users;
     static List<CPUser> cpusers;
     static List<Business> businesses;
     static List<Activity> activities;
+
+
     boolean isUpdated = false;
 
     static {
@@ -34,21 +38,69 @@ public class ListDBManager implements IDBManager {
         activities = new ArrayList<>();
     }
 
+    public int getMaxID(String classList) {
+
+        int max_id = 0;
+
+        switch (classList) {
+            case "user":
+                if(users.isEmpty())
+                    break;
+
+                for (User item : users) {
+                    if(item.getUserId()>max_id)
+                        max_id = item.getUserId();
+                }
+               break;
+
+
+            case "Business":
+                if(businesses.isEmpty())
+                    break;
+
+                for (Business item : businesses) {
+                    if(item.get_ID()>max_id)
+                        max_id = item.get_ID();
+                }
+                break;
+
+
+            case "activity":
+                if(activities.isEmpty())
+                    break;
+
+                for (Activity item : activities) {
+                    if(item.get_ID()>max_id)
+                        max_id = item.get_ID();
+                }
+                break;
+
+
+            case "cpuser":
+                if(cpusers.isEmpty())
+                    break;
+                for (CPUser item : cpusers) {
+                    if(item.get_ID()>max_id)
+                        max_id = item.get_ID();
+                }
+                break;
+
+        }
+        return max_id;
+    }
+
     @Override
     public int addCPUser(ContentValues values) throws Exception {
+        // Get values
         CPUser cpuser = Converters.ContentValuesToCPUser(values);
-        Random rand = new Random();
-        boolean isExist = false;
-        do {
-            for (CPUser cp : cpusers) {
-                if (cp.get_ID() == cpuser.get_ID()) {
-                    isExist = true;
-                    cpuser.set_ID(rand.nextInt(100000) + 1);
-                    break;
-                }
-                isExist = false;
-            }
-        } while (isExist == true);
+
+        int cpuserId = getMaxID("cpuser");
+
+
+        for (CPUser cp : cpusers) {
+                cpuser.set_ID(++cpuserId);
+        }
+
         cpusers.add(cpuser);
         isUpdated = true;
         return cpuser.get_ID();
@@ -57,18 +109,13 @@ public class ListDBManager implements IDBManager {
     @Override
     public int addBusiness(ContentValues values) throws Exception {
         Business business = Converters.ContentValuesToBusiness(values);
-        Random rand = new Random();
+        int businessId = getMaxID("Business");
         boolean isExist = false;
-        do {
-            for (CPUser cp : cpusers) {
-                if (cp.get_ID() == business.get_ID()) {
-                    isExist = true;
-                    business.set_ID(rand.nextInt(100000) + 1);
-                    break;
-                }
-                isExist = false;
-            }
-        } while (isExist == true);
+
+        for (CPUser cp : cpusers) {
+            business.set_ID(++businessId);
+        }
+
         businesses.add(business);
         isUpdated = true;
         return business.get_ID();
@@ -77,18 +124,13 @@ public class ListDBManager implements IDBManager {
     @Override
     public int addActivity(ContentValues values) throws Exception {
         Activity activity = Converters.ContentValuesToActivity(values);
-        Random rand = new Random();
-        boolean isExist = false;
-        do {
-            for (CPUser cp : cpusers) {
-                if (cp.get_ID() == activity.get_ID()) {
-                    isExist = true;
-                    activity.set_ID(rand.nextInt(100000) + 1);
-                    break;
-                }
-                isExist = false;
-            }
-        } while (isExist == true);
+        int activityId = getMaxID("activity");
+
+        for (CPUser cp : cpusers) {
+                activity.set_ID(++activityId);
+        }
+
+
         activities.add(activity);
         isUpdated = true;
         return activity.get_ID();
@@ -97,18 +139,11 @@ public class ListDBManager implements IDBManager {
     @Override
     public int addUser(ContentValues values) throws Exception {
         User user = Converters.ContentValuesToUser(values);
-        Random rand = new Random();
-        boolean isExist = false;
-        do {
-            for (CPUser cp : cpusers) {
-                if (cp.get_ID() == get_ID()) {
-                    isExist = true;
-                    user.set_ID(rand.nextInt(100000) + 1);
-                    break;
-                }
-                isExist = false;
-            }
-        } while (isExist == true);
+        int userId = getMaxID("user");
+
+        for (CPUser cp : cpusers)
+         user.set_ID(++userId);
+
         users.add(user);
         isUpdated = true;
         return get_ID();

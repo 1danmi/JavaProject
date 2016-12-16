@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.foodie.app.R;
+import com.foodie.app.database.AsyncData;
+import com.foodie.app.entities.User;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
@@ -82,11 +84,14 @@ public class LoginActivity extends AppCompatActivity {
                     signIn.loadingFailed();
                     Toast.makeText(getApplicationContext(), getString(R.string.error_login), Toast.LENGTH_SHORT).show();
                 } else if (emailEditText.validate()) {
+
                     //TODO: Implement signing in here
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     sharedPreferences.edit().putString(email, emailAddress).apply();
 
                     Toast.makeText(getApplicationContext(), getString(R.string.not_yet_implemented), Toast.LENGTH_SHORT).show();
+
+
                     signIn.loadingSuccessful();
 
                 } else {
