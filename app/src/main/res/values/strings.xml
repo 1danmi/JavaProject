@@ -40,5 +40,11 @@
     <string name="user_full_name">Full Name</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_up_button">Sign Up</string>
+    <string name="title_activity_business">businessActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
 </resources>

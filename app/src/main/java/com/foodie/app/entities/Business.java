@@ -40,14 +40,14 @@ public class Business {
     }
 
     public void setBusinessName(String businessName) throws Exception {
-        Pattern pattern =
-                Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))*)$");
-        Matcher matcher =
-                pattern.matcher(businessName);
-        if (matcher.find())
+//        Pattern pattern =
+//                Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))*)$");
+//        Matcher matcher =
+//                pattern.matcher(businessName);
+//        if (matcher.find())
             this.businessName = businessName;
-        else
-            throw new InputException("Street name must contain at least 2 characters!", FIELD.NAME);
+//        else
+//            throw new InputException("Name can contains only letters", FIELD.NAME);
     }
 
     public String getBusinessPhoneNo() {

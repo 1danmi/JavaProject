@@ -50,7 +50,7 @@
         app:met_primaryColor="#ffffff"
         app:met_singleLineEllipsis="true"
         app:met_textColor="#FAFAFA"
-        app:met_textColorHint="@color/hint_color"
+        app:met_textColorHint="@color/hint_color_2k_57"
         app:met_underlineColor="#FAFAFA"
         android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
@@ -82,7 +82,7 @@
         app:met_primaryColor="#ffffff"
         app:met_singleLineEllipsis="true"
         app:met_textColor="#FAFAFA"
-        app:met_textColorHint="@color/hint_color"
+        app:met_textColorHint="@color/hint_color_2k_57"
         app:met_underlineColor="#FAFAFA"
         />
 
