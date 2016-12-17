@@ -1,4 +1,4 @@
-package com.example.daniel.java_project;
+package com.foodie.app;
 
 import org.junit.Test;
 

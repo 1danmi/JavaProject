@@ -1,4 +1,4 @@
-package com.example.daniel.java_project;
+package com.foodie.app;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
