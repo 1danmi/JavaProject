@@ -8,5 +8,7 @@
     <color name="cyan_500">#FFFFFF</color>
     <color name="dark_gray">#212121</color>
     <color name="hint_color_2k_57">#B3000000</color>
+    <color name="red">#f44336</color>
+    <color name="red_dark">#e53935</color>
 
 </resources>

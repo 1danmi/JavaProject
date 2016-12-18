@@ -28,7 +28,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@drawable/ic_add_white_48dp"
-        app:backgroundTint="@color/dark_gray" />
+        app:backgroundTint="@color/red" />
 
     <include layout="@layout/content_business" />
 
