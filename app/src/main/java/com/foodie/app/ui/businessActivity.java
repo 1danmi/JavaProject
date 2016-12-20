@@ -63,7 +63,7 @@ public class BusinessActivity extends AppCompatActivity
         List<Business> businessList = loadDemoData();
 
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.businessRecycleView);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.business_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(businessList,getApplicationContext());
@@ -151,8 +151,11 @@ public class BusinessActivity extends AppCompatActivity
 
             String name1 = "Burgeranch ";
 
+
+
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.burgeranch_logo);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo1 = stream.toByteArray();
 
@@ -163,6 +166,7 @@ public class BusinessActivity extends AppCompatActivity
 
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.mcdonalds_logo);
             stream = new ByteArrayOutputStream();
+            bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo2 = stream.toByteArray();
 
@@ -173,6 +177,7 @@ public class BusinessActivity extends AppCompatActivity
 
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.duda_lapizza_logo);
             stream = new ByteArrayOutputStream();
+            bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo3 = stream.toByteArray();
 
@@ -184,6 +189,7 @@ public class BusinessActivity extends AppCompatActivity
 
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pizza_hut_logo);
             stream = new ByteArrayOutputStream();
+            bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo4 = stream.toByteArray();
 
