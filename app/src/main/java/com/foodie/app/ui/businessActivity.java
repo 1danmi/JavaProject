@@ -40,6 +40,7 @@ public class BusinessActivity extends AppCompatActivity
         setContentView(R.layout.activity_business);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         this.setTitle("");
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -59,36 +60,10 @@ public class BusinessActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        List<Business> businessList = new ArrayList<>();
+        List<Business> businessList = loadDemoData();
 
 
-        try {
-            for(int i = 0; i<20; i++) {
-                Business demo = new Business();
-                String name = "JCT" + i;
-                demo.setBusinessName(name);
-                demo.setCpuserID(i);
-                String website = "jct" +i +".ac.il";
-                demo.setBusinessWebsite(website);
-                demo.setBusinessAddress("Hava\'ad Haleumi 21, Jerusalem, 1234567");
-                demo.setBusinessEmail("jct@jct.ac.il");
-                demo.setBusinessPhoneNo("0543051733");
-
-                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.jct_logo);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] logo = stream.toByteArray();
-                demo.setBusinessLogo(logo);
-
-
-                businessList.add(demo);
-            }
-
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-
-        }
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.businessRecycleView);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.business_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(businessList,getApplicationContext());
@@ -165,4 +140,68 @@ public class BusinessActivity extends AppCompatActivity
         //inflater.inflate(R.menu.actions, popup.getMenu());
         popup.show();
     }
+
+    public List<Business> loadDemoData(){
+
+        List<Business> businessList = new ArrayList<>();
+        Business demo;
+
+
+        try {
+
+            String name1 = "Burgeranch ";
+
+
+
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.burgeranch_logo);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] logo1 = stream.toByteArray();
+
+            demo = new Business(name1,"Derech Agudat Sport Beitar 1, Jerusalem, 9695235","0543051733","Burgeranch@burgeranch.co.il","burgeranch.co.il",1,logo1);
+            businessList.add(demo);
+
+            String name2 = "McDonald's ";
+
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.mcdonalds_logo);
+            stream = new ByteArrayOutputStream();
+            bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] logo2 = stream.toByteArray();
+
+            demo = new Business(name2,"Sderot Yitshak Rabin 10, Jerusalem, 1234558","0543051733","McDonald@mcdonald.com","mcdonald.com",2,logo2);
+            businessList.add(demo);
+
+            String name3 = "Duda Lapizza ";
+
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.duda_lapizza_logo);
+            stream = new ByteArrayOutputStream();
+            bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] logo3 = stream.toByteArray();
+
+            demo = new Business(name3,"Sderot Hatsvi 5, Jerusalem, 6546185","0543051733","duda@lapizza.com","duda-lapizza.com",3,logo3);
+            businessList.add(demo);
+
+
+            String name4 = "Pizza Hut ";
+
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pizza_hut_logo);
+            stream = new ByteArrayOutputStream();
+            bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] logo4 = stream.toByteArray();
+
+            demo = new Business(name4,"Nayot 9, Jerusalem, 6546185","0543051733","pizza@pizza-hut.com","pizza-hut.com",4,logo4);
+            businessList.add(demo);
+
+
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+        }
+        return businessList;
+    }
+
 }

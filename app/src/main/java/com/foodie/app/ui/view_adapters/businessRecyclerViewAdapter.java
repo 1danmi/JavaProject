@@ -3,6 +3,7 @@ package com.foodie.app.ui.view_adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,20 +40,31 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     }
 
     @Override
-    public void onBindViewHolder(BusinessImageViewHolder holder, int position) {
+    public void onBindViewHolder(final BusinessImageViewHolder holder, int position) {
         // Called by the layout manager when it wants new data in an existing row
 
-        Business businessItem = businessesList.get(position);
+        final Business businessItem = businessesList.get(position);
         Log.d(TAG, "onBindViewHolder: " + businessItem.getBusinessName() + " --> " + position);
 
-
+        //final int THUMBSIZE = 128;
         Bitmap bmp = BitmapFactory.decodeByteArray(businessItem.getBusinessLogo(), 0, businessItem.getBusinessLogo().length);
+
+        //bmp = ThumbnailUtils.extractThumbnail(bmp, THUMBSIZE, THUMBSIZE);
         holder.logo.setImageBitmap(bmp);
 
 
         holder.title.setText(businessItem.getBusinessName());
         holder.address.setText(businessItem.getBusinessAddress());
         //TODO: Add query for number of activities of the business
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, businessItem.getBusinessName(),Snackbar.LENGTH_LONG);
+            }
+        });
+
+
 
     }
 
@@ -83,11 +95,13 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         TextView title;
         TextView address;
         TextView activitiesCounter;
+        View mView;
 
         public BusinessImageViewHolder(View itemView) {
             super(itemView);
             Log.d(TAG, "BusinessImageViewHolder: starts");
-            this.logo = (ImageView) itemView.findViewById(R.id.logoImageView);
+            mView = itemView;
+            this.logo = (ImageView) itemView.findViewById(R.id.business_image_view);
             this.title = (TextView) itemView.findViewById(R.id.businessTitleTextView);
             this.address = (TextView) itemView.findViewById(R.id.businessAddressTextView);
             this.activitiesCounter = (TextView) itemView.findViewById(R.id.numOfActivities);

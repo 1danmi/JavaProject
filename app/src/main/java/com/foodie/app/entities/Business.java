@@ -26,6 +26,18 @@ public class Business {
 
     private byte[] businessLogo;
 
+    public Business(){}
+
+    public Business(String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception{
+        setBusinessName(businessName);
+        setBusinessAddress(businessAddress);
+        setBusinessPhoneNo(businessPhoneNo);
+        setBusinessEmail(businessEmail);
+        setBusinessWebsite(businessWebsite);
+        setCpuserID(cpuserID);
+        setBusinessLogo(businessLogo);
+    }
+
     public String getBusinessAddress() {
         return businessAddress;
     }
