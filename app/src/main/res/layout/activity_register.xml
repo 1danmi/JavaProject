@@ -24,10 +24,14 @@
         android:id="@+id/userNameEditText"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:hint="@string/user_full_name"
         android:inputType="textEmailAddress"
         android:textCursorDrawable="@drawable/text_cursor_cyan"
         android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView"
+        app:layout_constraintRight_toRightOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:met_baseColor="#ffffff"
         app:met_errorColor="#212121"
         app:met_floatingLabel="highlight"
@@ -37,12 +41,7 @@
         app:met_singleLineEllipsis="true"
         app:met_textColor="#FAFAFA"
         app:met_textColorHint="@color/hint_color_2k_57"
-        app:met_underlineColor="#FAFAFA"
-        app:layout_constraintRight_toRightOf="@+id/imageView"
-        app:layout_constraintLeft_toLeftOf="@+id/imageView"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-       />
+        app:met_underlineColor="#FAFAFA" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/confPwdNameEditText"
@@ -52,6 +51,10 @@
         android:inputType="textPassword"
         android:textCursorDrawable="@drawable/text_cursor_cyan"
         android:textSize="20sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/pwdEditText"
+        app:layout_constraintRight_toRightOf="@+id/pwdEditText"
+        app:layout_constraintTop_toBottomOf="@+id/pwdEditText"
         app:met_baseColor="#ffffff"
         app:met_errorColor="#212121"
         app:met_floatingLabel="highlight"
@@ -61,12 +64,7 @@
         app:met_singleLineEllipsis="true"
         app:met_textColor="#FAFAFA"
         app:met_textColorHint="@color/hint_color_2k_57"
-        app:met_underlineColor="#FAFAFA"
-        app:layout_constraintRight_toRightOf="@+id/pwdEditText"
-        app:layout_constraintLeft_toLeftOf="@+id/pwdEditText"
-        app:layout_constraintTop_toBottomOf="@+id/pwdEditText"
-        app:layout_constraintHorizontal_bias="0.0"
-        />
+        app:met_underlineColor="#FAFAFA" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/pwdEditText"
@@ -76,6 +74,10 @@
         android:inputType="textPassword"
         android:textCursorDrawable="@drawable/text_cursor_cyan"
         android:textSize="20sp"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@+id/emailEditText"
+        app:layout_constraintRight_toRightOf="@+id/emailEditText"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
         app:met_baseColor="#ffffff"
         app:met_errorColor="#212121"
         app:met_floatingLabel="highlight"
@@ -85,12 +87,7 @@
         app:met_singleLineEllipsis="true"
         app:met_textColor="#FAFAFA"
         app:met_textColorHint="@color/hint_color_2k_57"
-        app:met_underlineColor="#FAFAFA"
-        app:layout_constraintRight_toRightOf="@+id/emailEditText"
-        app:layout_constraintLeft_toLeftOf="@+id/emailEditText"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
-        app:layout_constraintHorizontal_bias="1.0"
-        />
+        app:met_underlineColor="#FAFAFA" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/emailEditText"
@@ -101,6 +98,8 @@
         android:textCursorDrawable="@drawable/text_cursor_cyan"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="@+id/userNameEditText"
+        app:layout_constraintRight_toRightOf="@+id/userNameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/userNameEditText"
         app:met_baseColor="#ffffff"
         app:met_errorColor="#212121"
         app:met_floatingLabel="highlight"
@@ -110,28 +109,25 @@
         app:met_singleLineEllipsis="true"
         app:met_textColor="#FAFAFA"
         app:met_textColorHint="@color/hint_color_2k_57"
-        app:met_underlineColor="#FAFAFA"
-        app:layout_constraintTop_toBottomOf="@+id/userNameEditText"
-        app:layout_constraintRight_toRightOf="@+id/userNameEditText"
-        />
+        app:met_underlineColor="#FAFAFA" />
 
     <com.dx.dxloadingbutton.lib.LoadingButton
         android:id="@+id/sign_up_btn"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
-        app:btnColor="#f44336"
-        app:resetAfterFailed="true"
-        app:rippleColor="#000000"
-        app:text="@string/sign_up_button"
-        app:layout_constraintLeft_toLeftOf="@+id/confPwdNameEditText"
-        app:layout_constraintRight_toRightOf="@+id/confPwdNameEditText"
         android:layout_marginEnd="32dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/confPwdNameEditText" />
+        app:btnColor="#f44336"
+        app:layout_constraintLeft_toLeftOf="@+id/confPwdNameEditText"
+        app:layout_constraintRight_toRightOf="@+id/confPwdNameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/confPwdNameEditText"
+        app:resetAfterFailed="true"
+        app:rippleColor="#000000"
+        app:text="@string/sign_up_button" />
 
     <TextView
         android:id="@+id/newAccountTextView"
@@ -141,9 +137,9 @@
         android:text="@string/existing_account"
         android:textColor="#FAFAFA"
         android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@+id/confPwdNameEditText"
         app:layout_constraintTop_toBottomOf="@+id/sign_up_btn"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@+id/confPwdNameEditText" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/signInTextView"

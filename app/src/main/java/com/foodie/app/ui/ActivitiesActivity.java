@@ -34,22 +34,42 @@ public class ActivitiesActivity extends AppCompatActivity {
             }
         });
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.setTabTextColors(R.color.gray100, R.color.black);
-        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.dark_gray));
-        tabLayout.setSelectedTabIndicatorHeight(2);
 
+        viewPager = (ViewPager) findViewById(R.id.tab_viewpager);
+        if (viewPager != null) {
+            setupViewPager(viewPager);
+        }
+        tabLayout.setupWithViewPager(viewPager);
 
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
     }
-    private void setupViewPager(ViewPager viewPager){
+
+    private void setupViewPager(ViewPager viewPager) {
         BusinessViewPagerAdapter adapter = new BusinessViewPagerAdapter(getSupportFragmentManager());
+
+        //TODO: create bundles.
+        adapter.addFragment(new BusinessDetailsFragment(), "Details");
         adapter.addFragment(new BusinessActivitiesFragment(), "Activities");
+
 
         viewPager.setAdapter(adapter);
     }
-
-
 
 
 }

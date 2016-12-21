@@ -207,7 +207,7 @@ public class Converters {
 
         for (Business b : businesses) {
             matrixCursor.addRow(new Object[]{b.get_ID(), b.getBusinessName(), b.getBusinessEmail(), b.getBusinessWebsite(),
-                    b.getBusinessPhoneNo(), b.getBusinessAddress(), b.getCpuserID() , b.getBusinessLogo()});
+                    b.getBusinessPhoneNo(), b.getBusinessAddress(), b.getCpuserID(), b.getBusinessLogo()});
         }
 
         return matrixCursor;

@@ -35,7 +35,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     @Override
     public int getItemCount() {
         Log.d(TAG, "getItemCount: called");
-        return ((businessesList != null) && (businessesList.size() !=0) ? businessesList.size() : 0);
+        return ((businessesList != null) && (businessesList.size() != 0) ? businessesList.size() : 0);
 
     }
 
@@ -60,10 +60,9 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, businessItem.getBusinessName(),Snackbar.LENGTH_LONG);
+                Snackbar.make(view, businessItem.getBusinessName(), Snackbar.LENGTH_LONG);
             }
         });
-
 
 
     }
@@ -77,19 +76,18 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     }
 
 
-    public void loadNewData(List<Business> newBusinesses){
+    public void loadNewData(List<Business> newBusinesses) {
         this.businessesList = newBusinesses;
         notifyDataSetChanged();
     }
 
 
     public Business getBusiness(int position) {
-        return ((businessesList != null) && (businessesList.size() !=0) ? businessesList.get(position) : null);
+        return ((businessesList != null) && (businessesList.size() != 0) ? businessesList.get(position) : null);
     }
 
 
-
-    static class BusinessImageViewHolder extends RecyclerView.ViewHolder{
+    static class BusinessImageViewHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "BusinessImageViewHolder";
         ImageView logo;
         TextView title;

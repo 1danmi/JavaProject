@@ -35,7 +35,7 @@ public class BusinessActivitiesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_business_activities, container, false);
-        recyclerView = (RecyclerView)rootView.findViewById(R.id.business_activities_recycler_view);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.business_activities_recycler_view);
         List<Activity> activitiesList = new ArrayList<Activity>();
         setupRecyclerView(recyclerView, activitiesList);
         return rootView;
@@ -43,9 +43,9 @@ public class BusinessActivitiesFragment extends Fragment {
 
     }
 
-    private void setupRecyclerView(RecyclerView recyclerView, List<Activity> activities){
+    private void setupRecyclerView(RecyclerView recyclerView, List<Activity> activities) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        activityRecyclerViewAdapter = new ActivityRecyclerViewAdapter(activities ,getActivity());
+        activityRecyclerViewAdapter = new ActivityRecyclerViewAdapter(activities, getActivity());
         recyclerView.setAdapter(activityRecyclerViewAdapter);
 
 

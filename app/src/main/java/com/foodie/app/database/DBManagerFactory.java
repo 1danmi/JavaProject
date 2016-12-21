@@ -12,8 +12,7 @@ public class DBManagerFactory {
 
     private static String DBtype = "List";
 
-    public static String getDBtype()
-    {
+    public static String getDBtype() {
         return DBtype;
     }
 

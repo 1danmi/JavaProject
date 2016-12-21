@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".ui.LoginActivity"
-            android:theme="@style/AppThemeWithoutActionBar"></activity>
+            android:theme="@style/AppThemeWithoutActionBar" />
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/AppThemeWithoutActionBar" />
@@ -39,6 +39,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity
+            android:name=".ui.BusinessActivity"
+            android:label="@string/title_activity_business"
+            android:theme="@style/AppThemeWithoutActionBar">
+
+        </activity>
     </application>
 
-</manifest> <!-- android:label="@string/title_activity_business" -->
+</manifest>

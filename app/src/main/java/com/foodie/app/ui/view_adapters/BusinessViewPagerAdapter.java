@@ -35,7 +35,7 @@ public class BusinessViewPagerAdapter extends FragmentPagerAdapter {
         return mFragmentTitleList.get(position);
     }
 
-    public void addFragment(Fragment fragment, String title){
+    public void addFragment(Fragment fragment, String title) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
     }

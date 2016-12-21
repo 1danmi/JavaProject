@@ -66,7 +66,7 @@ public class BusinessActivity extends AppCompatActivity
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.business_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(businessList,getApplicationContext());
+        businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(businessList, getApplicationContext());
 
         recyclerView.setAdapter(businessRecyclerViewAdapter);
 
@@ -132,8 +132,6 @@ public class BusinessActivity extends AppCompatActivity
     }
 
 
-
-
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
         MenuInflater inflater = popup.getMenuInflater();
@@ -141,7 +139,7 @@ public class BusinessActivity extends AppCompatActivity
         popup.show();
     }
 
-    public List<Business> loadDemoData(){
+    public List<Business> loadDemoData() {
 
         List<Business> businessList = new ArrayList<>();
         Business demo;
@@ -152,14 +150,13 @@ public class BusinessActivity extends AppCompatActivity
             String name1 = "Burgeranch ";
 
 
-
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.burgeranch_logo);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo1 = stream.toByteArray();
 
-            demo = new Business(name1,"Derech Agudat Sport Beitar 1, Jerusalem, 9695235","0543051733","Burgeranch@burgeranch.co.il","burgeranch.co.il",1,logo1);
+            demo = new Business(name1, "Derech Agudat Sport Beitar 1, Jerusalem, 9695235", "0543051733", "Burgeranch@burgeranch.co.il", "burgeranch.co.il", 1, logo1);
             businessList.add(demo);
 
             String name2 = "McDonald's ";
@@ -170,7 +167,7 @@ public class BusinessActivity extends AppCompatActivity
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo2 = stream.toByteArray();
 
-            demo = new Business(name2,"Sderot Yitshak Rabin 10, Jerusalem, 1234558","0543051733","McDonald@mcdonald.com","mcdonald.com",2,logo2);
+            demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com", 2, logo2);
             businessList.add(demo);
 
             String name3 = "Duda Lapizza ";
@@ -181,7 +178,7 @@ public class BusinessActivity extends AppCompatActivity
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo3 = stream.toByteArray();
 
-            demo = new Business(name3,"Sderot Hatsvi 5, Jerusalem, 6546185","0543051733","duda@lapizza.com","duda-lapizza.com",3,logo3);
+            demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", 3, logo3);
             businessList.add(demo);
 
 
@@ -193,7 +190,7 @@ public class BusinessActivity extends AppCompatActivity
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo4 = stream.toByteArray();
 
-            demo = new Business(name4,"Nayot 9, Jerusalem, 6546185","0543051733","pizza@pizza-hut.com","pizza-hut.com",4,logo4);
+            demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", 4, logo4);
             businessList.add(demo);
 
 

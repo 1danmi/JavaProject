@@ -36,7 +36,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
     @Override
     public int getItemCount() {
         Log.d(TAG, "getItemCount: called");
-        return ((activitiesList != null) && (activitiesList.size() !=0) ? activitiesList.size() : 0);
+        return ((activitiesList != null) && (activitiesList.size() != 0) ? activitiesList.size() : 0);
 
     }
 
@@ -57,9 +57,8 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
         holder.activityName.setText(activityItem.getActivityName());
         holder.description.setText(activityItem.getActivityDescription());
         holder.ratingText.setText(Double.toString(activityItem.getActivityRating()));
-        holder.ratingBar.setRating((float)activityItem.getActivityRating());
+        holder.ratingBar.setRating((float) activityItem.getActivityRating());
         holder.price.setText("$" + Double.toString(activityItem.getActivityCost()));
-
 
 
     }
@@ -73,19 +72,18 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
     }
 
 
-    public void loadNewData(List<Activity> newActivities){
+    public void loadNewData(List<Activity> newActivities) {
         this.activitiesList = newActivities;
         notifyDataSetChanged();
     }
 
 
     public Activity getActivity(int position) {
-        return ((activitiesList != null) && (activitiesList.size() !=0) ? activitiesList.get(position) : null);
+        return ((activitiesList != null) && (activitiesList.size() != 0) ? activitiesList.get(position) : null);
     }
 
 
-
-    static class ActivityImageViewHolder extends RecyclerView.ViewHolder{
+    static class ActivityImageViewHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "ActivityImageViewHolder";
         ImageView image;
         TextView activityName;

@@ -92,8 +92,7 @@
         app:met_singleLineEllipsis="true"
         app:met_textColor="#FAFAFA"
         app:met_textColorHint="@color/hint_color_2k_57"
-        app:met_underlineColor="#FAFAFA"
-        />
+        app:met_underlineColor="#FAFAFA" />
 
 
     <com.dx.dxloadingbutton.lib.LoadingButton
