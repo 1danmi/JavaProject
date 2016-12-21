@@ -1,5 +1,6 @@
 package com.foodie.app.entities;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,7 +9,7 @@ import java.util.regex.Pattern;
  * Created by Daniel on 12/8/2016.
  */
 
-public class Business {
+public class Business implements Serializable {
 
     private String businessName;
 

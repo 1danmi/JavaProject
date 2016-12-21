@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.BusinessDetailsFragment">
+    tools:context=".ui.BusinessDetailsFragment"
+    android:id="@+id/root_business_details_layout">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:clickable="true">
+                android:clickable="true"
+                >
 
                 <ImageView
                     android:id="@+id/store_icon"
@@ -53,7 +56,6 @@
                         android:id="@+id/set_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="set_name"
                         android:textColor="@color/grey_700"
                         android:textSize="15dp" />
 
@@ -98,7 +100,6 @@
                         android:id="@+id/set_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="set_address"
                         android:textColor="@color/grey_700"
                         android:textSize="15dp" />
 
@@ -142,7 +143,6 @@
                         android:id="@+id/set_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="set_phone"
                         android:textColor="@color/grey_700"
                         android:textSize="15dp" />
 
@@ -185,7 +185,6 @@
                         android:id="@+id/set_website"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="set_website"
                         android:textColor="@color/grey_700"
                         android:textSize="15dp" />
 
@@ -228,7 +227,6 @@
                         android:id="@+id/set_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="set_email"
                         android:textColor="@color/grey_700"
                         android:textSize="15dp" />
 
@@ -238,7 +236,7 @@
 
 
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_fab"
@@ -250,9 +248,10 @@
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
         android:clickable="true"
-        app:backgroundTint="@color/grey_800"
-        fab:fabSize="mini"
-        fab:srcCompat="@drawable/ic_done_white" />
+        app:backgroundTint="@color/grey_900"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_done_white"
+        app:rippleColor="@color/grey_800" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/edit_fab"
@@ -264,7 +263,8 @@
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
         android:clickable="true"
-        app:backgroundTint="@color/grey_800"
-        fab:fabSize="mini"
-        fab:srcCompat="@drawable/ic_mode_edit_white_48dp" />
+        app:backgroundTint="@color/grey_900"
+        fab:srcCompat="@drawable/ic_mode_edit_white_48dp"
+        app:fabSize="normal"
+        app:rippleColor="@color/grey_800" />
 </RelativeLayout>

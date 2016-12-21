@@ -1,6 +1,7 @@
 package com.foodie.app.entities;
 
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,7 +14,7 @@ import static com.foodie.app.entities.FIELD.RATING;
  * Created by Daniel on 12/1/2016.
  */
 
-public class Activity {
+public class Activity implements Serializable {
 
     private int _ID;
 

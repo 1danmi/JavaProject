@@ -4,6 +4,7 @@ package com.foodie.app.entities;
 import android.content.ContentValues;
 import android.net.Uri;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,7 +13,7 @@ import java.util.regex.Pattern;
  * Created by Daniel on 12/12/2016.
  */
 
-public class CPUser {
+public class CPUser implements Serializable {
 
     private int _ID;
 

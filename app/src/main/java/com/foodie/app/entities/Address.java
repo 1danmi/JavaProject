@@ -1,5 +1,6 @@
 package com.foodie.app.entities;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,7 +8,7 @@ import java.util.regex.Pattern;
  * Created by Daniel on 11/30/2016.
  */
 
-class Address {
+class Address implements Serializable {
     private String street;
     private String city;
     private int houseNumber;

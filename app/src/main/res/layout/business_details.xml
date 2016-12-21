@@ -16,7 +16,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="#000000"
+            app:contentScrim="@color/red"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
 
             app:toolbarId="@+id/toolbar">
@@ -24,7 +24,7 @@
             <ImageView
                 android:id="@+id/app_bar_image"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="256dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/background2" />
 
