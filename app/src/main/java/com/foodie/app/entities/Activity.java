@@ -6,9 +6,6 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.foodie.app.entities.FIELD.COST;
-import static com.foodie.app.entities.FIELD.NAME;
-import static com.foodie.app.entities.FIELD.RATING;
 
 /**
  * Created by Daniel on 12/1/2016.
@@ -16,13 +13,13 @@ import static com.foodie.app.entities.FIELD.RATING;
 
 public class Activity implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private int _ID;
 
     private String activityName;
 
     private Calendar activityDate;
-
-    //private Calendar activityEnd; //for future use
 
     private String activityDescription;
 
@@ -47,6 +44,14 @@ public class Activity implements Serializable {
         setActivityRating(activityRating);
     }
 
+    public int get_ID() {
+        return _ID;
+    }
+
+    public void set_ID(int _ID) {
+        this._ID = _ID;
+    }
+
     public String getActivityName() {
         return activityName;
     }
@@ -59,7 +64,7 @@ public class Activity implements Serializable {
         if (matcher.find())
             this.activityName = activityName;
         else
-            throw new InputException("Activity name must contains at least 2 characters!", NAME);
+            throw new Exception("Activity name must contains at least 2 characters!");
     }
 
     public Calendar getActivityDate() {
@@ -84,7 +89,7 @@ public class Activity implements Serializable {
 
     public void setActivityCost(double activityCost) throws Exception {
         if (activityCost < 0)
-            throw new InputException("Cost must be a positive number", COST);
+            throw new Exception("Cost must be a positive number");
         this.activityCost = activityCost;
     }
 
@@ -94,7 +99,7 @@ public class Activity implements Serializable {
 
     public void setActivityRating(double activityRating) throws Exception {
         if (activityRating > 5 || activityRating < 1)
-            throw new InputException("Rating must be between 1 to 5", RATING);
+            throw new Exception("Rating must be between 1 to 5");
         this.activityRating = activityRating;
     }
 
@@ -114,14 +119,6 @@ public class Activity implements Serializable {
 
     public void setActivityImages(byte[] activityImages) {
         this.activityImages = activityImages;
-    }
-
-    public int get_ID() {
-        return _ID;
-    }
-
-    public void set_ID(int _ID) {
-        this._ID = _ID;
     }
 
     public String getFeature() {

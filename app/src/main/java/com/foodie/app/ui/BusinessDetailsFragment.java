@@ -25,19 +25,10 @@ import static android.support.design.widget.Snackbar.make;
  */
 public class BusinessDetailsFragment extends Fragment {
 
-
+    private String mName, mAddress, mPhone, mWebsite, mEmail, mEditMode;
     private TextView mNameText, mAddressText, mPhoneText, mWebsiteText, mEmailText;
     RelativeLayout mNameLayout, mAddresslayout, mPhoneLayout, mWebsiteLayout, mEmailLayout;
     private FloatingActionButton addFAB, editFAB;
-    private long mRepeatTime;
-    //private Business mBusiness;
-    private String mName;
-    private String mAddress;
-    private String mPhone;
-    private String mWebsite;
-    private String mEmail;
-    private String mEditMode;
-
 
     // Values for orientation change
     private static final String KEY_NAME = "name_key";
@@ -47,11 +38,9 @@ public class BusinessDetailsFragment extends Fragment {
     private static final String KEY_EMAIL = "email_key";
     private static final String KEY_MODE = "MODE";
 
-
     public BusinessDetailsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,8 +48,47 @@ public class BusinessDetailsFragment extends Fragment {
 
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_business_details, container, false);
-        final RelativeLayout rootLayout = (RelativeLayout) rootView.findViewById(R.id.root_business_details_layout);
-        //Snackbar.make(rootView,"Business name must contains at least one character!", Snackbar.LENGTH_LONG);
+
+        setButtons(rootView);
+
+        mEditMode = "false";
+
+        setFABs(rootView);
+
+        return rootView;
+
+    }
+
+    private void setFABs(View rootView) {
+        addFAB = (FloatingActionButton) rootView.findViewById(R.id.add_fab);
+        editFAB = (FloatingActionButton) rootView.findViewById(R.id.edit_fab);
+
+        // Setup up active buttons
+        if (mEditMode.equals("false")) {
+            addFAB.setVisibility(View.VISIBLE);
+            editFAB.setVisibility(View.GONE);
+
+        } else if (mEditMode.equals("false")) {
+            addFAB.setVisibility(View.GONE);
+            editFAB.setVisibility(View.VISIBLE);
+        }
+
+        editFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                make(view, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        addFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                make(view, "I\'m addFAB", Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void setButtons(View rootView) {
         mNameLayout = (RelativeLayout) rootView.findViewById(R.id.name_layout);
         mNameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,63 +129,7 @@ public class BusinessDetailsFragment extends Fragment {
         mPhoneText = (TextView) rootView.findViewById(R.id.set_phone);
         mWebsiteText = (TextView) rootView.findViewById(R.id.set_website);
         mEmailText = (TextView) rootView.findViewById(R.id.set_email);
-
-        addFAB = (FloatingActionButton) rootView.findViewById(R.id.add_fab);
-        editFAB = (FloatingActionButton) rootView.findViewById(R.id.edit_fab);
-
-        mEditMode = "false";
-        // To save state on device rotation
-//        if (savedInstanceState != null) {
-//            String savedName = savedInstanceState.getString(KEY_NAME);
-//            mNameText.setText(savedName);
-//            mName = savedName;
-//
-//            String savedAddress = savedInstanceState.getString(KEY_ADDRESS);
-//            mAddressText.setText(savedAddress);
-//            mAddress = savedAddress;
-//
-//            String savedPhone = savedInstanceState.getString(KEY_PHONE);
-//            mPhoneText.setText(savedPhone);
-//            mPhone = savedPhone;
-//
-//            String saveWebsite = savedInstanceState.getString(KEY_WEBSITE);
-//            mWebsiteText.setText(saveWebsite);
-//            mWebsite = saveWebsite;
-//
-//            String savedEmail = savedInstanceState.getString(KEY_EMAIL);
-//            mEmailText.setText(savedEmail);
-//            mEmail = savedEmail;
-//
-//            mEditMode = savedInstanceState.getString(KEY_MODE);
-//        }
-
-        // Setup up active buttons
-        if (mEditMode.equals("false")) {
-            addFAB.setVisibility(View.VISIBLE);
-            editFAB.setVisibility(View.GONE);
-
-        } else if (mEditMode.equals("false")) {
-            addFAB.setVisibility(View.GONE);
-            editFAB.setVisibility(View.VISIBLE);
-        }
-
-        editFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                make(view, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
-            }
-        });
-
-        addFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                make(view, "I\'m addFAB", Snackbar.LENGTH_LONG).show();
-            }
-        });
-        return rootView;
-
     }
-//
 
     // On clicking name button
     public void setName(final View v) {
@@ -256,7 +228,7 @@ public class BusinessDetailsFragment extends Fragment {
     }
 
     // On clicking address button
-       public void setPhone(final View v) {
+    public void setPhone(final View v) {
         AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle);
         alert.setTitle("Enter business phone number:");
         alert.setPositiveButton("OK", null);

@@ -11,9 +11,11 @@ import java.util.regex.Pattern;
 
 public class Business implements Serializable {
 
-    private String businessName;
+    private static final long serialVersionUID = 2L;
 
-    private static int _ID = 0;
+    private int _ID = 0;
+
+    private String businessName;
 
     private String businessAddress;
 
@@ -39,12 +41,12 @@ public class Business implements Serializable {
         setBusinessLogo(businessLogo);
     }
 
-    public String getBusinessAddress() {
-        return businessAddress;
+    public int get_ID() {
+        return _ID;
     }
 
-    public void setBusinessAddress(Address address) throws Exception {
-        this.businessAddress = address.toString();
+    public void set_ID(int Id) {
+        _ID = Id;
     }
 
     public String getBusinessName() {
@@ -58,10 +60,19 @@ public class Business implements Serializable {
 //        Matcher matcher =
 //                pattern.matcher(businessName);
 //        if (matcher.find())
-            this.businessName = businessName;
+        this.businessName = businessName;
 //        else
 //            throw new InputException("Name can contains only letters", FIELD.NAME);
     }
+
+    public String getBusinessAddress() {
+        return businessAddress;
+    }
+
+    public void setBusinessAddress(String businessAddress) {
+        this.businessAddress = businessAddress;
+    }
+
 
     public String getBusinessPhoneNo() {
         return businessPhoneNo;
@@ -75,7 +86,7 @@ public class Business implements Serializable {
         if (matcher.find())
             this.businessPhoneNo = businessPhoneNo;
         else
-            throw new InputException("Double check your phone number, I think you got a mistake there", FIELD.PHONE);
+            throw new Exception("Double check your phone number, I think you got a mistake there");
     }
 
     public String getBusinessEmail() {
@@ -90,7 +101,7 @@ public class Business implements Serializable {
         if (matcher.find())
             this.businessEmail = businessEmail;
         else
-            throw new InputException("Double check your email address, I think you got a mistake there", FIELD.NAME);
+            throw new Exception("Double check your email address, I think you got a mistake there");
 
     }
 
@@ -106,20 +117,7 @@ public class Business implements Serializable {
         if (matcher.find())
             this.businessWebsite = businessWebsite;
         else
-            throw new InputException("Wrong URL", FIELD.URL);
-    }
-
-    public int get_ID() {
-        return _ID;
-    }
-
-    public void set_ID(int Id) {
-        _ID = Id;
-    }
-
-    public void setBusinessAddress(String businessAddress) {
-        this.businessAddress = businessAddress;
-    }
+            throw new Exception("Wrong URL");    }
 
     public int getCpuserID() {
         return cpuserID;

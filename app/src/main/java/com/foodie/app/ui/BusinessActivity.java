@@ -1,5 +1,6 @@
 package com.foodie.app.ui;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,21 +25,52 @@ import android.widget.Toast;
 import com.foodie.app.R;
 import com.foodie.app.entities.Business;
 import com.foodie.app.ui.view_adapters.BusinessRecyclerViewAdapter;
+import com.foodie.app.ui.view_adapters.RecyclerItemClickListener;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BusinessActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RecyclerItemClickListener.onRecyclerClickListener {
 
+    private static final String TAG = "BusinessActivity";
     BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
-
+    private static final String BUSINESS_DETAILS = "businessDetails";
+    private List<Business> businessList;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business);
+
+        Log.d(TAG, "onCreate: starts");
+
+        Toolbar toolbar = setActionBarAndFAB();
+
+        setDrawer(toolbar);
+
+        businessList = loadDemoData();
+
+        setRecyclerView();
+
+
+
+    }
+
+    private void setRecyclerView() {
+        recyclerView = (RecyclerView) findViewById(R.id.business_recycle_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(businessList, getApplicationContext());
+
+        recyclerView.setAdapter(businessRecyclerViewAdapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, this));
+    }
+
+    private Toolbar setActionBarAndFAB() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -50,7 +83,10 @@ public class BusinessActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+        return toolbar;
+    }
 
+    private void setDrawer(Toolbar toolbar) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -59,19 +95,6 @@ public class BusinessActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        List<Business> businessList = loadDemoData();
-
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.business_recycle_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(businessList, getApplicationContext());
-
-        recyclerView.setAdapter(businessRecyclerViewAdapter);
-
-        //businessRecyclerViewAdapter.loadNewData(businessList);
-
     }
 
     @Override
@@ -141,7 +164,7 @@ public class BusinessActivity extends AppCompatActivity
 
     public List<Business> loadDemoData() {
 
-        List<Business> businessList = new ArrayList<>();
+        businessList = new ArrayList<>();
         Business demo;
 
 
@@ -199,6 +222,16 @@ public class BusinessActivity extends AppCompatActivity
 
         }
         return businessList;
+    }
+
+
+    @Override
+    public void onitemClick(View v, int position) {
+
+        Intent intent = new Intent(this, ActivitiesActivity.class);
+        intent.putExtra(BUSINESS_DETAILS, businessList.get(position));
+        startActivity(intent);
+         //Snackbar.make(v,"Item at position " + position + " had been clicked", Snackbar.LENGTH_LONG).show();
     }
 
 }

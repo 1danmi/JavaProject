@@ -11,24 +11,27 @@ import java.util.regex.Pattern;
 
 public class User implements Serializable {
 
-    private static int _ID = 0;
+    private static final long serialVersionUID = 4L;
 
-    private String userPhoneNumber;
+    private int _ID;
+
+    //We are using full name instead of private and last name separately in order to use Google Sign-In in the future.
+    private String userFullName;
+
+    private String userEmail;
 
     private byte[] userPwdHash;
 
+    private String userPhoneNumber;
+
     private String userAddress;
-
-    private String userFullName; //We are using full name instead of private and last name separately in order to use Google Sign-In in the future.
-
-    private String userEmail;
 
     private byte[] userImage;
 
     public User() {
     }
 
-    public User(String userFullName, String userEmail, String userPhoneNumber, String password, Address address) throws Exception {
+    public User(String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
 
         _ID++;
         setUserFullName(userFullName);
@@ -38,6 +41,13 @@ public class User implements Serializable {
         setUserAddress(address);
     }
 
+    public int get_ID() {
+        return _ID;
+    }
+
+    public void set_ID(int Id) {
+        _ID = Id;
+    }
 
     public String getUserFullName() {
         return userFullName;
@@ -51,7 +61,7 @@ public class User implements Serializable {
         if (matcher.find())
             this.userFullName = userFullName;
         else
-            throw new InputException("Name must contains only letters and must consists of at least 2 words (Private and Last name)", FIELD.NAME);
+            throw new Exception("Name must contains only letters and must consists of at least 2 words (Private and Last name)");
     }
 
     public String getUserEmail() {
@@ -66,7 +76,32 @@ public class User implements Serializable {
         if (matcher.find())
             this.userEmail = userEmail;
         else
-            throw new InputException("Double check your email address, I think you got a mistake there", FIELD.EMAIL);
+            throw new Exception("Double check your email address, I think you got a mistake there");
+    }
+
+    public byte[] getUserPwdHash() {
+        return userPwdHash;
+    }
+
+    public void setUserPwdHash(byte[] userPwdHash) {
+        this.userPwdHash = userPwdHash;
+    }
+
+    public void setUserPwd(String userPassword) throws Exception {
+        if (userPassword.length() < 6)
+            throw new Exception("Password must contains at least 6 characters");
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+        md.update(userPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed.
+        this.userPwdHash = md.digest();
+    }
+
+    public boolean checkUserPwd(String inputPassword) throws Exception {
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(inputPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+        byte[] digest = md.digest();
+        return digest == this.userPwdHash;
     }
 
     public String getUserPhoneNumber() {
@@ -81,39 +116,16 @@ public class User implements Serializable {
         if (matcher.find())
             this.userPhoneNumber = userPhoneNumber;
         else
-            throw new InputException("Double check your phone number, I think you got a mistake there", FIELD.PHONE);
-
-    }
-
-    public boolean checkUserPwd(String inputPassword) throws Exception {
-
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(inputPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed
-        byte[] digest = md.digest();
-        return digest == this.userPwdHash;
-    }
-
-    public void setUserPwd(String userPassword) throws Exception {
-        if (userPassword.length() < 6)
-            throw new InputException("Password must contains at least 6 characters", FIELD.PWD);
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-
-        md.update(userPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed.
-        this.userPwdHash = md.digest();
+            throw new Exception("Double check your phone number, I think you got a mistake there");
     }
 
     public String getUserAddress() {
         return userAddress;
     }
 
-    public void setUserAddress(Address address) throws Exception {
-        this.userAddress = address.toString();
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
     }
-
-    public int getUserId() {
-        return _ID;
-    }
-
 
     public byte[] getUserImage() {
         return userImage;
@@ -123,23 +135,4 @@ public class User implements Serializable {
         this.userImage = userImage;
     }
 
-    public byte[] getUserPwdHash() {
-        return userPwdHash;
-    }
-
-    public static int get_ID() {
-        return _ID;
-    }
-
-    public static void set_ID(int Id) {
-        _ID = Id;
-    }
-
-    public void setUserPwdHash(byte[] userPwdHash) {
-        this.userPwdHash = userPwdHash;
-    }
-
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
-    }
 }

@@ -26,7 +26,7 @@ public class Converters {
     public static ContentValues CPUserToContentValues(CPUser cpuser) {
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(CPUSER_ID, cpuser.getUserId());
+        contentValues.put(CPUSER_ID, cpuser.get_ID());
         contentValues.put(AppContract.CPUser.CPUSER_EMAIL, cpuser.getUserEmail());
         contentValues.put(CPUSER_FULL_NAME, cpuser.getUserFullName());
         contentValues.put(AppContract.CPUser.CPUSER_PWD, cpuser.getUserPwdHash());
@@ -38,7 +38,7 @@ public class Converters {
     public static ContentValues UserToContentValues(User user) {
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(AppContract.User.USER_ID, user.getUserId());
+        contentValues.put(AppContract.User.USER_ID, user.get_ID());
         contentValues.put(AppContract.User.USER_EMAIL, user.getUserEmail());
         contentValues.put(AppContract.User.USER_FULL_NAME, user.getUserFullName());
         contentValues.put(AppContract.User.USER_PWD, user.getUserPwdHash());
@@ -182,7 +182,7 @@ public class Converters {
         MatrixCursor matrixCursor = new MatrixCursor(columns);
 
         for (User u : users) {
-            matrixCursor.addRow(new Object[]{u.getUserId(), u.getUserFullName(), u.getUserEmail(), u.getUserPwdHash(),
+            matrixCursor.addRow(new Object[]{u.get_ID(), u.getUserFullName(), u.getUserEmail(), u.getUserPwdHash(),
                     u.getUserPhoneNumber(), u.getUserAddress(), u.getUserImage()});
         }
 
