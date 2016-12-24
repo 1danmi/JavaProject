@@ -10,7 +10,6 @@ import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.entities.User;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import static com.foodie.app.backend.AppContract.CPUser.CPUSER_FULL_NAME;
@@ -71,13 +70,13 @@ public class Converters {
         ContentValues contentValues = new ContentValues();
         contentValues.put(AppContract.Activity.ACTIVITY_ID, activity.get_ID());
         contentValues.put(AppContract.Activity.ACTIVITY_NAME, activity.getActivityName());
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        String date = formatter.format(activity.getActivityDate().getTime());
-        contentValues.put(AppContract.Activity.ACTIVITY_DATE, date);
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+//        String date = formatter.format(activity.getActivityDate().getTime());
+//        contentValues.put(AppContract.Activity.ACTIVITY_DATE, date);
         contentValues.put(AppContract.Activity.ACTIVITY_DESCRIPTION, activity.getActivityDescription());
         contentValues.put(AppContract.Activity.ACTIVITY_COST, activity.getActivityCost());
         contentValues.put(AppContract.Activity.ACTIVITY_BUSINESS_ID, activity.getBusinessId());
-        contentValues.put(AppContract.Activity.ACTIVITY_Image, activity.getActivityImages());
+        contentValues.put(AppContract.Activity.ACTIVITY_IMAGE, activity.getActivityImages());
         contentValues.put(AppContract.Activity.ACTIVITY_RATING, activity.getActivityRating());
         contentValues.put(AppContract.Activity.ACTIVITY_FEATURE, activity.getFeature());
 
@@ -134,14 +133,14 @@ public class Converters {
         Activity activity = new Activity();
         activity.set_ID(contentValues.getAsInteger(AppContract.Activity.ACTIVITY_ID));
         activity.setActivityName(contentValues.getAsString(AppContract.Activity.ACTIVITY_NAME));
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        String dateString = contentValues.getAsString(AppContract.Activity.ACTIVITY_DATE);
-        activity.getActivityDate().setTime(formatter.parse(dateString));
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+//        String dateString = contentValues.getAsString(AppContract.Activity.ACTIVITY_DATE);
+//        activity.getActivityDate().setTime(formatter.parse(dateString));
         activity.setActivityDescription(contentValues.getAsString(AppContract.Activity.ACTIVITY_DESCRIPTION));
         activity.setActivityCost(contentValues.getAsDouble(AppContract.Activity.ACTIVITY_COST));
         activity.setActivityRating(contentValues.getAsDouble(AppContract.Activity.ACTIVITY_RATING));
         activity.setBusinessId(contentValues.getAsInteger(AppContract.Activity.ACTIVITY_BUSINESS_ID));
-        activity.setActivityImages(contentValues.getAsByteArray(AppContract.Activity.ACTIVITY_Image));
+        activity.setActivityImages(contentValues.getAsByteArray(AppContract.Activity.ACTIVITY_IMAGE));
         activity.setFeature(contentValues.getAsString(AppContract.Activity.ACTIVITY_FEATURE));
 
         return activity;
@@ -219,19 +218,18 @@ public class Converters {
                 {
                         AppContract.Activity.ACTIVITY_ID,
                         AppContract.Activity.ACTIVITY_NAME,
-                        AppContract.Activity.ACTIVITY_DATE,
                         AppContract.Activity.ACTIVITY_DESCRIPTION,
                         AppContract.Activity.ACTIVITY_COST,
                         AppContract.Activity.ACTIVITY_RATING,
                         AppContract.Activity.ACTIVITY_BUSINESS_ID,
-                        AppContract.Activity.ACTIVITY_Image,
+                        AppContract.Activity.ACTIVITY_IMAGE,
                         AppContract.Activity.ACTIVITY_FEATURE
                 };
 
         MatrixCursor matrixCursor = new MatrixCursor(columns);
 
         for (Activity a : activities) {
-            matrixCursor.addRow(new Object[]{a.get_ID(), a.getActivityName(), a.getActivityDate(), a.getActivityDescription(),
+            matrixCursor.addRow(new Object[]{a.get_ID(), a.getActivityName(), a.getActivityDescription(),
                     a.getActivityCost(), a.getActivityRating(), a.getBusinessId(), a.getActivityImages(), a.getFeature()});
         }
 

@@ -3,7 +3,6 @@ package com.foodie.app.ui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.foodie.app.R;
+import com.github.jorgecastilloprz.FABProgressCircle;
 
 import static android.support.design.widget.Snackbar.make;
 
@@ -28,7 +28,7 @@ public class BusinessDetailsFragment extends Fragment {
     private String mName, mAddress, mPhone, mWebsite, mEmail, mEditMode;
     private TextView mNameText, mAddressText, mPhoneText, mWebsiteText, mEmailText;
     RelativeLayout mNameLayout, mAddresslayout, mPhoneLayout, mWebsiteLayout, mEmailLayout;
-    private FloatingActionButton addFAB, editFAB;
+    private FABProgressCircle addFAB, editFAB;
 
     // Values for orientation change
     private static final String KEY_NAME = "name_key";
@@ -60,8 +60,8 @@ public class BusinessDetailsFragment extends Fragment {
     }
 
     private void setFABs(View rootView) {
-        addFAB = (FloatingActionButton) rootView.findViewById(R.id.add_fab);
-        editFAB = (FloatingActionButton) rootView.findViewById(R.id.edit_fab);
+        addFAB = (FABProgressCircle) rootView.findViewById(R.id.add_fab);
+        editFAB = (FABProgressCircle) rootView.findViewById(R.id.edit_fab);
 
         // Setup up active buttons
         if (mEditMode.equals("false")) {
@@ -164,8 +164,7 @@ public class BusinessDetailsFragment extends Fragment {
                                         });
                                 snackbar.setActionTextColor(getResources().getColor(R.color.red));
                                 snackbar.show();
-                            }
-                            else{
+                            } else {
                                 Snackbar.make(v, "Business name must contains at least one character!", Snackbar.LENGTH_LONG).show();
                             }
                         }
@@ -212,8 +211,7 @@ public class BusinessDetailsFragment extends Fragment {
                                         });
                                 snackbar.setActionTextColor(getResources().getColor(R.color.red));
                                 snackbar.show();
-                            }
-                            else{
+                            } else {
                                 Snackbar.make(v, "Business address must contains at least one character!", Snackbar.LENGTH_LONG).show();
                             }
                         }
@@ -260,8 +258,7 @@ public class BusinessDetailsFragment extends Fragment {
                                         });
                                 snackbar.setActionTextColor(getResources().getColor(R.color.red));
                                 snackbar.show();
-                            }
-                            else{
+                            } else {
                                 Snackbar.make(v, "Business phone number must contains at least one character!", Snackbar.LENGTH_LONG).show();
                             }
                         }
@@ -307,8 +304,7 @@ public class BusinessDetailsFragment extends Fragment {
                                         });
                                 snackbar.setActionTextColor(getResources().getColor(R.color.red));
                                 snackbar.show();
-                            }
-                            else{
+                            } else {
                                 Snackbar.make(v, "Business website must contains at least one character!", Snackbar.LENGTH_LONG).show();
                             }
                         }
@@ -354,8 +350,7 @@ public class BusinessDetailsFragment extends Fragment {
                                         });
                                 snackbar.setActionTextColor(getResources().getColor(R.color.red));
                                 snackbar.show();
-                            }
-                            else{
+                            } else {
                                 Snackbar.make(v, "Business email must contains at least one character!", Snackbar.LENGTH_LONG).show();
                             }
                         }
@@ -368,7 +363,6 @@ public class BusinessDetailsFragment extends Fragment {
         });
         alert.show();
     }
-
 
 
 }

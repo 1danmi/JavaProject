@@ -264,7 +264,7 @@ public class ListDBManager implements IDBManager {
             if (a.get_ID() == id) {
                 a.set_ID(activity.get_ID());
                 a.setActivityName(activity.getActivityName());
-                a.setActivityDate(activity.getActivityDate());
+                //a.setActivityDate(activity.getActivityDate());
                 a.setActivityDescription(activity.getActivityDescription());
                 a.setActivityCost(activity.getActivityCost());
                 a.setActivityRating(activity.getActivityRating());
