@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
+import com.foodie.app.DebugHelper.DebugHelper;
 import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.IDBManager;
 
@@ -21,6 +22,8 @@ public class MyContentProvider extends ContentProvider {
     final String TAG = "foodie";
 
     public MyContentProvider() {
+        manager = DBManagerFactory.getManager();
+        Log.d(TAG, "ContentProvided ctor ");
     }
 
     @Override
@@ -62,7 +65,13 @@ public class MyContentProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        Log.d(TAG, "insert " + uri.toString());
+        DebugHelper.Log("My content povider operation: insert");
+        if(manager == null) {
+           DebugHelper.Log("manager null");
+            manager = DBManagerFactory.getManager();
+        }
+
+
         String listName = uri.getLastPathSegment();
         long id = -1;
         try {
@@ -87,15 +96,18 @@ public class MyContentProvider extends ContentProvider {
             }
         }catch (Exception ex)
         {
-
+            DebugHelper.Log("My content povider operation: insert, error: " + ex.getCause()+", " +ex.getMessage());
         }
         return null;
     }
 
     @Override
     public boolean onCreate() {
-
-        return false;
+        Log.d(TAG, "ContentProvided created ");
+        //so we move mContext initialization here
+        //mContext = getContext();
+     //   dbHelper = new DatabaseHelper(mContext);
+        return true;
     }
 
     @Override

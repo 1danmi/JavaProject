@@ -13,6 +13,7 @@ import com.foodie.app.entities.User;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import static com.foodie.app.backend.AppContract.CPUser.CPUSER_EMAIL;
 import static com.foodie.app.backend.AppContract.CPUser.CPUSER_FULL_NAME;
 import static com.foodie.app.backend.AppContract.CPUser.CPUSER_ID;
 
@@ -91,7 +92,7 @@ public class Converters {
         CPUser cpuser = new CPUser();
         cpuser.set_ID(contentValues.getAsInteger(CPUSER_ID));
         cpuser.setUserFullName(contentValues.getAsString(CPUSER_FULL_NAME));
-        cpuser.setUserEmail(contentValues.getAsString(CPUSER_FULL_NAME));
+        cpuser.setUserEmail(contentValues.getAsString(CPUSER_EMAIL));
         cpuser.setUserPwdHash(contentValues.getAsByteArray(AppContract.CPUser.CPUSER_PWD));
 
         return cpuser;

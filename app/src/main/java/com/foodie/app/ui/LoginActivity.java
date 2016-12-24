@@ -12,8 +12,7 @@ import android.widget.Toast;
 
 import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.foodie.app.R;
-import com.foodie.app.database.AsyncData;
-import com.foodie.app.entities.User;
+
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
@@ -27,6 +26,34 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        final TextView signUpTextView = (TextView) findViewById(R.id.signUpTextView);
+        signUpTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //TODO: Implement transition animation to register activity.
+                signUpTextView.setTextColor(Color.parseColor("#BDBDBD"));
+
+                try {
+
+                    Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                    startActivity(intent);
+                }catch (Exception ex)
+                {
+                    Toast.makeText(getApplicationContext(),ex.getMessage(),Toast.LENGTH_LONG).show();
+                }
+
+                signUpTextView.setTextColor(Color.parseColor("#FAFAFA"));
+
+
+            }
+        });
+
+
+
+
         final MaterialEditText emailEditText = (MaterialEditText) findViewById(R.id.emailEditText);
         final MaterialEditText pwdEditText = (MaterialEditText) findViewById(R.id.pwdEditText);
 
@@ -49,21 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        final TextView signUpTextView = (TextView) findViewById(R.id.signUpTextView);
-        signUpTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: Implement transition animation to register activity.
-                signUpTextView.setTextColor(Color.parseColor("#BDBDBD"));
 
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-
-                signUpTextView.setTextColor(Color.parseColor("#FAFAFA"));
-
-
-            }
-        });
 
     }
 
