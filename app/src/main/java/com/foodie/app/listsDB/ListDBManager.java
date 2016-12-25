@@ -2,7 +2,6 @@ package com.foodie.app.listsDB;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.foodie.app.DebugHelper.DebugHelper;
 import com.foodie.app.database.Converters;
@@ -11,13 +10,9 @@ import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.entities.User;
-import com.foodie.app.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import static com.foodie.app.entities.User.get_ID;
 
 /**
  * Created by Daniel on 12/13/2016.
@@ -51,8 +46,8 @@ public class ListDBManager implements IDBManager {
                     break;
 
                 for (User item : users) {
-                    if(item.getUserId()>max_id)
-                        max_id = item.getUserId();
+                    if(item.get_ID()>max_id)
+                        max_id = item.get_ID();
                 }
                break;
 
@@ -142,7 +137,7 @@ public class ListDBManager implements IDBManager {
         users.add(user);
         isUpdated = true;
         DebugHelper.Log("User id: "+userId+", inserted");
-        return get_ID();
+        return user.get_ID();
     }
 
     @Override
@@ -188,7 +183,7 @@ public class ListDBManager implements IDBManager {
     public boolean removeUser(long id) throws Exception {
         User userToRemove = null;
         for (User item : users)
-            if (get_ID() == id) {
+            if (item.get_ID() == id) {
                 userToRemove = item;
                 isUpdated = true;
                 break;

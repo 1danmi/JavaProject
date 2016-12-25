@@ -2,17 +2,12 @@ package com.foodie.app.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.os.AsyncTask;
-
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.foodie.app.DebugHelper.DebugHelper;
-import com.foodie.app.entities.CPUser;
-import com.foodie.app.entities.User;
-import com.foodie.app.ui.MainActivity;
 
 /**
  * Created by David on 15/12/2016.
