@@ -23,7 +23,7 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     private static final String TAG = "ActivitiesActivity";
     private static Business businessItem;
-    private static final String BUSINESS_DETAILS = "businessDetails";
+    //private static final String BUSINESS_DETAILS = "businessDetails";
     private static final String BUSINESS_ID = "businessId";
     private AppBarLayout appBarLayout;
     private ViewPager viewPager;
@@ -32,13 +32,18 @@ public class ActivitiesActivity extends AppCompatActivity {
     private TextView businessActivitiesHeader;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: starts");
-
+//        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setExitTransition(new Explode());
+//        }
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_activities);
+
 
         initializeViews();
 
@@ -90,8 +95,7 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     private void inflateData() {
         Intent intent = getIntent();
-        int businesdID = 0;
-        businesdID = (int) intent.getSerializableExtra(BUSINESS_ID);
+        int businesdID = (int) intent.getSerializableExtra(BUSINESS_ID);
         if (businesdID != 0) {
             for (Business business : BusinessActivity.businessList) {
                 if (business.get_ID() == businesdID) {
@@ -156,9 +160,20 @@ public class ActivitiesActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         BusinessViewPagerAdapter adapter = new BusinessViewPagerAdapter(getSupportFragmentManager());
 
+
+        BusinessDetailsFragment businessDetailsFragment = new BusinessDetailsFragment();
+        BusinessActivitiesFragment businessActivitiesFragment = new BusinessActivitiesFragment();
+        Bundle bundle = new Bundle();
+        if(businessItem!=null) {
+            bundle.putInt(BUSINESS_ID, businessItem.get_ID());
+        }else{
+            bundle.putInt(BUSINESS_ID, 0);
+        }
+        businessDetailsFragment.setArguments(bundle);
+        businessActivitiesFragment.setArguments(bundle);
         //TODO: create bundles.
-        adapter.addFragment(new BusinessDetailsFragment(), "Details");
-        adapter.addFragment(new BusinessActivitiesFragment(), "Activities");
+        adapter.addFragment(businessDetailsFragment , "Details");
+        adapter.addFragment(businessActivitiesFragment, "Activities");
 
 
         viewPager.setAdapter(adapter);

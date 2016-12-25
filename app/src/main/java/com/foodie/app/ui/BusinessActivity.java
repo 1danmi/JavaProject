@@ -1,8 +1,10 @@
 package com.foodie.app.ui;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -43,6 +45,10 @@ public class BusinessActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setExitTransition(new Explode());
+//        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business);
 
@@ -219,6 +225,7 @@ public class BusinessActivity extends AppCompatActivity
     }
 
 
+
     @Override
     public void onitemClick(View v, int position) {
         try {
@@ -226,7 +233,13 @@ public class BusinessActivity extends AppCompatActivity
 
             intent.putExtra(BUSINESS_ID, businessList.get(position).get_ID());
             intent.putExtra(KEY_MODE, "false");
-            startActivity(intent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            }
+            else{
+                startActivity(intent);
+            }
+
         }catch (Exception e){
             e.printStackTrace();
         }
