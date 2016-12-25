@@ -111,7 +111,8 @@ public class BusinessActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //Do nothingh to not back to login
+          //  super.onBackPressed();
         }
     }
 
@@ -245,5 +246,7 @@ public class BusinessActivity extends AppCompatActivity
         }
         //Snackbar.make(v,"Item at position " + position + " had been clicked", Snackbar.LENGTH_LONG).show();
     }
+
+
 
 }

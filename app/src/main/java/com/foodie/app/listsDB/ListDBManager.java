@@ -229,8 +229,8 @@ public class ListDBManager implements IDBManager {
                             break;
 
                         case AppContract.CPUser.CPUSER_PWD:
-                            if (!user.getUserPwdHash().equals(DBManagerFactory.getHashPws(args[i]))){
-                                DebugHelper.Log("ListDBManager getCPUser: password hash: " +user.getUserPwdHash().toString() + " != "+ DBManagerFactory.getHashPws(args[i]).toString());
+                            if (!user.getUserPwdHash().equals(args[i])){
+                                DebugHelper.Log("ListDBManager getCPUser: password hash: " +user.getUserPwdHash().toString() + " != "+ args[i]);
                                 insert = false;
                             }
                             break;

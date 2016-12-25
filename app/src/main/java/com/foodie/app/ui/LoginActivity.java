@@ -22,6 +22,7 @@ import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.DBquery;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
+import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
@@ -135,7 +136,8 @@ public class LoginActivity extends AppCompatActivity {
                                 case Success:
                                     snackbar = Snackbar.make(constraintLayout, "Success", Snackbar.LENGTH_LONG);
                                     snackbar.show();
-                                    //TODO animation when succeed
+                                    Intent intent = new Intent(LoginActivity.this, BusinessActivity.class);
+                                    startActivity(intent);
                                     break;
                                 case Failed:
                                     snackbar = Snackbar.make(constraintLayout, "Failed", Snackbar.LENGTH_LONG);
@@ -174,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
             user.setUserFullName("aa aa");
             user.setUserEmail("a@a.c");
             user.setUserPwd("12345678");
-            DebugHelper.Log("Login Test: setUserPwd = " + user.getUserPwdHash().toString() + " and getHashPws = " + DBManagerFactory.getHashPws("12345678").toString());
+
 
 
 
