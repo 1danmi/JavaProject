@@ -2,18 +2,22 @@ package com.foodie.app.listsDB;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
+import com.foodie.app.DebugHelper.DebugHelper;
 import com.foodie.app.database.Converters;
 import com.foodie.app.database.IDBManager;
 import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.entities.User;
+import com.foodie.app.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-
+import static com.foodie.app.entities.User.get_ID;
 
 /**
  * Created by Daniel on 12/13/2016.
@@ -47,8 +51,8 @@ public class ListDBManager implements IDBManager {
                     break;
 
                 for (User item : users) {
-                    if(item.get_ID()>max_id)
-                        max_id = item.get_ID();
+                    if(item.getUserId()>max_id)
+                        max_id = item.getUserId();
                 }
                break;
 
@@ -95,12 +99,10 @@ public class ListDBManager implements IDBManager {
 
         int cpuserId = getMaxID("cpuser");
 
-
-        for (CPUser cp : cpusers) {
-                cpuser.set_ID(++cpuserId);
-        }
+        cpuser.set_ID(++cpuserId);
 
         cpusers.add(cpuser);
+        DebugHelper.Log("CPUser: ID " +  cpuser.get_ID() + " added");
         isUpdated = true;
         return cpuser.get_ID();
     }
@@ -109,12 +111,8 @@ public class ListDBManager implements IDBManager {
     public int addBusiness(ContentValues values) throws Exception {
         Business business = Converters.ContentValuesToBusiness(values);
         int businessId = getMaxID("Business");
-        boolean isExist = false;
 
-        for (CPUser cp : cpusers) {
-            business.set_ID(++businessId);
-        }
-
+        business.set_ID(++businessId);
         businesses.add(business);
         isUpdated = true;
         return business.get_ID();
@@ -125,10 +123,8 @@ public class ListDBManager implements IDBManager {
         Activity activity = Converters.ContentValuesToActivity(values);
         int activityId = getMaxID("activity");
 
-        for (CPUser cp : cpusers) {
-                activity.set_ID(++activityId);
-        }
 
+        activity.set_ID(++activityId);
 
         activities.add(activity);
         isUpdated = true;
@@ -140,12 +136,13 @@ public class ListDBManager implements IDBManager {
         User user = Converters.ContentValuesToUser(values);
         int userId = getMaxID("user");
 
-        for (CPUser cp : cpusers)
-         user.set_ID(++userId);
+
+        user.set_ID(++userId);
 
         users.add(user);
         isUpdated = true;
-        return user.get_ID();
+        DebugHelper.Log("User id: "+userId+", inserted");
+        return get_ID();
     }
 
     @Override
@@ -191,7 +188,7 @@ public class ListDBManager implements IDBManager {
     public boolean removeUser(long id) throws Exception {
         User userToRemove = null;
         for (User item : users)
-            if (item.get_ID() == id) {
+            if (get_ID() == id) {
                 userToRemove = item;
                 isUpdated = true;
                 break;

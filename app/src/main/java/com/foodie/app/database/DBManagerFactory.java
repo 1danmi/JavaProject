@@ -17,8 +17,13 @@ public class DBManagerFactory {
     }
 
     public static IDBManager getManager() {
-        if (DBtype.equals("list") && manager == null)
+        if (DBtype.equals("List") && manager == null)
             manager = new ListDBManager();
         return manager;
+    }
+
+    public static boolean login(String userName, String password)
+    {
+        return false;
     }
 }

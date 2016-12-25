@@ -4,7 +4,6 @@ package com.foodie.app.entities;
 import android.content.ContentValues;
 import android.net.Uri;
 
-import java.io.Serializable;
 import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,28 +12,42 @@ import java.util.regex.Pattern;
  * Created by Daniel on 12/12/2016.
  */
 
-public class CPUser implements Serializable {
+public class CPUser {
 
-    private static final long serialVersionUID = 3L;
-
-    private int _ID;
+    private int _ID = -1;
 
     private String userFullName;
 
     private String userEmail;
 
+
     private byte[] userPwdHash;
 
-    public CPUser() {
+    public byte[] getUserPwdHash() {
+        return userPwdHash;
     }
 
-    public int get_ID() {
+    public int getUserId() {
         return _ID;
     }
 
-    public void set_ID(int _ID) {
-        this._ID = _ID;
+    public boolean checkUserPwd(String inputPassword) throws Exception {
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(inputPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+        byte[] digest = md.digest();
+        return digest == this.userPwdHash;
     }
+
+    public void setUserPwd(String userPassword) throws Exception {
+        if (userPassword.length() < 6)
+            throw new InputException("Password must contains at least 6 characters", FIELD.PWD);
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+        md.update(userPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed.
+        this.userPwdHash = md.digest();
+    }
+
 
     public String getUserFullName() {
         return userFullName;
@@ -48,7 +61,7 @@ public class CPUser implements Serializable {
         if (matcher.find())
             this.userFullName = userFullName;
         else
-            throw new Exception("Name must contains only letters and must consists of at least 2 words (Private and Last name)");
+            throw new InputException("Name must contains only letters and must consists of at least 2 words (Private and Last name)", FIELD.NAME);
     }
 
     public String getUserEmail() {
@@ -63,46 +76,35 @@ public class CPUser implements Serializable {
         if (matcher.find())
             this.userEmail = userEmail;
         else
-            throw new Exception("Double check your email address, I think you got a mistake there");
+            throw new InputException("Double check your email address, I think you got a mistake there", FIELD.EMAIL);
     }
 
-    public byte[] getUserPwdHash() {
-        return userPwdHash;
+    public int get_ID() {
+        return _ID;
+    }
+
+    public void set_ID(int _ID) {
+        this._ID = _ID;
     }
 
     public void setUserPwdHash(byte[] userPwdHash) {
         this.userPwdHash = userPwdHash;
     }
 
-    public void setUserPwd(String userPassword) throws Exception {
-        if (userPassword.length() < 6)
-            throw new Exception("Password must contains at least 6 characters");
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-
-        md.update(userPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed.
-        this.userPwdHash = md.digest();
-    }
-
-    public boolean checkUserPwd(String inputPassword) throws Exception {
-
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(inputPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed
-        byte[] digest = md.digest();
-        return digest == this.userPwdHash;
-    }
-
-    public ContentValues toContentValues(int id, String userFullName, String userEmail, String userPwdHash) {
+    public ContentValues toContentValues()
+    {
         final ContentValues contentValues = new ContentValues();
 
-        contentValues.put("_ID", this.getUserFullName());
-        contentValues.put("userFullName", this.getUserEmail());
-        contentValues.put("userFullName", this.getUserPwdHash());
+        contentValues.put("_ID",this.getUserId());
+        contentValues.put("userFullName",this.getUserFullName());
+        contentValues.put("userEmail",this.getUserEmail());
+        contentValues.put("userPwdHash",this.getUserPwdHash());
 
-        return contentValues;
+        return  contentValues;
     }
 
-    public static Uri getCPUser_URI() {
+    public static Uri getCPUser_URI()
+    {
         return Uri.parse("content://com.foodie.app/cpuser");
     }
-
 }

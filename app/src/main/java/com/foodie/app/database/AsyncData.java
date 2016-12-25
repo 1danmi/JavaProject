@@ -2,8 +2,17 @@ package com.foodie.app.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
+
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+
+import com.foodie.app.DebugHelper.DebugHelper;
+import com.foodie.app.entities.CPUser;
+import com.foodie.app.entities.User;
+import com.foodie.app.ui.MainActivity;
 
 /**
  * Created by David on 15/12/2016.
@@ -11,7 +20,7 @@ import android.os.AsyncTask;
 
 
 //TODO query option
-public class AsyncData<T> extends AsyncTask<ContentValues, Integer, DataStatus> {
+public class AsyncData<T> extends AsyncTask<ContentValues, Integer, Void> {
 
 
     protected Uri uri = null;
@@ -20,35 +29,103 @@ public class AsyncData<T> extends AsyncTask<ContentValues, Integer, DataStatus> 
     protected DataManagerType datamanagerType = DataManagerType.Off;
 
 
-    public AsyncData(Context context, Uri uri) {
+    public AsyncData(Context context,Uri uri)
+    {
         this.context = context;
         this.uri = uri;
     }
 
 
     @Override
-    protected DataStatus doInBackground(ContentValues... contentValues) {
+    protected Void doInBackground(ContentValues... contentValues) {
 
-        if (contentValues.length == 0 || context == null)
-            return DataStatus.InvalidArgumment;
-        return (context.getContentResolver().insert(uri, contentValues[0]) != null) ? DataStatus.Success : DataStatus.InvalidArgumment;
-    }
+        DebugHelper.Log("doInBackground");
+        if(contentValues.length == 0 || context == null) {
 
-    @Override
-    protected void onPostExecute(DataStatus complete) {
-        super.onPostExecute(complete);
+            callback.DBstatus(DataStatus.InvalidArgumment,null);
+            DebugHelper.Log("contentValues empty");
 
-        if (this.callback != null) {
-            callback.DBstatus(complete);
         }
 
+        switch (datamanagerType) {
+            case Off:
+                break;
+            case Insert:
+                Insert(contentValues);
+                break;
+            case Query:
+                break;
+            case Delete:
+                break;
+            case login:
+                break;
+        }
+
+        DebugHelper.Log("Finish");
+
+        return null;
     }
 
-    public void setCallBack(CallBack<T> callBack) {
+    private void Insert(ContentValues... contentValues)
+    {
+        for (ContentValues value : contentValues ) {
+
+            if(callback != null) {
+                DebugHelper.Log("value");
+
+                if(context.getContentResolver().insert(uri,value) != null) {
+                    final Handler UIHandler = new Handler(Looper.getMainLooper());
+                    UIHandler .post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.DBstatus(DataStatus.Success,null);
+                        }
+                    });
+                }
+                else {
+
+                    callback.DBstatus(DataStatus.InvalidArgumment,null);
+                }
+            }else
+                DebugHelper.Log("Callback is null");
+        }
+    }
+
+    private void login(ContentValues... contentValues)
+    {
+        /*
+
+        if(callback != null) {
+            DebugHelper.Log("value");
+
+            if(context.getContentResolver().query(uri,contentValues[0]) != null) {
+                final Handler UIHandler = new Handler(Looper.getMainLooper());
+                UIHandler .post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.DBstatus(DataStatus.Success,null);
+                    }
+                });
+            }
+            else {
+
+                callback.DBstatus(DataStatus.InvalidArgumment,null);
+            }
+        }else
+            DebugHelper.Log("Callback is null");
+            */
+
+
+    }
+
+
+    public void setCallBack(CallBack<T> callBack)
+    {
         this.callback = callBack;
     }
 
-    public void setDatamanagerType(DataManagerType type) {
+    public void setDatamanagerType(DataManagerType type)
+    {
         datamanagerType = type;
     }
 
