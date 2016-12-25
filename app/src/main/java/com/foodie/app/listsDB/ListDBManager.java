@@ -5,9 +5,7 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.foodie.app.DebugHelper.DebugHelper;
-import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.Converters;
-import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.IDBManager;
 import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
@@ -19,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static android.R.id.list;
-
+import static com.foodie.app.entities.User.get_ID;
 
 /**
  * Created by Daniel on 12/13/2016.
@@ -310,7 +307,7 @@ public class ListDBManager implements IDBManager {
             if (a.get_ID() == id) {
                 a.set_ID(activity.get_ID());
                 a.setActivityName(activity.getActivityName());
-                a.setActivityDate(activity.getActivityDate());
+                //a.setActivityDate(activity.getActivityDate());
                 a.setActivityDescription(activity.getActivityDescription());
                 a.setActivityCost(activity.getActivityCost());
                 a.setActivityRating(activity.getActivityRating());

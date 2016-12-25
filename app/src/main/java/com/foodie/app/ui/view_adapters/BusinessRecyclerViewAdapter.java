@@ -3,7 +3,6 @@ package com.foodie.app.ui.view_adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,14 +55,6 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         holder.title.setText(businessItem.getBusinessName());
         holder.address.setText(businessItem.getBusinessAddress());
         //TODO: Add query for number of activities of the business
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, businessItem.getBusinessName(), Snackbar.LENGTH_LONG);
-            }
-        });
-
 
     }
 

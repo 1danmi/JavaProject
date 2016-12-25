@@ -11,7 +11,6 @@ import com.foodie.app.entities.CPUser;
 import com.foodie.app.entities.User;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.foodie.app.backend.AppContract.CPUser.CPUSER_EMAIL;
@@ -94,7 +93,7 @@ public class Converters {
         cpuser.set_ID(contentValues.getAsInteger(CPUSER_ID));
         cpuser.setUserFullName(contentValues.getAsString(CPUSER_FULL_NAME));
         cpuser.setUserEmail(contentValues.getAsString(CPUSER_EMAIL));
-        cpuser.setUserPwdHash(contentValues.getAsString(AppContract.CPUser.CPUSER_PWD));
+        cpuser.setUserPwdHash(contentValues.getAsByteArray(AppContract.CPUser.CPUSER_PWD));
 
         return cpuser;
     }
@@ -148,7 +147,6 @@ public class Converters {
 
         return activity;
     }
-
 
 
     public static Cursor CPUserListToCursor(List<CPUser> cpusers) {
@@ -242,100 +240,4 @@ public class Converters {
     }
 
 
-
-
-
-
-    public static List<CPUser> cursorToCPUserList(Cursor cursor) {
-
-
-        List<CPUser> result = new ArrayList<>();
-
-
-        while(cursor.moveToNext()) {
-            result.add(new CPUser(cursor.getInt(cursor.getColumnIndex(AppContract.CPUser.CPUSER_ID)),
-                    cursor.getString(cursor.getColumnIndex( AppContract.CPUser.CPUSER_FULL_NAME)),
-                    cursor.getString(cursor.getColumnIndex( AppContract.CPUser.CPUSER_EMAIL)),
-                    cursor.getString(cursor.getColumnIndex( AppContract.CPUser.CPUSER_PWD))
-                    ));
-        }
-
-        cursor.close();
-
-        return  result;
-    }
-
-/*
-    public static Cursor cursorToUserList(Cursor users) {
-        String[] columns = new String[]
-                {
-                        AppContract.User.USER_ID,
-                        AppContract.User.USER_FULL_NAME,
-                        AppContract.User.USER_EMAIL,
-                        AppContract.User.USER_PWD,
-                        AppContract.User.USER_PHONE_NUMBER,
-                        AppContract.User.USER_ADDRESS,
-                        AppContract.User.USER_IMAGE
-                };
-
-        MatrixCursor matrixCursor = new MatrixCursor(columns);
-
-        for (User u : users) {
-            matrixCursor.addRow(new Object[]{u.get_ID(), u.getUserFullName(), u.getUserEmail(), u.getUserPwdHash(),
-                    u.getUserPhoneNumber(), u.getUserAddress(), u.getUserImage()});
-        }
-
-        return matrixCursor;
-    }
-
-
-    public static Cursor cursorToBusinessList(Cursor businesses) {
-        String[] columns = new String[]
-                {
-                        AppContract.Business.BUSINESS_ID,
-                        AppContract.Business.BUSINESS_NAME,
-                        AppContract.Business.BUSINESS_EMAIL,
-                        AppContract.Business.BUSINESS_WEBSITE,
-                        AppContract.Business.BUSINESS_PHONE_NUMBER,
-                        AppContract.Business.BUSINESS_ADDRESS,
-                        AppContract.Business.BUSINESS_CPUSER_ID,
-                        AppContract.Business.BUSINESS_LOGO
-                };
-
-        MatrixCursor matrixCursor = new MatrixCursor(columns);
-
-        for (Business b : businesses) {
-            matrixCursor.addRow(new Object[]{b.get_ID(), b.getBusinessName(), b.getBusinessEmail(), b.getBusinessWebsite(),
-                    b.getBusinessPhoneNo(), b.getBusinessAddress(), b.getCpuserID(), b.getBusinessLogo()});
-        }
-
-        return matrixCursor;
-    }
-
-
-    public static Cursor cursorToActivitiesList(Cursor activities) {
-        String[] columns = new String[]
-                {
-                        AppContract.Activity.ACTIVITY_ID,
-                        AppContract.Activity.ACTIVITY_NAME,
-                        AppContract.Activity.ACTIVITY_DATE,
-                        AppContract.Activity.ACTIVITY_DESCRIPTION,
-                        AppContract.Activity.ACTIVITY_COST,
-                        AppContract.Activity.ACTIVITY_RATING,
-                        AppContract.Activity.ACTIVITY_BUSINESS_ID,
-                        AppContract.Activity.ACTIVITY_Image,
-                        AppContract.Activity.ACTIVITY_FEATURE
-                };
-
-        MatrixCursor matrixCursor = new MatrixCursor(columns);
-
-        for (Activity a : activities) {
-            matrixCursor.addRow(new Object[]{a.get_ID(), a.getActivityName(), a.getActivityDate(), a.getActivityDescription(),
-                    a.getActivityCost(), a.getActivityRating(), a.getBusinessId(), a.getActivityImages(), a.getFeature()});
-        }
-
-        return matrixCursor;
-    }
-
-*/
 }

@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:layout_width="match_parent" android:layout_height="100dp"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="96dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -29,7 +30,8 @@
                 android:layout_marginBottom="4dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
-                android:layout_width="90dp" />
+                android:scaleType="fitXY"
+                android:layout_width="80dp" />
 
             <android.support.constraint.ConstraintLayout
                 android:orientation="vertical"
@@ -51,7 +53,7 @@
 
                 <TextView
                     android:text="Activity name"
-                    android:textColor="#000000"
+                    android:textColor="@color/primary_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/activity_title_text_view"
@@ -68,7 +70,7 @@
                     android:id="@+id/activity_description_text_view"
                     android:textSize="13sp"
                     android:lines="2"
-                    android:textColor="@color/grey_800"
+                    android:textColor="@color/secondary_text"
                     android:singleLine="false"
                     app:layout_constraintRight_toRightOf="@+id/activity_title_text_view"
                     app:layout_constraintTop_toBottomOf="@+id/activity_title_text_view"
@@ -82,7 +84,7 @@
                     android:id="@+id/rating_text_view"
                     app:layout_constraintTop_toBottomOf="@+id/activity_description_text_view"
                     android:textSize="12sp"
-                    android:textColor="@color/grey_800"
+                    android:textColor="@color/secondary_text"
                     app:layout_constraintBottom_toBottomOf="@+id/activity_rating_bar"
                     android:layout_marginStart="8dp"
                     app:layout_constraintLeft_toRightOf="@+id/activity_rating_bar"
@@ -109,7 +111,6 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_action_navigation_more_vert"
                 android:id="@+id/activity_menu_button"
-                android:onClick="showPopup"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:hapticFeedbackEnabled="true" />

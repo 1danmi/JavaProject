@@ -8,13 +8,13 @@ import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.lang.annotation.ElementType.FIELD;
-
 /**
  * Created by Daniel on 12/12/2016.
  */
 
-public class CPUser {
+public class CPUser implements Serializable {
+
+    private static final long serialVersionUID = 3L;
 
     private int _ID = -1;
 
@@ -23,60 +23,31 @@ public class CPUser {
     private String userEmail;
 
 
-    private String userPwdHash;
+    private byte[] userPwdHash;
 
-
-    public CPUser()
-    {
-
-    }
-
-
-    public CPUser(int _ID,String userFullName,String userEmail,String userPwdHash )
-    {
-        this._ID = _ID;
-        this.userFullName = userFullName;
-        this.userEmail = userEmail;
-        try {
-            setUserPwd(userPwdHash);
-        } catch (Exception e) {
-            userPwdHash = null;
-        }
-    }
-
-
-    public CPUser(String userFullName,String userEmail,String userPwdHash )
-    {
-        this._ID = _ID;
-        this.userFullName = userFullName;
-        this.userEmail = userEmail;
-        try {
-            setUserPwd(userPwdHash);
-        } catch (Exception e) {
-            userPwdHash = null;
-        }
-    }
-
-
-    public String getUserPwdHash() {
+    public byte[] getUserPwdHash() {
         return userPwdHash;
     }
 
-    public int getUserId() {
+    public int get_ID() {
         return _ID;
     }
 
-    public void setUserPwd(String userPassword) throws Exception {
-        // Create MD5 Hash
-        MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-        digest.update(userPassword.getBytes());
-        byte messageDigest[] = digest.digest();
+    public boolean checkUserPwd(String inputPassword) throws Exception {
 
-        // Create Hex String
-        StringBuffer hexString = new StringBuffer();
-        for (int i=0; i<messageDigest.length; i++)
-            hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-        this.userPwdHash = hexString.toString();
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(inputPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+        byte[] digest = md.digest();
+        return digest == this.userPwdHash;
+    }
+
+    public void setUserPwd(String userPassword) throws Exception {
+        if (userPassword.length() < 6)
+            throw new InputException("Password must contains at least 6 characters", FIELD.PWD);
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+        md.update(userPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed.
+        this.userPwdHash = md.digest();
     }
 
 
@@ -110,12 +81,8 @@ public class CPUser {
             throw new Exception("Double check your email address, I think you got a mistake there");
     }
 
-    public int get_ID() {
-        return _ID;
-    }
-
-    public void set_ID(int _ID) {
-        this._ID = _ID;
+    public byte[] getUserPwdHash() {
+        return userPwdHash;
     }
 
     public void setUserPwdHash(String userPwdHash) {

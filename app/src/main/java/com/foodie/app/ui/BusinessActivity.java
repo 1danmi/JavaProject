@@ -1,23 +1,22 @@
 package com.foodie.app.ui;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -37,11 +36,19 @@ public class BusinessActivity extends AppCompatActivity
     private static final String TAG = "BusinessActivity";
     BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
     private static final String BUSINESS_DETAILS = "businessDetails";
-    private List<Business> businessList;
+    private static final String BUSINESS_ID = "businessId";
+    private static final String KEY_MODE = "mEditKey";
+    public static List<Business> businessList;
     private RecyclerView recyclerView;
+    private FloatingActionButton addBusinessFAB;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setExitTransition(new Explode());
+//        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business);
 
@@ -75,12 +82,13 @@ public class BusinessActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         this.setTitle("");
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        addBusinessFAB = (FloatingActionButton) findViewById(R.id.add_business_fab);
+        addBusinessFAB.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ActivitiesActivity.class);
+                intent.putExtra(BUSINESS_ID, 0);
+                startActivity(intent);
             }
         });
         return toolbar;
@@ -154,14 +162,6 @@ public class BusinessActivity extends AppCompatActivity
         return true;
     }
 
-
-    public void showPopup(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
-        MenuInflater inflater = popup.getMenuInflater();
-        //inflater.inflate(R.menu.actions, popup.getMenu());
-        popup.show();
-    }
-
     public List<Business> loadDemoData() {
 
         businessList = new ArrayList<>();
@@ -173,9 +173,9 @@ public class BusinessActivity extends AppCompatActivity
             String name1 = "Burgeranch ";
 
 
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.burgeranch_logo);
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.burgeranch);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
+            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo1 = stream.toByteArray();
 
@@ -186,7 +186,7 @@ public class BusinessActivity extends AppCompatActivity
 
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.mcdonalds_logo);
             stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
+            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo2 = stream.toByteArray();
 
@@ -197,7 +197,7 @@ public class BusinessActivity extends AppCompatActivity
 
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.duda_lapizza_logo);
             stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
+            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo3 = stream.toByteArray();
 
@@ -209,7 +209,7 @@ public class BusinessActivity extends AppCompatActivity
 
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pizza_hut_logo);
             stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 125, 100, true);
+            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo4 = stream.toByteArray();
 
@@ -225,13 +225,25 @@ public class BusinessActivity extends AppCompatActivity
     }
 
 
+
     @Override
     public void onitemClick(View v, int position) {
+        try {
+            Intent intent = new Intent(this, ActivitiesActivity.class);
 
-        Intent intent = new Intent(this, ActivitiesActivity.class);
-        intent.putExtra(BUSINESS_DETAILS, businessList.get(position));
-        startActivity(intent);
-         //Snackbar.make(v,"Item at position " + position + " had been clicked", Snackbar.LENGTH_LONG).show();
+            intent.putExtra(BUSINESS_ID, businessList.get(position).get_ID());
+            intent.putExtra(KEY_MODE, "false");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            }
+            else{
+                startActivity(intent);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //Snackbar.make(v,"Item at position " + position + " had been clicked", Snackbar.LENGTH_LONG).show();
     }
 
 }

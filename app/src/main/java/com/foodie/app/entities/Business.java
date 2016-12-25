@@ -13,6 +13,9 @@ public class Business implements Serializable {
 
     private static final long serialVersionUID = 2L;
 
+    //Debug:
+    private static int businessID=0;
+
     private int _ID = 0;
 
     private String businessName;
@@ -32,6 +35,8 @@ public class Business implements Serializable {
     public Business(){}
 
     public Business(String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception{
+        set_ID(businessID+1);
+        businessID++;
         setBusinessName(businessName);
         setBusinessAddress(businessAddress);
         setBusinessPhoneNo(businessPhoneNo);

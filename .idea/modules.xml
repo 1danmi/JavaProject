@@ -3,9 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JavaProject.iml" filepath="$PROJECT_DIR$/JavaProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JavaProject.iml" filepath="$PROJECT_DIR$/JavaProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/libs/libs.iml" filepath="$PROJECT_DIR$/app/libs/libs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/libs/libs.iml" filepath="$PROJECT_DIR$/app/libs/libs.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/libs/loadingButton/loadingButton.iml" filepath="$PROJECT_DIR$/app/libs/loadingButton/loadingButton.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/libs/loadingButton/loadingButton.iml" filepath="$PROJECT_DIR$/app/libs/loadingButton/loadingButton.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/libs/materialEditText/materialEditText.iml" filepath="$PROJECT_DIR$/app/libs/materialEditText/materialEditText.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/libs/materialEditText/materialEditText.iml" filepath="$PROJECT_DIR$/app/libs/materialEditText/materialEditText.iml" />
     </modules>
   </component>

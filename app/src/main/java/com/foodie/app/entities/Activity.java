@@ -2,7 +2,6 @@ package com.foodie.app.entities;
 
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,7 +18,7 @@ public class Activity implements Serializable {
 
     private String activityName;
 
-    private Calendar activityDate;
+//    private Calendar activityDate;
 
     private String activityDescription;
 
@@ -36,12 +35,14 @@ public class Activity implements Serializable {
     public Activity() {
     }
 
-    public Activity(String name, String activityDescription, double activityCost, double activityRating) throws Exception {
+    public Activity(String activityName, String activityDescription, double activityCost, double activityRating, int businessId, byte[] activityImages, String feature) throws Exception {
         setActivityName(activityName);
-        activityDate = Calendar.getInstance();
         setActivityDescription(activityDescription);
         setActivityCost(activityCost);
         setActivityRating(activityRating);
+        setBusinessId(businessId);
+        setActivityImages(activityImages);
+        setFeature(feature);
     }
 
     public int get_ID() {
@@ -67,13 +68,13 @@ public class Activity implements Serializable {
             throw new Exception("Activity name must contains at least 2 characters!");
     }
 
-    public Calendar getActivityDate() {
-        return activityDate;
-    }
-
-    public void setActivityDate(Calendar activityDate) {
-        this.activityDate = activityDate;
-    }
+//    public Calendar getActivityDate() {
+//        return activityDate;
+//    }
+//
+//    public void setActivityDate(Calendar activityDate) {
+//        this.activityDate = activityDate;
+//    }
 
     public String getActivityDescription() {
         return activityDescription;
