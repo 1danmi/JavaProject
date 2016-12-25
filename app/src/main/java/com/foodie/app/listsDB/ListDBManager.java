@@ -5,7 +5,9 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.foodie.app.DebugHelper.DebugHelper;
+import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.Converters;
+import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.IDBManager;
 import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
@@ -17,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static com.foodie.app.entities.User.get_ID;
 
 /**
  * Created by Daniel on 12/13/2016.

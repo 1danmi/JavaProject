@@ -54,7 +54,7 @@ public class BusinessDetailsFragment extends Fragment {
 
         initializeViews(rootView);
 
-        mEditMode = false;
+        mEditMode = true;
 
         setFABs(rootView);
         int businessID = 0;
