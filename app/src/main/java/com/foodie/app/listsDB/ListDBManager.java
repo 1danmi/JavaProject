@@ -5,7 +5,9 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.foodie.app.DebugHelper.DebugHelper;
+import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.Converters;
+import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.IDBManager;
 import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
@@ -17,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static com.foodie.app.entities.User.get_ID;
+import static android.R.id.list;
+
 
 /**
  * Created by Daniel on 12/13/2016.
@@ -51,8 +54,8 @@ public class ListDBManager implements IDBManager {
                     break;
 
                 for (User item : users) {
-                    if(item.getUserId()>max_id)
-                        max_id = item.getUserId();
+                    if(item.get_ID()>max_id)
+                        max_id = item.get_ID();
                 }
                break;
 
@@ -142,7 +145,7 @@ public class ListDBManager implements IDBManager {
         users.add(user);
         isUpdated = true;
         DebugHelper.Log("User id: "+userId+", inserted");
-        return get_ID();
+        return user.get_ID();
     }
 
     @Override
@@ -188,7 +191,7 @@ public class ListDBManager implements IDBManager {
     public boolean removeUser(long id) throws Exception {
         User userToRemove = null;
         for (User item : users)
-            if (get_ID() == id) {
+            if (item.get_ID() == id) {
                 userToRemove = item;
                 isUpdated = true;
                 break;
@@ -198,22 +201,68 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public Cursor getCPUser() {
-        return Converters.CPUserListToCursor(cpusers);
+    public Cursor getCPUser(String[] args, String[] columnsArgs) {
+
+        List<CPUser> result = new ArrayList<>();
+        boolean insert = true;
+        if(columnsArgs != null) {
+            for (CPUser user : cpusers) {
+                for (int i = 0; i < columnsArgs.length; i++) {
+                    switch (columnsArgs[i]) {
+                        case AppContract.CPUser.CPUSER_ID:
+                            if (user.get_ID() != Integer.parseInt(args[i])) {
+                                DebugHelper.Log("ListDBManager getCPUser: CPUser id "+user.get_ID()+" != "+args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.CPUser.CPUSER_FULL_NAME:
+                            if (!user.getUserFullName().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getCPUser: CPUser name "+user.getUserFullName()+" != "+args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.CPUser.CPUSER_EMAIL:
+                            if (!user.getUserEmail().equals(args[i])){
+                                DebugHelper.Log("ListDBManager getCPUser: CPUser email "+user.getUserEmail()+" != "+args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.CPUser.CPUSER_PWD:
+                            if (!user.getUserPwdHash().equals(DBManagerFactory.getHashPws(args[i]))){
+                                DebugHelper.Log("ListDBManager getCPUser: password hash: " +user.getUserPwdHash().toString() + " != "+ DBManagerFactory.getHashPws(args[i]).toString());
+                                insert = false;
+                            }
+                            break;
+                    }
+                    if (!insert)
+                        break;
+                }
+                DebugHelper.Log("ListDBManager getCPUser: insert CPUser "+user.get_ID()+" = "+insert);
+                if (insert)
+                    result.add(user);
+                else
+                    insert = true;
+            }
+            return  Converters.CPUserListToCursor(result);
+        }else
+            return Converters.CPUserListToCursor(cpusers);
     }
 
     @Override
-    public Cursor getBusiness() {
+    public Cursor getBusiness(String[] args,String[] columnsArgs) {
         return Converters.BusinessListToCursor(businesses);
     }
 
     @Override
-    public Cursor getActivity() {
+    public Cursor getActivity(String[] args,String[] columnsArgs) {
         return Converters.ActivitiesListToCursor(activities);
     }
 
     @Override
-    public Cursor getUser() {
+    public Cursor getUser(String[] args,String[] columnsArgs) {
         return Converters.UserListToCursor(users);
     }
 

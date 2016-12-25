@@ -113,25 +113,38 @@ public class MyContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        Log.d(TAG, "insert " + uri.toString());
+
+
+
+        DebugHelper.Log("My content povider operation: query");
+
+        if(projection != null)
+            for(int i=0;i<projection.length;i++)
+            {
+                DebugHelper.Log("My content povider operation query: projection = " + projection[i] + " and selectionArgs =  " + selectionArgs[i]);
+            }
+        else
+            DebugHelper.Log("My content povider operation query: selectionArgs is null");
+
+
         String listName = uri.getLastPathSegment();
         long id = -1;
         try {
             switch (listName) {
                 case "user":
-                   return  manager.getUser();
+                   return  manager.getUser(selectionArgs,projection);
 
 
                 case "Business":
-                    return  manager.getBusiness();
+                    return  manager.getBusiness(selectionArgs,projection);
 
 
                 case "activity":
-                    return  manager.getActivity();
+                    return  manager.getActivity(selectionArgs,projection);
 
 
                 case "cpuser":
-                    return  manager.getCPUser();
+                    return  manager.getCPUser(selectionArgs,projection);
 
             }
         }catch (Exception ex)

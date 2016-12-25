@@ -25,13 +25,13 @@ public interface IDBManager {
 
     boolean removeUser(long id) throws Exception;
 
-    Cursor getCPUser();
+    Cursor getCPUser(String[] args,String[] columnsArgs);
 
-    Cursor getBusiness();
+    Cursor getBusiness(String[] args,String[] columnsArgs);
 
-    Cursor getActivity();
+    Cursor getActivity(String[] args,String[] columnsArgs);
 
-    Cursor getUser();
+    Cursor getUser(String[] args,String[] columnsArgs);
 
 
     boolean updateCPUser(int id, ContentValues values) throws Exception;

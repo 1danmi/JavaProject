@@ -8,6 +8,8 @@ import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.annotation.ElementType.FIELD;
+
 /**
  * Created by Daniel on 12/12/2016.
  */
@@ -21,9 +23,42 @@ public class CPUser {
     private String userEmail;
 
 
-    private byte[] userPwdHash;
+    private String userPwdHash;
 
-    public byte[] getUserPwdHash() {
+
+    public CPUser()
+    {
+
+    }
+
+
+    public CPUser(int _ID,String userFullName,String userEmail,String userPwdHash )
+    {
+        this._ID = _ID;
+        this.userFullName = userFullName;
+        this.userEmail = userEmail;
+        try {
+            setUserPwd(userPwdHash);
+        } catch (Exception e) {
+            userPwdHash = null;
+        }
+    }
+
+
+    public CPUser(String userFullName,String userEmail,String userPwdHash )
+    {
+        this._ID = _ID;
+        this.userFullName = userFullName;
+        this.userEmail = userEmail;
+        try {
+            setUserPwd(userPwdHash);
+        } catch (Exception e) {
+            userPwdHash = null;
+        }
+    }
+
+
+    public String getUserPwdHash() {
         return userPwdHash;
     }
 
@@ -31,21 +66,17 @@ public class CPUser {
         return _ID;
     }
 
-    public boolean checkUserPwd(String inputPassword) throws Exception {
-
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(inputPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed
-        byte[] digest = md.digest();
-        return digest == this.userPwdHash;
-    }
-
     public void setUserPwd(String userPassword) throws Exception {
-        if (userPassword.length() < 6)
-            throw new InputException("Password must contains at least 6 characters", FIELD.PWD);
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        // Create MD5 Hash
+        MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+        digest.update(userPassword.getBytes());
+        byte messageDigest[] = digest.digest();
 
-        md.update(userPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed.
-        this.userPwdHash = md.digest();
+        // Create Hex String
+        StringBuffer hexString = new StringBuffer();
+        for (int i=0; i<messageDigest.length; i++)
+            hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+        this.userPwdHash = hexString.toString();
     }
 
 
@@ -61,7 +92,7 @@ public class CPUser {
         if (matcher.find())
             this.userFullName = userFullName;
         else
-            throw new InputException("Name must contains only letters and must consists of at least 2 words (Private and Last name)", FIELD.NAME);
+            throw new Exception("Name must contains only letters and must consists of at least 2 words (Private and Last name)");
     }
 
     public String getUserEmail() {
@@ -76,7 +107,7 @@ public class CPUser {
         if (matcher.find())
             this.userEmail = userEmail;
         else
-            throw new InputException("Double check your email address, I think you got a mistake there", FIELD.EMAIL);
+            throw new Exception("Double check your email address, I think you got a mistake there");
     }
 
     public int get_ID() {
@@ -87,7 +118,7 @@ public class CPUser {
         this._ID = _ID;
     }
 
-    public void setUserPwdHash(byte[] userPwdHash) {
+    public void setUserPwdHash(String userPwdHash) {
         this.userPwdHash = userPwdHash;
     }
 

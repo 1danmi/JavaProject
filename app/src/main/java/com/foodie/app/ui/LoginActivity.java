@@ -5,14 +5,24 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dx.dxloadingbutton.lib.LoadingButton;
+import com.foodie.app.DebugHelper.DebugHelper;
 import com.foodie.app.R;
 
+import com.foodie.app.database.AsyncData;
+import com.foodie.app.database.CallBack;
+import com.foodie.app.database.DBManagerFactory;
+import com.foodie.app.database.DBquery;
+import com.foodie.app.database.DataManagerType;
+import com.foodie.app.database.DataStatus;
+import com.foodie.app.entities.CPUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
@@ -22,11 +32,16 @@ public class LoginActivity extends AppCompatActivity {
     public static final String password = "PASSWORD_KEY";
     public static final String mypreference = "mypref";
 
+    ConstraintLayout constraintLayout;
+    Snackbar snackbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        constraintLayout = (ConstraintLayout) findViewById(R.id.activity_login); // By David
+        test(); //By David
 
         final TextView signUpTextView = (TextView) findViewById(R.id.signUpTextView);
         signUpTextView.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +119,38 @@ public class LoginActivity extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), getString(R.string.not_yet_implemented), Toast.LENGTH_SHORT).show();
 
+                    /***************************David*****************************/
+
+                    //Create an AsyncData object and set the constructor
+                    AsyncData<CPUser> data = new AsyncData<>(getApplicationContext(), CPUser.getCPUser_URI());
+                    // Set the task to insert
+                    data.setDatamanagerType(DataManagerType.login);
+                    // Set the function to get status
+                    data.setCallBack(new CallBack<CPUser>() {
+                        @Override
+                        public void DBstatus(DataStatus status, CPUser... data) {
+                            DebugHelper.Log("CallBack with status: " + status);
+
+                            switch (status) {
+                                case Success:
+                                    snackbar = Snackbar.make(constraintLayout, "Success", Snackbar.LENGTH_LONG);
+                                    snackbar.show();
+                                    //TODO animation when succeed
+                                    break;
+                                case Failed:
+                                    snackbar = Snackbar.make(constraintLayout, "Failed", Snackbar.LENGTH_LONG);
+                                    snackbar.show();
+                                    signIn.loadingFailed();
+                                default:
+                                    DebugHelper.Log("Default switch in callBack");
+                                    signIn.loadingFailed();
+                                    break;
+                            }
+                        }
+                    });
+                    // Execute the AsyncTask
+                    data.execute(new DBquery(new String[]{emailEditText.getText().toString(),pwdEditText.getText().toString()}));
+                    /***************************David*****************************/
 
                     signIn.loadingSuccessful();
 
@@ -113,10 +160,47 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), getString(R.string.error_login), Toast.LENGTH_SHORT).show();
                 }
             }
-        }, 3000);
+        }, 1);
 
     }
 
+
+    void test()
+    {
+        CPUser user = new CPUser();
+        try {
+
+
+            user.setUserFullName("aa aa");
+            user.setUserEmail("a@a.c");
+            user.setUserPwd("12345678");
+            DebugHelper.Log("Login Test: setUserPwd = " + user.getUserPwdHash().toString() + " and getHashPws = " + DBManagerFactory.getHashPws("12345678").toString());
+
+
+
+        } catch (Exception e) {
+
+            snackbar =  Snackbar.make(constraintLayout,e.getMessage(),Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return;
+        }
+
+
+
+        //Create an AsyncData object and set the constructor
+        AsyncData<CPUser> data = new AsyncData<>(getApplicationContext(), CPUser.getCPUser_URI());
+        // Set the task to insert
+        data.setDatamanagerType(DataManagerType.Insert);
+        // Set the function to get status
+        data.setCallBack(new CallBack<CPUser>() {
+            @Override
+            public void DBstatus(DataStatus status, CPUser... data) {
+                DebugHelper.Log("Insert callBack finish with status: " + status);
+            }
+        });
+        // Execute the AsyncTask
+        data.execute(user.toContentValues());
+    }
 
 }
 
