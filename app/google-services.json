@@ -1,32 +1,49 @@
 {
   "project_info": {
-    "project_number": "587856043759",
-    "firebase_url": "https://javaproject-1e354.firebaseio.com",
-    "project_id": "javaproject-1e354",
-    "storage_bucket": "javaproject-1e354.appspot.com"
+    "project_number": "779314552140",
+    "firebase_url": "https://javaproject-af868.firebaseio.com",
+    "project_id": "javaproject-af868",
+    "storage_bucket": "javaproject-af868.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:587856043759:android:038ee2ac3cbdb406",
+        "mobilesdk_app_id": "1:779314552140:android:038ee2ac3cbdb406",
         "android_client_info": {
           "package_name": "com.foodie.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "587856043759-b9kdmndla6ofbedrep3e9rld5lk4c9k4.apps.googleusercontent.com",
+          "client_id": "779314552140-ii7qup5lmct3ecgd5jcst2rsk7lr9gdu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.foodie.app",
+            "certificate_hash": "9A94D3BFBEB5B9BC3BD28268D9BE29FF8156D8F7"
+          }
+        },
+        {
+          "client_id": "779314552140-l3boaasq3p6ua7hf2t6gkpjatlkb0eve.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
-      "api_key": "AIzaSyCRqnhPwljYsO-4WkLbady3bRAM8pr5fbk",
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRqnhPwljYsO-4WkLbady3bRAM8pr5fbk"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "779314552140-l3boaasq3p6ua7hf2t6gkpjatlkb0eve.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
