@@ -2,9 +2,12 @@ package com.foodie.app.ui;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -20,8 +23,6 @@ import com.foodie.app.R;
 import com.foodie.app.entities.Business;
 import com.github.jorgecastilloprz.FABProgressCircle;
 
-import static android.support.design.widget.Snackbar.make;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,8 +32,9 @@ public class BusinessDetailsFragment extends Fragment {
     private String mName, mAddress, mPhone, mWebsite, mEmail;
     private boolean mEditMode;
     private TextView mNameText, mAddressText, mPhoneText, mWebsiteText, mEmailText;
-    RelativeLayout mNameLayout, mAddresslayout, mPhoneLayout, mWebsiteLayout, mEmailLayout;
+    RelativeLayout mNameLayout, mAddresslayout, mPhoneLayout, mWebsiteLayout, mEmailLayout, rootLayout;
     private FABProgressCircle addFAB, editFAB;
+    FloatingActionButton addButton, editButton;
     private static Business businessItem;
     private static final String BUSINESS_ID = "businessId";
     // Values for orientation change
@@ -90,9 +92,12 @@ public class BusinessDetailsFragment extends Fragment {
     private void setFABs(View rootView) {
         addFAB = (FABProgressCircle) rootView.findViewById(R.id.add_fab);
         editFAB = (FABProgressCircle) rootView.findViewById(R.id.edit_fab);
+        addButton = (FloatingActionButton) rootView.findViewById(R.id.add_fab_button);
+        editButton = (FloatingActionButton) rootView.findViewById(R.id.edit_fab_button);
+
 
         // Setup up active buttons
-        if (!mEditMode) {
+        if (mEditMode) {
             addFAB.setVisibility(View.VISIBLE);
             editFAB.setVisibility(View.GONE);
 
@@ -101,22 +106,27 @@ public class BusinessDetailsFragment extends Fragment {
             editFAB.setVisibility(View.VISIBLE);
         }
 
-        editFAB.setOnClickListener(new View.OnClickListener() {
+        editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                make(view, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(rootLayout, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
+                addFAB.setVisibility(View.VISIBLE);
+                editFAB.setVisibility(View.GONE);
             }
         });
 
-        addFAB.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                make(view, "I\'m addFAB", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(rootLayout, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
+                addFAB.setVisibility(View.GONE);
+                editFAB.setVisibility(View.VISIBLE);
             }
         });
     }
 
     private void initializeViews(View rootView) {
+        rootLayout = (RelativeLayout) rootView.findViewById(R.id.root_business_details_layout);
         mNameLayout = (RelativeLayout) rootView.findViewById(R.id.name_layout);
         mNameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,6 +264,10 @@ public class BusinessDetailsFragment extends Fragment {
                 }
             });
             alert.show();
+        }else{
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("http://maps.google.co.in/maps?q=" + mAddressText.getText().toString()));
+            startActivity(intent);
         }
     }
 
@@ -303,6 +317,10 @@ public class BusinessDetailsFragment extends Fragment {
                 }
             });
             alert.show();
+        }else{
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + mPhoneText.getText().toString()));
+            startActivity(intent);
         }
     }
 
@@ -354,9 +372,23 @@ public class BusinessDetailsFragment extends Fragment {
         }else{
             if(mWebsiteText.getText().toString().length()>0){
                 String url = mWebsiteText.getText().toString();
+                if (!url.startsWith("https://") && !url.startsWith("http://")){
+                    url = "http://" + url;
+                }
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.setToolbarColor(getResources().getColor(R.color.primary)).setShowTitle(true);
+                builder.setStartAnimations(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
+                builder.setExitAnimations(getActivity(), R.anim.slide_in_left, R.anim.slide_out_right);
+                builder.setCloseButtonIcon(
+                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back));
                 CustomTabsIntent customTabsIntent = builder.build();
                 customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
+
+//                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession());
+//                builder.setToolbarColor(Color.parseColor(TOOLBAR_COLOR)).setShowTitle(true);
+//                prepareMenuItems(builder);
+//                prepareActionButton(builder);
+//                prepareBottombar(builder);
             }
         }
     }
@@ -406,6 +438,12 @@ public class BusinessDetailsFragment extends Fragment {
                 }
             });
             alert.show();
+        }else{
+            String emailAddress = mEmailText.getText().toString().toLowerCase();
+            Intent emailIntent = new Intent (Intent.ACTION_SEND );
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {emailAddress});
+            emailIntent.setType("message/rfc822");
+            startActivity(Intent.createChooser(emailIntent, "Send Email"));
         }
     }
 

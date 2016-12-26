@@ -37,9 +37,8 @@ public class BusinessActivity extends AppCompatActivity
 
     private static final String TAG = "BusinessActivity";
     private BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
-    private static final String BUSINESS_DETAILS = "businessDetails";
     private static final String BUSINESS_ID = "businessId";
-    private static final String KEY_MODE = "mEditKey";
+    private static final String EDIT_MODE = "mEditKey";
     public static List<Business> businessList;
     private RecyclerView recyclerView;
     private FloatingActionButton addBusinessFAB;
@@ -67,8 +66,6 @@ public class BusinessActivity extends AppCompatActivity
 
     private void setRecyclerView() {
 
-
-
         recyclerView = (RecyclerView) findViewById(R.id.business_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new SlideInDownAnimator());
@@ -91,6 +88,7 @@ public class BusinessActivity extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ActivitiesActivity.class);
                 intent.putExtra(BUSINESS_ID, 0);
+                intent.putExtra(EDIT_MODE, "true");
                 startActivity(intent);
             }
         });
@@ -114,7 +112,7 @@ public class BusinessActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            //Do nothingh to not back to login
+            //Do nothing to not back to login
           //  super.onBackPressed();
         }
     }
@@ -238,7 +236,7 @@ public class BusinessActivity extends AppCompatActivity
             Intent intent = new Intent(this, ActivitiesActivity.class);
 
             intent.putExtra(BUSINESS_ID, businessList.get(position).get_ID());
-            intent.putExtra(KEY_MODE, "false");
+            intent.putExtra(EDIT_MODE, "false");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
             }
