@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,9 @@ import com.foodie.app.R;
 import com.foodie.app.entities.Business;
 import com.github.jorgecastilloprz.FABProgressCircle;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,23 +36,19 @@ public class BusinessDetailsFragment extends Fragment {
     private String mName, mAddress, mPhone, mWebsite, mEmail;
     private boolean mEditMode;
     private TextView mNameText, mAddressText, mPhoneText, mWebsiteText, mEmailText;
-    RelativeLayout mNameLayout, mAddresslayout, mPhoneLayout, mWebsiteLayout, mEmailLayout, rootLayout;
+    private RelativeLayout mNameLayout, mAddresslayout, mPhoneLayout, mWebsiteLayout, mEmailLayout;
+    private CoordinatorLayout rootLayout;
     private FABProgressCircle addFAB, editFAB;
-    FloatingActionButton addButton, editButton;
+    private FloatingActionButton addButton, editButton;
     private static Business businessItem;
     private static final String BUSINESS_ID = "businessId";
-    // Values for orientation change
-    private static final String KEY_NAME = "name_key";
-    private static final String KEY_ADDRESS = "address_key";
-    private static final String KEY_PHONE = "phone_key";
-    private static final String KEY_WEBSITE = "website_key";
-    private static final String KEY_EMAIL = "email_key";
-    private static final String KEY_MODE = "MODE";
 
+    //Fragment requires empty public constructor
     public BusinessDetailsFragment() {
         // Required empty public constructor
     }
 
+    //Called when the fragment initializes.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,6 +74,9 @@ public class BusinessDetailsFragment extends Fragment {
                     break;
                 }
             }
+            if (businessItem == null) {
+                businessItem = new Business();
+            }
         }
         if (businessItem != null) {
             mNameText.setText(businessItem.getBusinessName());
@@ -88,7 +91,7 @@ public class BusinessDetailsFragment extends Fragment {
 
     }
 
-
+    //Configure the edit and confirm buttons
     private void setFABs(View rootView) {
         addFAB = (FABProgressCircle) rootView.findViewById(R.id.add_fab);
         editFAB = (FABProgressCircle) rootView.findViewById(R.id.edit_fab);
@@ -109,6 +112,7 @@ public class BusinessDetailsFragment extends Fragment {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mEditMode = true;
                 Snackbar.make(rootLayout, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
                 addFAB.setVisibility(View.VISIBLE);
                 editFAB.setVisibility(View.GONE);
@@ -118,6 +122,7 @@ public class BusinessDetailsFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mEditMode = false;
                 Snackbar.make(rootLayout, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
                 addFAB.setVisibility(View.GONE);
                 editFAB.setVisibility(View.VISIBLE);
@@ -125,8 +130,9 @@ public class BusinessDetailsFragment extends Fragment {
         });
     }
 
+    //Initialize the views
     private void initializeViews(View rootView) {
-        rootLayout = (RelativeLayout) rootView.findViewById(R.id.root_business_details_layout);
+        rootLayout = (CoordinatorLayout) rootView.findViewById(R.id.root_business_details_layout);
         mNameLayout = (RelativeLayout) rootView.findViewById(R.id.name_layout);
         mNameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,6 +184,7 @@ public class BusinessDetailsFragment extends Fragment {
             alert.setNegativeButton("Cancel", null);
             // Create EditText box to input repeat number
             final EditText input = new EditText(getContext());
+            mName = mNameText.getText().toString().trim();
             if (mName != null) {
                 input.setText(mName);
             }
@@ -189,23 +196,40 @@ public class BusinessDetailsFragment extends Fragment {
             alert.setPositiveButton("Ok",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            if (input.getText().toString().length() != 0) {
-                                mName = input.getText().toString().trim();
-                                mNameText.setText(mName);
-                            } else {
-                                if (mNameText.getText().toString().length() == 0) {
-                                    Snackbar snackbar = Snackbar.make(v, "Business name must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Fix",
+                            mName = input.getText().toString().trim();
+                            if (mName.length() > 0) {
+                                Pattern pattern =
+                                        Pattern.compile("^(([a-zA-Z0-9]{2,15}){1}(\\s([a-zA-Z0-9]{2,15}))*)$");
+                                Matcher matcher =
+                                        pattern.matcher(mName);
+                                if (matcher.find()) {
+                                    mNameText.setText(mName);
+                                    businessItem.setBusinessName(mName);
+                                    ActivitiesActivity activitiesActivity = (ActivitiesActivity) getActivity();
+                                    ((TextView) activitiesActivity.findViewById(R.id.business_header_name)).setText(mName);
+                                } else {
+                                    Snackbar snackbar = Snackbar.make(v, "Wrong business name!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     setName(v);
                                                 }
                                             });
-                                    snackbar.setActionTextColor(getResources().getColor(R.color.red));
+                                    snackbar.setActionTextColor(getResources().getColor(R.color.primary));
                                     snackbar.show();
-                                } else {
-                                    Snackbar.make(v, "Business name must contains at least one character!", Snackbar.LENGTH_LONG).show();
                                 }
+                            } else {
+
+                                Snackbar snackbar = Snackbar.make(v, "Business name must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                setName(v);
+                                            }
+                                        });
+                                snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                snackbar.show();
+
                             }
                         }
                     });
@@ -220,41 +244,61 @@ public class BusinessDetailsFragment extends Fragment {
 
     // On clicking address button
     public void setAddress(final View v) {
-        if(mEditMode) {
+        if (mEditMode) {
             AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle);
             alert.setTitle("Enter business address:");
             alert.setPositiveButton("OK", null);
             alert.setNegativeButton("Cancel", null);
             // Create EditText box to input repeat number
+            mAddress = mAddressText.getText().toString().trim();
             final EditText input = new EditText(getContext());
             if (mAddress != null) {
                 input.setText(mAddress);
             }
 
-            input.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+            input.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             input.setTextColor(getResources().getColor(R.color.white));
+            input.setHorizontallyScrolling(false);
+
+
+            input.setLines(3);
 
             alert.setView(input, 60, 0, 60, 0);
             alert.setPositiveButton("Ok",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            if (input.getText().toString().length() != 0) {
-                                mAddress = input.getText().toString().trim();
-                                mAddressText.setText(mAddress);
-                            } else {
-                                if (mAddressText.getText().toString().length() == 0) {
-                                    Snackbar snackbar = Snackbar.make(v, "Business address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Fix",
+                            mAddress = input.getText().toString().trim();
+                            if (mAddress.length() > 0) {
+                                Pattern pattern =
+                                        Pattern.compile("^(([a-zA-Z0-9]{2,15}){1}(\\s([a-zA-Z0-9]{2,15}))*)$");
+                                Matcher matcher =
+                                        pattern.matcher(mAddress);
+                                if (matcher.find()) {
+                                    mAddressText.setText(mAddress);
+                                    businessItem.setBusinessAddress(mAddress);
+                                } else {
+                                    Snackbar snackbar = Snackbar.make(v, "Wrong address!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     setName(v);
                                                 }
                                             });
-                                    snackbar.setActionTextColor(getResources().getColor(R.color.red));
+                                    snackbar.setActionTextColor(getResources().getColor(R.color.primary));
                                     snackbar.show();
-                                } else {
-                                    Snackbar.make(v, "Business address must contains at least one character!", Snackbar.LENGTH_LONG).show();
                                 }
+                            } else {
+
+                                Snackbar snackbar = Snackbar.make(v, "Address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                setName(v);
+                                            }
+                                        });
+                                snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                snackbar.show();
+
                             }
                         }
                     });
@@ -264,7 +308,7 @@ public class BusinessDetailsFragment extends Fragment {
                 }
             });
             alert.show();
-        }else{
+        } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("http://maps.google.co.in/maps?q=" + mAddressText.getText().toString()));
             startActivity(intent);
@@ -273,13 +317,14 @@ public class BusinessDetailsFragment extends Fragment {
 
     // On clicking address button
     public void setPhone(final View v) {
-        if(mEditMode) {
+        if (mEditMode) {
             AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle);
             alert.setTitle("Enter business phone number:");
             alert.setPositiveButton("OK", null);
             alert.setNegativeButton("Cancel", null);
             // Create EditText box to input repeat number
             final EditText input = new EditText(getContext());
+            mPhone = mPhoneText.getText().toString().trim();
             if (mPhone != null) {
                 input.setText(mPhone);
             }
@@ -291,23 +336,38 @@ public class BusinessDetailsFragment extends Fragment {
             alert.setPositiveButton("Ok",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            if (input.getText().toString().length() != 0) {
-                                mPhone = input.getText().toString().trim();
-                                mPhoneText.setText(mPhone);
-                            } else {
-                                if (mPhoneText.getText().toString().length() == 0) {
-                                    Snackbar snackbar = Snackbar.make(v, "Business phone number must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Fix",
+                            mPhone = input.getText().toString().trim();
+                            if (mPhone.length() > 0) {
+                                Pattern pattern =
+                                        Pattern.compile("^(0\\d{1,2}-?\\d{7})$$");
+                                Matcher matcher =
+                                        pattern.matcher(mPhone);
+                                if (matcher.find()) {
+                                    mPhoneText.setText(mPhone);
+                                    businessItem.setBusinessPhoneNo(mPhone);
+                                } else {
+                                    Snackbar snackbar = Snackbar.make(v, "Wrong phone number!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     setName(v);
                                                 }
                                             });
-                                    snackbar.setActionTextColor(getResources().getColor(R.color.red));
+                                    snackbar.setActionTextColor(getResources().getColor(R.color.primary));
                                     snackbar.show();
-                                } else {
-                                    Snackbar.make(v, "Business phone number must contains at least one character!", Snackbar.LENGTH_LONG).show();
                                 }
+                            } else {
+
+                                Snackbar snackbar = Snackbar.make(v, "Phone number must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                setName(v);
+                                            }
+                                        });
+                                snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                snackbar.show();
+
                             }
                         }
                     });
@@ -317,21 +377,23 @@ public class BusinessDetailsFragment extends Fragment {
                 }
             });
             alert.show();
-        }else{
+        } else {
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + mPhoneText.getText().toString()));
             startActivity(intent);
         }
     }
 
+    // On clicking website button
     public void setWebsite(final View v) {
-        if(mEditMode) {
+        if (mEditMode) {
             AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle);
             alert.setTitle("Enter business website:");
             alert.setPositiveButton("OK", null);
             alert.setNegativeButton("Cancel", null);
             // Create EditText box to input repeat number
             final EditText input = new EditText(getContext());
+            mWebsite = mWebsiteText.getText().toString().trim().toLowerCase();
             if (mWebsite != null) {
                 input.setText(mWebsite);
             }
@@ -343,23 +405,38 @@ public class BusinessDetailsFragment extends Fragment {
             alert.setPositiveButton("Ok",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            if (input.getText().toString().length() != 0) {
-                                mWebsite = input.getText().toString().trim();
-                                mWebsiteText.setText(mWebsite);
-                            } else {
-                                if (mWebsiteText.getText().toString().length() == 0) {
-                                    Snackbar snackbar = Snackbar.make(v, "Business website must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Fix",
+                            mWebsite = input.getText().toString().trim().toLowerCase();
+                            if (mWebsite.length() > 0) {
+                                Pattern pattern =
+                                        Pattern.compile("^((?:https\\:\\/\\/)|(?:http\\:\\/\\/)|(?:www\\.))?([a-zA-Z0-9\\-\\.]+\\.[a-zA-Z]{1,3}(?:\\??)[a-zA-Z0-9\\-\\._\\?\\,\\'\\/\\\\\\+&%\\$#\\=~]+)$");
+                                Matcher matcher =
+                                        pattern.matcher(mWebsite);
+                                if (matcher.find()) {
+                                    mWebsiteText.setText(mWebsite);
+                                    businessItem.setBusinessWebsite(mWebsite);
+                                } else {
+                                    Snackbar snackbar = Snackbar.make(v, "Wrong website address!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     setName(v);
                                                 }
                                             });
-                                    snackbar.setActionTextColor(getResources().getColor(R.color.red));
+                                    snackbar.setActionTextColor(getResources().getColor(R.color.primary));
                                     snackbar.show();
-                                } else {
-                                    Snackbar.make(v, "Business website must contains at least one character!", Snackbar.LENGTH_LONG).show();
                                 }
+                            } else {
+
+                                Snackbar snackbar = Snackbar.make(v, "Website address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                setName(v);
+                                            }
+                                        });
+                                snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                snackbar.show();
+
                             }
                         }
                     });
@@ -369,10 +446,10 @@ public class BusinessDetailsFragment extends Fragment {
                 }
             });
             alert.show();
-        }else{
-            if(mWebsiteText.getText().toString().length()>0){
+        } else {
+            if (mWebsiteText.getText().toString().length() > 0) {
                 String url = mWebsiteText.getText().toString();
-                if (!url.startsWith("https://") && !url.startsWith("http://")){
+                if (!url.startsWith("https://") && !url.startsWith("http://")) {
                     url = "http://" + url;
                 }
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
@@ -393,14 +470,16 @@ public class BusinessDetailsFragment extends Fragment {
         }
     }
 
+    // On clicking email button
     public void setEmail(final View v) {
-        if(mEditMode) {
+        if (mEditMode) {
             AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle);
             alert.setTitle("Enter business email:");
             alert.setPositiveButton("OK", null);
             alert.setNegativeButton("Cancel", null);
             // Create EditText box to input repeat number
             final EditText input = new EditText(getContext());
+            mEmail = mEmailText.getText().toString().trim().toLowerCase();
             if (mEmail != null) {
                 input.setText(mEmail);
             }
@@ -412,23 +491,38 @@ public class BusinessDetailsFragment extends Fragment {
             alert.setPositiveButton("Ok",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            if (input.getText().toString().length() != 0) {
-                                mEmail = input.getText().toString().trim();
-                                mEmailText.setText(mEmail);
-                            } else {
-                                if (mEmailText.getText().toString().length() == 0) {
-                                    Snackbar snackbar = Snackbar.make(v, "Business email must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Fix",
+                            mEmail = input.getText().toString().trim().toLowerCase();
+                            if (mEmail.length() > 0) {
+                                Pattern pattern =
+                                        Pattern.compile("^([a-zA-Z0-9]+(?:(\\.|_)[A-Za-z0-9!#$%&'*+/=?^`{|}~-]+)*@(?!([a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)$");
+                                Matcher matcher =
+                                        pattern.matcher(mEmail);
+                                if (matcher.find()) {
+                                    mEmailText.setText(mEmail);
+                                    businessItem.setBusinessEmail(mEmail);
+                                } else {
+                                    Snackbar snackbar = Snackbar.make(v, "Wrong email address!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     setName(v);
                                                 }
                                             });
-                                    snackbar.setActionTextColor(getResources().getColor(R.color.red));
+                                    snackbar.setActionTextColor(getResources().getColor(R.color.primary));
                                     snackbar.show();
-                                } else {
-                                    Snackbar.make(v, "Business email must contains at least one character!", Snackbar.LENGTH_LONG).show();
                                 }
+                            } else {
+
+                                Snackbar snackbar = Snackbar.make(v, "Email address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                setName(v);
+                                            }
+                                        });
+                                snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                snackbar.show();
+
                             }
                         }
                     });
@@ -438,10 +532,10 @@ public class BusinessDetailsFragment extends Fragment {
                 }
             });
             alert.show();
-        }else{
+        } else {
             String emailAddress = mEmailText.getText().toString().toLowerCase();
-            Intent emailIntent = new Intent (Intent.ACTION_SEND );
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {emailAddress});
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
             emailIntent.setType("message/rfc822");
             startActivity(Intent.createChooser(emailIntent, "Send Email"));
         }

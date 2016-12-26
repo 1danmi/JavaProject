@@ -12,11 +12,11 @@ import android.view.View;
  * Created by Daniel on 12/21/2016.
  */
 
-public class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchListener{
+public class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchListener {
 
     private static final String TAG = "BusinessRecyclerItemCli";
 
-    public interface onRecyclerClickListener{
+    public interface onRecyclerClickListener {
         void onitemClick(View v, int position);
 
     }
@@ -26,12 +26,12 @@ public class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchLis
 
     public RecyclerItemClickListener(Context context, final RecyclerView recyclerView, final onRecyclerClickListener mListener) {
         this.mListener = mListener;
-        mGestureDetector = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener(){
+        mGestureDetector = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
                 Log.d(TAG, "onSingleTapUp: starts");
-                View childView = recyclerView.findChildViewUnder(e.getX(),e.getY());
-                if(childView != null && mListener != null){
+                View childView = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                if (childView != null && mListener != null) {
                     mListener.onitemClick(childView, recyclerView.getChildAdapterPosition(childView));
                 }
                 return true;
@@ -43,11 +43,10 @@ public class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchLis
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
         Log.d(TAG, "onInterceptTouchEvent: starts");
-        if(mGestureDetector!=null){
+        if (mGestureDetector != null) {
             boolean result = mGestureDetector.onTouchEvent(e);
             return result;
-        }
-        else{
+        } else {
             return false;
         }
 

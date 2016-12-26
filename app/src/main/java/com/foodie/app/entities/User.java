@@ -15,7 +15,7 @@ public class User implements Serializable {
 
     private int _ID;
 
-    //We are using full name instead of private and last name separately in order to use Google Sign-In in the future.
+
     private String userFullName;
 
     private String userEmail;
@@ -55,7 +55,7 @@ public class User implements Serializable {
 
     public void setUserFullName(String userFullName) throws Exception {
         Pattern pattern =
-                Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))+)$");
+                Pattern.compile("^(([a-zA-Z]{2,15})(\\s([a-zA-Z]{2,15}))+)$");
         Matcher matcher =
                 pattern.matcher(userFullName);
         if (matcher.find())

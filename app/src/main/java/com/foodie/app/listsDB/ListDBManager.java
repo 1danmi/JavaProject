@@ -2,35 +2,26 @@ package com.foodie.app.listsDB;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.foodie.app.DebugHelper.DebugHelper;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.Converters;
-import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.IDBManager;
 import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.entities.User;
-import com.foodie.app.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-
-/**
- * Created by Daniel on 12/13/2016.
- */
 
 public class ListDBManager implements IDBManager {
 
     //lists
-    static List<User> users;
-    static List<CPUser> cpusers;
-    static List<Business> businesses;
-    static List<Activity> activities;
+    public static List<User> users;
+    public static List<CPUser> cpusers;
+    public static List<Business> businesses;
+    public static List<Activity> activities;
 
 
     boolean isUpdated = false;
@@ -48,43 +39,43 @@ public class ListDBManager implements IDBManager {
 
         switch (classList) {
             case "user":
-                if(users.isEmpty())
+                if (users.isEmpty())
                     break;
 
                 for (User item : users) {
-                    if(item.get_ID()>max_id)
+                    if (item.get_ID() > max_id)
                         max_id = item.get_ID();
                 }
-               break;
+                break;
 
 
             case "Business":
-                if(businesses.isEmpty())
+                if (businesses.isEmpty())
                     break;
 
                 for (Business item : businesses) {
-                    if(item.get_ID()>max_id)
+                    if (item.get_ID() > max_id)
                         max_id = item.get_ID();
                 }
                 break;
 
 
             case "activity":
-                if(activities.isEmpty())
+                if (activities.isEmpty())
                     break;
 
                 for (Activity item : activities) {
-                    if(item.get_ID()>max_id)
+                    if (item.get_ID() > max_id)
                         max_id = item.get_ID();
                 }
                 break;
 
 
             case "cpuser":
-                if(cpusers.isEmpty())
+                if (cpusers.isEmpty())
                     break;
                 for (CPUser item : cpusers) {
-                    if(item.get_ID()>max_id)
+                    if (item.get_ID() > max_id)
                         max_id = item.get_ID();
                 }
                 break;
@@ -103,7 +94,7 @@ public class ListDBManager implements IDBManager {
         cpuser.set_ID(++cpuserId);
 
         cpusers.add(cpuser);
-        DebugHelper.Log("CPUser: ID " +  cpuser.get_ID() + " added");
+        DebugHelper.Log("CPUser: ID " + cpuser.get_ID() + " added");
         isUpdated = true;
         return cpuser.get_ID();
     }
@@ -142,7 +133,7 @@ public class ListDBManager implements IDBManager {
 
         users.add(user);
         isUpdated = true;
-        DebugHelper.Log("User id: "+userId+", inserted");
+        DebugHelper.Log("User id: " + userId + ", inserted");
         return user.get_ID();
     }
 
@@ -203,34 +194,34 @@ public class ListDBManager implements IDBManager {
 
         List<CPUser> result = new ArrayList<>();
         boolean insert = true;
-        if(columnsArgs != null) {
+        if (columnsArgs != null) {
             for (CPUser user : cpusers) {
                 for (int i = 0; i < columnsArgs.length; i++) {
                     switch (columnsArgs[i]) {
                         case AppContract.CPUser.CPUSER_ID:
                             if (user.get_ID() != Integer.parseInt(args[i])) {
-                                DebugHelper.Log("ListDBManager getCPUser: CPUser id "+user.get_ID()+" != "+args[i]);
+                                DebugHelper.Log("ListDBManager getCPUser: CPUser id " + user.get_ID() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.CPUser.CPUSER_FULL_NAME:
                             if (!user.getUserFullName().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getCPUser: CPUser name "+user.getUserFullName()+" != "+args[i]);
+                                DebugHelper.Log("ListDBManager getCPUser: CPUser name " + user.getUserFullName() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.CPUser.CPUSER_EMAIL:
-                            if (!user.getUserEmail().equals(args[i])){
-                                DebugHelper.Log("ListDBManager getCPUser: CPUser email "+user.getUserEmail()+" != "+args[i]);
+                            if (!user.getUserEmail().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getCPUser: CPUser email " + user.getUserEmail() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.CPUser.CPUSER_PWD:
-                            if (!user.getUserPwdHash().equals(args[i])){
-                                DebugHelper.Log("ListDBManager getCPUser: password hash: " +user.getUserPwdHash().toString() + " != "+ args[i]);
+                            if (!user.getUserPwdHash().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getCPUser: password hash: " + user.getUserPwdHash().toString() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
@@ -238,29 +229,29 @@ public class ListDBManager implements IDBManager {
                     if (!insert)
                         break;
                 }
-                DebugHelper.Log("ListDBManager getCPUser: insert CPUser "+user.get_ID()+" = "+insert);
+                DebugHelper.Log("ListDBManager getCPUser: insert CPUser " + user.get_ID() + " = " + insert);
                 if (insert)
                     result.add(user);
                 else
                     insert = true;
             }
-            return  Converters.CPUserListToCursor(result);
-        }else
+            return Converters.CPUserListToCursor(result);
+        } else
             return Converters.CPUserListToCursor(cpusers);
     }
 
     @Override
-    public Cursor getBusiness(String[] args,String[] columnsArgs) {
+    public Cursor getBusiness(String[] args, String[] columnsArgs) {
         return Converters.BusinessListToCursor(businesses);
     }
 
     @Override
-    public Cursor getActivity(String[] args,String[] columnsArgs) {
+    public Cursor getActivity(String[] args, String[] columnsArgs) {
         return Converters.ActivitiesListToCursor(activities);
     }
 
     @Override
-    public Cursor getUser(String[] args,String[] columnsArgs) {
+    public Cursor getUser(String[] args, String[] columnsArgs) {
         return Converters.UserListToCursor(users);
     }
 

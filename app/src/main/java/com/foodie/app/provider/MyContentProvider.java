@@ -34,25 +34,19 @@ public class MyContentProvider extends ContentProvider {
         try {
             switch (listName) {
                 case "user":
-                    if(manager.removeUser(id))
-                    return 1;
-
-
+                    if (manager.removeUser(id))
+                        return 1;
                 case "Business":
-                    if(manager.removeBusiness(id))
+                    if (manager.removeBusiness(id))
                         return 1;
-
                 case "activity":
-                    if(manager.removeActivity(id))
+                    if (manager.removeActivity(id))
                         return 1;
-
                 case "cpuser":
-                    if(manager.removeCPUser(id))
+                    if (manager.removeCPUser(id))
                         return 1;
-
             }
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             return 0;
         }
         return 0;
@@ -60,18 +54,16 @@ public class MyContentProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-       return DBManagerFactory.getDBtype();
+        return DBManagerFactory.getDBtype();
     }
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         DebugHelper.Log("My content povider operation: insert");
-        if(manager == null) {
-           DebugHelper.Log("manager null");
+        if (manager == null) {
+            DebugHelper.Log("manager null");
             manager = DBManagerFactory.getManager();
         }
-
-
         String listName = uri.getLastPathSegment();
         long id = -1;
         try {
@@ -94,9 +86,8 @@ public class MyContentProvider extends ContentProvider {
                     return ContentUris.withAppendedId(uri, id);
 
             }
-        }catch (Exception ex)
-        {
-            DebugHelper.Log("My content povider operation: insert, error: " + ex.getCause()+", " +ex.getMessage());
+        } catch (Exception ex) {
+            DebugHelper.Log("My content povider operation: insert, error: " + ex.getCause() + ", " + ex.getMessage());
         }
         return null;
     }
@@ -106,7 +97,7 @@ public class MyContentProvider extends ContentProvider {
         Log.d(TAG, "ContentProvided created ");
         //so we move mContext initialization here
         //mContext = getContext();
-     //   dbHelper = new DatabaseHelper(mContext);
+        //   dbHelper = new DatabaseHelper(mContext);
         return true;
     }
 
@@ -115,12 +106,10 @@ public class MyContentProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
 
 
-
         DebugHelper.Log("My content povider operation: query");
 
-        if(projection != null)
-            for(int i=0;i<projection.length;i++)
-            {
+        if (projection != null)
+            for (int i = 0; i < projection.length; i++) {
                 DebugHelper.Log("My content povider operation query: projection = " + projection[i] + " and selectionArgs =  " + selectionArgs[i]);
             }
         else
@@ -132,23 +121,22 @@ public class MyContentProvider extends ContentProvider {
         try {
             switch (listName) {
                 case "user":
-                   return  manager.getUser(selectionArgs,projection);
+                    return manager.getUser(selectionArgs, projection);
 
 
                 case "Business":
-                    return  manager.getBusiness(selectionArgs,projection);
+                    return manager.getBusiness(selectionArgs, projection);
 
 
                 case "activity":
-                    return  manager.getActivity(selectionArgs,projection);
+                    return manager.getActivity(selectionArgs, projection);
 
 
                 case "cpuser":
-                    return  manager.getCPUser(selectionArgs,projection);
+                    return manager.getCPUser(selectionArgs, projection);
 
             }
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             return null;
         }
         return null;
@@ -163,25 +151,24 @@ public class MyContentProvider extends ContentProvider {
         try {
             switch (listName) {
                 case "user":
-                    if(manager.updateUser(id,values))
+                    if (manager.updateUser(id, values))
                         return 1;
 
 
                 case "Business":
-                    if(manager.updateBusiness(id,values))
+                    if (manager.updateBusiness(id, values))
                         return 1;
 
                 case "activity":
-                    if(manager.updateActivity(id,values))
+                    if (manager.updateActivity(id, values))
                         return 1;
 
                 case "cpuser":
-                    if(manager.updateCPUser(id,values))
+                    if (manager.updateCPUser(id, values))
                         return 1;
 
             }
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             return 0;
         }
         return 0;

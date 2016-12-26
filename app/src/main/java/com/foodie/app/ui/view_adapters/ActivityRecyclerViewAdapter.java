@@ -17,9 +17,6 @@ import com.foodie.app.entities.Activity;
 
 import java.util.List;
 
-/**
- * Created by Daniel on 12/20/2016.
- */
 
 public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRecyclerViewAdapter.ActivityImageViewHolder> {
 

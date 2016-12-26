@@ -21,80 +21,63 @@ import com.foodie.app.ui.view_adapters.BusinessViewPagerAdapter;
 
 public class ActivitiesActivity extends AppCompatActivity {
 
+    private static final String BUSINESS_ID = "businessId";
     private static final String TAG = "ActivitiesActivity";
     private static Business businessItem;
-    //private static final String BUSINESS_DETAILS = "businessDetails";
-    private static final String BUSINESS_ID = "businessId";
     private AppBarLayout appBarLayout;
     private ViewPager viewPager;
     private ImageView businessLogoHeader;
     private TextView businessNameHeader;
-    private TextView businessActivitiesHeader;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: starts");
-//        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().setExitTransition(new Explode());
-//        }
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_activities);
-
 
         initializeViews();
 
         setActionBar();
 
-
         inflateData();
 
         setTabLayout();
 
-
-
-
         setAppBar();
-
 
     }
 
+    //Initializes the views
     private void initializeViews() {
         viewPager = (ViewPager) findViewById(R.id.tab_viewpager);
         appBarLayout = (AppBarLayout) findViewById(R.id.business_name_app_bar);
         businessLogoHeader = (ImageView) findViewById(R.id.business_header_image);
         businessNameHeader = (TextView) findViewById(R.id.business_header_name);
-        businessActivitiesHeader = (TextView) findViewById(R.id.business_header_activity);
     }
 
+    //Sets the appbar listener to hide the title while collapsed.
     private void setAppBar() {
 
         appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onExpanded(AppBarLayout appBarLayout) {
-                //Log.e("AppBar","->Expanded");
                 setActivityTitle("");
-                //mFavoriteButton.show();
             }
 
             @Override
             public void onCollapsed(AppBarLayout appBarLayout) {
-                //Log.e("AppBar","->Collapsed");
                 setActivityTitle(businessItem.getBusinessName());
-                //mFavoriteButton.hide();
             }
 
             @Override
             public void onIdle(AppBarLayout appBarLayout) {
-                //Log.e("AppBar","->Idle");
-                //setActivityTitle("");
             }
         });
     }
 
+    //Inflates the business date from the database.
     private void inflateData() {
         Intent intent = getIntent();
         int businesdID = (int) intent.getSerializableExtra(BUSINESS_ID);
@@ -107,7 +90,6 @@ public class ActivitiesActivity extends AppCompatActivity {
             }
         }
         if (businessItem == null) {
-            //Toast.makeText(this, "Business does not exist", Toast.LENGTH_SHORT).show();
             businessItem = new Business();
         } else {
             Bitmap bmp = BitmapFactory.decodeByteArray(businessItem.getBusinessLogo(), 0, businessItem.getBusinessLogo().length);
@@ -116,16 +98,16 @@ public class ActivitiesActivity extends AppCompatActivity {
         }
     }
 
+    //Configures the tab layout's listener.
     private void setTabLayout() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-
 
         if (viewPager != null) {
             setupViewPager(viewPager);
         }
         tabLayout.setupWithViewPager(viewPager);
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -143,6 +125,7 @@ public class ActivitiesActivity extends AppCompatActivity {
         });
     }
 
+    //Sets the actionbar visibility.
     private void setActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar == null) {
@@ -157,9 +140,10 @@ public class ActivitiesActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        setTitle("BusinessName");
+
     }
 
+    //Configures and adds the fragments to the view pager.
     private void setupViewPager(ViewPager viewPager) {
         BusinessViewPagerAdapter adapter = new BusinessViewPagerAdapter(getSupportFragmentManager());
 
@@ -167,25 +151,29 @@ public class ActivitiesActivity extends AppCompatActivity {
         BusinessDetailsFragment businessDetailsFragment = new BusinessDetailsFragment();
         BusinessActivitiesFragment businessActivitiesFragment = new BusinessActivitiesFragment();
         Bundle bundle = new Bundle();
-        if(businessItem!=null) {
+        if (businessItem != null) {
             bundle.putInt(BUSINESS_ID, businessItem.get_ID());
-        }else{
+        } else {
             bundle.putInt(BUSINESS_ID, 0);
         }
         businessDetailsFragment.setArguments(bundle);
         businessActivitiesFragment.setArguments(bundle);
-        //TODO: create bundles.
-        adapter.addFragment(businessDetailsFragment , "Details");
+        adapter.addFragment(businessDetailsFragment, "Details");
         adapter.addFragment(businessActivitiesFragment, "Activities");
-
 
         viewPager.setAdapter(adapter);
     }
 
+    //Set the activity title.
     public void setActivityTitle(String title) {
         ActionBar toolbar = getSupportActionBar();
         if (toolbar != null)
             toolbar.setTitle(title);
     }
 
+    //For future use.
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

@@ -52,5 +52,24 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_business_details">BusinessName</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="activity_image">Activity_Image</string>
+    <string name="activity_name">Activity name</string>
+    <string name="lorem_ipsum_description">Description, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus pretium metus, in fermentum eros consectetur non. Phasellus nec nulla tempor, suscipit tortor non, egestas erat. Nulla ut accumsan libero</string>
+    <string name="stars_default">3.5</string>
+    <string name="menu_button">Menu Button</string>
+    <string name="default_activity_cost">$1.23</string>
+    <string name="logo_image">Logo image</string>
+    <string name="app_logo">App Logo</string>
+    <string name="cpuser_name">CPuser Name</string>
+    <string name="foodie_url">foodie.com/cpuser</string>
+    <string name="header_logo">Header_logo</string>
+    <string name="name_prompt">Name</string>
+    <string name="title">Title</string>
+    <string name="address_placeholder">dd STREET Street, City</string>
+    <string name="activities_placeholder">28 Activities</string>
+    <string name="address_prompt">Address</string>
+    <string name="phone_number_prompt">Phone Number</string>
+    <string name="website_prompt">Website</string>
+    <string name="email_prompt">Email</string>
 
 </resources>

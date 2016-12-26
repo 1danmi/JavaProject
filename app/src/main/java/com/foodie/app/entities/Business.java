@@ -1,20 +1,14 @@
 package com.foodie.app.entities;
 
 import java.io.Serializable;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-
-/**
- * Created by Daniel on 12/8/2016.
- */
 
 public class Business implements Serializable {
 
     private static final long serialVersionUID = 2L;
 
 
-    private static int businessID=0;
+    private static int businessID = 0;
 
     private int _ID;
 
@@ -32,10 +26,21 @@ public class Business implements Serializable {
 
     private byte[] businessLogo;
 
-    public Business(){}
+    //Empty constructor.
+    public Business() {
 
-    public Business(String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception{
-        set_ID(businessID+1);
+        _ID = 0;
+        businessName = "New Business";
+        businessAddress = "";
+        businessPhoneNo = "";
+        businessEmail = "";
+        businessWebsite = "";
+        cpuserID = 0;
+        businessLogo = null;
+    }
+//Full constructor
+    public Business(String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
+        set_ID(businessID + 1);
         businessID++;
         setBusinessName(businessName);
         setBusinessAddress(businessAddress);
@@ -59,15 +64,8 @@ public class Business implements Serializable {
 
     }
 
-    public void setBusinessName(String businessName) throws Exception {
-//        Pattern pattern =
-//                Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))*)$");
-//        Matcher matcher =
-//                pattern.matcher(businessName);
-//        if (matcher.find())
+    public void setBusinessName(String businessName) {
         this.businessName = businessName;
-//        else
-//            throw new InputException("Name can contains only letters", FIELD.NAME);
     }
 
     public String getBusinessAddress() {
@@ -83,46 +81,25 @@ public class Business implements Serializable {
         return businessPhoneNo;
     }
 
-    public void setBusinessPhoneNo(String businessPhoneNo) throws Exception {
-        Pattern pattern =
-                Pattern.compile("^(0\\d{1,2}-?\\d{7})$$");
-        Matcher matcher =
-                pattern.matcher(businessPhoneNo);
-        if (matcher.find())
-            this.businessPhoneNo = businessPhoneNo;
-        else
-            throw new Exception("Double check your phone number, I think you got a mistake there");
+    public void setBusinessPhoneNo(String businessPhoneNo) {
+        this.businessPhoneNo = businessPhoneNo;
     }
 
     public String getBusinessEmail() {
         return businessEmail;
     }
 
-    public void setBusinessEmail(String businessEmail) throws Exception {
-        Pattern pattern =
-                Pattern.compile("^([a-zA-Z0-9]+(?:(\\.|_)[A-Za-z0-9!#$%&'*+/=?^`{|}~-]+)*@(?!([a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)$");
-        Matcher matcher =
-                pattern.matcher(businessEmail);
-        if (matcher.find())
-            this.businessEmail = businessEmail;
-        else
-            throw new Exception("Double check your email address, I think you got a mistake there");
-
+    public void setBusinessEmail(String businessEmail) {
+        this.businessEmail = businessEmail;
     }
 
     public String getBusinessWebsite() {
         return businessWebsite;
     }
 
-    public void setBusinessWebsite(String businessWebsite) throws Exception {
-        Pattern pattern =
-                Pattern.compile("^((?:https\\:\\/\\/)|(?:http\\:\\/\\/)|(?:www\\.))?([a-zA-Z0-9\\-\\.]+\\.[a-zA-Z]{1,3}(?:\\??)[a-zA-Z0-9\\-\\._\\?\\,\\'\\/\\\\\\+&%\\$#\\=~]+)$");
-        Matcher matcher =
-                pattern.matcher(businessWebsite);
-        if (matcher.find())
-            this.businessWebsite = businessWebsite;
-        else
-            throw new Exception("Wrong URL");    }
+    public void setBusinessWebsite(String businessWebsite) {
+        this.businessWebsite = businessWebsite;
+    }
 
     public int getCpuserID() {
         return cpuserID;

@@ -2,10 +2,6 @@ package com.foodie.app.ui.view_adapters;
 
 import android.support.design.widget.AppBarLayout;
 
-/**
- * Created by Daniel on 12/23/2016.
- */
-
 public abstract class AppBarStateChangeListener implements AppBarLayout.OnOffsetChangedListener {
 
     public enum State {
@@ -37,7 +33,9 @@ public abstract class AppBarStateChangeListener implements AppBarLayout.OnOffset
     }
 
     public abstract void onExpanded(AppBarLayout appBarLayout);
+
     public abstract void onCollapsed(AppBarLayout appBarLayout);
+
     public abstract void onIdle(AppBarLayout appBarLayout);
 
 }

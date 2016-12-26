@@ -58,12 +58,12 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
 
     }
 
-    public void addItem(Business business){
+    public void addItem(Business business) {
         businessesList.add(business);
         notifyItemInserted(businessesList.size());
     }
 
-    public void removeItem(int position){
+    public void removeItem(int position) {
         businessesList.remove(position);
         notifyItemRemoved(position);
     }

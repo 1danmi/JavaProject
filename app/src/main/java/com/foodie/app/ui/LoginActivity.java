@@ -15,14 +15,11 @@ import android.widget.Toast;
 import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.foodie.app.DebugHelper.DebugHelper;
 import com.foodie.app.R;
-
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
-import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.DBquery;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
-import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
@@ -56,9 +53,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                     startActivity(intent);
-                }catch (Exception ex)
-                {
-                    Toast.makeText(getApplicationContext(),ex.getMessage(),Toast.LENGTH_LONG).show();
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
                 }
 
                 signUpTextView.setTextColor(Color.parseColor("#FAFAFA"));
@@ -66,8 +62,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-
 
 
         final MaterialEditText emailEditText = (MaterialEditText) findViewById(R.id.emailEditText);
@@ -91,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
                 checkLogin();
             }
         });
-
 
 
     }
@@ -151,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                     // Execute the AsyncTask
-                    data.execute(new DBquery(new String[]{emailEditText.getText().toString(),pwdEditText.getText().toString()}));
+                    data.execute(new DBquery(new String[]{emailEditText.getText().toString(), pwdEditText.getText().toString()}));
                     /***************************David*****************************/
 
                     signIn.loadingSuccessful();
@@ -167,8 +160,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    void test()
-    {
+    void test() {
         CPUser user = new CPUser();
         try {
 
@@ -178,15 +170,12 @@ public class LoginActivity extends AppCompatActivity {
             user.setUserPwd("12345678");
 
 
-
-
         } catch (Exception e) {
 
-            snackbar =  Snackbar.make(constraintLayout,e.getMessage(),Snackbar.LENGTH_LONG);
+            snackbar = Snackbar.make(constraintLayout, e.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
             return;
         }
-
 
 
         //Create an AsyncData object and set the constructor

@@ -61,7 +61,6 @@ public class BusinessActivity extends AppCompatActivity
         businessList = loadDemoData();
 
 
-
     }
 
     private void setRecyclerView() {
@@ -113,7 +112,7 @@ public class BusinessActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             //Do nothing to not back to login
-          //  super.onBackPressed();
+            //  super.onBackPressed();
         }
     }
 
@@ -208,7 +207,6 @@ public class BusinessActivity extends AppCompatActivity
             businessRecyclerViewAdapter.addItem(demo);
 
 
-
             String name4 = "Pizza Hut ";
 
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pizza_hut_logo);
@@ -229,7 +227,6 @@ public class BusinessActivity extends AppCompatActivity
     }
 
 
-
     @Override
     public void onitemClick(View v, int position) {
         try {
@@ -239,17 +236,19 @@ public class BusinessActivity extends AppCompatActivity
             intent.putExtra(EDIT_MODE, "false");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            }
-            else{
+            } else {
                 startActivity(intent);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //Snackbar.make(v,"Item at position " + position + " had been clicked", Snackbar.LENGTH_LONG).show();
     }
 
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        businessRecyclerViewAdapter.notifyDataSetChanged();
+    }
 }
