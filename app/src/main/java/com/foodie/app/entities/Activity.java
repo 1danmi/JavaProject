@@ -14,7 +14,7 @@ public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private int _ID;
+    private static int _ID = 0;
 
     private String activityName;
 
@@ -36,6 +36,8 @@ public class Activity implements Serializable {
     }
 
     public Activity(String activityName, String activityDescription, double activityCost, double activityRating, int businessId, byte[] activityImages, String feature) throws Exception {
+        set_ID(_ID+1);
+        _ID++;
         setActivityName(activityName);
         setActivityDescription(activityDescription);
         setActivityCost(activityCost);

@@ -2,7 +2,9 @@ package com.foodie.app.ui;
 
 
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -54,7 +56,7 @@ public class BusinessDetailsFragment extends Fragment {
 
         initializeViews(rootView);
 
-        mEditMode = true;
+        mEditMode = false;
 
         setFABs(rootView);
         int businessID = 0;
@@ -67,6 +69,7 @@ public class BusinessDetailsFragment extends Fragment {
             for (Business business : BusinessActivity.businessList) {
                 if (business.get_ID() == businessID) {
                     businessItem = business;
+                    break;
                 }
             }
         }
@@ -348,6 +351,13 @@ public class BusinessDetailsFragment extends Fragment {
                 }
             });
             alert.show();
+        }else{
+            if(mWebsiteText.getText().toString().length()>0){
+                String url = mWebsiteText.getText().toString();
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
+            }
         }
     }
 

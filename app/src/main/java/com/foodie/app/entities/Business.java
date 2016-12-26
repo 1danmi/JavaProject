@@ -13,10 +13,10 @@ public class Business implements Serializable {
 
     private static final long serialVersionUID = 2L;
 
-    //Debug:
+
     private static int businessID=0;
 
-    private int _ID = 0;
+    private int _ID;
 
     private String businessName;
 

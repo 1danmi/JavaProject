@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.net.Uri;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,7 +18,7 @@ public class CPUser implements Serializable {
 
 
 
-    private int _ID = -1;
+    private int _ID = 0;
 
     private String userFullName;
 

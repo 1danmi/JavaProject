@@ -30,11 +30,13 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
+
 public class BusinessActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RecyclerItemClickListener.onRecyclerClickListener {
 
     private static final String TAG = "BusinessActivity";
-    BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
+    private BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
     private static final String BUSINESS_DETAILS = "businessDetails";
     private static final String BUSINESS_ID = "businessId";
     private static final String KEY_MODE = "mEditKey";
@@ -45,10 +47,7 @@ public class BusinessActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().setExitTransition(new Explode());
-//        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business);
 
@@ -57,18 +56,22 @@ public class BusinessActivity extends AppCompatActivity
         Toolbar toolbar = setActionBarAndFAB();
 
         setDrawer(toolbar);
+        businessList = new ArrayList<>();
+        setRecyclerView();
 
         businessList = loadDemoData();
-
-        setRecyclerView();
 
 
 
     }
 
     private void setRecyclerView() {
+
+
+
         recyclerView = (RecyclerView) findViewById(R.id.business_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(new SlideInDownAnimator());
 
         businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(businessList, getApplicationContext());
 
@@ -165,7 +168,7 @@ public class BusinessActivity extends AppCompatActivity
 
     public List<Business> loadDemoData() {
 
-        businessList = new ArrayList<>();
+
         Business demo;
 
 
@@ -181,7 +184,8 @@ public class BusinessActivity extends AppCompatActivity
             byte[] logo1 = stream.toByteArray();
 
             demo = new Business(name1, "Derech Agudat Sport Beitar 1, Jerusalem, 9695235", "0543051733", "Burgeranch@burgeranch.co.il", "burgeranch.co.il", 1, logo1);
-            businessList.add(demo);
+            businessRecyclerViewAdapter.addItem(demo);
+
 
             String name2 = "McDonald's ";
 
@@ -192,7 +196,7 @@ public class BusinessActivity extends AppCompatActivity
             byte[] logo2 = stream.toByteArray();
 
             demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com", 2, logo2);
-            businessList.add(demo);
+            businessRecyclerViewAdapter.addItem(demo);
 
             String name3 = "Duda Lapizza ";
 
@@ -203,7 +207,8 @@ public class BusinessActivity extends AppCompatActivity
             byte[] logo3 = stream.toByteArray();
 
             demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", 3, logo3);
-            businessList.add(demo);
+            businessRecyclerViewAdapter.addItem(demo);
+
 
 
             String name4 = "Pizza Hut ";
@@ -215,7 +220,7 @@ public class BusinessActivity extends AppCompatActivity
             byte[] logo4 = stream.toByteArray();
 
             demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", 4, logo4);
-            businessList.add(demo);
+            businessRecyclerViewAdapter.addItem(demo);
 
 
         } catch (Exception e) {

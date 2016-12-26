@@ -24,11 +24,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/AppThemeWithoutActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -39,6 +35,11 @@
             android:name=".ui.BusinessActivity"
             android:label="@string/title_activity_business"
             android:theme="@style/AppThemeWithoutActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
 

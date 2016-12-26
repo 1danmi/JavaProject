@@ -49,10 +49,12 @@ public class ActivitiesActivity extends AppCompatActivity {
 
         setActionBar();
 
+
+        inflateData();
+
         setTabLayout();
 
 
-        inflateData();
 
 
         setAppBar();
@@ -100,6 +102,7 @@ public class ActivitiesActivity extends AppCompatActivity {
             for (Business business : BusinessActivity.businessList) {
                 if (business.get_ID() == businesdID) {
                     businessItem = business;
+                    break;
                 }
             }
         }

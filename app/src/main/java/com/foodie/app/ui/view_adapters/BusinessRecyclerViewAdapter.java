@@ -58,6 +58,17 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
 
     }
 
+    public void addItem(Business business){
+        businessesList.add(business);
+        notifyItemInserted(businessesList.size());
+    }
+
+    public void removeItem(int position){
+        businessesList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+
     @Override
     public BusinessImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Called by the layout manager when it needs a new view
