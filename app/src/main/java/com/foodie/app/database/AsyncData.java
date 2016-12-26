@@ -3,19 +3,14 @@ package com.foodie.app.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.os.AsyncTask;
-
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.foodie.app.DebugHelper.DebugHelper;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.entities.CPUser;
-import com.foodie.app.entities.User;
-import com.foodie.app.ui.LoginActivity;
-import com.foodie.app.ui.MainActivity;
 
 import java.util.List;
 

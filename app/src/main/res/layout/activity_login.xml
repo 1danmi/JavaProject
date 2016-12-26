@@ -105,13 +105,14 @@
         android:layout_marginRight="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        app:btnColor="#f44336"
+        app:lb_btnColor="@color/primary"
         app:layout_constraintLeft_toLeftOf="@+id/pwdEditText"
         app:layout_constraintRight_toRightOf="@+id/pwdEditText"
         app:layout_constraintTop_toBottomOf="@+id/pwdEditText"
-        app:resetAfterFailed="true"
+        app:lb_resetAfterFailed="true"
         app:rippleColor="#000000"
-        app:text="@string/action_sign_in_short" />
+        app:lb_btnText="@string/action_sign_in_short"
+        />
 
     <TextView
         android:id="@+id/newAccountTextView"
