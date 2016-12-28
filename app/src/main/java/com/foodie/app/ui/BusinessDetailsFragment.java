@@ -42,6 +42,8 @@ public class BusinessDetailsFragment extends Fragment {
     private FloatingActionButton addButton, editButton;
     private static Business businessItem;
     private static final String BUSINESS_ID = "businessId";
+    private static final String EDIT_MODE = "mEditKey";
+
 
     //Fragment requires empty public constructor
     public BusinessDetailsFragment() {
@@ -58,13 +60,26 @@ public class BusinessDetailsFragment extends Fragment {
 
         initializeViews(rootView);
 
-        mEditMode = false;
+        inflateData();
 
         setFABs(rootView);
+
+        return rootView;
+
+    }
+
+    //Inflates business data from the bundle and from the database.
+    private void inflateData() {
         int businessID = 0;
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             businessID = bundle.getInt(BUSINESS_ID, 0);
+            String edit = bundle.getString(EDIT_MODE, "false");
+            if (edit.equals("true")) {
+                mEditMode = true;
+            } else {
+                mEditMode = false;
+            }
         }
 
         if (businessID != 0) {
@@ -74,10 +89,10 @@ public class BusinessDetailsFragment extends Fragment {
                     break;
                 }
             }
-            if (businessItem == null) {
-                businessItem = new Business();
-            }
+        } else if (businessID == 0) {
+            businessItem = new Business();
         }
+
         if (businessItem != null) {
             mNameText.setText(businessItem.getBusinessName());
             mAddressText.setText(businessItem.getBusinessAddress());
@@ -85,10 +100,6 @@ public class BusinessDetailsFragment extends Fragment {
             mWebsiteText.setText(businessItem.getBusinessWebsite());
             mEmailText.setText(businessItem.getBusinessEmail());
         }
-
-
-        return rootView;
-
     }
 
     //Configure the edit and confirm buttons
@@ -113,7 +124,7 @@ public class BusinessDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mEditMode = true;
-                Snackbar.make(rootLayout, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
+//                Snackbar.make(rootLayout, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
                 addFAB.setVisibility(View.VISIBLE);
                 editFAB.setVisibility(View.GONE);
             }
@@ -123,7 +134,12 @@ public class BusinessDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mEditMode = false;
-                Snackbar.make(rootLayout, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
+//                Snackbar.make(rootLayout, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
+                if(businessItem.get_ID()==0){
+                    businessItem.set_ID(Business.businessID+1);
+                    Business.businessID++;
+                    BusinessActivity.businessList.add(businessItem);
+                }
                 addFAB.setVisibility(View.GONE);
                 editFAB.setVisibility(View.VISIBLE);
             }

@@ -265,7 +265,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:clipChildren="false"
-        app:arcColor="#00ffff"
+        app:arcColor="@color/accent"
         app:arcWidth="5dp"
         app:finalIcon="@drawable/ic_add_white_48dp"
         app:layout_behavior="com.foodie.app.ui.view_adapters.FABProgressCircleBehavior">
@@ -277,7 +277,7 @@
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom|end"
             android:clickable="true"
-            app:backgroundTint="@color/accent"
+            app:backgroundTint="@color/primary"
             app:fabSize="normal"
             app:rippleColor="@color/ripple_accent"
             app:srcCompat="@drawable/ic_done_white"
@@ -296,7 +296,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:clipChildren="false"
-        app:arcColor="#00ffff"
+        app:arcColor="@color/accent"
         app:arcWidth="5dp"
         app:finalIcon="@drawable/ic_done"
         app:layout_behavior="com.foodie.app.ui.view_adapters.FABProgressCircleBehavior">
@@ -307,7 +307,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:clickable="true"
-            app:backgroundTint="@color/accent"
+            app:backgroundTint="@color/primary"
             app:fabSize="normal"
             app:rippleColor="@color/ripple_accent"
             fab:srcCompat="@drawable/ic_mode_edit_white_48dp" />

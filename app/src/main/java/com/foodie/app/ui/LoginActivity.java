@@ -1,9 +1,12 @@
 package com.foodie.app.ui;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
@@ -52,7 +55,12 @@ public class LoginActivity extends AppCompatActivity {
                 try {
 
                     Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                    startActivity(intent);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this).toBundle());
+                    }else{
+                        startActivity(intent);
+                    }
+
                 } catch (Exception ex) {
                     Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -100,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         signIn.postDelayed(new Runnable() {
             @Override
             public void run() {
-                final String emailAddress = emailEditText.getText().toString();
+                final String emailAddress = emailEditText.getText().toString().trim();
                 if (emailAddress.length() == 0) {
                     emailEditText.setError(getString(R.string.error_empty_email));
                     signIn.loadingFailed();
@@ -110,8 +118,10 @@ public class LoginActivity extends AppCompatActivity {
                     //TODO: Implement signing in here
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     sharedPreferences.edit().putString(email, emailAddress).apply();
+                    sharedPreferences.edit().putString(password, pwdEditText.getText().toString()).apply();
 
-                    Toast.makeText(getApplicationContext(), getString(R.string.not_yet_implemented), Toast.LENGTH_SHORT).show();
+
+                    //Toast.makeText(getApplicationContext(), getString(R.string.not_yet_implemented), Toast.LENGTH_SHORT).show();
 
                     /***************************David*****************************/
 
@@ -127,18 +137,37 @@ public class LoginActivity extends AppCompatActivity {
 
                             switch (status) {
                                 case Success:
-                                    snackbar = Snackbar.make(constraintLayout, "Success", Snackbar.LENGTH_LONG);
-                                    snackbar.show();
-                                    Intent intent = new Intent(LoginActivity.this, BusinessActivity.class);
-                                    startActivity(intent);
+
+                                    signIn.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            final Intent intent = new Intent(LoginActivity.this, BusinessActivity.class);
+                                            signIn.loadingSuccessful();
+                                            Snackbar.make(constraintLayout, "Success", Snackbar.LENGTH_LONG).show();
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    startActivity(intent);
+                                                }
+                                            },400);
+                                        }
+                                    }, 1500);
                                     break;
                                 case Failed:
-                                    snackbar = Snackbar.make(constraintLayout, "Failed", Snackbar.LENGTH_LONG);
-                                    snackbar.show();
-                                    signIn.loadingFailed();
+
+
+                                    signIn.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            signIn.loadingFailed();
+                                            Snackbar.make(constraintLayout, "Failed", Snackbar.LENGTH_LONG).show();
+
+                                        }
+                                    }, 3000);
                                 default:
                                     DebugHelper.Log("Default switch in callBack");
                                     signIn.loadingFailed();
+
                                     break;
                             }
                         }
@@ -146,8 +175,6 @@ public class LoginActivity extends AppCompatActivity {
                     // Execute the AsyncTask
                     data.execute(new DBquery(new String[]{emailEditText.getText().toString(), pwdEditText.getText().toString()}));
                     /***************************David*****************************/
-
-                    signIn.loadingSuccessful();
 
                 } else {
                     //emailEditText.validate();

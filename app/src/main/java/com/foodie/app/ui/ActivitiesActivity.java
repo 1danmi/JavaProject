@@ -28,6 +28,8 @@ public class ActivitiesActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private ImageView businessLogoHeader;
     private TextView businessNameHeader;
+    private static final String EDIT_MODE = "mEditKey";
+    private String editMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,8 @@ public class ActivitiesActivity extends AppCompatActivity {
     //Inflates the business date from the database.
     private void inflateData() {
         Intent intent = getIntent();
-        int businesdID = (int) intent.getSerializableExtra(BUSINESS_ID);
+        int businesdID = intent.getIntExtra(BUSINESS_ID, 0);
+        editMode = intent.getStringExtra(EDIT_MODE);
         if (businesdID != 0) {
             for (Business business : BusinessActivity.businessList) {
                 if (business.get_ID() == businesdID) {
@@ -89,7 +92,7 @@ public class ActivitiesActivity extends AppCompatActivity {
                 }
             }
         }
-        if (businessItem == null) {
+        if (businesdID == 0) {
             businessItem = new Business();
         } else {
             Bitmap bmp = BitmapFactory.decodeByteArray(businessItem.getBusinessLogo(), 0, businessItem.getBusinessLogo().length);
@@ -153,6 +156,7 @@ public class ActivitiesActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         if (businessItem != null) {
             bundle.putInt(BUSINESS_ID, businessItem.get_ID());
+            bundle.putString(EDIT_MODE, editMode);
         } else {
             bundle.putInt(BUSINESS_ID, 0);
         }

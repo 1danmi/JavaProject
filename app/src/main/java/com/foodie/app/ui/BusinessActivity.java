@@ -86,7 +86,6 @@ public class BusinessActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ActivitiesActivity.class);
-                intent.putExtra(BUSINESS_ID, 0);
                 intent.putExtra(EDIT_MODE, "true");
                 startActivity(intent);
             }
@@ -243,7 +242,6 @@ public class BusinessActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //Snackbar.make(v,"Item at position " + position + " had been clicked", Snackbar.LENGTH_LONG).show();
     }
 
     @Override

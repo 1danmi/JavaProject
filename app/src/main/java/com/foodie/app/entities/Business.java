@@ -8,7 +8,7 @@ public class Business implements Serializable {
     private static final long serialVersionUID = 2L;
 
 
-    private static int businessID = 0;
+    public static int businessID = 0;
 
     private int _ID;
 
@@ -30,7 +30,7 @@ public class Business implements Serializable {
     public Business() {
 
         _ID = 0;
-        businessName = "New Business";
+        businessName = "";
         businessAddress = "";
         businessPhoneNo = "";
         businessEmail = "";
