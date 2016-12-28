@@ -51,6 +51,17 @@ public class Business implements Serializable {
         setBusinessLogo(businessLogo);
     }
 
+    public Business(int id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
+        set_ID(id);
+        setBusinessName(businessName);
+        setBusinessAddress(businessAddress);
+        setBusinessPhoneNo(businessPhoneNo);
+        setBusinessEmail(businessEmail);
+        setBusinessWebsite(businessWebsite);
+        setCpuserID(cpuserID);
+        setBusinessLogo(businessLogo);
+    }
+
     public int get_ID() {
         return _ID;
     }

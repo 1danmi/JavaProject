@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.dx.dxloadingbutton.lib.LoadingButton;
-import com.foodie.app.DebugHelper.DebugHelper;
+import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;

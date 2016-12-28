@@ -8,11 +8,14 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.foodie.app.DebugHelper.DebugHelper;
+import com.foodie.app.Helper.DebugHelper;
+import com.foodie.app.Helper.HelperClass;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.entities.CPUser;
+import com.foodie.app.entities.User;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by David on 15/12/2016.
@@ -40,6 +43,12 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
     protected Void doInBackground(Object... objects) {
 
         DebugHelper.Log("AsyncData: doInBackground with type: "+datamanagerType.toString());
+
+        if(uri == null) {
+            runCallBack(DataStatus.InvalidArgumment,null);
+            DebugHelper.Log("AsyncData: Uri is null");
+        }
+
         if(objects.length == 0 || context == null) {
             runCallBack(DataStatus.InvalidArgumment,null);
             DebugHelper.Log("AsyncData: Total of Objects: " + objects.length +( (context == null)?" and context is null":"") );
@@ -60,8 +69,19 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
                 }
                 break;
             case Query:
+                if(objects[0] instanceof DBquery)
+                    if(objects.length>1)
+                        query((DBquery[])objects);
+                    else
+                        query((DBquery)objects[0]);
+                else {
+                    DebugHelper.Log("AsyncData: object is not a DBquery type");
+                    runCallBack(DataStatus.InvalidArgumment, null);
+                }
                 break;
             case Delete:
+                if(objects[0] instanceof String)
+                   remove((String)objects[0]);
                 break;
             case login:
                 if(objects[0] instanceof DBquery)
@@ -106,20 +126,88 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
             return;
         }
 
-        Cursor result = context.getContentResolver().query(uri,new String[]{AppContract.CPUser.CPUSER_EMAIL,AppContract.CPUser.CPUSER_PWD},null,new String[]{username,psw},null);
-        List<CPUser> total = Converters.cursorToCPUserList(result);
+        String uriType = uri.getLastPathSegment();
 
-        if(total.size()>0) {
-            DebugHelper.Log("AsyncData: Username: " + (total.get(0).getUserFullName()));
-            runCallBack(DataStatus.Success,null);
+        if(uriType=="cpuser") {
+            Cursor result = context.getContentResolver().query(uri, new String[]{AppContract.CPUser.CPUSER_EMAIL, AppContract.CPUser.CPUSER_PWD}, null, new String[]{username, psw}, null);
+            List<CPUser> total = Converters.cursorToCPUserList(result);
+
+            if (total.size() > 0) {
+                DebugHelper.Log("AsyncData: Username: " + (total.get(0).getUserFullName()));
+                runCallBack(DataStatus.Success, null);
+            } else {
+                runCallBack(DataStatus.Failed, null);
+            }
+
+        }else if (uriType=="user")
+        {
+            Cursor result = context.getContentResolver().query(uri, new String[]{AppContract.User.USER_EMAIL, AppContract.User.USER_PWD}, null, new String[]{username, psw}, null);
+            List<User> total = Converters.cursorToUserList(result);
+
+            if (total.size() > 0) {
+                DebugHelper.Log("AsyncData: Username: " + (total.get(0).getUserFullName()));
+                runCallBack(DataStatus.Success, null);
+            } else {
+                runCallBack(DataStatus.Failed, null);
+            }
+
+        }else
+            runCallBack(DataStatus.InvalidArgumment, null);
+
+    }
+
+    private void remove(String id)
+    {
+
+        if (context.getContentResolver().delete(uri,id,null ) == 1) {
+            runCallBack(DataStatus.Success, null);
+        } else {
+            runCallBack(DataStatus.Failed, null);
         }
-        else {
-            runCallBack(DataStatus.Failed,null);
+
+    }
+
+    private void query(DBquery... query)
+    {
+        Cursor result;
+        for (DBquery aQuery : query) {
+            result = context.getContentResolver().query(uri, aQuery.getProjection(), aQuery.getSelection(), aQuery.getSelectionArgs(), aQuery.getSortOrder());
+
+            String uriType = uri.getLastPathSegment();
+            long id = -1;
+            try {
+                switch (uriType) {
+                    case "user":
+                        List<T> UserList = (List<T>) Converters.cursorToUserList(result);
+                        runCallBack(DataStatus.Success, UserList);
+                        break;
+
+
+                    case "Business":
+                        List<T> BusinessList = (List<T>) Converters.cursorToBusinessList(result);
+                        runCallBack(DataStatus.Success, BusinessList);
+                        break;
+
+
+                    case "activity":
+                        List<T> ActivityList = (List<T>) Converters.cursorToActivityList(result);
+                        runCallBack(DataStatus.Success, ActivityList);
+                        break;
+
+
+                    case "cpuser":
+                       List<T> CPUserList = (List<T>) Converters.cursorToCPUserList(result);
+                       runCallBack(DataStatus.Success, CPUserList);
+                        break;
+                }
+            } catch (Exception ex) {
+                runCallBack(DataStatus.Failed, null);
+
+            }
         }
 
 
     }
-
 
     public void setCallBack(CallBack<T> callBack)
     {
@@ -131,7 +219,7 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
         datamanagerType = type;
     }
 
-    private void runCallBack(final DataStatus status, final T... data)
+    private void runCallBack(final DataStatus status, final List<T> data)
     {
         if(callback == null) {
             DebugHelper.Log("AsyncData: callBack is null");

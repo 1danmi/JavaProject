@@ -3,7 +3,7 @@ package com.foodie.app.listsDB;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.foodie.app.DebugHelper.DebugHelper;
+import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.Converters;
 import com.foodie.app.database.IDBManager;
@@ -242,17 +242,221 @@ public class ListDBManager implements IDBManager {
 
     @Override
     public Cursor getBusiness(String[] args, String[] columnsArgs) {
-        return Converters.BusinessListToCursor(businesses);
+        //    public Business(int id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
+
+        List<Business> result = new ArrayList<>();
+        boolean insert = true;
+        if (columnsArgs != null) {
+            for (Business bus : businesses) {
+                for (int i = 0; i < columnsArgs.length; i++) {
+                    switch (columnsArgs[i]) {
+                        case AppContract.Business.BUSINESS_ID:
+                            if (bus.get_ID() != Integer.parseInt(args[i])) {
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_ID + ": "+ bus.get_ID() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.Business.BUSINESS_NAME:
+                            if (!bus.getBusinessName().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_NAME + ": "+ bus.getBusinessName() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.Business.BUSINESS_ADDRESS:
+                            if (!bus.getBusinessAddress().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_ADDRESS + ": "+ bus.getBusinessAddress() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.Business.BUSINESS_PHONE_NUMBER:
+                            if (!bus.getBusinessPhoneNo().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_PHONE_NUMBER + ": "+ bus.getBusinessPhoneNo() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.Business.BUSINESS_EMAIL:
+                            if (!bus.getBusinessEmail().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_EMAIL + ": "+ bus.getBusinessEmail() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.Business.BUSINESS_WEBSITE:
+                            if (!bus.getBusinessWebsite().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_WEBSITE + ": "+ bus.getBusinessWebsite() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.Business.BUSINESS_CPUSER_ID:
+                            if (Integer.toString(bus.getCpuserID()).equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_CPUSER_ID + ": "+ bus.getCpuserID() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+
+                    }
+                    if (!insert)
+                        break;
+                }
+                DebugHelper.Log("ListDBManager getBusiness: insert business " + bus.get_ID() + " = " + insert);
+                if (insert)
+                    result.add(bus);
+                else
+                    insert = true;
+            }
+            return Converters.BusinessListToCursor(result);
+        } else
+            return Converters.BusinessListToCursor(businesses);
     }
 
     @Override
     public Cursor getActivity(String[] args, String[] columnsArgs) {
-        return Converters.ActivitiesListToCursor(activities);
+
+        //    public Activity(int id,String activityName, String activityDescription, double activityCost, double activityRating, int businessId, byte[] activityImages, String feature) throws Exception {
+
+        List<Activity> result = new ArrayList<>();
+        boolean insert = true;
+        if (columnsArgs != null) {
+            for (Activity ac : activities) {
+                for (int i = 0; i < columnsArgs.length; i++) {
+                    switch (columnsArgs[i]) {
+                        case AppContract.Activity.ACTIVITY_ID:
+                            if (ac.get_ID() != Integer.parseInt(args[i])) {
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_ID + ": "+ ac.get_ID() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.Activity.ACTIVITY_NAME:
+                            if (!ac.getActivityName().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_NAME + ": "+ ac.getActivityName() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.Activity.ACTIVITY_DESCRIPTION:
+                            if (!ac.getActivityDescription().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_DESCRIPTION + ": "+ ac.getActivityDescription() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.Activity.ACTIVITY_COST:
+                            if (!Double.toString(ac.getActivityCost()).equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_COST + ": "+ ac.getActivityCost() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.Activity.ACTIVITY_RATING:
+                            if (!Double.toString(ac.getActivityRating()).equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_RATING + ": "+ ac.getActivityRating() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.Activity.ACTIVITY_BUSINESS_ID:
+                            if (ac.getBusinessId() != Integer.parseInt(args[i])) {
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_BUSINESS_ID + ": "+ ac.getBusinessId() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.Activity.ACTIVITY_FEATURE:
+                            if (!ac.getFeature().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_FEATURE + ": "+ ac.getFeature() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                    }
+                    if (!insert)
+                        break;
+                }
+                DebugHelper.Log("ListDBManager getActivity: insert CPUser " + ac.get_ID() + " = " + insert);
+                if (insert)
+                    result.add(ac);
+                else
+                    insert = true;
+            }
+            return Converters.ActivitiesListToCursor(result);
+        } else
+            return Converters.ActivitiesListToCursor(activities);
     }
 
     @Override
     public Cursor getUser(String[] args, String[] columnsArgs) {
-        return Converters.UserListToCursor(users);
+
+        //    public User(int ID,String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
+
+        List<User> result = new ArrayList<>();
+        boolean insert = true;
+        if (columnsArgs != null) {
+            for (User us : users) {
+                for (int i = 0; i < columnsArgs.length; i++) {
+                    switch (columnsArgs[i]) {
+                        case AppContract.User.USER_ID:
+                            if (us.get_ID() != Integer.parseInt(args[i])) {
+                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_ID + ": "+ us.get_ID() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.User.USER_FULL_NAME:
+                            if (!us.getUserFullName().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_FULL_NAME + ": "+ us.getUserFullName() + " != " + args[i]);
+                                insert = false;
+                            }
+
+                        case AppContract.User.USER_EMAIL:
+                            if (!us.getUserEmail().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_EMAIL + ": "+ us.getUserEmail() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.User.USER_PHONE_NUMBER:
+                            if (!us.getUserPhoneNumber().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_PHONE_NUMBER + ": "+ us.getUserPhoneNumber() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.User.USER_PWD:
+                            if (!us.getUserPwdHash().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_PWD + ": "+ us.getUserPwdHash() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+                        case AppContract.User.USER_ADDRESS:
+                            if (!us.getUserAddress().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_ADDRESS + ": "+ us.getUserAddress() + " != " + args[i]);
+                                insert = false;
+                            }
+                            break;
+
+
+
+                    }
+                    if (!insert)
+                        break;
+                }
+                DebugHelper.Log("ListDBManager getUser: insert user " + us.get_ID() + " = " + insert);
+                if (insert)
+                    result.add(us);
+                else
+                    insert = true;
+            }
+            return Converters.UserListToCursor(result);
+        } else
+            return Converters.UserListToCursor(users);
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.foodie.app.entities.User;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.foodie.app.backend.AppContract.CPUser.CPUSER_EMAIL;
 import static com.foodie.app.backend.AppContract.CPUser.CPUSER_FULL_NAME;
@@ -236,6 +237,7 @@ public class Converters {
     public static List<CPUser> cursorToCPUserList(Cursor cursor) {
 
 
+
         List<CPUser> result = new ArrayList<>();
 
 
@@ -251,6 +253,103 @@ public class Converters {
 
         return  result;
     }
+
+    public static List<User> cursorToUserList(Cursor cursor) {
+
+
+        List<User> result = new ArrayList<>();
+
+        //    public User(int ID,String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
+
+
+        while(cursor.moveToNext()) {
+
+            try {
+                result.add(new User(cursor.getInt(cursor.getColumnIndex(AppContract.User.USER_ID)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.User.USER_FULL_NAME)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.User.USER_EMAIL)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.User.USER_PHONE_NUMBER)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.User.USER_PWD)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.User.USER_ADDRESS))
+                ));
+
+            } catch (Exception e) {
+
+            }
+
+        }
+
+        cursor.close();
+
+        return  result;
+    }
+
+    public static List<Activity> cursorToActivityList(Cursor cursor) {
+
+
+        List<Activity> result = new ArrayList<>();
+
+        //    public User(int ID,String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
+
+        //    public Activity(int id,String activityName, String activityDescription, double activityCost, double activityRating, int businessId, byte[] activityImages, String feature) throws Exception {
+
+        while(cursor.moveToNext()) {
+
+            try {
+                result.add(new Activity(cursor.getInt(cursor.getColumnIndex(AppContract.Activity.ACTIVITY_ID)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_NAME)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_DESCRIPTION)),
+                        cursor.getDouble(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_COST)),
+                        cursor.getDouble(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_RATING)),
+                        cursor.getInt(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_BUSINESS_ID)),
+                        cursor.getBlob(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_IMAGE)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_FEATURE))
+                        ));
+
+            } catch (Exception ignored) {
+
+            }
+
+        }
+
+        cursor.close();
+
+        return  result;
+    }
+
+    public static List<Business> cursorToBusinessList(Cursor cursor) {
+
+        //    public Business(int id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
+
+
+        List<Business> result = new ArrayList<>();
+
+
+        while(cursor.moveToNext()) {
+
+            try {
+                result.add(new Business(cursor.getInt(cursor.getColumnIndex(AppContract.Business.BUSINESS_ID)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.Business.BUSINESS_NAME)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.Business.BUSINESS_ADDRESS)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.Business.BUSINESS_PHONE_NUMBER)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.Business.BUSINESS_EMAIL)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.Business.BUSINESS_WEBSITE)),
+                        cursor.getInt(cursor.getColumnIndex( AppContract.Business.BUSINESS_CPUSER_ID)),
+                        cursor.getBlob(cursor.getColumnIndex( AppContract.Business.BUSINESS_LOGO))
+
+                        ));
+
+            } catch (Exception ignored) {
+
+            }
+
+        }
+
+        cursor.close();
+
+        return  result;
+    }
+
 
 
 }

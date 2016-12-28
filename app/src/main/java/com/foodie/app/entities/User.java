@@ -20,7 +20,7 @@ public class User implements Serializable {
 
     private String userEmail;
 
-    private byte[] userPwdHash;
+    private String userPwdHash;
 
     private String userPhoneNumber;
 
@@ -34,6 +34,16 @@ public class User implements Serializable {
     public User(String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
 
         _ID++;
+        setUserFullName(userFullName);
+        setUserEmail(userEmail);
+        setUserPhoneNumber(userPhoneNumber);
+        setUserPwd(password);
+        setUserAddress(address);
+    }
+
+    public User(int ID,String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
+
+        set_ID(ID);
         setUserFullName(userFullName);
         setUserEmail(userEmail);
         setUserPhoneNumber(userPhoneNumber);
@@ -79,30 +89,19 @@ public class User implements Serializable {
             throw new Exception("Double check your email address, I think you got a mistake there");
     }
 
-    public byte[] getUserPwdHash() {
+    public String getUserPwdHash() {
         return userPwdHash;
     }
 
-    public void setUserPwdHash(byte[] userPwdHash) {
+    public void setUserPwdHash(String userPwdHash) {
         this.userPwdHash = userPwdHash;
     }
 
     public void setUserPwd(String userPassword) throws Exception {
-        if (userPassword.length() < 6)
-            throw new Exception("Password must contains at least 6 characters");
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
 
-        md.update(userPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed.
-        this.userPwdHash = md.digest();
+        this.userPwdHash = userPassword;
     }
 
-    public boolean checkUserPwd(String inputPassword) throws Exception {
-
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(inputPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed
-        byte[] digest = md.digest();
-        return digest == this.userPwdHash;
-    }
 
     public String getUserPhoneNumber() {
         return userPhoneNumber;

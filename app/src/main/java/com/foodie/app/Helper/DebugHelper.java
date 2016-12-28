@@ -1,4 +1,4 @@
-package com.foodie.app.DebugHelper;
+package com.foodie.app.Helper;
 
 import android.os.Handler;
 import android.os.Looper;
