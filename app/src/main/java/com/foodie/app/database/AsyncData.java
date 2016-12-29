@@ -16,20 +16,22 @@ import com.foodie.app.entities.User;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by David on 15/12/2016.
  */
 
 
-//TODO query option
+
 public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
 
 
-    protected Uri uri = null;
-    protected Context context = null;
-    protected CallBack<T> callback = null;
-    protected DataManagerType datamanagerType = DataManagerType.Off;
+    private Uri uri = null;
+    private Context context = null;
+    private CallBack<T> callback = null;
+    private DataManagerType datamanagerType = DataManagerType.Off;
 
 
     public AsyncData(Context context,Uri uri)
@@ -39,8 +41,26 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
 
     }
 
+    public AsyncData(Context context,Uri uri,DataManagerType datamanagerType)
+    {
+        this.context = context;
+        this.uri = uri;
+        this.datamanagerType = datamanagerType;
+    }
+
+    public AsyncData(Context context,Uri uri,DataManagerType datamanagerType, CallBack<T> callback)
+    {
+        this.context = context;
+        this.uri = uri;
+        this.datamanagerType = datamanagerType;
+        this.callback = callback;
+    }
+
+
     @Override
     protected Void doInBackground(Object... objects) {
+
+
 
         DebugHelper.Log("AsyncData: doInBackground with type: "+datamanagerType.toString());
 
@@ -49,15 +69,23 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
             DebugHelper.Log("AsyncData: Uri is null");
         }
 
-        if(objects.length == 0 || context == null) {
+        if(context == null)
+        {
             runCallBack(DataStatus.InvalidArgumment,null);
-            DebugHelper.Log("AsyncData: Total of Objects: " + objects.length +( (context == null)?" and context is null":"") );
+            DebugHelper.Log("AsyncData: Context is null" );
+
+        }
+
+        if(objects.length == 0) {
+            runCallBack(DataStatus.InvalidArgumment,null);
+            DebugHelper.Log("AsyncData: Total of Objects: " + objects.length );
         }
 
         switch (datamanagerType) {
             case Off:
                 break;
             case Insert:
+
                 if(objects[0] instanceof ContentValues)
                     if(objects.length>1)
                         Insert((ContentValues[])objects);
@@ -98,8 +126,11 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
 
         DebugHelper.Log("AsyncData: doInBackground finish");
 
+
         return null;
     }
+
+
 
     private void Insert(ContentValues... contentValues)
     {
@@ -120,7 +151,7 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
 
         if(username == null || psw == null)
         {
-            DebugHelper.Log("AsyncData: Invalid username or password");
+            DebugHelper.Log("AsyncData login: Invalid username or password");
 
             runCallBack(DataStatus.InvalidArgumment,null);
             return;
@@ -128,31 +159,36 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
 
         String uriType = uri.getLastPathSegment();
 
-        if(uriType=="cpuser") {
+
+
+
+        if(uriType.equals("cpuser")) {
             Cursor result = context.getContentResolver().query(uri, new String[]{AppContract.CPUser.CPUSER_EMAIL, AppContract.CPUser.CPUSER_PWD}, null, new String[]{username, psw}, null);
             List<CPUser> total = Converters.cursorToCPUserList(result);
 
             if (total.size() > 0) {
-                DebugHelper.Log("AsyncData: Username: " + (total.get(0).getUserFullName()));
-                runCallBack(DataStatus.Success, null);
+                DebugHelper.Log("AsyncData login: Username: " + (total.get(0).getUserFullName()));
+                runCallBack(DataStatus.Success, (List<T>) total);
             } else {
                 runCallBack(DataStatus.Failed, null);
             }
 
-        }else if (uriType=="user")
+        }else if (uriType.equals("user"))
         {
             Cursor result = context.getContentResolver().query(uri, new String[]{AppContract.User.USER_EMAIL, AppContract.User.USER_PWD}, null, new String[]{username, psw}, null);
             List<User> total = Converters.cursorToUserList(result);
 
             if (total.size() > 0) {
-                DebugHelper.Log("AsyncData: Username: " + (total.get(0).getUserFullName()));
+                DebugHelper.Log("AsyncData login: Username: " + (total.get(0).getUserFullName()));
                 runCallBack(DataStatus.Success, null);
             } else {
                 runCallBack(DataStatus.Failed, null);
             }
 
-        }else
+        }else{
+            DebugHelper.Log("AsyncData login: Invalid URI " + uri);
             runCallBack(DataStatus.InvalidArgumment, null);
+        }
 
     }
 
@@ -230,7 +266,7 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
         UIHandler .post(new Runnable() {
             @Override
             public void run() {
-                callback.DBstatus(status,data);
+                callback.run(status,data);
             }
         });
 

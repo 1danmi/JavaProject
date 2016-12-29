@@ -17,6 +17,8 @@ import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.CPUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.util.List;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -74,13 +76,13 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                 //Create an AsyncData object and set the constructor
-                AsyncData<CPUser> data = new AsyncData<>(getApplicationContext(), CPUser.getCPUser_URI());
+                AsyncData<CPUser> data = new AsyncData<>(getApplicationContext(), CPUser.getURI());
                 // Set the task to insert
                 data.setDatamanagerType(DataManagerType.Insert);
                 // Set the function to get status
                 data.setCallBack(new CallBack<CPUser>() {
                     @Override
-                    public void DBstatus(DataStatus status, CPUser... data) {
+                    public void run(DataStatus status, List<CPUser> data) {
                         DebugHelper.Log("CallBack with status: " + status);
 
                         switch (status) {
@@ -100,6 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 break;
                         }
                     }
+
                 });
                 // Execute the AsyncTask
                 data.execute(user.toContentValues());

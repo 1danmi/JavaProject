@@ -104,7 +104,7 @@ public class Converters {
         user.set_ID(contentValues.getAsInteger(AppContract.User.USER_ID));
         user.setUserFullName(contentValues.getAsString(AppContract.User.USER_FULL_NAME));
         user.setUserEmail(contentValues.getAsString(AppContract.User.USER_FULL_NAME));
-        user.setUserPwdHash(contentValues.getAsByteArray(AppContract.User.USER_PWD));
+        user.setUserPwdHash(contentValues.getAsString(AppContract.User.USER_PWD));
         user.setUserPhoneNumber(contentValues.getAsString(AppContract.User.USER_PHONE_NUMBER));
         user.setUserAddress(contentValues.getAsString(AppContract.User.USER_ADDRESS));
         user.setUserImage(contentValues.getAsByteArray(AppContract.User.USER_IMAGE));
@@ -236,15 +236,16 @@ public class Converters {
 
     public static List<CPUser> cursorToCPUserList(Cursor cursor) {
 
+//    public CPUser(int _ID, String userEmail, String userFullName, String userPwdHash)
 
 
-        List<CPUser> result = new ArrayList<>();
+    List<CPUser> result = new ArrayList<>();
 
 
         while(cursor.moveToNext()) {
             result.add(new CPUser(cursor.getInt(cursor.getColumnIndex(AppContract.CPUser.CPUSER_ID)),
-                    cursor.getString(cursor.getColumnIndex( AppContract.CPUser.CPUSER_FULL_NAME)),
                     cursor.getString(cursor.getColumnIndex( AppContract.CPUser.CPUSER_EMAIL)),
+                    cursor.getString(cursor.getColumnIndex( AppContract.CPUser.CPUSER_FULL_NAME)),
                     cursor.getString(cursor.getColumnIndex( AppContract.CPUser.CPUSER_PWD))
             ));
         }

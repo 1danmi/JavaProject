@@ -8,4 +8,8 @@ public class HelperClass {
     public static <T> T as(Class<T> t, Object o) {
         return t.isInstance(o) ? t.cast(o) : null;
     }
+    public static <T> T[] listToArray()
+    {
+        return null;
+    }
 }

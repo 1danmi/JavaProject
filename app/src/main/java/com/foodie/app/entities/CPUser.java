@@ -26,6 +26,10 @@ public class CPUser implements Serializable {
 
     public CPUser() {
     }
+    public CPUser(String userFullName) {
+        this.userFullName = userFullName;
+    }
+
 
     public CPUser(int _ID, String userEmail, String userFullName, String userPwdHash) {
         this._ID = _ID;
@@ -98,7 +102,7 @@ public class CPUser implements Serializable {
         return contentValues;
     }
 
-    public static Uri getCPUser_URI() {
+    public static Uri getURI() {
         return Uri.parse("content://com.foodie.app/cpuser");
     }
 }

@@ -1,7 +1,10 @@
 package com.foodie.app.ui;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,14 +18,20 @@ import android.widget.Toast;
 import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
+import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
 import com.foodie.app.database.DBquery;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
+import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
+
+import java.io.ByteArrayOutputStream;
+import java.util.LinkedList;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -113,16 +122,16 @@ public class LoginActivity extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), getString(R.string.not_yet_implemented), Toast.LENGTH_SHORT).show();
 
-                    /***************************David*****************************/
+                    /***************************Login*****************************/
 
                     //Create an AsyncData object and set the constructor
-                    AsyncData<CPUser> data = new AsyncData<>(getApplicationContext(), CPUser.getCPUser_URI());
+                    AsyncData<CPUser> data = new AsyncData<>(getApplicationContext(), CPUser.getURI());
                     // Set the task to insert
                     data.setDatamanagerType(DataManagerType.login);
                     // Set the function to get status
                     data.setCallBack(new CallBack<CPUser>() {
                         @Override
-                        public void DBstatus(DataStatus status, CPUser... data) {
+                        public void run(DataStatus status, List<CPUser> data) {
                             DebugHelper.Log("CallBack with status: " + status);
 
                             switch (status) {
@@ -130,7 +139,13 @@ public class LoginActivity extends AppCompatActivity {
                                     snackbar = Snackbar.make(constraintLayout, "Success", Snackbar.LENGTH_LONG);
                                     snackbar.show();
                                     Intent intent = new Intent(LoginActivity.this, BusinessActivity.class);
+
+                                    Bundle b = new Bundle();
+                                    b.putInt("Id", data.get(0).get_ID()); //Your id
+                                    b.putString("Fullname",data.get(0).getUserFullName()); //Your id
+                                    intent.putExtras(b); //Put your id to your next Intent
                                     startActivity(intent);
+
                                     break;
                                 case Failed:
                                     snackbar = Snackbar.make(constraintLayout, "Failed", Snackbar.LENGTH_LONG);
@@ -142,6 +157,7 @@ public class LoginActivity extends AppCompatActivity {
                                     break;
                             }
                         }
+
                     });
                     // Execute the AsyncTask
                     data.execute(new DBquery(new String[]{emailEditText.getText().toString(), pwdEditText.getText().toString()}));
@@ -179,18 +195,101 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //Create an AsyncData object and set the constructor
-        AsyncData<CPUser> data = new AsyncData<>(getApplicationContext(), CPUser.getCPUser_URI());
+        AsyncData<CPUser> data = new AsyncData<>(getApplicationContext(), CPUser.getURI());
         // Set the task to insert
         data.setDatamanagerType(DataManagerType.Insert);
         // Set the function to get status
         data.setCallBack(new CallBack<CPUser>() {
             @Override
-            public void DBstatus(DataStatus status, CPUser... data) {
+            public void run(DataStatus status, List<CPUser> data) {
                 DebugHelper.Log("Insert callBack finish with status: " + status);
             }
+
         });
         // Execute the AsyncTask
         data.execute(user.toContentValues());
+
+        /******************Business test ***************************/
+
+
+
+        Business demo;
+
+
+
+        CallBack<Business> callBack = new CallBack<Business>() {
+            @Override
+            public void run(DataStatus status, List<Business> data) {
+                DebugHelper.Log("Business insert callBack finish with status: " + status);
+            }
+        };
+
+
+
+
+        try {
+
+            String name1 = "Burgeranch ";
+
+
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.burgeranch);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] logo1 = stream.toByteArray();
+
+            demo = new Business(name1, "Derech Agudat Sport Beitar 1, Jerusalem, 9695235", "0543051733", "Burgeranch@burgeranch.co.il", "burgeranch.co.il", 1, logo1);
+            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+
+
+
+            String name2 = "McDonald's ";
+
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.mcdonalds_logo);
+            stream = new ByteArrayOutputStream();
+            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] logo2 = stream.toByteArray();
+
+            demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com", 2, logo2);
+            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+
+
+
+
+            String name3 = "Duda Lapizza ";
+
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.duda_lapizza_logo);
+            stream = new ByteArrayOutputStream();
+            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] logo3 = stream.toByteArray();
+
+            demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", 3, logo3);
+            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+
+
+
+
+            String name4 = "Pizza Hut ";
+
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pizza_hut_logo);
+            stream = new ByteArrayOutputStream();
+            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] logo4 = stream.toByteArray();
+
+            demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", 4, logo4);
+            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+
+
+
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+        }
+
+
     }
 
 }

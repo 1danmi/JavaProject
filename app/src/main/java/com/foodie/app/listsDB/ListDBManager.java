@@ -94,7 +94,7 @@ public class ListDBManager implements IDBManager {
         cpuser.set_ID(++cpuserId);
 
         cpusers.add(cpuser);
-        DebugHelper.Log("CPUser: ID " + cpuser.get_ID() + " added");
+        DebugHelper.Log("ListDBManager addCPUser: ID " + cpuser.get_ID() + " added");
         isUpdated = true;
         return cpuser.get_ID();
     }
@@ -107,6 +107,8 @@ public class ListDBManager implements IDBManager {
         business.set_ID(++businessId);
         businesses.add(business);
         isUpdated = true;
+        DebugHelper.Log("ListDBManager addBusiness: ID " + business.get_ID() + " added");
+
         return business.get_ID();
     }
 

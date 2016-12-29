@@ -7,6 +7,6 @@ import java.util.List;
  */
 
 public interface CallBack<T>{
-    public void DBstatus(DataStatus status, List<T> data);
+    public void run(DataStatus status, List<T> data);
 
 }
