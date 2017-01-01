@@ -116,18 +116,18 @@ public class BusinessDetailsFragment extends Fragment {
             }
         }
 
-        if (businessID != 0) {
-            for (Business business : BusinessActivity.businessList) {
-                if (business.get_ID() == businessID) {
-                    businessItem = business;
-                    break;
-                }
-            }
-        } else if (businessID == 0) {
+//        if (businessID != 0) {
+//            for (Business business : BusinessActivity.businessList) {
+//                if (business.get_ID() == businessID) {
+//                    businessItem = business;
+//                    break;
+//                }
+//            }
+//        } else if (businessID == 0) {
             businessItem = ((ActivitiesActivity) getActivity()).businessItem;
-        }
+//        }
 
-        if (businessItem != null) {
+        if (businessItem != null && businessItem.get_ID()!=0) {
             mNameText.setText(businessItem.getBusinessName());
             mAddressText.setText(businessItem.getBusinessAddress());
             mPhoneText.setText(businessItem.getBusinessPhoneNo());

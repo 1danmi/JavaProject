@@ -29,8 +29,6 @@ import com.foodie.app.ui.view_adapters.BusinessViewPagerAdapter;
 
 import java.util.List;
 
-import static com.foodie.app.entities.Business.businessID;
-
 public class ActivitiesActivity extends AppCompatActivity {
 
     private static final String BUSINESS_ID = "businessId";
@@ -45,7 +43,7 @@ public class ActivitiesActivity extends AppCompatActivity {
     private static final String EDIT_MODE = "mEditKey";
     private String editMode;
     public Boolean isPhotoChanged;
-    private int businessdID;
+    private int businessID;
     private BusinessDetailsFragment businessDetailsFragment;
 
     @Override
@@ -101,9 +99,9 @@ public class ActivitiesActivity extends AppCompatActivity {
     //Inflates the business date from the database.
     private void inflateData() {
         Intent intent = getIntent();
-        businessdID = intent.getIntExtra(BUSINESS_ID, 0);
+        businessID = intent.getIntExtra(BUSINESS_ID, 0);
         editMode = intent.getStringExtra(EDIT_MODE);
-        if (businessdID != 0) {
+        if (businessID != 0) {
             DBquery dBquery = new DBquery(new String[]{AppContract.Business.BUSINESS_ID},new String[]{Integer.toString(businessID)});
             (new AsyncData<Business>(getApplicationContext(), Business.getURI(), DataManagerType.Query, new CallBack<Business>() {
                 @Override
@@ -111,7 +109,7 @@ public class ActivitiesActivity extends AppCompatActivity {
                     if(data!=null) {
                         businessItem = data.get(0);
                         //DebugHelper.Log("Da"));
-                        setData(businessdID);
+                        setData(businessID);
                         businessDetailsFragment.inflateData();
                     }
                 }
