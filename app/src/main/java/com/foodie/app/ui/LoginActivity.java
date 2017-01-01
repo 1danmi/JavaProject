@@ -181,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
         try {
 
 
-            user.setUserFullName("aa aa");
+            user.setUserFullName("Foodie Business");
             user.setUserEmail("a@a.c");
             user.setUserPwd("12345678");
 

@@ -160,34 +160,37 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
         String uriType = uri.getLastPathSegment();
 
 
+        switch (uriType) {
+            case "cpuser": {
+                Cursor result = context.getContentResolver().query(uri, new String[]{AppContract.CPUser.CPUSER_EMAIL, AppContract.CPUser.CPUSER_PWD}, null, new String[]{username, psw}, null);
+                List<CPUser> total = Converters.cursorToCPUserList(result);
 
+                if (total.size() > 0) {
+                    DebugHelper.Log("AsyncData login: Username: " + (total.get(0).getUserFullName()));
+                    runCallBack(DataStatus.Success, (List<T>) total);
+                } else {
+                    runCallBack(DataStatus.Failed, null);
+                }
 
-        if(uriType.equals("cpuser")) {
-            Cursor result = context.getContentResolver().query(uri, new String[]{AppContract.CPUser.CPUSER_EMAIL, AppContract.CPUser.CPUSER_PWD}, null, new String[]{username, psw}, null);
-            List<CPUser> total = Converters.cursorToCPUserList(result);
-
-            if (total.size() > 0) {
-                DebugHelper.Log("AsyncData login: Username: " + (total.get(0).getUserFullName()));
-                runCallBack(DataStatus.Success, (List<T>) total);
-            } else {
-                runCallBack(DataStatus.Failed, null);
+                break;
             }
+            case "user": {
+                Cursor result = context.getContentResolver().query(uri, new String[]{AppContract.User.USER_EMAIL, AppContract.User.USER_PWD}, null, new String[]{username, psw}, null);
+                List<User> total = Converters.cursorToUserList(result);
 
-        }else if (uriType.equals("user"))
-        {
-            Cursor result = context.getContentResolver().query(uri, new String[]{AppContract.User.USER_EMAIL, AppContract.User.USER_PWD}, null, new String[]{username, psw}, null);
-            List<User> total = Converters.cursorToUserList(result);
+                if (total.size() > 0) {
+                    DebugHelper.Log("AsyncData login: Username: " + (total.get(0).getUserFullName()));
+                    runCallBack(DataStatus.Success, null);
+                } else {
+                    runCallBack(DataStatus.Failed, null);
+                }
 
-            if (total.size() > 0) {
-                DebugHelper.Log("AsyncData login: Username: " + (total.get(0).getUserFullName()));
-                runCallBack(DataStatus.Success, null);
-            } else {
-                runCallBack(DataStatus.Failed, null);
+                break;
             }
-
-        }else{
-            DebugHelper.Log("AsyncData login: Invalid URI " + uri);
-            runCallBack(DataStatus.InvalidArgumment, null);
+            default:
+                DebugHelper.Log("AsyncData login: Invalid URI " + uri);
+                runCallBack(DataStatus.InvalidArgumment, null);
+                break;
         }
 
     }

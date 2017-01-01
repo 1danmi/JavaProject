@@ -25,9 +25,11 @@
                 android:layout_height="match_parent"
                 android:id="@+id/BusinessName"
                 android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:text="Bussines Name"
-                android:layout_weight="1.50" />
+                android:layout_weight="1.50"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"
+                android:fontFamily="sans-serif"
+                android:text="Business Name" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
