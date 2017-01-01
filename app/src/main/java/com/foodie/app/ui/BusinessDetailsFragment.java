@@ -116,18 +116,9 @@ public class BusinessDetailsFragment extends Fragment {
             }
         }
 
-//        if (businessID != 0) {
-//            for (Business business : BusinessActivity.businessList) {
-//                if (business.get_ID() == businessID) {
-//                    businessItem = business;
-//                    break;
-//                }
-//            }
-//        } else if (businessID == 0) {
-            businessItem = ((ActivitiesActivity) getActivity()).businessItem;
-//        }
+        businessItem = ((ActivitiesActivity) getActivity()).businessItem;
 
-        if (businessItem != null && businessItem.get_ID()!=0) {
+        if (businessItem != null && businessItem.get_ID() != 0) {
             mNameText.setText(businessItem.getBusinessName());
             mAddressText.setText(businessItem.getBusinessAddress());
             mPhoneText.setText(businessItem.getBusinessPhoneNo());
@@ -281,14 +272,14 @@ public class BusinessDetailsFragment extends Fragment {
                                 ((TextView) activitiesActivity.findViewById(R.id.business_header_name)).setText(mName);
                             } else {
                                 Snackbar snackbar = Snackbar.make(parent, "Business name must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
-                                            new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    setName(v);
-                                                }
-                                            });
-                                    snackbar.setActionTextColor(getResources().getColor(R.color.primary));
-                                    snackbar.show();
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                setName(v);
+                                            }
+                                        });
+                                snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                snackbar.show();
 
                             }
                         }
