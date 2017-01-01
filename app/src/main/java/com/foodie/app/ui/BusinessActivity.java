@@ -19,10 +19,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
+import com.foodie.app.backend.AppContract;
+import com.foodie.app.database.AsyncData;
+import com.foodie.app.database.CallBack;
+import com.foodie.app.database.DBquery;
+import com.foodie.app.database.DataManagerType;
+import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
+import com.foodie.app.entities.CPUser;
 import com.foodie.app.ui.view_adapters.BusinessRecyclerViewAdapter;
 import com.foodie.app.ui.view_adapters.RecyclerItemClickListener;
 
@@ -42,6 +51,8 @@ public class BusinessActivity extends AppCompatActivity
     public static List<Business> businessList;
     private RecyclerView recyclerView;
     private FloatingActionButton addBusinessFAB;
+    private int userId = -1;
+    private CPUser  user = null;
 
 
     @Override
@@ -58,7 +69,13 @@ public class BusinessActivity extends AppCompatActivity
         businessList = new ArrayList<>();
         setRecyclerView();
 
-        businessList = loadDemoData();
+        loadData();
+
+        TextView title = (TextView) findViewById(R.id.BusinessName);
+
+
+
+        title.setText(user.getUserFullName());
 
 
     }
@@ -162,67 +179,41 @@ public class BusinessActivity extends AppCompatActivity
         return true;
     }
 
-    public List<Business> loadDemoData() {
+    public void loadData() {
 
-
-        Business demo;
-
-
-        try {
-
-            String name1 = "Burgeranch ";
-
-
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.burgeranch);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] logo1 = stream.toByteArray();
-
-            demo = new Business(name1, "Derech Agudat Sport Beitar 1, Jerusalem, 9695235", "0543051733", "Burgeranch@burgeranch.co.il", "burgeranch.co.il", 1, logo1);
-            businessRecyclerViewAdapter.addItem(demo);
-
-
-            String name2 = "McDonald's ";
-
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.mcdonalds_logo);
-            stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] logo2 = stream.toByteArray();
-
-            demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com", 2, logo2);
-            businessRecyclerViewAdapter.addItem(demo);
-
-            String name3 = "Duda Lapizza ";
-
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.duda_lapizza_logo);
-            stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] logo3 = stream.toByteArray();
-
-            demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", 3, logo3);
-            businessRecyclerViewAdapter.addItem(demo);
-
-
-            String name4 = "Pizza Hut ";
-
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pizza_hut_logo);
-            stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] logo4 = stream.toByteArray();
-
-            demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", 4, logo4);
-            businessRecyclerViewAdapter.addItem(demo);
-
-
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            userId = b.getInt("Id");
+            user = new CPUser(b.getString("Fullname"));
         }
-        return businessList;
+
+
+        //Create an AsyncData object and set the constructor
+        AsyncData<Business> data = new AsyncData<>(getApplicationContext(), Business.getURI());
+        // Set the task to insert
+        data.setDatamanagerType(DataManagerType.Query);
+        // Set the function to get status
+        data.setCallBack(new CallBack<Business>() {
+            @Override
+            public void run(DataStatus status, List<Business> data) {
+                DebugHelper.Log("Query callBack finish with status: " + status);
+                if(status  != DataStatus.Success)
+                {
+                    Toast.makeText(getApplicationContext(), "Error: " + status , Toast.LENGTH_SHORT).show();
+
+                }
+                DebugHelper.Log("Query callBack: items total = "+data.size());
+
+                for(Business item : data)
+                {
+                    businessRecyclerViewAdapter.addItem(item);
+                }
+            }
+        });
+        // Execute the AsyncTask
+        data.execute(new DBquery());
+
+
     }
 
 
@@ -249,4 +240,6 @@ public class BusinessActivity extends AppCompatActivity
         super.onResume();
         businessRecyclerViewAdapter.notifyDataSetChanged();
     }
+
+
 }

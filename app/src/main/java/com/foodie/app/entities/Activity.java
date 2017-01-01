@@ -47,6 +47,17 @@ public class Activity implements Serializable {
         setFeature(feature);
     }
 
+    public Activity(int id,String activityName, String activityDescription, double activityCost, double activityRating, int businessId, byte[] activityImages, String feature) throws Exception {
+        set_ID(id);
+        setActivityName(activityName);
+        setActivityDescription(activityDescription);
+        setActivityCost(activityCost);
+        setActivityRating(activityRating);
+        setBusinessId(businessId);
+        setActivityImages(activityImages);
+        setFeature(feature);
+    }
+
     public int get_ID() {
         return _ID;
     }

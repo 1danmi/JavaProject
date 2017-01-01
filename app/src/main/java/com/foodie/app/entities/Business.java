@@ -1,5 +1,10 @@
 package com.foodie.app.entities;
 
+import android.content.ContentValues;
+import android.net.Uri;
+
+import com.foodie.app.backend.AppContract;
+
 import java.io.Serializable;
 
 
@@ -42,6 +47,17 @@ public class Business implements Serializable {
     public Business(String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
         set_ID(businessID + 1);
         businessID++;
+        setBusinessName(businessName);
+        setBusinessAddress(businessAddress);
+        setBusinessPhoneNo(businessPhoneNo);
+        setBusinessEmail(businessEmail);
+        setBusinessWebsite(businessWebsite);
+        setCpuserID(cpuserID);
+        setBusinessLogo(businessLogo);
+    }
+
+    public Business(int id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
+        set_ID(id);
         setBusinessName(businessName);
         setBusinessAddress(businessAddress);
         setBusinessPhoneNo(businessPhoneNo);
@@ -115,5 +131,30 @@ public class Business implements Serializable {
 
     public void setBusinessLogo(byte[] businessLogo) {
         this.businessLogo = businessLogo;
+    }
+
+
+
+    public ContentValues toContentValues() {
+        //    public Business(int id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
+
+
+        final ContentValues contentValues = new ContentValues();
+
+        contentValues.put(AppContract.Business.BUSINESS_ID, this.get_ID());
+        contentValues.put(AppContract.Business.BUSINESS_NAME, this.getBusinessName());
+        contentValues.put(AppContract.Business.BUSINESS_ADDRESS, this.getBusinessAddress());
+        contentValues.put(AppContract.Business.BUSINESS_PHONE_NUMBER, this.getBusinessPhoneNo());
+        contentValues.put(AppContract.Business.BUSINESS_EMAIL, this.getBusinessEmail());
+        contentValues.put(AppContract.Business.BUSINESS_WEBSITE, this.getBusinessWebsite());
+        contentValues.put(AppContract.Business.BUSINESS_CPUSER_ID, this.getCpuserID());
+        contentValues.put(AppContract.Business.BUSINESS_LOGO, this.getBusinessLogo());
+
+
+        return contentValues;
+    }
+
+    public static Uri getURI() {
+        return Uri.parse("content://com.foodie.app/Business");
     }
 }

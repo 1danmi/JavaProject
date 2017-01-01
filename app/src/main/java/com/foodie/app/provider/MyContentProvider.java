@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
-import com.foodie.app.DebugHelper.DebugHelper;
+import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.IDBManager;
 
@@ -28,9 +28,10 @@ public class MyContentProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        Log.d(TAG, "insert " + uri.toString());
+       DebugHelper.Log("MyContentProvider: Delete");
+
         String listName = uri.getLastPathSegment();
-        long id = ContentUris.parseId(uri);
+        long id = Integer.parseInt(selection);
         try {
             switch (listName) {
                 case "user":
