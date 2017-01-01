@@ -96,6 +96,17 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
                     runCallBack(DataStatus.InvalidArgumment, null);
                 }
                 break;
+            case Update:
+                if(objects[0] instanceof ContentValues)
+                    if(objects.length>1)
+                        update((ContentValues[])objects);
+                    else
+                        update((ContentValues)objects[0]);
+                else {
+                    DebugHelper.Log("AsyncData: object is not a ContentValues type");
+                    runCallBack(DataStatus.InvalidArgumment, null);
+                }
+                break;
             case Query:
                 if(objects[0] instanceof DBquery)
                     if(objects.length>1)
@@ -248,6 +259,26 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
 
     }
 
+
+    private void update(ContentValues... contentValues)
+    {
+        for (ContentValues value : contentValues ) {
+
+            int id = value.getAsInteger("_ID");
+
+            if(id == 0) {
+                DebugHelper.Log("AsyncData: invalid id " + Integer.toString(id));
+                runCallBack(DataStatus.InvalidArgumment, null);
+                return;
+            }
+
+            if (context.getContentResolver().update(uri, value,Integer.toString(id),null) != 0) {
+                runCallBack(DataStatus.Success, null);
+            } else {
+                runCallBack(DataStatus.Failed, null);
+            }
+        }
+    }
     public void setCallBack(CallBack<T> callBack)
     {
         this.callback = callBack;
