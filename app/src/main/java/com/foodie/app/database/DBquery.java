@@ -1,7 +1,5 @@
 package com.foodie.app.database;
 
-import android.net.Uri;
-
 /**
  * Created by David on 25/12/2016.
  */
@@ -65,6 +63,12 @@ public class DBquery {
         this.selection = selection;
         this.selectionArgs = selectionArgs;
         this.sortOrder = sortOrder;
+    }
+
+    public DBquery(String[] projection, String[] selectionArgs)
+    {
+        this.projection = projection;
+        this.selectionArgs = selectionArgs;
     }
 
     public DBquery(String[] login)
