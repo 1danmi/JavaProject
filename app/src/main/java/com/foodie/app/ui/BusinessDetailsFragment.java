@@ -25,14 +25,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.constants.Constants;
+import com.foodie.app.database.AsyncData;
+import com.foodie.app.database.CallBack;
+import com.foodie.app.database.DataManagerType;
+import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
 import com.github.jorgecastilloprz.FABProgressCircle;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -168,7 +174,15 @@ public class BusinessDetailsFragment extends Fragment {
                                         if (businessItem.getBusinessWebsite().length() > 0) {
                                             businessItem.set_ID(Business.businessID + 1);
                                             Business.businessID++;
-                                            BusinessActivity.businessList.add(businessItem);
+//                                            BusinessActivity.businessList.add(businessItem);
+                                            CallBack<Business> callBack = new CallBack<Business>() {
+                                                @Override
+                                                public void run(DataStatus status, List<Business> data) {
+                                                    DebugHelper.Log("Business insert callBack finish with status: " + status);
+                                                }
+                                            };
+                                            (new AsyncData<Business>(getContext(), Business.getURI(), DataManagerType.Insert, callBack)).execute(businessItem.toContentValues());
+
                                             addFAB.setVisibility(View.GONE);
                                             editFAB.setVisibility(View.VISIBLE);
                                         } else {
@@ -190,6 +204,36 @@ public class BusinessDetailsFragment extends Fragment {
                         Snackbar.make(parent, "You have to choose an image", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
+                    if (businessItem.getBusinessName().length() > 0) {
+                        if (businessItem.getBusinessAddress().length() > 0) {
+                            if (businessItem.getBusinessEmail().length() > 0) {
+                                if (businessItem.getBusinessPhoneNo().length() > 0) {
+                                    if (businessItem.getBusinessWebsite().length() > 0) {
+                                        CallBack<Business> callBack = new CallBack<Business>() {
+                                            @Override
+                                            public void run(DataStatus status, List<Business> data) {
+                                                DebugHelper.Log("Business insert callBack finish with status: " + status);
+                                            }
+                                        };
+                                        (new AsyncData<Business>(getContext(), Business.getURI(), DataManagerType.Update, callBack)).execute(businessItem.toContentValues());
+
+                                        addFAB.setVisibility(View.GONE);
+                                        editFAB.setVisibility(View.VISIBLE);
+                                    } else {
+                                        Snackbar.make(parent, "You have to set a business website", Snackbar.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Snackbar.make(parent, "You have to set a business phone number", Snackbar.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Snackbar.make(parent, "You have to set a business email", Snackbar.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Snackbar.make(parent, "You have to set a business address", Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Snackbar.make(parent, "You have to set a business name", Snackbar.LENGTH_LONG).show();
+                    }
                     addFAB.setVisibility(View.GONE);
                     editFAB.setVisibility(View.VISIBLE);
                 }
@@ -320,24 +364,7 @@ public class BusinessDetailsFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             mAddress = input.getText().toString().trim();
                             if (mAddress.length() > 0) {
-                                Pattern pattern =
-                                        Pattern.compile("^(([a-zA-Z0-9]{2,15}){1}(\\s([a-zA-Z0-9]{2,15}))*)$");
-                                Matcher matcher =
-                                        pattern.matcher(mAddress);
-                                if (matcher.find()) {
-                                    mAddressText.setText(mAddress);
-                                    businessItem.setBusinessAddress(mAddress);
-                                } else {
-                                    Snackbar snackbar = Snackbar.make(parent, "Wrong address!", Snackbar.LENGTH_LONG).setAction("Try again",
-                                            new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    setName(v);
-                                                }
-                                            });
-                                    snackbar.setActionTextColor(getResources().getColor(R.color.primary));
-                                    snackbar.show();
-                                }
+                                businessItem.setBusinessAddress(mAddress);
                             } else {
 
                                 Snackbar snackbar = Snackbar.make(parent, "Address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",

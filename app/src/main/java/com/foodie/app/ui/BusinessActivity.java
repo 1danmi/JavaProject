@@ -2,8 +2,6 @@ package com.foodie.app.ui;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
-import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
 import com.foodie.app.database.DBquery;
@@ -35,7 +32,6 @@ import com.foodie.app.entities.CPUser;
 import com.foodie.app.ui.view_adapters.BusinessRecyclerViewAdapter;
 import com.foodie.app.ui.view_adapters.RecyclerItemClickListener;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -206,7 +202,7 @@ public class BusinessActivity extends AppCompatActivity
 
                 for(Business item : data)
                 {
-                    businessRecyclerViewAdapter.addItem(item);
+                    businessRecyclerViewAdapter.loadNewData(data);
                 }
             }
         });
@@ -222,7 +218,7 @@ public class BusinessActivity extends AppCompatActivity
         try {
             Intent intent = new Intent(this, ActivitiesActivity.class);
 
-            intent.putExtra(BUSINESS_ID, businessList.get(position).get_ID());
+            intent.putExtra(BUSINESS_ID, businessRecyclerViewAdapter.getBusinessesList().get(position).get_ID());
             intent.putExtra(EDIT_MODE, "false");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
@@ -238,7 +234,7 @@ public class BusinessActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        businessRecyclerViewAdapter.notifyDataSetChanged();
+        loadData();
     }
 
 

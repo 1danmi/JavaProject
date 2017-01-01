@@ -5,12 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
@@ -33,11 +31,11 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     private static final String BUSINESS_ID = "businessId";
     private static final String TAG = "ActivitiesActivity";
-    private static CoordinatorLayout rootLayout;
+    //private static CoordinatorLayout rootLayout;
     public static Business businessItem;
     private AppBarLayout appBarLayout;
     private ViewPager viewPager;
-    private CardView businessLogoCardView;
+    //private CardView businessLogoCardView;
     private ImageView businessLogoHeader;
     private TextView businessNameHeader;
     private static final String EDIT_MODE = "mEditKey";
@@ -45,6 +43,7 @@ public class ActivitiesActivity extends AppCompatActivity {
     public Boolean isPhotoChanged;
     private int businessID;
     private BusinessDetailsFragment businessDetailsFragment;
+    private BusinessActivitiesFragment businessActivitiesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,26 +53,38 @@ public class ActivitiesActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_activities);
 
+        initializeComponents();
+
         initializeViews();
 
         setActionBar();
 
         inflateData();
 
-        setTabLayout();
-
         setAppBar();
 
     }
 
+    private void initializeComponents() {
+        Intent intent = getIntent();
+
+        businessID = intent.getIntExtra(BUSINESS_ID, 0);
+
+        editMode = intent.getStringExtra(EDIT_MODE);
+
+        businessDetailsFragment = new BusinessDetailsFragment();
+
+        businessActivitiesFragment = new BusinessActivitiesFragment();
+    }
+
     //Initializes the views
     private void initializeViews() {
-        rootLayout = (CoordinatorLayout) findViewById(R.id.activities_activity_layout);
+        //rootLayout = (CoordinatorLayout) findViewById(R.id.activities_activity_layout);
         viewPager = (ViewPager) findViewById(R.id.tab_viewpager);
         appBarLayout = (AppBarLayout) findViewById(R.id.business_name_app_bar);
         businessLogoHeader = (ImageView) findViewById(R.id.business_header_image);
         businessNameHeader = (TextView) findViewById(R.id.business_header_name);
-        businessLogoCardView = (CardView) findViewById(R.id.business_header_card_view);
+        //businessLogoCardView = (CardView) findViewById(R.id.business_header_card_view);
     }
 
     //Sets the appbar listener to hide the title while collapsed.
@@ -98,22 +109,28 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     //Inflates the business date from the database.
     private void inflateData() {
-        Intent intent = getIntent();
-        businessID = intent.getIntExtra(BUSINESS_ID, 0);
-        editMode = intent.getStringExtra(EDIT_MODE);
+
         if (businessID != 0) {
             DBquery dBquery = new DBquery(new String[]{AppContract.Business.BUSINESS_ID},new String[]{Integer.toString(businessID)});
-            (new AsyncData<Business>(getApplicationContext(), Business.getURI(), DataManagerType.Query, new CallBack<Business>() {
+            (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Query, new CallBack<Business>() {
                 @Override
                 public void run(DataStatus status, List<Business> data) {
                     if(data!=null) {
                         businessItem = data.get(0);
                         //DebugHelper.Log("Da"));
                         setData(businessID);
+                        setTabLayout();
                         businessDetailsFragment.inflateData();
+
                     }
                 }
             })).execute(dBquery);
+        }else{
+            businessItem = new Business();
+            setTabLayout();
+            businessDetailsFragment.inflateData();
+
+
         }
 
 
@@ -181,8 +198,7 @@ public class ActivitiesActivity extends AppCompatActivity {
         BusinessViewPagerAdapter adapter = new BusinessViewPagerAdapter(getSupportFragmentManager());
 
 
-        businessDetailsFragment = new BusinessDetailsFragment();
-        BusinessActivitiesFragment businessActivitiesFragment = new BusinessActivitiesFragment();
+
         Bundle bundle = new Bundle();
         if (businessItem != null) {
             bundle.putInt(BUSINESS_ID, businessItem.get_ID());

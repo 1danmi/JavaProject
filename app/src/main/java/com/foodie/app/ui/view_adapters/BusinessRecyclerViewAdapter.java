@@ -107,5 +107,10 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
             this.activitiesCounter = (TextView) itemView.findViewById(R.id.numOfActivities);
         }
     }
+
+    public List<Business> getBusinessesList() {
+        return businessesList;
+    }
+
 }
 

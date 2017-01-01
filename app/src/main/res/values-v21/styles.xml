@@ -30,4 +30,14 @@
             @transition/change_image_transform</item>
     </style>
 
+    <style name="LoginTheme" parent="AppThemeWithoutActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/dark_gray</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+
+    </style>
 </resources>
