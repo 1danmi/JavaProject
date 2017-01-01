@@ -146,9 +146,10 @@ public class MyContentProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
+
         Log.d(TAG, "insert " + uri.toString());
         String listName = uri.getLastPathSegment();
-        int id = (int) ContentUris.parseId(uri);
+        int id = Integer.parseInt(selection);
         try {
             switch (listName) {
                 case "user":

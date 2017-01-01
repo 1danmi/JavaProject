@@ -8,6 +8,7 @@ public enum DataManagerType {
     Off,
     Insert,
     Query,
+    Update,
     Delete,
     login
 }
