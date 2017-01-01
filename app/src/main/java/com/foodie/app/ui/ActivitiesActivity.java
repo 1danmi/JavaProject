@@ -17,9 +17,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.foodie.app.R;
+import com.foodie.app.backend.AppContract;
+import com.foodie.app.database.AsyncData;
+import com.foodie.app.database.CallBack;
+import com.foodie.app.database.DBquery;
+import com.foodie.app.database.DataManagerType;
+import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
 import com.foodie.app.ui.view_adapters.AppBarStateChangeListener;
 import com.foodie.app.ui.view_adapters.BusinessViewPagerAdapter;
+
+import java.util.List;
+
+import static com.foodie.app.entities.Business.businessID;
 
 public class ActivitiesActivity extends AppCompatActivity {
 
@@ -35,6 +45,8 @@ public class ActivitiesActivity extends AppCompatActivity {
     private static final String EDIT_MODE = "mEditKey";
     private String editMode;
     public Boolean isPhotoChanged;
+    private int businessdID;
+    private BusinessDetailsFragment businessDetailsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,18 +101,28 @@ public class ActivitiesActivity extends AppCompatActivity {
     //Inflates the business date from the database.
     private void inflateData() {
         Intent intent = getIntent();
-        int businesdID = intent.getIntExtra(BUSINESS_ID, 0);
+        businessdID = intent.getIntExtra(BUSINESS_ID, 0);
         editMode = intent.getStringExtra(EDIT_MODE);
-        if (businesdID != 0) {
-            for (Business business : BusinessActivity.businessList) {
-                if (business.get_ID() == businesdID) {
-                    businessItem = business;
-                    isPhotoChanged = true;
-                    break;
+        if (businessdID != 0) {
+            DBquery dBquery = new DBquery(new String[]{AppContract.Business.BUSINESS_ID},new String[]{Integer.toString(businessID)});
+            (new AsyncData<Business>(getApplicationContext(), Business.getURI(), DataManagerType.Query, new CallBack<Business>() {
+                @Override
+                public void run(DataStatus status, List<Business> data) {
+                    if(data!=null) {
+                        businessItem = data.get(0);
+                        //DebugHelper.Log("Da"));
+                        setData(businessdID);
+                        businessDetailsFragment.inflateData();
+                    }
                 }
-            }
+            })).execute(dBquery);
         }
-        if (businesdID == 0) {
+
+
+    }
+
+    private void setData(int businessID) {
+        if (businessID == 0) {
             businessItem = new Business();
             isPhotoChanged = false;
         } else {
@@ -109,7 +131,6 @@ public class ActivitiesActivity extends AppCompatActivity {
             businessNameHeader.setText(businessItem.getBusinessName());
             businessLogoHeader.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
-
     }
 
     //Configures the tab layout's listener.
@@ -162,7 +183,7 @@ public class ActivitiesActivity extends AppCompatActivity {
         BusinessViewPagerAdapter adapter = new BusinessViewPagerAdapter(getSupportFragmentManager());
 
 
-        BusinessDetailsFragment businessDetailsFragment = new BusinessDetailsFragment();
+        businessDetailsFragment = new BusinessDetailsFragment();
         BusinessActivitiesFragment businessActivitiesFragment = new BusinessActivitiesFragment();
         Bundle bundle = new Bundle();
         if (businessItem != null) {

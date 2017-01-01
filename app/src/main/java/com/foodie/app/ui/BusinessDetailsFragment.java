@@ -74,8 +74,6 @@ public class BusinessDetailsFragment extends Fragment {
 
         initializeViews(rootView);
 
-        inflateData();
-
         setFABs(rootView);
 
         parent = getActivity().findViewById(R.id.activities_activity_layout);
@@ -105,7 +103,7 @@ public class BusinessDetailsFragment extends Fragment {
     }
 
     //Inflates business data from the bundle and from the database.
-    private void inflateData() {
+    public void inflateData() {
         int businessID = 0;
         Bundle bundle = this.getArguments();
         if (bundle != null) {
