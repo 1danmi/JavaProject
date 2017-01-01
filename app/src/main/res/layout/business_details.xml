@@ -49,7 +49,7 @@
                 android:fitsSystemWindows="true" />
 
             <include
-                android:id="@+id/include"
+                android:id="@+id/business_header"
                 layout="@layout/business_header" />
 
             <android.support.v7.widget.Toolbar

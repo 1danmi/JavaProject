@@ -1,8 +1,10 @@
 package com.foodie.app.ui;
 
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,18 +14,25 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.foodie.app.R;
+import com.foodie.app.constants.Constants;
 import com.foodie.app.entities.Business;
 import com.github.jorgecastilloprz.FABProgressCircle;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,6 +41,8 @@ import java.util.regex.Pattern;
  * A simple {@link Fragment} subclass.
  */
 public class BusinessDetailsFragment extends Fragment {
+
+    private static final String TAG = "BusinessDetailsFragment";
 
     private String mName, mAddress, mPhone, mWebsite, mEmail;
     private boolean mEditMode;
@@ -43,6 +54,9 @@ public class BusinessDetailsFragment extends Fragment {
     private static Business businessItem;
     private static final String BUSINESS_ID = "businessId";
     private static final String EDIT_MODE = "mEditKey";
+    private CardView businessLogoCardView;
+    private ImageView businessLogoHeader;
+    private View parent;
 
 
     //Fragment requires empty public constructor
@@ -64,8 +78,30 @@ public class BusinessDetailsFragment extends Fragment {
 
         setFABs(rootView);
 
+        parent = getActivity().findViewById(R.id.activities_activity_layout);
+
+        businessLogoHeader = (ImageView) parent.findViewById(R.id.business_header_image);
+
+        businessLogoCardView = (CardView) parent.findViewById(R.id.business_header_card_view);
+
+        businessLogoCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mEditMode) {
+                    pickImage();
+                }
+            }
+        });
+
         return rootView;
 
+    }
+
+    public void pickImage() {
+        Log.d(TAG, "pickImage: starts");
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, Constants.PICK_PHOTO);
     }
 
     //Inflates business data from the bundle and from the database.
@@ -90,7 +126,7 @@ public class BusinessDetailsFragment extends Fragment {
                 }
             }
         } else if (businessID == 0) {
-            businessItem = new Business();
+            businessItem = ((ActivitiesActivity) getActivity()).businessItem;
         }
 
         if (businessItem != null) {
@@ -103,7 +139,7 @@ public class BusinessDetailsFragment extends Fragment {
     }
 
     //Configure the edit and confirm buttons
-    private void setFABs(View rootView) {
+    private void setFABs(final View rootView) {
         addFAB = (FABProgressCircle) rootView.findViewById(R.id.add_fab);
         editFAB = (FABProgressCircle) rootView.findViewById(R.id.edit_fab);
         addButton = (FloatingActionButton) rootView.findViewById(R.id.add_fab_button);
@@ -124,7 +160,6 @@ public class BusinessDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mEditMode = true;
-//                Snackbar.make(rootLayout, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
                 addFAB.setVisibility(View.VISIBLE);
                 editFAB.setVisibility(View.GONE);
             }
@@ -135,13 +170,41 @@ public class BusinessDetailsFragment extends Fragment {
             public void onClick(View view) {
                 mEditMode = false;
 //                Snackbar.make(rootLayout, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
-                if(businessItem.get_ID()==0){
-                    businessItem.set_ID(Business.businessID+1);
-                    Business.businessID++;
-                    BusinessActivity.businessList.add(businessItem);
+                if (businessItem.get_ID() == 0) {
+                    if (((ActivitiesActivity) getActivity()).isPhotoChanged) {
+                        if (businessItem.getBusinessName().length() > 0) {
+                            if (businessItem.getBusinessAddress().length() > 0) {
+                                if (businessItem.getBusinessEmail().length() > 0) {
+                                    if (businessItem.getBusinessPhoneNo().length() > 0) {
+                                        if (businessItem.getBusinessWebsite().length() > 0) {
+                                            businessItem.set_ID(Business.businessID + 1);
+                                            Business.businessID++;
+                                            BusinessActivity.businessList.add(businessItem);
+                                            addFAB.setVisibility(View.GONE);
+                                            editFAB.setVisibility(View.VISIBLE);
+                                        } else {
+                                            Snackbar.make(parent, "You have to set a business website", Snackbar.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Snackbar.make(parent, "You have to set a business phone number", Snackbar.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Snackbar.make(parent, "You have to set a business email", Snackbar.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Snackbar.make(parent, "You have to set a business address", Snackbar.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Snackbar.make(parent, "You have to set a business name", Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Snackbar.make(parent, "You have to choose an image", Snackbar.LENGTH_LONG).show();
+                    }
+                } else {
+                    addFAB.setVisibility(View.GONE);
+                    editFAB.setVisibility(View.VISIBLE);
                 }
-                addFAB.setVisibility(View.GONE);
-                editFAB.setVisibility(View.VISIBLE);
+
             }
         });
     }
@@ -214,17 +277,12 @@ public class BusinessDetailsFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             mName = input.getText().toString().trim();
                             if (mName.length() > 0) {
-                                Pattern pattern =
-                                        Pattern.compile("^(([a-zA-Z0-9]{2,15}){1}(\\s([a-zA-Z0-9]{2,15}))*)$");
-                                Matcher matcher =
-                                        pattern.matcher(mName);
-                                if (matcher.find()) {
-                                    mNameText.setText(mName);
-                                    businessItem.setBusinessName(mName);
-                                    ActivitiesActivity activitiesActivity = (ActivitiesActivity) getActivity();
-                                    ((TextView) activitiesActivity.findViewById(R.id.business_header_name)).setText(mName);
-                                } else {
-                                    Snackbar snackbar = Snackbar.make(v, "Wrong business name!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                mNameText.setText(mName);
+                                businessItem.setBusinessName(mName);
+                                ActivitiesActivity activitiesActivity = (ActivitiesActivity) getActivity();
+                                ((TextView) activitiesActivity.findViewById(R.id.business_header_name)).setText(mName);
+                            } else {
+                                Snackbar snackbar = Snackbar.make(parent, "Business name must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -233,18 +291,6 @@ public class BusinessDetailsFragment extends Fragment {
                                             });
                                     snackbar.setActionTextColor(getResources().getColor(R.color.primary));
                                     snackbar.show();
-                                }
-                            } else {
-
-                                Snackbar snackbar = Snackbar.make(v, "Business name must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
-                                        new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                setName(v);
-                                            }
-                                        });
-                                snackbar.setActionTextColor(getResources().getColor(R.color.primary));
-                                snackbar.show();
 
                             }
                         }
@@ -293,7 +339,7 @@ public class BusinessDetailsFragment extends Fragment {
                                     mAddressText.setText(mAddress);
                                     businessItem.setBusinessAddress(mAddress);
                                 } else {
-                                    Snackbar snackbar = Snackbar.make(v, "Wrong address!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                    Snackbar snackbar = Snackbar.make(parent, "Wrong address!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -305,7 +351,7 @@ public class BusinessDetailsFragment extends Fragment {
                                 }
                             } else {
 
-                                Snackbar snackbar = Snackbar.make(v, "Address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                Snackbar snackbar = Snackbar.make(parent, "Address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -362,7 +408,7 @@ public class BusinessDetailsFragment extends Fragment {
                                     mPhoneText.setText(mPhone);
                                     businessItem.setBusinessPhoneNo(mPhone);
                                 } else {
-                                    Snackbar snackbar = Snackbar.make(v, "Wrong phone number!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                    Snackbar snackbar = Snackbar.make(parent, "Wrong phone number!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -374,7 +420,7 @@ public class BusinessDetailsFragment extends Fragment {
                                 }
                             } else {
 
-                                Snackbar snackbar = Snackbar.make(v, "Phone number must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                Snackbar snackbar = Snackbar.make(parent, "Phone number must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -431,7 +477,7 @@ public class BusinessDetailsFragment extends Fragment {
                                     mWebsiteText.setText(mWebsite);
                                     businessItem.setBusinessWebsite(mWebsite);
                                 } else {
-                                    Snackbar snackbar = Snackbar.make(v, "Wrong website address!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                    Snackbar snackbar = Snackbar.make(parent, "Wrong website address!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -443,7 +489,7 @@ public class BusinessDetailsFragment extends Fragment {
                                 }
                             } else {
 
-                                Snackbar snackbar = Snackbar.make(v, "Website address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                Snackbar snackbar = Snackbar.make(parent, "Website address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -476,12 +522,6 @@ public class BusinessDetailsFragment extends Fragment {
                         BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back));
                 CustomTabsIntent customTabsIntent = builder.build();
                 customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
-
-//                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession());
-//                builder.setToolbarColor(Color.parseColor(TOOLBAR_COLOR)).setShowTitle(true);
-//                prepareMenuItems(builder);
-//                prepareActionButton(builder);
-//                prepareBottombar(builder);
             }
         }
     }
@@ -517,7 +557,7 @@ public class BusinessDetailsFragment extends Fragment {
                                     mEmailText.setText(mEmail);
                                     businessItem.setBusinessEmail(mEmail);
                                 } else {
-                                    Snackbar snackbar = Snackbar.make(v, "Wrong email address!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                    Snackbar snackbar = Snackbar.make(parent, "Wrong email address!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -529,7 +569,7 @@ public class BusinessDetailsFragment extends Fragment {
                                 }
                             } else {
 
-                                Snackbar snackbar = Snackbar.make(v, "Email address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                Snackbar snackbar = Snackbar.make(parent, "Email address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -558,4 +598,31 @@ public class BusinessDetailsFragment extends Fragment {
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.PICK_PHOTO && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                Snackbar.make(parent, "No picture was selected", Snackbar.LENGTH_LONG).show();
+                return;
+            }
+            try {
+                InputStream inputStream = getContext().getContentResolver().openInputStream(data.getData());
+                Bitmap bmp = BitmapFactory.decodeStream(inputStream);
+                bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
+                businessLogoHeader.setImageBitmap(bmp);
+                businessLogoHeader.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] logo = stream.toByteArray();
+                businessItem.setBusinessLogo(logo);
+                ((ActivitiesActivity) getActivity()).isPhotoChanged = true;
+//                isPhotoChanged = true;
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            //Now you can do whatever you want with your inpustream, save it as file, upload to a server, decode a bitmap...
+        }
+    }
 }
