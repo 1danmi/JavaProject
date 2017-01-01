@@ -323,7 +323,7 @@ public class BusinessDetailsFragment extends Fragment {
             input.setHorizontallyScrolling(false);
 
 
-            input.setLines(3);
+            input.setLines(2);
 
             alert.setView(input, 60, 0, 60, 0);
             alert.setPositiveButton("Ok",

@@ -1,7 +1,6 @@
 package com.foodie.app.ui;
 
 import android.app.ActivityOptions;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
-import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
 import com.foodie.app.database.DBquery;
@@ -33,7 +31,6 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
 import java.io.ByteArrayOutputStream;
-import java.util.LinkedList;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
@@ -141,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                     // Set the function to get status
                     data.setCallBack(new CallBack<CPUser>() {
                         @Override
-                        public void run(DataStatus status, List<CPUser> data) {
+                        public void run(DataStatus status, final List<CPUser> data) {
                             DebugHelper.Log("CallBack with status: " + status);
 
                             switch (status) {
