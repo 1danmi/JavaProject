@@ -141,6 +141,7 @@ public class ActivitiesActivity extends AppCompatActivity {
             businessItem = new Business();
             isPhotoChanged = false;
         } else {
+            isPhotoChanged =true;
             Bitmap bmp = BitmapFactory.decodeByteArray(businessItem.getBusinessLogo(), 0, businessItem.getBusinessLogo().length);
             businessLogoHeader.setImageBitmap(bmp);
             businessNameHeader.setText(businessItem.getBusinessName());
