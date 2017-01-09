@@ -354,7 +354,7 @@ public class BusinessDetailsFragment extends Fragment {
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                setName(v);
+                                                setAddress(v);
                                             }
                                         });
                                 snackbar.setActionTextColor(getResources().getColor(R.color.primary));
@@ -411,7 +411,7 @@ public class BusinessDetailsFragment extends Fragment {
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    setName(v);
+                                                    setPhone(v);
                                                 }
                                             });
                                     snackbar.setActionTextColor(getResources().getColor(R.color.primary));
@@ -480,7 +480,7 @@ public class BusinessDetailsFragment extends Fragment {
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    setName(v);
+                                                    setWebsite(v);
                                                 }
                                             });
                                     snackbar.setActionTextColor(getResources().getColor(R.color.primary));
@@ -572,7 +572,7 @@ public class BusinessDetailsFragment extends Fragment {
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                setName(v);
+                                                setEmail(v);
                                             }
                                         });
                                 snackbar.setActionTextColor(getResources().getColor(R.color.primary));

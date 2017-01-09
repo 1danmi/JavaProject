@@ -35,7 +35,7 @@ import com.foodie.app.ui.view_adapters.RecyclerItemClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class BusinessActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RecyclerItemClickListener.onRecyclerClickListener {
@@ -49,6 +49,8 @@ public class BusinessActivity extends AppCompatActivity
     private FloatingActionButton addBusinessFAB;
     private int userId = -1;
     private CPUser  user = null;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
 
 
     @Override
@@ -66,12 +68,15 @@ public class BusinessActivity extends AppCompatActivity
         setRecyclerView();
 
         loadData();
+        final View rootView = getLayoutInflater().inflate(R.layout.nav_header_business, null);
+        TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerCPUserName);
+        TextView numOfBusinessse = (TextView) rootView.findViewById(R.id.drawerNumOfBusinesses);
 
-        TextView title = (TextView) findViewById(R.id.BusinessName);
+        loadData();
 
+        drawerCPUserName.setText(user.getUserFullName());
+        numOfBusinessse.setText(businessRecyclerViewAdapter.getItemCount() + " Businesses");
 
-
-        title.setText(user.getUserFullName());
 
 
     }
@@ -80,7 +85,7 @@ public class BusinessActivity extends AppCompatActivity
 
         recyclerView = (RecyclerView) findViewById(R.id.business_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setItemAnimator(new SlideInDownAnimator());
+        recyclerView.setItemAnimator(new SlideInUpAnimator());
 
         businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(businessList, getApplicationContext());
 
@@ -107,13 +112,13 @@ public class BusinessActivity extends AppCompatActivity
     }
 
     private void setDrawer(Toolbar toolbar) {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -193,15 +198,12 @@ public class BusinessActivity extends AppCompatActivity
             @Override
             public void run(DataStatus status, List<Business> data) {
                 DebugHelper.Log("Query callBack finish with status: " + status);
-                if(status  != DataStatus.Success)
-                {
+                if(status  != DataStatus.Success) {
                     Toast.makeText(getApplicationContext(), "Error: " + status , Toast.LENGTH_SHORT).show();
-
                 }
                 DebugHelper.Log("Query callBack: items total = "+data.size());
 
-                for(Business item : data)
-                {
+                for(Business item : data) {
                     businessRecyclerViewAdapter.loadNewData(data);
                 }
             }

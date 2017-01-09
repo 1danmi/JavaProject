@@ -18,8 +18,6 @@ public class Activity implements Serializable {
 
     private String activityName;
 
-//    private Calendar activityDate;
-
     private String activityDescription;
 
     private double activityCost;

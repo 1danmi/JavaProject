@@ -129,8 +129,6 @@ public class ActivitiesActivity extends AppCompatActivity {
             businessItem = new Business();
             setTabLayout();
             businessDetailsFragment.inflateData();
-
-
         }
 
 
@@ -191,15 +189,11 @@ public class ActivitiesActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
     }
 
     //Configures and adds the fragments to the view pager.
     private void setupViewPager(ViewPager viewPager) {
         BusinessViewPagerAdapter adapter = new BusinessViewPagerAdapter(getSupportFragmentManager());
-
-
-
         Bundle bundle = new Bundle();
         if (businessItem != null) {
             bundle.putInt(BUSINESS_ID, businessItem.get_ID());
@@ -215,7 +209,7 @@ public class ActivitiesActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    //Set the activity title.
+    //Sets the activity title.
     public void setActivityTitle(String title) {
         ActionBar toolbar = getSupportActionBar();
         if (toolbar != null)

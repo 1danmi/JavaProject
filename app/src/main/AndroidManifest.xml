@@ -13,50 +13,50 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
         <activity
             android:name=".ui.LoginActivity"
             android:theme="@style/LoginTheme">
 
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
-
         <activity
             android:name=".ui.MainActivity"
-            android:theme="@style/AppThemeWithoutActionBar" >
+            android:theme="@style/AppThemeWithoutActionBar">
+
+        </activity>
+        <activity
+            android:name=".ui.RegisterActivity"
+            android:theme="@style/LoginTheme" />
+        <activity
+            android:name=".ui.BusinessActivity"
+            android:label="@string/title_activity_business"
+            android:theme="@style/AppThemeWithoutActionBar" />
+        <activity
+            android:name=".ui.ActivitiesActivity"
+            android:label="@string/title_activity_activities"
+            android:theme="@style/AppThemeWithoutActionBar" />
+
+        <provider
+            android:name=".provider.MyContentProvider"
+            android:authorities="com.foodie.app"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="true" />
+
+        <activity
+            android:name=".ui.ActivityDetails"
+            android:label="@string/title_activity_details"
+            android:theme="@style/LoginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-        <activity
-            android:name=".ui.RegisterActivity"
-            android:theme="@style/LoginTheme" />
-
-        <activity
-            android:name=".ui.BusinessActivity"
-            android:label="@string/title_activity_business"
-            android:theme="@style/AppThemeWithoutActionBar">
-
-
-        </activity>
-
-        <activity
-            android:name=".ui.ActivitiesActivity"
-            android:label="@string/title_activity_activities"
-            android:theme="@style/AppThemeWithoutActionBar">
-
-        </activity>
-
-        <provider
-            android:name="com.foodie.app.provider.MyContentProvider"
-            android:authorities="com.foodie.app"
-            android:multiprocess="true"
-            android:enabled="true"
-            android:exported="true" />
     </application>
 
 </manifest> <!-- android:label="@string/title_activity_business" -->

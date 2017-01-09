@@ -8,6 +8,7 @@
     android:background="@drawable/login_background_narrow2"
 
 
+
     tools:context="com.foodie.app.ui.LoginActivity">
 
 

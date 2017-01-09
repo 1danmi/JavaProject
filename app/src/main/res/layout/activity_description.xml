@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Salmon"
+                android:textSize="32sp"
+                android:textColor="@color/primary_text"
+                android:fontFamily="sans-serif-regular"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp" />
+
+            <TextView
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam pellentesque nisl diam, id egestas odio lacinia sit amet. Ut hendrerit ante ante, non ultricies massa pharetra ac. Quisque non mi libero. Aliquam ac consequat ante. Morbi laoreet pharetra ligula vel placerat. Phasellus lacinia facilisis dolor in tincidunt. Aenean eget urna a neque scelerisque tempor. Vestibulum congue pellentesque euismod. Morbi accumsan odio ante, et tempor odio egestas eget. Aliquam elementum efficitur imperdiet. "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:textSize="16sp"
+                android:textColor="@color/primary_text"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
