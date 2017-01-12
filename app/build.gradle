@@ -42,6 +42,7 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.github.StevenDXC:DxLoadingButton:1.2'
     compile 'com.android.support:customtabs:25.1.0'
+    compile 'com.github.DoodleScheduling:android-material-chips:1.1.0'
 }
 
 

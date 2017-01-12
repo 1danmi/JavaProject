@@ -5,12 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
 import com.foodie.app.ui.view_adapters.AppBarStateChangeListener;
 import com.foodie.app.ui.view_adapters.BusinessViewPagerAdapter;
+import com.github.jorgecastilloprz.FABProgressCircle;
 
 import java.util.List;
 
@@ -31,11 +34,9 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     private static final String BUSINESS_ID = "businessId";
     private static final String TAG = "ActivitiesActivity";
-    //private static CoordinatorLayout rootLayout;
     public static Business businessItem;
     private AppBarLayout appBarLayout;
     private ViewPager viewPager;
-    //private CardView businessLogoCardView;
     private ImageView businessLogoHeader;
     private TextView businessNameHeader;
     private static final String EDIT_MODE = "mEditKey";
@@ -44,6 +45,8 @@ public class ActivitiesActivity extends AppCompatActivity {
     private int businessID;
     private BusinessDetailsFragment businessDetailsFragment;
     private BusinessActivitiesFragment businessActivitiesFragment;
+    private FABProgressCircle addFAB, editFAB;
+    private FloatingActionButton addButton, editButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +82,12 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     //Initializes the views
     private void initializeViews() {
-        //rootLayout = (CoordinatorLayout) findViewById(R.id.activities_activity_layout);
+        addButton = (FloatingActionButton) findViewById(R.id.add_fab_button2);
+        editButton = (FloatingActionButton) findViewById(R.id.edit_fab_button2);
         viewPager = (ViewPager) findViewById(R.id.tab_viewpager);
         appBarLayout = (AppBarLayout) findViewById(R.id.business_name_app_bar);
         businessLogoHeader = (ImageView) findViewById(R.id.business_header_image);
         businessNameHeader = (TextView) findViewById(R.id.business_header_name);
-        //businessLogoCardView = (CardView) findViewById(R.id.business_header_card_view);
     }
 
     //Sets the appbar listener to hide the title while collapsed.
@@ -94,11 +97,15 @@ public class ActivitiesActivity extends AppCompatActivity {
             @Override
             public void onExpanded(AppBarLayout appBarLayout) {
                 setActivityTitle("");
+                addButton.setVisibility(View.VISIBLE);
+                editButton.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onCollapsed(AppBarLayout appBarLayout) {
                 setActivityTitle(businessItem.getBusinessName());
+                addButton.setVisibility(View.GONE);
+                editButton.setVisibility(View.GONE);
             }
 
             @Override

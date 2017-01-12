@@ -76,12 +76,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/primary"
+        app:backgroundTint="@color/accent"
         app:fabSize="normal"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_mode_edit_white_48dp"
         android:elevation="8dp"
         app:pressedTranslationZ="12dp"/>
+
 
 </android.support.design.widget.CoordinatorLayout>

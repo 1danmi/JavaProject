@@ -74,8 +74,9 @@ public class BusinessActivity extends AppCompatActivity
 
         loadData();
 
-        drawerCPUserName.setText(user.getUserFullName());
-        numOfBusinessse.setText(businessRecyclerViewAdapter.getItemCount() + " Businesses");
+
+//        drawerCPUserName.setText(user.getUserFullName());
+//        numOfBusinessse.setText(businessRecyclerViewAdapter.getItemCount() + " Businesses");
 
 
 

@@ -205,22 +205,22 @@ public class BusinessDetailsFragment extends Fragment {
 
                                 return true;
                             } else {
-                                Snackbar.make(parent, "You have to set a business website", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(rootLayout, "You have to set a business website", Snackbar.LENGTH_LONG).show();
                             }
                         } else {
-                            Snackbar.make(parent, "You have to set a business phone number", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(rootLayout, "You have to set a business phone number", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        Snackbar.make(parent, "You have to set a business email", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(rootLayout, "You have to set a business email", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
-                    Snackbar.make(parent, "You have to set a business address", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rootLayout, "You have to set a business address", Snackbar.LENGTH_LONG).show();
                 }
             } else {
-                Snackbar.make(parent, "You have to set a business name", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(rootLayout, "You have to set a business name", Snackbar.LENGTH_LONG).show();
             }
         } else {
-            Snackbar.make(parent, "You have to choose an image", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(rootLayout, "You have to choose an image", Snackbar.LENGTH_LONG).show();
         }
         return false;
     }
@@ -298,7 +298,7 @@ public class BusinessDetailsFragment extends Fragment {
                                 ActivitiesActivity activitiesActivity = (ActivitiesActivity) getActivity();
                                 ((TextView) activitiesActivity.findViewById(R.id.business_header_name)).setText(mName);
                             } else {
-                                Snackbar snackbar = Snackbar.make(parent, "Business name must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                Snackbar snackbar = Snackbar.make(v, "Business name must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -350,7 +350,7 @@ public class BusinessDetailsFragment extends Fragment {
                                 mAddressText.setText(mAddress);
                                 businessItem.setBusinessName(mAddress);
                             } else {
-                                Snackbar snackbar = Snackbar.make(parent, "Address name must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                Snackbar snackbar = Snackbar.make(v, "Address name must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -407,7 +407,7 @@ public class BusinessDetailsFragment extends Fragment {
                                     mPhoneText.setText(mPhone);
                                     businessItem.setBusinessPhoneNo(mPhone);
                                 } else {
-                                    Snackbar snackbar = Snackbar.make(parent, "Wrong phone number!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                    Snackbar snackbar = Snackbar.make(v, "Wrong phone number!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -476,7 +476,7 @@ public class BusinessDetailsFragment extends Fragment {
                                     mWebsiteText.setText(mWebsite);
                                     businessItem.setBusinessWebsite(mWebsite);
                                 } else {
-                                    Snackbar snackbar = Snackbar.make(parent, "Wrong website address!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                    Snackbar snackbar = Snackbar.make(v, "Wrong website address!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -556,7 +556,7 @@ public class BusinessDetailsFragment extends Fragment {
                                     mEmailText.setText(mEmail);
                                     businessItem.setBusinessEmail(mEmail);
                                 } else {
-                                    Snackbar snackbar = Snackbar.make(parent, "Wrong email address!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                    Snackbar snackbar = Snackbar.make(v, "Wrong email address!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {

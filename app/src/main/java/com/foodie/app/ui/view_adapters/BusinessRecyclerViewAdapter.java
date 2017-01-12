@@ -68,7 +68,6 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         notifyItemRemoved(position);
     }
 
-
     @Override
     public BusinessImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Called by the layout manager when it needs a new view
@@ -77,17 +76,14 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         return new BusinessImageViewHolder(view);
     }
 
-
     public void loadNewData(List<Business> newBusinesses) {
         this.businessesList = newBusinesses;
         notifyDataSetChanged();
     }
 
-
     public Business getBusiness(int position) {
         return ((businessesList != null) && (businessesList.size() != 0) ? businessesList.get(position) : null);
     }
-
 
     static class BusinessImageViewHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "BusinessImageViewHolder";
