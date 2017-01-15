@@ -65,6 +65,7 @@ public class BusinessDetailsFragment extends Fragment {
     private View parent;
 
 
+
     //Fragment requires empty public constructor
     public BusinessDetailsFragment() {
         // Required empty public constructor
@@ -79,6 +80,8 @@ public class BusinessDetailsFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_business_details, container, false);
 
         initializeViews(rootView);
+
+        inflateData();
 
         setFABs(rootView);
 
@@ -110,10 +113,10 @@ public class BusinessDetailsFragment extends Fragment {
 
     //Inflates business data from the bundle and from the database.
     public void inflateData() {
-        int businessID = 0;
+        String businessID = "";
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            businessID = bundle.getInt(BUSINESS_ID, 0);
+            businessID = bundle.getString(BUSINESS_ID,"");
             String edit = bundle.getString(EDIT_MODE, "false");
             if (edit.equals("true")) {
                 mEditMode = true;
@@ -124,7 +127,7 @@ public class BusinessDetailsFragment extends Fragment {
 
         businessItem = ((ActivitiesActivity) getActivity()).businessItem;
 
-        if (businessItem != null && businessItem.get_ID() != 0) {
+        if (businessItem != null && !businessItem.get_ID().equals("")) {
             mNameText.setText(businessItem.getBusinessName());
             mAddressText.setText(businessItem.getBusinessAddress());
             mPhoneText.setText(businessItem.getBusinessPhoneNo());
@@ -165,7 +168,7 @@ public class BusinessDetailsFragment extends Fragment {
             public void onClick(View view) {
                 mEditMode = false;
                 if (inputCheck()) {
-                    if (businessItem.get_ID() == 0) {
+                    if (businessItem.equals("")) {
                         businessItem.set_ID(Business.businessID + 1);
                         Business.businessID++;
                         CallBack<Business> callBack = new CallBack<Business>() {
@@ -226,7 +229,7 @@ public class BusinessDetailsFragment extends Fragment {
     }
 
     //Initialize the views
-    private void initializeViews(View rootView) {
+    public void initializeViews(View rootView) {
         rootLayout = (CoordinatorLayout) rootView.findViewById(R.id.root_business_details_layout);
         mNameLayout = (RelativeLayout) rootView.findViewById(R.id.name_layout);
         mNameLayout.setOnClickListener(new View.OnClickListener() {
@@ -328,6 +331,7 @@ public class BusinessDetailsFragment extends Fragment {
             alert.setPositiveButton("OK", null);
             alert.setNegativeButton("Cancel", null);
             // Create EditText box to input repeat number
+            mAddress = mAddressText.getText().toString().trim();
             final EditText input = new EditText(getContext());
             mAddress = mAddressText.getText().toString().trim();
             if (mAddress != null) {

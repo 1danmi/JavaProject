@@ -89,7 +89,7 @@ public class Converters {
     public static CPUser ContentValuesToCPUser(ContentValues contentValues) throws Exception {
 
         CPUser cpuser = new CPUser();
-        cpuser.set_ID(contentValues.getAsInteger(CPUSER_ID));
+        cpuser.set_ID(contentValues.getAsString(CPUSER_ID));
         cpuser.setUserFullName(contentValues.getAsString(CPUSER_FULL_NAME));
         cpuser.setUserEmail(contentValues.getAsString(CPUSER_EMAIL));
         cpuser.setUserPwdHash(contentValues.getAsString(AppContract.CPUser.CPUSER_PWD));
@@ -101,7 +101,7 @@ public class Converters {
     public static User ContentValuesToUser(ContentValues contentValues) throws Exception {
 
         User user = new User();
-        user.set_ID(contentValues.getAsInteger(AppContract.User.USER_ID));
+        user.set_ID(contentValues.getAsString(AppContract.User.USER_ID));
         user.setUserFullName(contentValues.getAsString(AppContract.User.USER_FULL_NAME));
         user.setUserEmail(contentValues.getAsString(AppContract.User.USER_FULL_NAME));
         user.setUserPwdHash(contentValues.getAsString(AppContract.User.USER_PWD));
@@ -116,7 +116,7 @@ public class Converters {
     public static Business ContentValuesToBusiness(ContentValues contentValues) throws Exception {
 
         Business business = new Business();
-        business.set_ID(contentValues.getAsInteger(AppContract.Business.BUSINESS_ID));
+        business.set_ID(contentValues.getAsString(AppContract.Business.BUSINESS_ID));
         business.setBusinessName(contentValues.getAsString(AppContract.Business.BUSINESS_NAME));
         business.setBusinessAddress(contentValues.getAsString(AppContract.Business.BUSINESS_ADDRESS));
         business.setBusinessPhoneNo(contentValues.getAsString(AppContract.Business.BUSINESS_PHONE_NUMBER));
@@ -132,7 +132,7 @@ public class Converters {
     public static Activity ContentValuesToActivity(ContentValues contentValues) throws Exception {
 
         Activity activity = new Activity();
-        activity.set_ID(contentValues.getAsInteger(AppContract.Activity.ACTIVITY_ID));
+        activity.set_ID(contentValues.getAsString(AppContract.Activity.ACTIVITY_ID));
         activity.setActivityName(contentValues.getAsString(AppContract.Activity.ACTIVITY_NAME));
         activity.setActivityDescription(contentValues.getAsString(AppContract.Activity.ACTIVITY_DESCRIPTION));
         activity.setActivityCost(contentValues.getAsDouble(AppContract.Activity.ACTIVITY_COST));
@@ -243,7 +243,7 @@ public class Converters {
 
 
         while(cursor.moveToNext()) {
-            result.add(new CPUser(cursor.getInt(cursor.getColumnIndex(AppContract.CPUser.CPUSER_ID)),
+            result.add(new CPUser(cursor.getString(cursor.getColumnIndex(AppContract.CPUser.CPUSER_ID)),
                     cursor.getString(cursor.getColumnIndex( AppContract.CPUser.CPUSER_EMAIL)),
                     cursor.getString(cursor.getColumnIndex( AppContract.CPUser.CPUSER_FULL_NAME)),
                     cursor.getString(cursor.getColumnIndex( AppContract.CPUser.CPUSER_PWD))
@@ -266,7 +266,7 @@ public class Converters {
         while(cursor.moveToNext()) {
 
             try {
-                result.add(new User(cursor.getInt(cursor.getColumnIndex(AppContract.User.USER_ID)),
+                result.add(new User(cursor.getString(cursor.getColumnIndex(AppContract.User.USER_ID)),
                         cursor.getString(cursor.getColumnIndex( AppContract.User.USER_FULL_NAME)),
                         cursor.getString(cursor.getColumnIndex( AppContract.User.USER_EMAIL)),
                         cursor.getString(cursor.getColumnIndex( AppContract.User.USER_PHONE_NUMBER)),
@@ -297,7 +297,7 @@ public class Converters {
         while(cursor.moveToNext()) {
 
             try {
-                result.add(new Activity(cursor.getInt(cursor.getColumnIndex(AppContract.Activity.ACTIVITY_ID)),
+                result.add(new Activity(cursor.getString(cursor.getColumnIndex(AppContract.Activity.ACTIVITY_ID)),
                         cursor.getString(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_NAME)),
                         cursor.getString(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_DESCRIPTION)),
                         cursor.getDouble(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_COST)),
@@ -329,7 +329,7 @@ public class Converters {
         while(cursor.moveToNext()) {
 
             try {
-                result.add(new Business(cursor.getInt(cursor.getColumnIndex(AppContract.Business.BUSINESS_ID)),
+                result.add(new Business(cursor.getString(cursor.getColumnIndex(AppContract.Business.BUSINESS_ID)),
                         cursor.getString(cursor.getColumnIndex( AppContract.Business.BUSINESS_NAME)),
                         cursor.getString(cursor.getColumnIndex( AppContract.Business.BUSINESS_ADDRESS)),
                         cursor.getString(cursor.getColumnIndex( AppContract.Business.BUSINESS_PHONE_NUMBER)),

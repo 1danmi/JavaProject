@@ -1,5 +1,6 @@
 package com.foodie.app.provider;
 
+import android.accounts.NetworkErrorException;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -18,6 +19,20 @@ import com.foodie.app.database.IDBManager;
 
 public class MyContentProvider extends ContentProvider {
 
+    private static String lastErrorType = "";
+    private static String lastErrorMessage = "";
+
+    public static String getLastErrorType(){
+        String temp = lastErrorType;
+        lastErrorType = "";
+        return temp;
+    }
+    public static String getLastErrorMessage(){
+        String temp = lastErrorMessage;
+        lastErrorMessage = "";
+        return temp;
+    }
+
     IDBManager manager = DBManagerFactory.getManager();
     final String TAG = "foodie";
 
@@ -31,7 +46,7 @@ public class MyContentProvider extends ContentProvider {
        DebugHelper.Log("MyContentProvider: Delete");
 
         String listName = uri.getLastPathSegment();
-        long id = Integer.parseInt(selection);
+        String id = selection;
         try {
             switch (listName) {
                 case "user":
@@ -66,27 +81,22 @@ public class MyContentProvider extends ContentProvider {
             manager = DBManagerFactory.getManager();
         }
         String listName = uri.getLastPathSegment();
-        long id = -1;
+        String id = "";
         try {
             switch (listName) {
                 case "user":
                     id = manager.addUser(values);
-                    return ContentUris.withAppendedId(uri, id);
-
 
                 case "Business":
                     id = manager.addBusiness(values);
-                    return ContentUris.withAppendedId(uri, id);
 
                 case "activity":
                     id = manager.addActivity(values);
-                    return ContentUris.withAppendedId(uri, id);
 
                 case "cpuser":
                     id = manager.addCPUser(values);
-                    return ContentUris.withAppendedId(uri, id);
-
             }
+            return Uri.withAppendedPath(uri, id);
         } catch (Exception ex) {
             DebugHelper.Log("My content povider operation: insert, error: " + ex.getCause() + ", " + ex.getMessage());
         }
@@ -137,7 +147,14 @@ public class MyContentProvider extends ContentProvider {
                     return manager.getCPUser(selectionArgs, projection);
 
             }
-        } catch (Exception ex) {
+        }catch (NetworkErrorException ex){
+            lastErrorMessage = ex.getMessage();
+            lastErrorType = ex.toString();
+            return null;
+
+        }catch (Exception ex) {
+            lastErrorMessage = ex.getMessage();
+            lastErrorType = ex.toString();
             return null;
         }
         return null;
@@ -149,7 +166,7 @@ public class MyContentProvider extends ContentProvider {
 
         Log.d(TAG, "insert " + uri.toString());
         String listName = uri.getLastPathSegment();
-        int id = Integer.parseInt(selection);
+        String id = (selection);
         try {
             switch (listName) {
                 case "user":

@@ -13,7 +13,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 4L;
 
-    private int _ID;
+    private String _ID = "0";
 
 
     private String userFullName;
@@ -33,7 +33,7 @@ public class User implements Serializable {
 
     public User(String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
 
-        _ID++;
+
         setUserFullName(userFullName);
         setUserEmail(userEmail);
         setUserPhoneNumber(userPhoneNumber);
@@ -41,7 +41,7 @@ public class User implements Serializable {
         setUserAddress(address);
     }
 
-    public User(int ID,String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
+    public User(String ID,String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
 
         set_ID(ID);
         setUserFullName(userFullName);
@@ -51,13 +51,14 @@ public class User implements Serializable {
         setUserAddress(address);
     }
 
-    public int get_ID() {
+    public String get_ID() {
         return _ID;
     }
 
-    public void set_ID(int Id) {
+    public void set_ID(String Id) {
         _ID = Id;
     }
+
 
     public String getUserFullName() {
         return userFullName;
