@@ -24,13 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         try {
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.burgeranch);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] logo1 = stream.toByteArray();
 
-            String str = Arrays.toString(logo1);
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         } catch (Exception ex) {
