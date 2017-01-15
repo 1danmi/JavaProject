@@ -78,8 +78,7 @@ public class firebaseDB implements IDBManager {
         toInsert.child(AppContract.Business.BUSINESS_EMAIL).setValue(business.getBusinessEmail());
         toInsert.child(AppContract.Business.BUSINESS_PHONE_NUMBER).setValue(business.getBusinessPhoneNo());
         toInsert.child(AppContract.Business.BUSINESS_WEBSITE).setValue(business.getBusinessWebsite());
-        String str = Arrays.toString(business.getBusinessLogo());
-        toInsert.child(AppContract.Business.BUSINESS_LOGO).setValue(str);
+       // toInsert.child(AppContract.Business.BUSINESS_LOGO).setValue(str);
 
         return "";
     }
