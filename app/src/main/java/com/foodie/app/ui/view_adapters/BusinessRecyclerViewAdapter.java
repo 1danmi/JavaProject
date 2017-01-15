@@ -46,10 +46,13 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         Log.d(TAG, "onBindViewHolder: " + businessItem.getBusinessName() + " --> " + position);
 
         //final int THUMBSIZE = 128;
-        Bitmap bmp = BitmapFactory.decodeByteArray(businessItem.getBusinessLogo(), 0, businessItem.getBusinessLogo().length);
+        Bitmap bmp;
+        if(businessItem.getBusinessLogo() != null) {
+            bmp = BitmapFactory.decodeByteArray(businessItem.getBusinessLogo(), 0, businessItem.getBusinessLogo().length);
 
-        //bmp = ThumbnailUtils.extractThumbnail(bmp, THUMBSIZE, THUMBSIZE);
-        holder.logo.setImageBitmap(bmp);
+            //bmp = ThumbnailUtils.extractThumbnail(bmp, THUMBSIZE, THUMBSIZE);
+            holder.logo.setImageBitmap(bmp);
+        }
 
 
         holder.title.setText(businessItem.getBusinessName());

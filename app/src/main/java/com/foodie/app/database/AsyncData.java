@@ -1,5 +1,6 @@
 package com.foodie.app.database;
 
+import android.accounts.NetworkErrorException;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,6 +14,7 @@ import com.foodie.app.Helper.HelperClass;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.entities.User;
+import com.foodie.app.provider.MyContentProvider;
 
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +34,10 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
     private Context context = null;
     private CallBack<T> callback = null;
     private DataManagerType datamanagerType = DataManagerType.Off;
+
+    private String contenProviderErrorMessage = "";
+    private String contenProviderErrorType = "";
+
 
 
     public AsyncData(Context context,Uri uri)
@@ -141,8 +147,6 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
         return null;
     }
 
-
-
     private void Insert(ContentValues... contentValues)
     {
         for (ContentValues value : contentValues ) {
@@ -174,13 +178,18 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
         switch (uriType) {
             case "cpuser": {
                 Cursor result = context.getContentResolver().query(uri, new String[]{AppContract.CPUser.CPUSER_EMAIL, AppContract.CPUser.CPUSER_PWD}, null, new String[]{username, psw}, null);
+               if(result == null) {
+                   runCallBack(getErrorType(), null);
+                   break;
+               }
+
                 List<CPUser> total = Converters.cursorToCPUserList(result);
 
-                if (total.size() > 0) {
+                if (total != null && total.size() > 0) {
                     DebugHelper.Log("AsyncData login: Username: " + (total.get(0).getUserFullName()));
                     runCallBack(DataStatus.Success, (List<T>) total);
                 } else {
-                    runCallBack(DataStatus.Failed, null);
+                    runCallBack(getErrorType(), null);
                 }
 
                 break;
@@ -229,26 +238,27 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
                 switch (uriType) {
                     case "user":
                         List<T> UserList = (List<T>) Converters.cursorToUserList(result);
-                        runCallBack(DataStatus.Success, UserList);
+                        runCallBack(getErrorType(), UserList);
                         break;
 
 
                     case "Business":
                         List<T> BusinessList = (List<T>) Converters.cursorToBusinessList(result);
-                        runCallBack(DataStatus.Success, BusinessList);
+                        runCallBack(getErrorType(), BusinessList);
                         break;
 
 
                     case "activity":
                         List<T> ActivityList = (List<T>) Converters.cursorToActivityList(result);
-                        runCallBack(DataStatus.Success, ActivityList);
+                        runCallBack(getErrorType(), ActivityList);
                         break;
 
 
                     case "cpuser":
                        List<T> CPUserList = (List<T>) Converters.cursorToCPUserList(result);
-                       runCallBack(DataStatus.Success, CPUserList);
-                        break;
+                        DebugHelper.Log("Query");
+                       runCallBack(getErrorType(), CPUserList);
+                      break;
                 }
             } catch (Exception ex) {
                 runCallBack(DataStatus.Failed, null);
@@ -257,8 +267,8 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
         }
 
 
-    }
 
+    }
 
     private void update(ContentValues... contentValues)
     {
@@ -279,6 +289,7 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
             }
         }
     }
+
     public void setCallBack(CallBack<T> callBack)
     {
         this.callback = callBack;
@@ -291,10 +302,15 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
 
     private void runCallBack(final DataStatus status, final List<T> data)
     {
+
         if(callback == null) {
             DebugHelper.Log("AsyncData: callBack is null");
             return;
         }
+        if(data != null)
+            DebugHelper.Log("AsyncData: callBack data size = " + data.size());
+
+        DebugHelper.Log("AsyncData: callBack status " + status);
 
         final Handler UIHandler = new Handler(Looper.getMainLooper());
         UIHandler .post(new Runnable() {
@@ -303,6 +319,23 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
                 callback.run(status,data);
             }
         });
+
+    }
+
+
+    private DataStatus getErrorType()
+    {
+        contenProviderErrorMessage = MyContentProvider.getLastErrorMessage();
+        contenProviderErrorType = MyContentProvider.getLastErrorType();
+
+        if(contenProviderErrorType.contains("NetworkErrorException"))
+            return DataStatus.ConectionError;
+
+        if(contenProviderErrorType.contains("NullPointerException"))
+            return DataStatus.InvalidArgumment;
+
+        return DataStatus.Success;
+
 
     }
 

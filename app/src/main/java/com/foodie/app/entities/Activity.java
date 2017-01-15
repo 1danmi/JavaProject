@@ -14,7 +14,7 @@ public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static int _ID = 0;
+    private static String _ID = "0";
 
     private String activityName;
 
@@ -36,8 +36,7 @@ public class Activity implements Serializable {
     }
 
     public Activity(String activityName, String activityDescription, double activityCost, double activityRating, int businessId, byte[] activityImages, String feature) throws Exception {
-        set_ID(_ID+1);
-        _ID++;
+
         setActivityName(activityName);
         setActivityDescription(activityDescription);
         setActivityCost(activityCost);
@@ -47,7 +46,7 @@ public class Activity implements Serializable {
         setFeature(feature);
     }
 
-    public Activity(int id,String activityName, String activityDescription, double activityCost, double activityRating, int businessId, byte[] activityImages, String feature) throws Exception {
+    public Activity(String id,String activityName, String activityDescription, double activityCost, double activityRating, int businessId, byte[] activityImages, String feature) throws Exception {
         set_ID(id);
         setActivityName(activityName);
         setActivityDescription(activityDescription);
@@ -58,13 +57,18 @@ public class Activity implements Serializable {
         setFeature(feature);
     }
 
-    public int get_ID() {
+    public String get_ID() {
         return _ID;
     }
 
-    public void set_ID(int _ID) {
+    public void set_ID(String _ID) {
         this._ID = _ID;
     }
+
+
+
+
+
 
     public String getActivityName() {
         return activityName;

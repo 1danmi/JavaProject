@@ -1,6 +1,7 @@
 package com.foodie.app.database;
 
 import com.foodie.app.listsDB.ListDBManager;
+import com.foodie.app.onlineDB.firebaseDB;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,7 +14,7 @@ public class DBManagerFactory {
 
     static IDBManager manager = null;
 
-    private static String DBtype = "List";
+    private static String DBtype = "Firebase";
 
     public static String getDBtype() {
         return DBtype;
@@ -22,6 +23,9 @@ public class DBManagerFactory {
     public static IDBManager getManager() {
         if (DBtype.equals("List") && manager == null)
             manager = new ListDBManager();
+        if(DBtype.equals("Firebase") && manager == null)
+            manager = new firebaseDB();
+
         return manager;
     }
 

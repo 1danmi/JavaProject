@@ -11,9 +11,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.AsyncData;
@@ -41,7 +43,7 @@ public class ActivitiesActivity extends AppCompatActivity {
     private static final String EDIT_MODE = "mEditKey";
     private String editMode;
     public Boolean isPhotoChanged;
-    private int businessID;
+    private String businessID;
     private BusinessDetailsFragment businessDetailsFragment;
     private BusinessActivitiesFragment businessActivitiesFragment;
 
@@ -68,13 +70,16 @@ public class ActivitiesActivity extends AppCompatActivity {
     private void initializeComponents() {
         Intent intent = getIntent();
 
-        businessID = intent.getIntExtra(BUSINESS_ID, 0);
+        businessID = intent.getStringExtra(BUSINESS_ID);
 
         editMode = intent.getStringExtra(EDIT_MODE);
 
         businessDetailsFragment = new BusinessDetailsFragment();
 
         businessActivitiesFragment = new BusinessActivitiesFragment();
+
+        final View rootView = getLayoutInflater().inflate(R.layout.fragment_business_details, null);
+        businessDetailsFragment.initializeViews(rootView);
     }
 
     //Initializes the views
@@ -110,16 +115,20 @@ public class ActivitiesActivity extends AppCompatActivity {
     //Inflates the business date from the database.
     private void inflateData() {
 
-        if (businessID != 0) {
-            DBquery dBquery = new DBquery(new String[]{AppContract.Business.BUSINESS_ID},new String[]{Integer.toString(businessID)});
+        if (!businessID.equals("")) {
+            DBquery dBquery = new DBquery(new String[]{AppContract.Business.BUSINESS_ID},new String[]{businessID});
             (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Query, new CallBack<Business>() {
                 @Override
                 public void run(DataStatus status, List<Business> data) {
+                    DebugHelper.Log("inflateData:" + status);
                     if(data!=null) {
+                        DebugHelper.Log("inflateData: first data = " + data.get(0).get_ID());
+
                         businessItem = data.get(0);
                         //DebugHelper.Log("Da"));
                         setData(businessID);
                         setTabLayout();
+
                         businessDetailsFragment.inflateData();
 
                     }
@@ -136,15 +145,18 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     }
 
-    private void setData(int businessID) {
-        if (businessID == 0) {
+    private void setData(String businessID) {
+        if (businessID.equals("")) {
             businessItem = new Business();
             isPhotoChanged = false;
         } else {
-            Bitmap bmp = BitmapFactory.decodeByteArray(businessItem.getBusinessLogo(), 0, businessItem.getBusinessLogo().length);
-            businessLogoHeader.setImageBitmap(bmp);
             businessNameHeader.setText(businessItem.getBusinessName());
-            businessLogoHeader.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+            if (businessItem.getBusinessLogo()!=null) {
+                Bitmap bmp = BitmapFactory.decodeByteArray(businessItem.getBusinessLogo(), 0, businessItem.getBusinessLogo().length);
+                businessLogoHeader.setImageBitmap(bmp);
+                businessLogoHeader.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            }
         }
     }
 
@@ -201,7 +213,7 @@ public class ActivitiesActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
         if (businessItem != null) {
-            bundle.putInt(BUSINESS_ID, businessItem.get_ID());
+            bundle.putString(BUSINESS_ID, businessItem.get_ID());
             bundle.putString(EDIT_MODE, editMode);
         } else {
             bundle.putInt(BUSINESS_ID, 0);

@@ -23,7 +23,6 @@ public class ListDBManager implements IDBManager {
     public static List<Business> businesses;
     public static List<Activity> activities;
 
-
     boolean isUpdated = false;
 
     static {
@@ -33,65 +32,19 @@ public class ListDBManager implements IDBManager {
         activities = new ArrayList<>();
     }
 
-    public int getMaxID(String classList) {
+    private int getMaxID(String classList) {
 
-        int max_id = 0;
-
-        switch (classList) {
-            case "user":
-                if (users.isEmpty())
-                    break;
-
-                for (User item : users) {
-                    if (item.get_ID() > max_id)
-                        max_id = item.get_ID();
-                }
-                break;
-
-
-            case "Business":
-                if (businesses.isEmpty())
-                    break;
-
-                for (Business item : businesses) {
-                    if (item.get_ID() > max_id)
-                        max_id = item.get_ID();
-                }
-                break;
-
-
-            case "activity":
-                if (activities.isEmpty())
-                    break;
-
-                for (Activity item : activities) {
-                    if (item.get_ID() > max_id)
-                        max_id = item.get_ID();
-                }
-                break;
-
-
-            case "cpuser":
-                if (cpusers.isEmpty())
-                    break;
-                for (CPUser item : cpusers) {
-                    if (item.get_ID() > max_id)
-                        max_id = item.get_ID();
-                }
-                break;
-
-        }
-        return max_id;
+        return users.size() + cpusers.size() + businesses.size() + activities.size();
     }
 
     @Override
-    public int addCPUser(ContentValues values) throws Exception {
+    public String addCPUser(ContentValues values) throws Exception {
         // Get values
         CPUser cpuser = Converters.ContentValuesToCPUser(values);
 
         int cpuserId = getMaxID("cpuser");
 
-        cpuser.set_ID(++cpuserId);
+        cpuser.set_ID(Integer.toString(cpuserId));
 
         cpusers.add(cpuser);
         DebugHelper.Log("ListDBManager addCPUser: ID " + cpuser.get_ID() + " added");
@@ -100,11 +53,11 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public int addBusiness(ContentValues values) throws Exception {
+    public String addBusiness(ContentValues values) throws Exception {
         Business business = Converters.ContentValuesToBusiness(values);
         int businessId = getMaxID("Business");
 
-        business.set_ID(++businessId);
+        business.set_ID(Integer.toString(businessId));
         businesses.add(business);
         isUpdated = true;
         DebugHelper.Log("ListDBManager addBusiness: ID " + business.get_ID() + " added");
@@ -113,12 +66,12 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public int addActivity(ContentValues values) throws Exception {
+    public String addActivity(ContentValues values) throws Exception {
         Activity activity = Converters.ContentValuesToActivity(values);
         int activityId = getMaxID("activity");
 
 
-        activity.set_ID(++activityId);
+        activity.set_ID(Integer.toString(activityId));
 
         activities.add(activity);
         isUpdated = true;
@@ -126,12 +79,12 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public int addUser(ContentValues values) throws Exception {
+    public String addUser(ContentValues values) throws Exception {
         User user = Converters.ContentValuesToUser(values);
         int userId = getMaxID("user");
 
 
-        user.set_ID(++userId);
+        user.set_ID(Integer.toString(userId));
 
         users.add(user);
         isUpdated = true;
@@ -140,10 +93,10 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public boolean removeCPUser(long id) throws Exception {
+    public boolean removeCPUser(String id) throws Exception {
         CPUser cpuserToRemove = null;
         for (CPUser item : cpusers)
-            if (item.get_ID() == id) {
+            if (item.get_ID().equals(id)) {
                 cpuserToRemove = item;
                 isUpdated = true;
                 break;
@@ -153,10 +106,10 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public boolean removeBusiness(long id) throws Exception {
+    public boolean removeBusiness(String id) throws Exception {
         Business businessToRemove = null;
         for (Business item : businesses)
-            if (item.get_ID() == id) {
+            if (item.get_ID().equals(id)) {
                 businessToRemove = item;
                 isUpdated = true;
                 break;
@@ -166,10 +119,10 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public boolean removeActivity(long id) throws Exception {
+    public boolean removeActivity(String id) throws Exception {
         Activity activityToRemove = null;
         for (Activity item : activities)
-            if (item.get_ID() == id) {
+            if (item.get_ID().equals(id)) {
                 activityToRemove = item;
                 isUpdated = true;
                 break;
@@ -179,10 +132,10 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public boolean removeUser(long id) throws Exception {
+    public boolean removeUser(String id) throws Exception {
         User userToRemove = null;
         for (User item : users)
-            if (item.get_ID() == id) {
+            if (item.get_ID().equals(id)) {
                 userToRemove = item;
                 isUpdated = true;
                 break;
@@ -201,7 +154,7 @@ public class ListDBManager implements IDBManager {
                 for (int i = 0; i < columnsArgs.length; i++) {
                     switch (columnsArgs[i]) {
                         case AppContract.CPUser.CPUSER_ID:
-                            if (user.get_ID() != Integer.parseInt(args[i])) {
+                            if (!user.get_ID().equals(args[i])) {
                                 DebugHelper.Log("ListDBManager getCPUser: CPUser id " + user.get_ID() + " != " + args[i]);
                                 insert = false;
                             }
@@ -253,7 +206,7 @@ public class ListDBManager implements IDBManager {
                 for (int i = 0; i < columnsArgs.length; i++) {
                     switch (columnsArgs[i]) {
                         case AppContract.Business.BUSINESS_ID:
-                            if (bus.get_ID() != Integer.parseInt(args[i])) {
+                            if (!bus.get_ID().equals(args[i])) {
                                 DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_ID + ": "+ bus.get_ID() + " != " + args[i]);
                                 insert = false;
                             }
@@ -306,7 +259,7 @@ public class ListDBManager implements IDBManager {
                     if (!insert)
                         break;
                 }
-                DebugHelper.Log("ListDBManager getBusiness: insert business " + bus.get_ID() + " = " + insert);
+                DebugHelper.Log("ListDBManager getBusiness: insert business " + bus.get_ID() + " - "+bus.getBusinessName()+ " = " + insert);
                 if (insert)
                     result.add(bus);
                 else
@@ -329,7 +282,7 @@ public class ListDBManager implements IDBManager {
                 for (int i = 0; i < columnsArgs.length; i++) {
                     switch (columnsArgs[i]) {
                         case AppContract.Activity.ACTIVITY_ID:
-                            if (ac.get_ID() != Integer.parseInt(args[i])) {
+                            if (!ac.get_ID().equals(args[i])) {
                                 DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_ID + ": "+ ac.get_ID() + " != " + args[i]);
                                 insert = false;
                             }
@@ -404,7 +357,7 @@ public class ListDBManager implements IDBManager {
                 for (int i = 0; i < columnsArgs.length; i++) {
                     switch (columnsArgs[i]) {
                         case AppContract.User.USER_ID:
-                            if (us.get_ID() != Integer.parseInt(args[i])) {
+                            if (!us.get_ID().equals(args[i])) {
                                 DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_ID + ": "+ us.get_ID() + " != " + args[i]);
                                 insert = false;
                             }
@@ -462,10 +415,10 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public boolean updateCPUser(int id, ContentValues values) throws Exception {
+    public boolean updateCPUser(String id, ContentValues values) throws Exception {
         CPUser cpuser = Converters.ContentValuesToCPUser(values);
         for (CPUser cp : cpusers) {
-            if (cp.get_ID() == id) {
+            if (cp.get_ID().equals(id)) {
                 cp.set_ID(cpuser.get_ID());
                 cp.setUserFullName(cpuser.getUserFullName());
                 cp.setUserEmail(cpuser.getUserFullName());
@@ -478,10 +431,10 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public boolean updateBusiness(int id, ContentValues values) throws Exception {
+    public boolean updateBusiness(String id, ContentValues values) throws Exception {
         Business business = Converters.ContentValuesToBusiness(values);
         for (Business b : businesses) {
-            if (b.get_ID() == id) {
+            if (b.get_ID().equals(id)) {
                 b.set_ID(business.get_ID());
                 b.setBusinessName(business.getBusinessName());
                 b.setBusinessAddress(business.getBusinessAddress());
@@ -499,10 +452,10 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public boolean updateActivity(int id, ContentValues values) throws Exception {
+    public boolean updateActivity(String id, ContentValues values) throws Exception {
         Activity activity = Converters.ContentValuesToActivity(values);
         for (Activity a : activities) {
-            if (a.get_ID() == id) {
+            if (a.get_ID().equals(id)) {
                 a.set_ID(activity.get_ID());
                 a.setActivityName(activity.getActivityName());
                 //a.setActivityDate(activity.getActivityDate());
@@ -521,10 +474,10 @@ public class ListDBManager implements IDBManager {
     }
 
     @Override
-    public boolean updateUser(int id, ContentValues values) throws Exception {
+    public boolean updateUser(String id, ContentValues values) throws Exception {
         User user = Converters.ContentValuesToUser(values);
         for (User u : users) {
-            if (u.get_ID() == id) {
+            if (u.get_ID().equals(id)) {
                 u.set_ID(user.get_ID());
                 u.setUserPhoneNumber(user.getUserPhoneNumber());
                 u.setUserPwdHash(user.getUserPwdHash());
@@ -544,5 +497,39 @@ public class ListDBManager implements IDBManager {
     public boolean isDBUpdated() {
         return isUpdated;
     }
+
+
+
+    public String addCPUser(CPUser values) {
+        cpusers.add(values);
+        isUpdated = true;
+        return values.get_ID();
+    }
+
+
+    public String addBusiness(Business values)  {
+
+        businesses.add(values);
+        isUpdated = true;
+        return values.get_ID();
+    }
+
+
+    public String addActivity(Activity activity)  {
+
+        activities.add(activity);
+        isUpdated = true;
+        return activity.get_ID();
+    }
+
+
+    public String addUser( User user)  {
+
+        users.add(user);
+        isUpdated = true;
+        return user.get_ID();
+    }
+
+
 
 }

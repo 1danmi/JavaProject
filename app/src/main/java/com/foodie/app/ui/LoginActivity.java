@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         constraintLayout = (ConstraintLayout) findViewById(R.id.activity_login); // By David
-        test(); //By David
+       test(); //By David
 
         final TextView signUpTextView = (TextView) findViewById(R.id.signUpTextView);
         signUpTextView.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     Bundle b = new Bundle();
-                                                    b.putInt("Id", data.get(0).get_ID()); //Your id
+                                                    b.putString("Id", data.get(0).get_ID()); //Your id
                                                     b.putString("Fullname",data.get(0).getUserFullName()); //Your id
                                                     intent.putExtras(b); //Put your id to your next Intent
                                                     startActivity(intent);
@@ -171,6 +171,15 @@ public class LoginActivity extends AppCompatActivity {
                                         public void run() {
                                             signIn.loadingFailed();
                                             Snackbar.make(constraintLayout, "Failed", Snackbar.LENGTH_LONG).show();
+
+                                        }
+                                    }, 3000);
+                                case ConectionError:
+                                    signIn.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            signIn.loadingFailed();
+                                            Snackbar.make(constraintLayout,"Connection error" , Snackbar.LENGTH_LONG).show();
 
                                         }
                                     }, 3000);

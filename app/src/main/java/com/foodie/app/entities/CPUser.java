@@ -16,7 +16,7 @@ public class CPUser implements Serializable {
 
     private static final long serialVersionUID = 3L;
 
-    private int _ID = 0;
+    private String _ID = "0";
 
     private String userFullName;
 
@@ -31,20 +31,21 @@ public class CPUser implements Serializable {
     }
 
 
-    public CPUser(int _ID, String userEmail, String userFullName, String userPwdHash) {
+    public CPUser(String _ID, String userEmail, String userFullName, String userPwdHash) {
         this._ID = _ID;
         this.userEmail = userEmail;
         this.userFullName = userFullName;
         this.userPwdHash = userPwdHash;
     }
 
-    public int get_ID() {
+    public String get_ID() {
         return _ID;
     }
 
-    public void set_ID(int _ID) {
+    public void set_ID(String _ID) {
         this._ID = _ID;
     }
+
 
     public String getUserFullName() {
         return userFullName;

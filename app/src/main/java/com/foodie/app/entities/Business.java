@@ -15,7 +15,7 @@ public class Business implements Serializable {
 
     public static int businessID = 0;
 
-    private int _ID;
+    private String _ID;
 
     private String businessName;
 
@@ -34,7 +34,7 @@ public class Business implements Serializable {
     //Empty constructor.
     public Business() {
 
-        _ID = 0;
+        _ID = "0";
         businessName = "";
         businessAddress = "";
         businessPhoneNo = "";
@@ -45,8 +45,7 @@ public class Business implements Serializable {
     }
 //Full constructor
     public Business(String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
-        set_ID(businessID + 1);
-        businessID++;
+
         setBusinessName(businessName);
         setBusinessAddress(businessAddress);
         setBusinessPhoneNo(businessPhoneNo);
@@ -56,7 +55,7 @@ public class Business implements Serializable {
         setBusinessLogo(businessLogo);
     }
 
-    public Business(int id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
+    public Business(String id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
         set_ID(id);
         setBusinessName(businessName);
         setBusinessAddress(businessAddress);
@@ -67,13 +66,15 @@ public class Business implements Serializable {
         setBusinessLogo(businessLogo);
     }
 
-    public int get_ID() {
+    public String get_ID() {
         return _ID;
     }
 
-    public void set_ID(int Id) {
+    public void set_ID(String Id) {
         _ID = Id;
     }
+
+
 
     public String getBusinessName() {
         return businessName;

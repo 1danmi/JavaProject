@@ -9,38 +9,38 @@ import android.database.Cursor;
 
 public interface IDBManager {
 
-    int addCPUser(ContentValues values) throws Exception;
+    String addCPUser(ContentValues values) throws Exception;
 
-    int addBusiness(ContentValues values) throws Exception;
+    String addBusiness(ContentValues values) throws Exception;
 
-    int addActivity(ContentValues values) throws Exception;
+    String addActivity(ContentValues values) throws Exception;
 
-    int addUser(ContentValues values) throws Exception;
+    String addUser(ContentValues values) throws Exception;
 
-    boolean removeCPUser(long id) throws Exception;
+    boolean removeCPUser(String id) throws Exception;
 
-    boolean removeBusiness(long id) throws Exception;
+    boolean removeBusiness(String id) throws Exception;
 
-    boolean removeActivity(long id) throws Exception;
+    boolean removeActivity(String id) throws Exception;
 
-    boolean removeUser(long id) throws Exception;
+    boolean removeUser(String id) throws Exception;
 
-    Cursor getCPUser(String[] args,String[] columnsArgs);
+    Cursor getCPUser(String[] args,String[] columnsArgs)throws Exception;
 
-    Cursor getBusiness(String[] args,String[] columnsArgs);
+    Cursor getBusiness(String[] args,String[] columnsArgs)throws Exception;
 
-    Cursor getActivity(String[] args,String[] columnsArgs);
+    Cursor getActivity(String[] args,String[] columnsArgs)throws Exception;
 
-    Cursor getUser(String[] args,String[] columnsArgs);
+    Cursor getUser(String[] args,String[] columnsArgs)throws Exception;
 
 
-    boolean updateCPUser(int id, ContentValues values) throws Exception;
+    boolean updateCPUser(String id, ContentValues values) throws Exception;
 
-    boolean updateBusiness(int id, ContentValues values) throws Exception;
+    boolean updateBusiness(String id, ContentValues values) throws Exception;
 
-    boolean updateActivity(int id, ContentValues values) throws Exception;
+    boolean updateActivity(String id, ContentValues values) throws Exception;
 
-    boolean updateUser(int id, ContentValues values) throws Exception;
+    boolean updateUser(String id, ContentValues values) throws Exception;
 
     boolean isDBUpdated();
 }
