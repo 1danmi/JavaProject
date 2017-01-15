@@ -78,6 +78,12 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tab_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_fab_button2"
         android:layout_width="wrap_content"
@@ -112,11 +118,6 @@
         app:pressedTranslationZ="12dp"
         />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/tab_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </android.support.design.widget.CoordinatorLayout>
 
 

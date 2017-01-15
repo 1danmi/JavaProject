@@ -2,6 +2,8 @@ package com.foodie.app.ui;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,11 +29,13 @@ import com.foodie.app.database.CallBack;
 import com.foodie.app.database.DBquery;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
+import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.ui.view_adapters.BusinessRecyclerViewAdapter;
 import com.foodie.app.ui.view_adapters.RecyclerItemClickListener;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,12 +72,13 @@ public class BusinessActivity extends AppCompatActivity
         setRecyclerView();
 
         loadData();
+
         final View rootView = getLayoutInflater().inflate(R.layout.nav_header_business, null);
         TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerCPUserName);
         TextView numOfBusinessse = (TextView) rootView.findViewById(R.id.drawerNumOfBusinesses);
 
-        loadData();
-
+        //loadData();
+        loadDemoData();
 
 //        drawerCPUserName.setText(user.getUserFullName());
 //        numOfBusinessse.setText(businessRecyclerViewAdapter.getItemCount() + " Businesses");
@@ -81,6 +86,36 @@ public class BusinessActivity extends AppCompatActivity
 
 
     }
+
+
+    private void loadDemoData() {
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.hamburger);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp = Bitmap.createScaledBitmap(bmp, 1000,800, true);
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] hamburger = stream.toByteArray();
+        try {
+            Activity activity = new Activity("Hamburger", "A Hamburger (or cheeseburger when served with a slice of cheese)" +
+                    " is a sandwich consisting of one or more cooked patties of ground " +
+                    "meat, usually beef, placed inside a sliced bread roll or bun. Hamburgers " +
+                    "may be cooked in a variety of ways, including pan-frying, barbecuing, " +
+                    "and flame-broiling. Hamburgers are often served with cheese, lettuce, " +
+                    "tomato, bacon, onion, pickles, and condiments such as mustard, mayonnaise," +
+                    " ketchup, relish, and chiles.", 23.56,2.5,1,hamburger, "Kosher");
+            //activitiesList.add(activity);
+
+            CallBack<Activity> callBack = new CallBack<Activity>() {
+                @Override
+                public void run(DataStatus status, List<Activity> data) {
+                    DebugHelper.Log("Activity insert callBack finish with status: " + status);
+                }
+            };
+            (new AsyncData<Activity>(getApplicationContext(), Activity.getURI(), DataManagerType.Insert, callBack)).execute(activity.toContentValues());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void setRecyclerView() {
 
