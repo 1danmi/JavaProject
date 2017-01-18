@@ -10,5 +10,4 @@ public enum DataManagerType {
     Query,
     Update,
     Delete,
-    login
 }

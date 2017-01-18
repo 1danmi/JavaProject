@@ -119,8 +119,8 @@ public class ActivitiesActivity extends AppCompatActivity {
             DBquery dBquery = new DBquery(new String[]{AppContract.Business.BUSINESS_ID},new String[]{businessID});
             (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Query, new CallBack<Business>() {
                 @Override
-                public void run(DataStatus status, List<Business> data) {
-                    DebugHelper.Log("inflateData:" + status);
+                public void onSuccess(List<Business> data) {
+                    DebugHelper.Log("inflateData: Success");
                     if(data!=null) {
                         DebugHelper.Log("inflateData: first data = " + data.get(0).get_ID());
 
@@ -132,7 +132,15 @@ public class ActivitiesActivity extends AppCompatActivity {
                         businessDetailsFragment.inflateData();
 
                     }
+
                 }
+
+                @Override
+                public void onFailed(DataStatus status, String error) {
+                    DebugHelper.Log("inflateData: " + status + ": "+error);
+                }
+
+
             })).execute(dBquery);
         }else{
             businessItem = new Business();

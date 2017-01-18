@@ -122,7 +122,7 @@ public class Converters {
         business.setBusinessPhoneNo(contentValues.getAsString(AppContract.Business.BUSINESS_PHONE_NUMBER));
         business.setBusinessEmail(contentValues.getAsString(AppContract.Business.BUSINESS_EMAIL));
         business.setBusinessWebsite(contentValues.getAsString(AppContract.Business.BUSINESS_WEBSITE));
-        business.setCpuserID(contentValues.getAsInteger(AppContract.Business.BUSINESS_CPUSER_ID));
+        business.setCpuserID(contentValues.getAsString(AppContract.Business.BUSINESS_CPUSER_ID));
         business.setBusinessLogo(contentValues.getAsByteArray(AppContract.Business.BUSINESS_LOGO));
 
         return business;
@@ -137,7 +137,7 @@ public class Converters {
         activity.setActivityDescription(contentValues.getAsString(AppContract.Activity.ACTIVITY_DESCRIPTION));
         activity.setActivityCost(contentValues.getAsDouble(AppContract.Activity.ACTIVITY_COST));
         activity.setActivityRating(contentValues.getAsDouble(AppContract.Activity.ACTIVITY_RATING));
-        activity.setBusinessId(contentValues.getAsInteger(AppContract.Activity.ACTIVITY_BUSINESS_ID));
+        activity.setBusinessId(contentValues.getAsString(AppContract.Activity.ACTIVITY_BUSINESS_ID));
         activity.setActivityImages(contentValues.getAsByteArray(AppContract.Activity.ACTIVITY_IMAGE));
         activity.setFeature(contentValues.getAsString(AppContract.Activity.ACTIVITY_FEATURE));
 
@@ -302,7 +302,7 @@ public class Converters {
                         cursor.getString(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_DESCRIPTION)),
                         cursor.getDouble(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_COST)),
                         cursor.getDouble(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_RATING)),
-                        cursor.getInt(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_BUSINESS_ID)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_BUSINESS_ID)),
                         cursor.getBlob(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_IMAGE)),
                         cursor.getString(cursor.getColumnIndex( AppContract.Activity.ACTIVITY_FEATURE))
                         ));
@@ -335,7 +335,7 @@ public class Converters {
                         cursor.getString(cursor.getColumnIndex( AppContract.Business.BUSINESS_PHONE_NUMBER)),
                         cursor.getString(cursor.getColumnIndex( AppContract.Business.BUSINESS_EMAIL)),
                         cursor.getString(cursor.getColumnIndex( AppContract.Business.BUSINESS_WEBSITE)),
-                        cursor.getInt(cursor.getColumnIndex( AppContract.Business.BUSINESS_CPUSER_ID)),
+                        cursor.getString(cursor.getColumnIndex( AppContract.Business.BUSINESS_CPUSER_ID)),
                         cursor.getBlob(cursor.getColumnIndex( AppContract.Business.BUSINESS_LOGO))
 
                         ));

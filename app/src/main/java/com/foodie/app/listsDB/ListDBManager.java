@@ -4,8 +4,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.foodie.app.Helper.DebugHelper;
+import com.foodie.app.Helper.HelperClass;
 import com.foodie.app.backend.AppContract;
+import com.foodie.app.database.CallBack;
 import com.foodie.app.database.Converters;
+import com.foodie.app.database.DBManagerFactory;
+import com.foodie.app.database.DataStatus;
 import com.foodie.app.database.IDBManager;
 import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
@@ -22,6 +26,8 @@ public class ListDBManager implements IDBManager {
     public static List<CPUser> cpusers;
     public static List<Business> businesses;
     public static List<Activity> activities;
+    public CPUser cpuserConected;
+    public User userConected;
 
     boolean isUpdated = false;
 
@@ -207,49 +213,49 @@ public class ListDBManager implements IDBManager {
                     switch (columnsArgs[i]) {
                         case AppContract.Business.BUSINESS_ID:
                             if (!bus.get_ID().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_ID + ": "+ bus.get_ID() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_ID + ": " + bus.get_ID() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Business.BUSINESS_NAME:
                             if (!bus.getBusinessName().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_NAME + ": "+ bus.getBusinessName() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_NAME + ": " + bus.getBusinessName() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Business.BUSINESS_ADDRESS:
                             if (!bus.getBusinessAddress().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_ADDRESS + ": "+ bus.getBusinessAddress() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_ADDRESS + ": " + bus.getBusinessAddress() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Business.BUSINESS_PHONE_NUMBER:
                             if (!bus.getBusinessPhoneNo().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_PHONE_NUMBER + ": "+ bus.getBusinessPhoneNo() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_PHONE_NUMBER + ": " + bus.getBusinessPhoneNo() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Business.BUSINESS_EMAIL:
                             if (!bus.getBusinessEmail().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_EMAIL + ": "+ bus.getBusinessEmail() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_EMAIL + ": " + bus.getBusinessEmail() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Business.BUSINESS_WEBSITE:
                             if (!bus.getBusinessWebsite().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_WEBSITE + ": "+ bus.getBusinessWebsite() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_WEBSITE + ": " + bus.getBusinessWebsite() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Business.BUSINESS_CPUSER_ID:
-                            if (Integer.toString(bus.getCpuserID()).equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_CPUSER_ID + ": "+ bus.getCpuserID() + " != " + args[i]);
+                            if (bus.getCpuserID().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_CPUSER_ID + ": " + bus.getCpuserID() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
@@ -259,7 +265,7 @@ public class ListDBManager implements IDBManager {
                     if (!insert)
                         break;
                 }
-                DebugHelper.Log("ListDBManager getBusiness: insert business " + bus.get_ID() + " - "+bus.getBusinessName()+ " = " + insert);
+                DebugHelper.Log("ListDBManager getBusiness: insert business " + bus.get_ID() + " - " + bus.getBusinessName() + " = " + insert);
                 if (insert)
                     result.add(bus);
                 else
@@ -283,49 +289,49 @@ public class ListDBManager implements IDBManager {
                     switch (columnsArgs[i]) {
                         case AppContract.Activity.ACTIVITY_ID:
                             if (!ac.get_ID().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_ID + ": "+ ac.get_ID() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_ID + ": " + ac.get_ID() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Activity.ACTIVITY_NAME:
                             if (!ac.getActivityName().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_NAME + ": "+ ac.getActivityName() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_NAME + ": " + ac.getActivityName() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Activity.ACTIVITY_DESCRIPTION:
                             if (!ac.getActivityDescription().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_DESCRIPTION + ": "+ ac.getActivityDescription() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_DESCRIPTION + ": " + ac.getActivityDescription() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Activity.ACTIVITY_COST:
                             if (!Double.toString(ac.getActivityCost()).equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_COST + ": "+ ac.getActivityCost() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_COST + ": " + ac.getActivityCost() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Activity.ACTIVITY_RATING:
                             if (!Double.toString(ac.getActivityRating()).equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_RATING + ": "+ ac.getActivityRating() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_RATING + ": " + ac.getActivityRating() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Activity.ACTIVITY_BUSINESS_ID:
-                            if (ac.getBusinessId() != Integer.parseInt(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_BUSINESS_ID + ": "+ ac.getBusinessId() + " != " + args[i]);
+                            if (!ac.getBusinessId().equals(args[i])) {
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_BUSINESS_ID + ": " + ac.getBusinessId() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Activity.ACTIVITY_FEATURE:
                             if (!ac.getFeature().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_FEATURE + ": "+ ac.getFeature() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_FEATURE + ": " + ac.getFeature() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
@@ -358,45 +364,44 @@ public class ListDBManager implements IDBManager {
                     switch (columnsArgs[i]) {
                         case AppContract.User.USER_ID:
                             if (!us.get_ID().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_ID + ": "+ us.get_ID() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_ID + ": " + us.get_ID() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.User.USER_FULL_NAME:
                             if (!us.getUserFullName().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_FULL_NAME + ": "+ us.getUserFullName() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_FULL_NAME + ": " + us.getUserFullName() + " != " + args[i]);
                                 insert = false;
                             }
 
                         case AppContract.User.USER_EMAIL:
                             if (!us.getUserEmail().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_EMAIL + ": "+ us.getUserEmail() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_EMAIL + ": " + us.getUserEmail() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.User.USER_PHONE_NUMBER:
                             if (!us.getUserPhoneNumber().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_PHONE_NUMBER + ": "+ us.getUserPhoneNumber() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_PHONE_NUMBER + ": " + us.getUserPhoneNumber() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.User.USER_PWD:
                             if (!us.getUserPwdHash().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_PWD + ": "+ us.getUserPwdHash() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_PWD + ": " + us.getUserPwdHash() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
 
                         case AppContract.User.USER_ADDRESS:
                             if (!us.getUserAddress().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_ADDRESS + ": "+ us.getUserAddress() + " != " + args[i]);
+                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_ADDRESS + ": " + us.getUserAddress() + " != " + args[i]);
                                 insert = false;
                             }
                             break;
-
 
 
                     }
@@ -499,6 +504,35 @@ public class ListDBManager implements IDBManager {
     }
 
 
+    public static void login(final String username,final String password,final CallBack<CPUser> callBack){
+
+        for (CPUser user : cpusers) {
+            if (user.getUserEmail().equals(username) && user.getUserEmail().equals(password)) {
+                {
+                    DBManagerFactory.setCurrentUser(user);
+                    HelperClass.runInMain(new Runnable() {
+                        @Override
+                        public void run() {
+                            callBack.onSuccess(null);
+                        }
+
+                    });
+                    return;
+                }
+
+
+            }
+        }
+
+        HelperClass.runInMain(new Runnable() {
+            @Override
+            public void run() {
+                callBack.onFailed(DataStatus.Failed,"Invalid username or password");
+            }
+        });
+    }
+
+
 
     public String addCPUser(CPUser values) {
         cpusers.add(values);
@@ -507,7 +541,7 @@ public class ListDBManager implements IDBManager {
     }
 
 
-    public String addBusiness(Business values)  {
+    public String addBusiness(Business values) {
 
         businesses.add(values);
         isUpdated = true;
@@ -515,7 +549,7 @@ public class ListDBManager implements IDBManager {
     }
 
 
-    public String addActivity(Activity activity)  {
+    public String addActivity(Activity activity) {
 
         activities.add(activity);
         isUpdated = true;
@@ -523,11 +557,59 @@ public class ListDBManager implements IDBManager {
     }
 
 
-    public String addUser( User user)  {
+    public String addUser(User user) {
 
         users.add(user);
         isUpdated = true;
         return user.get_ID();
+    }
+
+    public CPUser getCPUserById(String id) {
+        for (CPUser user : cpusers) {
+            if (user.get_ID().equals(id))
+                return user;
+        }
+        return null;
+    }
+
+    public static void signUp(CPUser user,CallBack<CPUser> callBack)
+    {
+        for(CPUser localUser:cpusers)
+        {
+            if(localUser.getUserEmail().equals(user.getUserEmail())) {
+                callBack.onFailed(DataStatus.Failed, "Email already exist");
+                return;
+            }
+
+        }
+        cpusers.add(user);
+        callBack.onSuccess(null);
+
+    }
+
+    public static void removeOthersUsers()
+    {
+        CPUser current = DBManagerFactory.getCurrentUser();
+
+        for(Business business:businesses)
+        {
+           businesses.remove(business);
+        }
+
+
+        Boolean flag;
+        for(Activity activity:activities)
+        {
+            flag = false;
+            for(Business business:businesses){
+                if(activity.getBusinessId().equals(business.get_ID()))
+                    flag = true;
+            }
+            if(!flag)
+                activities.remove(activity);
+
+
+        }
     }
 
 

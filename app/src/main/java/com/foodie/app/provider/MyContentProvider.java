@@ -6,11 +6,20 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.nfc.FormatException;
 import android.util.Log;
 
+import com.fasterxml.jackson.databind.util.Converter;
 import com.foodie.app.Helper.DebugHelper;
+import com.foodie.app.backend.AppContract;
+import com.foodie.app.database.Converters;
 import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.IDBManager;
+import com.foodie.app.entities.CPUser;
+import com.foodie.app.entities.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by David on 14/13/2016.
@@ -128,23 +137,24 @@ public class MyContentProvider extends ContentProvider {
 
 
         String listName = uri.getLastPathSegment();
-        long id = -1;
+
         try {
-            switch (listName) {
+
+                    switch (listName) {
                 case "user":
                     return manager.getUser(selectionArgs, projection);
 
 
+
+                case "cpuser":
+                        return manager.getCPUser(selectionArgs, projection);
+
                 case "Business":
-                    return manager.getBusiness(selectionArgs, projection);
+                return manager.getBusiness(selectionArgs, projection);
 
 
                 case "activity":
-                    return manager.getActivity(selectionArgs, projection);
-
-
-                case "cpuser":
-                    return manager.getCPUser(selectionArgs, projection);
+                return manager.getActivity(selectionArgs, projection);
 
             }
         }catch (NetworkErrorException ex){

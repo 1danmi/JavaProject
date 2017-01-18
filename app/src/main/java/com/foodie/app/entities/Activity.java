@@ -1,6 +1,8 @@
 package com.foodie.app.entities;
 
 
+import android.net.Uri;
+
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +28,7 @@ public class Activity implements Serializable {
 
     private double activityRating;
 
-    private int businessId;
+    private String businessId;
 
     private byte[] activityImages; //for future use
 
@@ -35,7 +37,7 @@ public class Activity implements Serializable {
     public Activity() {
     }
 
-    public Activity(String activityName, String activityDescription, double activityCost, double activityRating, int businessId, byte[] activityImages, String feature) throws Exception {
+    public Activity(String activityName, String activityDescription, double activityCost, double activityRating, String businessId, byte[] activityImages, String feature) throws Exception {
 
         setActivityName(activityName);
         setActivityDescription(activityDescription);
@@ -46,7 +48,7 @@ public class Activity implements Serializable {
         setFeature(feature);
     }
 
-    public Activity(String id,String activityName, String activityDescription, double activityCost, double activityRating, int businessId, byte[] activityImages, String feature) throws Exception {
+    public Activity(String id,String activityName, String activityDescription, double activityCost, double activityRating, String businessId, byte[] activityImages, String feature) throws Exception {
         set_ID(id);
         setActivityName(activityName);
         setActivityDescription(activityDescription);
@@ -121,11 +123,11 @@ public class Activity implements Serializable {
         this.activityRating = activityRating;
     }
 
-    public int getBusinessId() {
+    public String getBusinessId() {
         return businessId;
     }
 
-    public void setBusinessId(int businessId) {
+    public void setBusinessId(String businessId) {
         //if(!isExist(businessId, TYPE.BUSINESS)
         //throw new Exception("Business does not exist");
         this.businessId = businessId;
@@ -145,5 +147,10 @@ public class Activity implements Serializable {
 
     public void setFeature(String feature) {
         this.feature = feature;
+    }
+
+
+    public static Uri getURI() {
+        return Uri.parse("content://com.foodie.app/activity");
     }
 }

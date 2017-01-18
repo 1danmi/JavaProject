@@ -3,6 +3,9 @@ package com.foodie.app.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.foodie.app.entities.CPUser;
+import com.foodie.app.entities.User;
+
 /**
  * Created by Daniel on 12/13/2016.
  */
@@ -43,4 +46,8 @@ public interface IDBManager {
     boolean updateUser(String id, ContentValues values) throws Exception;
 
     boolean isDBUpdated();
+
+
+
+
 }

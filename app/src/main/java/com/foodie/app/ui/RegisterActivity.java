@@ -12,6 +12,7 @@ import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
+import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.CPUser;
@@ -76,36 +77,25 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                 //Create an AsyncData object and set the constructor
-                AsyncData<CPUser> data = new AsyncData<>(getApplicationContext(), CPUser.getURI());
-                // Set the task to insert
-                data.setDatamanagerType(DataManagerType.Insert);
-                // Set the function to get status
-                data.setCallBack(new CallBack<CPUser>() {
+                DBManagerFactory.signUp(user,new CallBack<CPUser>() {
                     @Override
-                    public void run(DataStatus status, List<CPUser> data) {
-                        DebugHelper.Log("CallBack with status: " + status);
-
-                        switch (status) {
-                            case Success:
-                                signUpBtn.loadingSuccessful();
-                                snackbar = Snackbar.make(constraintLayout, "Success", Snackbar.LENGTH_LONG);
-                                snackbar.show();
-                                //TODO animation when succeed
-                                finish();
-                                break;
-                            case Failed:
-                                snackbar = Snackbar.make(constraintLayout, "Failed", Snackbar.LENGTH_LONG);
-                                snackbar.show();
-                                signUpBtn.loadingFailed();
-                            default:
-                                DebugHelper.Log("Default switch in callBack");
-                                break;
-                        }
+                    public void onSuccess(List<CPUser> data) {
+                        signUpBtn.loadingSuccessful();
+                        snackbar = Snackbar.make(constraintLayout, "Success", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                        //TODO animation when succeed
+                        finish();
                     }
 
-                });
-                // Execute the AsyncTask
-                data.execute(user.toContentValues());
+                    @Override
+                    public void onFailed(DataStatus status, String error) {
+                        snackbar = Snackbar.make(constraintLayout, "Failed", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                        signUpBtn.loadingFailed();
+                    }
+
+
+            });
 
             }
         });

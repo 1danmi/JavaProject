@@ -22,6 +22,7 @@ import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
+import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.DBquery;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
@@ -48,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         constraintLayout = (ConstraintLayout) findViewById(R.id.activity_login); // By David
-       test(); //By David
+      // test(); //By David
 
         final TextView signUpTextView = (TextView) findViewById(R.id.signUpTextView);
         signUpTextView.setOnClickListener(new View.OnClickListener() {
@@ -131,46 +132,46 @@ public class LoginActivity extends AppCompatActivity {
 
                     /***************************Login*****************************/
 
-                    //Create an AsyncData object and set the constructor
-                    AsyncData<CPUser> data = new AsyncData<>(getApplicationContext(), CPUser.getURI());
-                    // Set the task to insert
-                    data.setDatamanagerType(DataManagerType.login);
-                    // Set the function to get status
-                    data.setCallBack(new CallBack<CPUser>() {
+                    DBManagerFactory.login(emailEditText.getText().toString(), pwdEditText.getText().toString(),new CallBack<CPUser>() {
                         @Override
-                        public void run(DataStatus status, final List<CPUser> data) {
-                            DebugHelper.Log("CallBack with status: " + status);
+                        public void onSuccess(final List<CPUser> data) {
+                            signIn.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    final Intent intent = new Intent(LoginActivity.this, BusinessActivity.class);
+                                    signIn.loadingSuccessful();
+                                    Snackbar.make(constraintLayout, "Success", Snackbar.LENGTH_LONG).show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if(DBManagerFactory.getCurrentUser() != null) {
+                                                Bundle b = new Bundle();
+                                                b.putString("Id", DBManagerFactory.getCurrentUser().get_ID()); //Your id
+                                                b.putString("Fullname", DBManagerFactory.getCurrentUser().getUserFullName()); //Your id
+                                                intent.putExtras(b); //Put your id to your next Intent
+                                            }
+                                            startActivity(intent);
+                                        }
+                                    },400);
+                                }
+                            }, 1500);
+
+                        }
+
+                        @Override
+                        public void onFailed(final DataStatus status,final String error) {
 
                             switch (status) {
                                 case Success:
 
-                                    signIn.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            final Intent intent = new Intent(LoginActivity.this, BusinessActivity.class);
-                                            signIn.loadingSuccessful();
-                                            Snackbar.make(constraintLayout, "Success", Snackbar.LENGTH_LONG).show();
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    Bundle b = new Bundle();
-                                                    b.putString("Id", data.get(0).get_ID()); //Your id
-                                                    b.putString("Fullname",data.get(0).getUserFullName()); //Your id
-                                                    intent.putExtras(b); //Put your id to your next Intent
-                                                    startActivity(intent);
-                                                }
-                                            },400);
-                                        }
-                                    }, 1500);
-                                    break;
-                                case Failed:
 
+                                case Failed:
 
                                     signIn.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
                                             signIn.loadingFailed();
-                                            Snackbar.make(constraintLayout, "Failed", Snackbar.LENGTH_LONG).show();
+                                            Snackbar.make(constraintLayout, error, Snackbar.LENGTH_LONG).show();
 
                                         }
                                     }, 3000);
@@ -179,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             signIn.loadingFailed();
-                                            Snackbar.make(constraintLayout,"Connection error" , Snackbar.LENGTH_LONG).show();
+                                            Snackbar.make(constraintLayout,"Connection error, please try again later" , Snackbar.LENGTH_LONG).show();
 
                                         }
                                     }, 3000);
@@ -189,9 +190,9 @@ public class LoginActivity extends AppCompatActivity {
                                     break;
                             }
                         }
+
                     });
-                    // Execute the AsyncTask
-                    data.execute(new DBquery(new String[]{emailEditText.getText().toString(), pwdEditText.getText().toString()}));
+
                     /***************************David*****************************/
 
                 } else {
@@ -230,9 +231,15 @@ public class LoginActivity extends AppCompatActivity {
         // Set the function to get status
         data.setCallBack(new CallBack<CPUser>() {
             @Override
-            public void run(DataStatus status, List<CPUser> data) {
+            public void onSuccess(List<CPUser> data) {
+
+            }
+
+            @Override
+            public void onFailed(DataStatus status, String error) {
                 DebugHelper.Log("Insert callBack finish with status: " + status);
             }
+
 
         });
         // Execute the AsyncTask
@@ -248,9 +255,17 @@ public class LoginActivity extends AppCompatActivity {
 
         CallBack<Business> callBack = new CallBack<Business>() {
             @Override
-            public void run(DataStatus status, List<Business> data) {
-                DebugHelper.Log("Business insert callBack finish with status: " + status);
+            public void onSuccess(List<Business> data) {
+
             }
+
+            @Override
+            public void onFailed(DataStatus status, String error) {
+                DebugHelper.Log("Business insert callBack finish with status: " + status);
+
+            }
+
+
         };
 
 
@@ -267,7 +282,7 @@ public class LoginActivity extends AppCompatActivity {
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo1 = stream.toByteArray();
 
-            demo = new Business(name1, "Derech Agudat Sport Beitar 1, Jerusalem, 9695235", "0543051733", "Burgeranch@burgeranch.co.il", "burgeranch.co.il", 1, logo1);
+            demo = new Business(name1, "Derech Agudat Sport Beitar 1, Jerusalem, 9695235", "0543051733", "Burgeranch@burgeranch.co.il", "burgeranch.co.il", "", logo1);
             (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
 
 
@@ -280,7 +295,7 @@ public class LoginActivity extends AppCompatActivity {
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo2 = stream.toByteArray();
 
-            demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com", 2, logo2);
+            demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com","", logo2);
             (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
 
 
@@ -294,7 +309,7 @@ public class LoginActivity extends AppCompatActivity {
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo3 = stream.toByteArray();
 
-            demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", 3, logo3);
+            demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", "", logo3);
             (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
 
 
@@ -308,7 +323,7 @@ public class LoginActivity extends AppCompatActivity {
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo4 = stream.toByteArray();
 
-            demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", 4, logo4);
+            demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", "", logo4);
             (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
 
 

@@ -180,9 +180,16 @@ public class BusinessDetailsFragment extends Fragment {
 //                                            BusinessActivity.businessList.add(businessItem);
                                             CallBack<Business> callBack = new CallBack<Business>() {
                                                 @Override
-                                                public void run(DataStatus status, List<Business> data) {
+                                                public void onSuccess(List<Business> data) {
+                                                    DebugHelper.Log("Business insert callBack finish with status: Success");
+                                                }
+
+                                                @Override
+                                                public void onFailed(DataStatus status, String error) {
                                                     DebugHelper.Log("Business insert callBack finish with status: " + status);
                                                 }
+
+
                                             };
                                             (new AsyncData<Business>(getContext(), Business.getURI(), DataManagerType.Insert, callBack)).execute(businessItem.toContentValues());
 
@@ -214,9 +221,16 @@ public class BusinessDetailsFragment extends Fragment {
                                     if (businessItem.getBusinessWebsite().length() > 0) {
                                         CallBack<Business> callBack = new CallBack<Business>() {
                                             @Override
-                                            public void run(DataStatus status, List<Business> data) {
+                                            public void onSuccess(List<Business> data) {
+                                                DebugHelper.Log("Business insert callBack finish with status: Success");
+                                            }
+
+                                            @Override
+                                            public void onFailed(DataStatus status, String error) {
                                                 DebugHelper.Log("Business insert callBack finish with status: " + status);
                                             }
+
+
                                         };
                                         (new AsyncData<Business>(getContext(), Business.getURI(), DataManagerType.Update, callBack)).execute(businessItem.toContentValues());
 

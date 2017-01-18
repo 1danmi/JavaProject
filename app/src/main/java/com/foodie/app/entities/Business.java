@@ -27,7 +27,7 @@ public class Business implements Serializable {
 
     private String businessWebsite;
 
-    private int cpuserID;
+    private String cpuserID;
 
     private byte[] businessLogo;
 
@@ -40,11 +40,11 @@ public class Business implements Serializable {
         businessPhoneNo = "";
         businessEmail = "";
         businessWebsite = "";
-        cpuserID = 0;
+        cpuserID = "";
         businessLogo = null;
     }
 //Full constructor
-    public Business(String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
+    public Business(String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, String cpuserID, byte[] businessLogo) throws Exception {
 
         setBusinessName(businessName);
         setBusinessAddress(businessAddress);
@@ -55,7 +55,7 @@ public class Business implements Serializable {
         setBusinessLogo(businessLogo);
     }
 
-    public Business(String id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
+    public Business(String id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, String cpuserID, byte[] businessLogo) throws Exception {
         set_ID(id);
         setBusinessName(businessName);
         setBusinessAddress(businessAddress);
@@ -65,6 +65,27 @@ public class Business implements Serializable {
         setCpuserID(cpuserID);
         setBusinessLogo(businessLogo);
     }
+
+    public Business(String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite) throws Exception {
+
+        setBusinessName(businessName);
+        setBusinessAddress(businessAddress);
+        setBusinessPhoneNo(businessPhoneNo);
+        setBusinessEmail(businessEmail);
+        setBusinessWebsite(businessWebsite);
+
+    }
+
+    public Business(String id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite) throws Exception {
+        set_ID(id);
+        setBusinessName(businessName);
+        setBusinessAddress(businessAddress);
+        setBusinessPhoneNo(businessPhoneNo);
+        setBusinessEmail(businessEmail);
+        setBusinessWebsite(businessWebsite);
+    }
+
+
 
     public String get_ID() {
         return _ID;
@@ -118,11 +139,11 @@ public class Business implements Serializable {
         this.businessWebsite = businessWebsite;
     }
 
-    public int getCpuserID() {
+    public String getCpuserID() {
         return cpuserID;
     }
 
-    public void setCpuserID(int cpuserID) {
+    public void setCpuserID(String cpuserID) {
         this.cpuserID = cpuserID;
     }
 

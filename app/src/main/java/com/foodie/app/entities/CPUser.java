@@ -38,6 +38,14 @@ public class CPUser implements Serializable {
         this.userPwdHash = userPwdHash;
     }
 
+    public CPUser(String _ID, String userEmail, String userFullName) {
+        this._ID = _ID;
+        this.userEmail = userEmail;
+        this.userFullName = userFullName;
+
+    }
+
+
     public String get_ID() {
         return _ID;
     }

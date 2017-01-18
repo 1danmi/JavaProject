@@ -1,8 +1,11 @@
 package com.foodie.app.onlineDB;
 
 import com.foodie.app.Helper.DebugHelper;
+import com.foodie.app.backend.AppContract;
+import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
+import com.foodie.app.entities.User;
 import com.foodie.app.listsDB.ListDBManager;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +40,16 @@ public class onOnlineDBChange implements ChildEventListener {
                     Business business = data.getValue(Business.class);
                     business.set_ID(data.getKey());
                     localDB.addBusiness(business);
+                    break;
+                case "Activity":
+                    Activity activity = data.getValue(Activity.class);
+                    activity.set_ID(data.getKey());
+                    localDB.addActivity(activity);
+                    break;
+                case "User":
+                    User user = data.getValue(User.class);
+                    user.set_ID(data.getKey());
+                    localDB.addUser(user);
                     break;
             }
         }

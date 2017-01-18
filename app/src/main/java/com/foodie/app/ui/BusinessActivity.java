@@ -191,20 +191,19 @@ public class BusinessActivity extends AppCompatActivity
         // Set the function to get status
         data.setCallBack(new CallBack<Business>() {
             @Override
-            public void run(DataStatus status, List<Business> data) {
-                DebugHelper.Log("Query callBack finish with status: " + status);
-                if(status  != DataStatus.Success)
-                {
-                    Toast.makeText(getApplicationContext(), "Error: " + status , Toast.LENGTH_SHORT).show();
-
-                }
-                DebugHelper.Log("Query callBack: items total = "+data.size());
-
+            public void onSuccess(List<Business> data) {
                 for(Business item : data)
                 {
                     businessRecyclerViewAdapter.loadNewData(data);
                 }
             }
+
+            @Override
+            public void onFailed(DataStatus status, String error) {
+                Toast.makeText(getApplicationContext(), "Error: " + status , Toast.LENGTH_SHORT).show();
+            }
+
+
         });
         // Execute the AsyncTask
         data.execute(new DBquery());

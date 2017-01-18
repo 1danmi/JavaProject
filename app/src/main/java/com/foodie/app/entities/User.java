@@ -1,5 +1,9 @@
 package com.foodie.app.entities;
 
+import android.net.Uri;
+
+import com.foodie.app.backend.AppContract;
+
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.util.regex.Matcher;
@@ -49,6 +53,13 @@ public class User implements Serializable {
         setUserPhoneNumber(userPhoneNumber);
         setUserPwd(password);
         setUserAddress(address);
+    }
+
+    public User(String ID,String userFullName, String userEmail)
+    {
+        set_ID(ID);
+        this.userFullName = userFullName;
+        this.userEmail = userEmail;
     }
 
     public String get_ID() {
@@ -133,6 +144,10 @@ public class User implements Serializable {
 
     public void setUserImage(byte[] userImage) {
         this.userImage = userImage;
+    }
+
+    public static Uri getURI() {
+        return Uri.parse("content://com.foodie.app/user");
     }
 
 }
