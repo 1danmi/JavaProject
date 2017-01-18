@@ -1,6 +1,5 @@
 package com.foodie.app.ui;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,6 +23,7 @@ import android.widget.Toast;
 
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
+import com.foodie.app.constants.Constants;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
 import com.foodie.app.database.DBquery;
@@ -32,6 +32,7 @@ import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
+import com.foodie.app.ui.helpers.IntentHelper;
 import com.foodie.app.ui.view_adapters.BusinessRecyclerViewAdapter;
 import com.foodie.app.ui.view_adapters.RecyclerItemClickListener;
 
@@ -46,13 +47,13 @@ public class BusinessActivity extends AppCompatActivity
 
     private static final String TAG = "BusinessActivity";
     private BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
-    private static final String BUSINESS_ID = "businessId";
-    private static final String EDIT_MODE = "mEditKey";
+
+
     public static List<Business> businessList;
     private RecyclerView recyclerView;
     private FloatingActionButton addBusinessFAB;
     private int userId = -1;
-    private CPUser  user = null;
+    private CPUser user = null;
     private DrawerLayout drawer;
     private NavigationView navigationView;
 
@@ -84,14 +85,13 @@ public class BusinessActivity extends AppCompatActivity
 //        numOfBusinessse.setText(businessRecyclerViewAdapter.getItemCount() + " Businesses");
 
 
-
     }
 
 
     private void loadDemoData() {
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.hamburger);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp = Bitmap.createScaledBitmap(bmp, 1000,800, true);
+        bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
         bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] hamburger = stream.toByteArray();
         try {
@@ -101,7 +101,7 @@ public class BusinessActivity extends AppCompatActivity
                     "may be cooked in a variety of ways, including pan-frying, barbecuing, " +
                     "and flame-broiling. Hamburgers are often served with cheese, lettuce, " +
                     "tomato, bacon, onion, pickles, and condiments such as mustard, mayonnaise," +
-                    " ketchup, relish, and chiles.", 23.56,2.5,1,hamburger, "Kosher");
+                    " ketchup, relish, and chiles.", 23.56, 2.5, 1, hamburger, "Kosher");
             //activitiesList.add(activity);
 
             CallBack<Activity> callBack = new CallBack<Activity>() {
@@ -140,7 +140,8 @@ public class BusinessActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ActivitiesActivity.class);
-                intent.putExtra(EDIT_MODE, "true");
+                intent.putExtra(Constants.EDIT_MODE, "true");
+                intent.putExtra(Constants.BUSINESS_ID, "");
                 startActivity(intent);
             }
         });
@@ -191,7 +192,7 @@ public class BusinessActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -218,8 +219,9 @@ public class BusinessActivity extends AppCompatActivity
 
     public void loadData() {
 
+
         Bundle b = getIntent().getExtras();
-        if(b != null){
+        if (b != null) {
             userId = b.getInt("Id");
             user = new CPUser(b.getString("Fullname"));
         }
@@ -234,18 +236,19 @@ public class BusinessActivity extends AppCompatActivity
             @Override
             public void run(DataStatus status, List<Business> data) {
                 DebugHelper.Log("Query callBack finish with status: " + status);
-                if(status  != DataStatus.Success) {
-                    Toast.makeText(getApplicationContext(), "Error: " + status , Toast.LENGTH_SHORT).show();
+                if (status != DataStatus.Success) {
+                    Toast.makeText(getApplicationContext(), "Error: " + status, Toast.LENGTH_SHORT).show();
                 }
-                DebugHelper.Log("Query callBack: items total = "+data.size());
+                DebugHelper.Log("Query callBack: items total = " + data.size());
 
-                for(Business item : data) {
+                for (Business item : data) {
                     businessRecyclerViewAdapter.loadNewData(data);
                 }
             }
         });
         // Execute the AsyncTask
         data.execute(new DBquery());
+        businessRecyclerViewAdapter.notifyDataSetChanged();
 
 
     }
@@ -256,17 +259,21 @@ public class BusinessActivity extends AppCompatActivity
         try {
             Intent intent = new Intent(this, ActivitiesActivity.class);
 
-            intent.putExtra(BUSINESS_ID, businessRecyclerViewAdapter.getBusinessesList().get(position).get_ID());
-            intent.putExtra(EDIT_MODE, "false");
+            intent.putExtra(Constants.BUSINESS_ID, businessRecyclerViewAdapter.getBusinessesList().get(position).get_ID());
+            intent.putExtra(Constants.EDIT_MODE, "false");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            } else {
-                startActivity(intent);
+                View image = v.findViewById(R.id.business_image_view);
+                IntentHelper.startActivitiesActivity(this, image, businessRecyclerViewAdapter.getBusinessesList().get(position), "false");
             }
 
-        } catch (Exception e) {
+        } catch (
+                Exception e
+                )
+
+        {
             e.printStackTrace();
         }
+
     }
 
     @Override

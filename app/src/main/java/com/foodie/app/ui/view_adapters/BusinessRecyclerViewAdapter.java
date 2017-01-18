@@ -3,6 +3,7 @@ package com.foodie.app.ui.view_adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,8 +54,9 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
             //bmp = ThumbnailUtils.extractThumbnail(bmp, THUMBSIZE, THUMBSIZE);
             holder.logo.setImageBitmap(bmp);
         }
-
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.logo.setTransitionName(Business.getURI()+businessItem.getBusinessName());
+        }
         holder.title.setText(businessItem.getBusinessName());
         holder.address.setText(businessItem.getBusinessAddress());
         //TODO: Add query for number of activities of the business

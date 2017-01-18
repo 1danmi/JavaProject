@@ -268,7 +268,8 @@
         app:arcColor="@color/accent"
         app:arcWidth="5dp"
         app:finalIcon="@drawable/ic_add_white_48dp"
-        app:layout_behavior="com.foodie.app.ui.view_adapters.FABProgressCircleBehavior">
+        app:layout_behavior="com.foodie.app.ui.view_adapters.FABProgressCircleBehavior"
+        android:visibility="gone">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_fab_button"
@@ -299,7 +300,8 @@
         app:arcColor="@color/accent"
         app:arcWidth="5dp"
         app:finalIcon="@drawable/ic_done"
-        app:layout_behavior="com.foodie.app.ui.view_adapters.FABProgressCircleBehavior">
+        app:layout_behavior="com.foodie.app.ui.view_adapters.FABProgressCircleBehavior"
+        android:visibility="gone">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/edit_fab_button"

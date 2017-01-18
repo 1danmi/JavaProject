@@ -84,22 +84,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_fab_button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:clickable="true"
-        app:backgroundTint="@color/accent"
-        app:fabSize="normal"
-        app:rippleColor="@color/ripple_accent"
-        app:srcCompat="@drawable/ic_done_white"
-        app:layout_anchorGravity="top|end"
-        app:layout_anchor="@+id/movieHeader"
-        android:layout_margin="@dimen/fab_margin"
-        android:elevation="8dp"
-        app:pressedTranslationZ="12dp"
-        />
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/edit_fab_button2"
@@ -111,12 +96,47 @@
         app:fabSize="normal"
         app:rippleColor="@color/ripple_accent"
         app:srcCompat="@drawable/ic_mode_edit_white_48dp"
-        app:layout_anchorGravity="top|end"
-        app:layout_anchor="@+id/movieHeader"
+        app:layout_anchorGravity="bottom|right"
+        app:layout_anchor="@+id/tab_viewpager"
         android:layout_margin="@dimen/fab_margin"
         android:elevation="8dp"
         app:pressedTranslationZ="12dp"
         />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_fab_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:clickable="true"
+        app:backgroundTint="@color/accent"
+        app:fabSize="normal"
+        app:rippleColor="@color/ripple_accent"
+        app:srcCompat="@drawable/ic_done_white"
+        app:layout_anchor="@+id/tab_viewpager"
+        android:layout_margin="@dimen/fab_margin"
+        android:elevation="8dp"
+        app:pressedTranslationZ="12dp"
+        app:layout_anchorGravity="bottom|right"
+        android:layout_gravity="top|right" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:clickable="true"
+        app:backgroundTint="@color/accent"
+        app:fabSize="normal"
+        app:rippleColor="@color/ripple_accent"
+        app:srcCompat="@drawable/ic_add_white_48dp"
+        app:layout_anchor="@+id/tab_viewpager"
+        android:layout_margin="@dimen/fab_margin"
+        android:elevation="8dp"
+        app:pressedTranslationZ="12dp"
+        app:layout_anchorGravity="bottom|right"
+        android:layout_gravity="top|right"
+        android:visibility="invisible"/>
 
 </android.support.design.widget.CoordinatorLayout>
 

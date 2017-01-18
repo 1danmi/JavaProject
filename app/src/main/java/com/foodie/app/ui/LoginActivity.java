@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         constraintLayout = (ConstraintLayout) findViewById(R.id.activity_login); // By David
-       test(); //By David
+       //test(); //By David
 
         final TextView signUpTextView = (TextView) findViewById(R.id.signUpTextView);
         signUpTextView.setOnClickListener(new View.OnClickListener() {
@@ -306,40 +306,40 @@ public class LoginActivity extends AppCompatActivity {
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo4 = stream.toByteArray();
 
-            demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", 4, logo4);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
-
-
-            demo = new Business(name1, "Derech Agudat Sport Beitar 1, Jerusalem, 9695235", "0543051733", "Burgeranch@burgeranch.co.il", "burgeranch.co.il", 1, logo1);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
-
-
-            demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com", 2, logo2);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
-
-
-            demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", 3, logo3);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
-
-
-            demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", 4, logo4);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
-
-
-            demo = new Business(name1, "Derech Agudat Sport Beitar 1, Jerusalem, 9695235", "0543051733", "Burgeranch@burgeranch.co.il", "burgeranch.co.il", 1, logo1);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
-
-
-            demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com", 2, logo2);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
-
-
-            demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", 3, logo3);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
-
-
-            demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", 4, logo4);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+//            demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", 4, logo4);
+//            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+//
+//
+//            demo = new Business(name1, "Derech Agudat Sport Beitar 1, Jerusalem, 9695235", "0543051733", "Burgeranch@burgeranch.co.il", "burgeranch.co.il", 1, logo1);
+//            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+//
+//
+//            demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com", 2, logo2);
+//            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+//
+//
+//            demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", 3, logo3);
+//            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+//
+//
+//            demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", 4, logo4);
+//            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+//
+//
+//            demo = new Business(name1, "Derech Agudat Sport Beitar 1, Jerusalem, 9695235", "0543051733", "Burgeranch@burgeranch.co.il", "burgeranch.co.il", 1, logo1);
+//            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+//
+//
+//            demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com", 2, logo2);
+//            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+//
+//
+//            demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", 3, logo3);
+//            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+//
+//
+//            demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", 4, logo4);
+//            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
 
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -72,6 +72,7 @@
     <string name="website_prompt">Website</string>
     <string name="email_prompt">Email</string>
     <string name="title_activity_details">ActivityDetails</string>
+    <string name="transition_collection_background">logo</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

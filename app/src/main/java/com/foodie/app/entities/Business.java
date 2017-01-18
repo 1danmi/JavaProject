@@ -34,7 +34,7 @@ public class Business implements Serializable {
     //Empty constructor.
     public Business() {
 
-        _ID = "0";
+        _ID = "";
         businessName = "";
         businessAddress = "";
         businessPhoneNo = "";

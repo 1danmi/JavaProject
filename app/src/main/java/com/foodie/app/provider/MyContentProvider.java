@@ -2,7 +2,6 @@ package com.foodie.app.provider;
 
 import android.accounts.NetworkErrorException;
 import android.content.ContentProvider;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
@@ -84,16 +83,16 @@ public class MyContentProvider extends ContentProvider {
         String id = "";
         try {
             switch (listName) {
-                case "user":
+                case "User":
                     id = manager.addUser(values);
 
                 case "Business":
                     id = manager.addBusiness(values);
 
-                case "activity":
+                case "Activity":
                     id = manager.addActivity(values);
 
-                case "cpuser":
+                case "Cpuser":
                     id = manager.addCPUser(values);
             }
             return Uri.withAppendedPath(uri, id);

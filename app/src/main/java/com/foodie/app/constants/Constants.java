@@ -7,4 +7,6 @@ package com.foodie.app.constants;
 public class Constants {
 
     public static final int PICK_PHOTO = 1001;
+    public static final String BUSINESS_ID = "businessId";
+    public static final String EDIT_MODE = "mEditKey";
 }

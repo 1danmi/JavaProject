@@ -1,6 +1,5 @@
 package com.foodie.app.database;
 
-import android.accounts.NetworkErrorException;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,16 +9,12 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.foodie.app.Helper.DebugHelper;
-import com.foodie.app.Helper.HelperClass;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.entities.User;
 import com.foodie.app.provider.MyContentProvider;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by David on 15/12/2016.
@@ -274,15 +269,15 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void>{
     {
         for (ContentValues value : contentValues ) {
 
-            int id = value.getAsInteger("_ID");
+            String id = value.getAsString("_ID");
 
-            if(id == 0) {
-                DebugHelper.Log("AsyncData: invalid id " + Integer.toString(id));
+            if(id.equals("")) {
+                DebugHelper.Log("AsyncData: invalid id " + id);
                 runCallBack(DataStatus.InvalidArgumment, null);
                 return;
             }
 
-            if (context.getContentResolver().update(uri, value,Integer.toString(id),null) != 0) {
+            if (context.getContentResolver().update(uri, value,id,null) != 0) {
                 runCallBack(DataStatus.Success, null);
             } else {
                 runCallBack(DataStatus.Failed, null);

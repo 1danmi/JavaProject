@@ -39,7 +39,12 @@
         <activity
             android:name=".ui.ActivitiesActivity"
             android:label="@string/title_activity_activities"
-            android:theme="@style/AppThemeWithoutActionBar" />
+            android:parentActivityName="com.foodie.app.ui.BusinessActivity"
+            android:theme="@style/AppThemeWithoutActionBar">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.foodie.app.ui.ActivitiesActivity" />
+        </activity>
 
         <provider
             android:name=".provider.MyContentProvider"

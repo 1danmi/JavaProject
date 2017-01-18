@@ -3,26 +3,16 @@ package com.foodie.app.onlineDB;
 import android.accounts.NetworkErrorException;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
 
-
-import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.Converters;
 import com.foodie.app.database.IDBManager;
+import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.listsDB.ListDBManager;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 /**
  * Created by David on 9/1/2017.
@@ -85,6 +75,17 @@ public class firebaseDB implements IDBManager {
 
     @Override
     public String addActivity(ContentValues values) throws Exception {
+        if(values == null)
+            throw new NullPointerException("ContentValues is null");
+        Activity activity = Converters.ContentValuesToActivity(values);
+        DatabaseReference toInsert = ActivityRef.push();
+        toInsert.child(AppContract.Activity.ACTIVITY_NAME).setValue(activity.getActivityRating());
+        toInsert.child(AppContract.Activity.ACTIVITY_DESCRIPTION).setValue(activity.getActivityDescription());
+        toInsert.child(AppContract.Activity.ACTIVITY_COST).setValue(activity.getActivityCost());
+        toInsert.child(AppContract.Activity.ACTIVITY_RATING).setValue(activity.getActivityRating());
+        toInsert.child(AppContract.Activity.ACTIVITY_BUSINESS_ID).setValue(activity.getBusinessId());
+//        toInsert.child(AppContract.Activity.ACTIVITY_IMAGE).setValue(activity.getActivityImages());
+        toInsert.child(AppContract.Activity.ACTIVITY_FEATURE).setValue(activity.getFeature());
         return "";
     }
 

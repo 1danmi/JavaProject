@@ -18,18 +18,16 @@
 
         <!-- enable window content transitions -->
         <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowContentTransitions">true</item>
 
         <!-- specify enter and exit transitions -->
         <item name="android:windowEnterTransition">@android:transition/slide_right</item>
         <item name="android:windowExitTransition">@android:transition/slide_left</item>
+        <item name="android:windowReenterTransition">@android:transition/slide_bottom</item>
 
-        <!-- specify shared element transitions -->
-        <item name="android:windowSharedElementEnterTransition">
-            @transition/change_image_transform
-        </item>
-        <item name="android:windowSharedElementExitTransition">
-            @transition/change_image_transform
-        </item>
+         <!--specify shared element transitions-->
+        <!--<item name="android:windowSharedElementEnterTransition">@transition/slide</item>-->
+        <!--<item name="android:windowSharedElementExitTransition">@transition/slide</item>-->
     </style>
 
     <style name="LoginTheme" parent="AppThemeWithoutActionBar">
@@ -41,5 +39,10 @@
         <item name="windowNoTitle">true</item>
 
 
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 </resources>
