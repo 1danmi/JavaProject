@@ -4,7 +4,8 @@
     android:id="@+id/activities_constraints_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.BusinessActivitiesFragment">
+    tools:context=".ui.BusinessActivitiesFragment"
+    >
 
     <!-- TODO: Update blank fragment layout -->
 

@@ -25,20 +25,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.constants.Constants;
-import com.foodie.app.database.AsyncData;
-import com.foodie.app.database.CallBack;
-import com.foodie.app.database.DataManagerType;
-import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
 import com.github.jorgecastilloprz.FABProgressCircle;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,24 +45,26 @@ public class BusinessDetailsFragment extends Fragment {
     private static final String TAG = "BusinessDetailsFragment";
 
     private String mName, mAddress, mPhone, mWebsite, mEmail;
-    private boolean mEditMode;
+    protected boolean mEditMode;
     private TextView mNameText, mAddressText, mPhoneText, mWebsiteText, mEmailText;
     private RelativeLayout mNameLayout, mAddresslayout, mPhoneLayout, mWebsiteLayout, mEmailLayout;
     private CoordinatorLayout rootLayout;
     private FABProgressCircle addFAB, editFAB;
     private FloatingActionButton addButton, editButton;
-    private static Business businessItem;
+    protected static Business businessItem;
     private static final String BUSINESS_ID = "businessId";
     private static final String EDIT_MODE = "mEditKey";
     private CardView businessLogoCardView;
     private ImageView businessLogoHeader;
     private View parent;
-
+    private View snackBarView;
 
 
     //Fragment requires empty public constructor
     public BusinessDetailsFragment() {
         // Required empty public constructor
+        setEnterTransition(R.anim.slide_up);
+        setExitTransition(R.anim.slide_down);
     }
 
     //Called when the fragment initializes.
@@ -78,6 +74,8 @@ public class BusinessDetailsFragment extends Fragment {
 
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_business_details, container, false);
+
+
 
         initializeViews(rootView);
 
@@ -146,117 +144,92 @@ public class BusinessDetailsFragment extends Fragment {
 
         // Setup up active buttons
         if (mEditMode) {
-            addFAB.setVisibility(View.VISIBLE);
+            addFAB.setVisibility(View.GONE);
             editFAB.setVisibility(View.GONE);
 
         } else {
             addFAB.setVisibility(View.GONE);
-            editFAB.setVisibility(View.VISIBLE);
+            editFAB.setVisibility(View.GONE);
         }
 
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mEditMode = true;
-                addFAB.setVisibility(View.VISIBLE);
-                editFAB.setVisibility(View.GONE);
-            }
-        });
+//        editButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mEditMode = true;
+//                addFAB.setVisibility(View.VISIBLE);
+//                editFAB.setVisibility(View.GONE);
+//            }
+//        });
+//
+//        addButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mEditMode = false;
+//                if (inputCheck(rootLayout)) {
+//                    if (businessItem.equals("")) {
+//                        //businessItem.set_ID(Business.businessID + 1);
+//                        //Business.businessID++;
+//                        CallBack<Business> callBack = new CallBack<Business>() {
+//                            @Override
+//                            public void run(DataStatus status, List<Business> data) {
+//                                DebugHelper.Log("Business insert callBack finish with status: " + status);
+//                            }
+//                        };
+//                        (new AsyncData<Business>(getContext(), Business.getURI(), DataManagerType.Insert, callBack)).execute(businessItem.toContentValues());
+//
+//                        addFAB.setVisibility(View.GONE);
+//                        editFAB.setVisibility(View.VISIBLE);
+//                    } else {
+//                        CallBack<Business> callBack = new CallBack<Business>() {
+//                            @Override
+//                            public void run(DataStatus status, List<Business> data) {
+//                                DebugHelper.Log("Business insert callBack finish with status: " + status);
+//                            }
+//                        };
+//                        (new AsyncData<Business>(getContext(), Business.getURI(), DataManagerType.Update, callBack)).execute(businessItem.toContentValues());
+//
+//                        addFAB.setVisibility(View.GONE);
+//                        editFAB.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            }
+//        });
+    }
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mEditMode = false;
-//                Snackbar.make(rootLayout, "I\'m editFAB", Snackbar.LENGTH_LONG).show();
-                if (businessItem.get_ID().equals("")) {
-                    if (((ActivitiesActivity) getActivity()).isPhotoChanged) {
-                        if (businessItem.getBusinessName().length() > 0) {
-                            if (businessItem.getBusinessAddress().length() > 0) {
-                                if (businessItem.getBusinessEmail().length() > 0) {
-                                    if (businessItem.getBusinessPhoneNo().length() > 0) {
-                                        if (businessItem.getBusinessWebsite().length() > 0) {
-                                            businessItem.set_ID(Integer.toString(Business.businessID + 1));
-                                            Business.businessID++;
-//                                            BusinessActivity.businessList.add(businessItem);
-                                            CallBack<Business> callBack = new CallBack<Business>() {
-                                                @Override
-                                                public void onSuccess(List<Business> data) {
-                                                    DebugHelper.Log("Business insert callBack finish with status: Success");
-                                                }
+    protected void setSnackBarView(View view){
+        snackBarView = view;
 
-                                                @Override
-                                                public void onFailed(DataStatus status, String error) {
-                                                    DebugHelper.Log("Business insert callBack finish with status: " + status);
-                                                }
+    }
 
+    protected boolean inputCheck() {
 
-                                            };
-                                            (new AsyncData<Business>(getContext(), Business.getURI(), DataManagerType.Insert, callBack)).execute(businessItem.toContentValues());
-
-                                            addFAB.setVisibility(View.GONE);
-                                            editFAB.setVisibility(View.VISIBLE);
-                                        } else {
-                                            Snackbar.make(parent, "You have to set a business website", Snackbar.LENGTH_LONG).show();
-                                        }
-                                    } else {
-                                        Snackbar.make(parent, "You have to set a business phone number", Snackbar.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    Snackbar.make(parent, "You have to set a business email", Snackbar.LENGTH_LONG).show();
-                                }
+        if (((ActivitiesActivity) getActivity()).isPhotoChanged) {
+            if (businessItem.getBusinessName().length() > 0) {
+                if (businessItem.getBusinessAddress().length() > 0) {
+                    if (businessItem.getBusinessEmail().length() > 0) {
+                        if (businessItem.getBusinessPhoneNo().length() > 0) {
+                            if (businessItem.getBusinessWebsite()
+                                    .length() > 0) {
+                                return true;
                             } else {
-                                Snackbar.make(parent, "You have to set a business address", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(snackBarView, "You have to set a business website", Snackbar.LENGTH_LONG).show();
                             }
                         } else {
-                            Snackbar.make(parent, "You have to set a business name", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(snackBarView, "You have to set a business phone number", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        Snackbar.make(parent, "You have to choose an image", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(snackBarView, "You have to set a business email", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
-                    if (businessItem.getBusinessName().length() > 0) {
-                        if (businessItem.getBusinessAddress().length() > 0) {
-                            if (businessItem.getBusinessEmail().length() > 0) {
-                                if (businessItem.getBusinessPhoneNo().length() > 0) {
-                                    if (businessItem.getBusinessWebsite().length() > 0) {
-                                        CallBack<Business> callBack = new CallBack<Business>() {
-                                            @Override
-                                            public void onSuccess(List<Business> data) {
-                                                DebugHelper.Log("Business insert callBack finish with status: Success");
-                                            }
-
-                                            @Override
-                                            public void onFailed(DataStatus status, String error) {
-                                                DebugHelper.Log("Business insert callBack finish with status: " + status);
-                                            }
-
-
-                                        };
-                                        (new AsyncData<Business>(getContext(), Business.getURI(), DataManagerType.Update, callBack)).execute(businessItem.toContentValues());
-
-                                        addFAB.setVisibility(View.GONE);
-                                        editFAB.setVisibility(View.VISIBLE);
-                                    } else {
-                                        Snackbar.make(parent, "You have to set a business website", Snackbar.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    Snackbar.make(parent, "You have to set a business phone number", Snackbar.LENGTH_LONG).show();
-                                }
-                            } else {
-                                Snackbar.make(parent, "You have to set a business email", Snackbar.LENGTH_LONG).show();
-                            }
-                        } else {
-                            Snackbar.make(parent, "You have to set a business address", Snackbar.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Snackbar.make(parent, "You have to set a business name", Snackbar.LENGTH_LONG).show();
-                    }
-                    addFAB.setVisibility(View.GONE);
-                    editFAB.setVisibility(View.VISIBLE);
+                    Snackbar.make(snackBarView, "You have to set a business address", Snackbar.LENGTH_LONG).show();
                 }
-
+            } else {
+                Snackbar.make(snackBarView, "You have to set a business name", Snackbar.LENGTH_LONG).show();
             }
-        });
+        } else {
+            Snackbar.make(snackBarView, "You have to choose an image", Snackbar.LENGTH_LONG).show();
+        }
+        return false;
     }
 
     //Initialize the views
@@ -332,7 +305,7 @@ public class BusinessDetailsFragment extends Fragment {
                                 ActivitiesActivity activitiesActivity = (ActivitiesActivity) getActivity();
                                 ((TextView) activitiesActivity.findViewById(R.id.business_header_name)).setText(mName);
                             } else {
-                                Snackbar snackbar = Snackbar.make(parent, "Business name must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                Snackbar snackbar = Snackbar.make(snackBarView, "Business name must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -364,6 +337,7 @@ public class BusinessDetailsFragment extends Fragment {
             // Create EditText box to input repeat number
             mAddress = mAddressText.getText().toString().trim();
             final EditText input = new EditText(getContext());
+            mAddress = mAddressText.getText().toString().trim();
             if (mAddress != null) {
                 input.setText(mAddress);
             }
@@ -381,14 +355,14 @@ public class BusinessDetailsFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             mAddress = input.getText().toString().trim();
                             if (mAddress.length() > 0) {
+                                mAddressText.setText(mAddress);
                                 businessItem.setBusinessAddress(mAddress);
                             } else {
-
-                                Snackbar snackbar = Snackbar.make(parent, "Address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                Snackbar snackbar = Snackbar.make(snackBarView, "Address name must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                setName(v);
+                                                setAddress(v);
                                             }
                                         });
                                 snackbar.setActionTextColor(getResources().getColor(R.color.primary));
@@ -441,11 +415,11 @@ public class BusinessDetailsFragment extends Fragment {
                                     mPhoneText.setText(mPhone);
                                     businessItem.setBusinessPhoneNo(mPhone);
                                 } else {
-                                    Snackbar snackbar = Snackbar.make(parent, "Wrong phone number!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                    Snackbar snackbar = Snackbar.make(snackBarView, "Wrong phone number!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    setName(v);
+                                                    setPhone(v);
                                                 }
                                             });
                                     snackbar.setActionTextColor(getResources().getColor(R.color.primary));
@@ -453,7 +427,7 @@ public class BusinessDetailsFragment extends Fragment {
                                 }
                             } else {
 
-                                Snackbar snackbar = Snackbar.make(parent, "Phone number must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                Snackbar snackbar = Snackbar.make(snackBarView, "Phone number must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -510,11 +484,11 @@ public class BusinessDetailsFragment extends Fragment {
                                     mWebsiteText.setText(mWebsite);
                                     businessItem.setBusinessWebsite(mWebsite);
                                 } else {
-                                    Snackbar snackbar = Snackbar.make(parent, "Wrong website address!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                    Snackbar snackbar = Snackbar.make(snackBarView, "Wrong website address!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    setName(v);
+                                                    setWebsite(v);
                                                 }
                                             });
                                     snackbar.setActionTextColor(getResources().getColor(R.color.primary));
@@ -522,7 +496,7 @@ public class BusinessDetailsFragment extends Fragment {
                                 }
                             } else {
 
-                                Snackbar snackbar = Snackbar.make(parent, "Website address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                Snackbar snackbar = Snackbar.make(snackBarView, "Website address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -590,7 +564,7 @@ public class BusinessDetailsFragment extends Fragment {
                                     mEmailText.setText(mEmail);
                                     businessItem.setBusinessEmail(mEmail);
                                 } else {
-                                    Snackbar snackbar = Snackbar.make(parent, "Wrong email address!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                    Snackbar snackbar = Snackbar.make(snackBarView, "Wrong email address!", Snackbar.LENGTH_LONG).setAction("Try again",
                                             new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -602,11 +576,11 @@ public class BusinessDetailsFragment extends Fragment {
                                 }
                             } else {
 
-                                Snackbar snackbar = Snackbar.make(parent, "Email address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
+                                Snackbar snackbar = Snackbar.make(snackBarView, "Email address must contains at least one character!", Snackbar.LENGTH_LONG).setAction("Try again",
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                setName(v);
+                                                setEmail(v);
                                             }
                                         });
                                 snackbar.setActionTextColor(getResources().getColor(R.color.primary));
@@ -636,7 +610,7 @@ public class BusinessDetailsFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.PICK_PHOTO && resultCode == Activity.RESULT_OK) {
             if (data == null) {
-                Snackbar.make(parent, "No picture was selected", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(snackBarView, "No picture was selected", Snackbar.LENGTH_LONG).show();
                 return;
             }
             try {

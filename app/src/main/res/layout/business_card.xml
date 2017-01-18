@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="96dp"
     android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_height="100dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="3dp"
-        app:cardCornerRadius="3dp">
+        android:layout_margin="4dp"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="3dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -20,7 +21,6 @@
 
             <ImageView
                 android:id="@+id/business_image_view"
-                android:layout_width="76dp"
                 android:layout_height="0dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginLeft="8dp"
@@ -29,7 +29,10 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_image_black_48dp" />
+                android:transitionName="business_logo"
+                app:srcCompat="@drawable/firebase"
+                app:layout_constraintVertical_bias="0.37"
+                android:layout_width="84dp" />
 
             <LinearLayout
                 android:id="@+id/details"

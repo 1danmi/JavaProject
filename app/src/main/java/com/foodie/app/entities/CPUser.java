@@ -16,7 +16,7 @@ public class CPUser implements Serializable {
 
     private static final long serialVersionUID = 3L;
 
-    private String _ID = "0";
+    private String _ID = "";
 
     private String userFullName;
 

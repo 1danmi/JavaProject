@@ -137,13 +137,17 @@ public class firebaseDB implements IDBManager {
 
     @Override
     public String addActivity(ContentValues values) throws Exception {
-        checkForLogin();
-
-        if (values == null) {
+        if(values == null)
             throw new NullPointerException("ContentValues is null");
-        }
-        Activity activities = Converters.ContentValuesToActivity(values);
-        ActivityRef.push().setValue(activities);
+        Activity activity = Converters.ContentValuesToActivity(values);
+        DatabaseReference toInsert = ActivityRef.push();
+        toInsert.child(AppContract.Activity.ACTIVITY_NAME).setValue(activity.getActivityRating());
+        toInsert.child(AppContract.Activity.ACTIVITY_DESCRIPTION).setValue(activity.getActivityDescription());
+        toInsert.child(AppContract.Activity.ACTIVITY_COST).setValue(activity.getActivityCost());
+        toInsert.child(AppContract.Activity.ACTIVITY_RATING).setValue(activity.getActivityRating());
+        toInsert.child(AppContract.Activity.ACTIVITY_BUSINESS_ID).setValue(activity.getBusinessId());
+//        toInsert.child(AppContract.Activity.ACTIVITY_IMAGE).setValue(activity.getActivityImages());
+        toInsert.child(AppContract.Activity.ACTIVITY_FEATURE).setValue(activity.getFeature());
         return "";
     }
 

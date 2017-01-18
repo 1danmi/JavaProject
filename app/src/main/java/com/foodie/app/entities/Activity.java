@@ -3,6 +3,11 @@ package com.foodie.app.entities;
 
 import android.net.Uri;
 
+import android.content.ContentValues;
+import android.net.Uri;
+
+import com.foodie.app.backend.AppContract;
+
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +21,7 @@ public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static String _ID = "0";
+    private  String _ID;
 
     private String activityName;
 
@@ -149,8 +154,24 @@ public class Activity implements Serializable {
         this.feature = feature;
     }
 
+    public ContentValues toContentValues() {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AppContract.Activity.ACTIVITY_ID, this.get_ID());
+        contentValues.put(AppContract.Activity.ACTIVITY_NAME, this.getActivityName());
+        contentValues.put(AppContract.Activity.ACTIVITY_DESCRIPTION, this.getActivityDescription());
+        contentValues.put(AppContract.Activity.ACTIVITY_COST, this.getActivityCost());
+        contentValues.put(AppContract.Activity.ACTIVITY_BUSINESS_ID, this.getBusinessId());
+        contentValues.put(AppContract.Activity.ACTIVITY_IMAGE, this.getActivityImages());
+        contentValues.put(AppContract.Activity.ACTIVITY_RATING, this.getActivityRating());
+        contentValues.put(AppContract.Activity.ACTIVITY_FEATURE, this.getFeature());
+
+
+        return contentValues;
+    }
+
 
     public static Uri getURI() {
-        return Uri.parse("content://com.foodie.app/activity");
+        return Uri.parse("content://com.foodie.app/Activity");
     }
 }

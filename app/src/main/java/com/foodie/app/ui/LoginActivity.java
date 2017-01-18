@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     },400);
                                 }
-                            }, 1500);
+                            }, 800);
 
                         }
 
@@ -311,8 +311,6 @@ public class LoginActivity extends AppCompatActivity {
 
             demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", "", logo3);
             (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
-
-
 
 
             String name4 = "Pizza Hut ";

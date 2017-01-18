@@ -5,7 +5,6 @@ import android.net.Uri;
 import com.foodie.app.backend.AppContract;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,7 +16,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 4L;
 
-    private String _ID = "0";
+    private String _ID = "";
 
 
     private String userFullName;
