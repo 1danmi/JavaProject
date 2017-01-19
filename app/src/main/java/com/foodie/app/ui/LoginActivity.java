@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
+import com.foodie.app.Services.DataUpdated;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
 import com.foodie.app.database.DBManagerFactory;
@@ -141,18 +142,22 @@ public class LoginActivity extends AppCompatActivity {
                                     final Intent intent = new Intent(LoginActivity.this, BusinessActivity.class);
                                     signIn.loadingSuccessful();
                                     Snackbar.make(constraintLayout, "Success", Snackbar.LENGTH_LONG).show();
-                                    new Handler().postDelayed(new Runnable() {
+                                    boolean b = new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
-                                            if(DBManagerFactory.getCurrentUser() != null) {
+
+
+
+                                            if (DBManagerFactory.getCurrentUser() != null) {
                                                 Bundle b = new Bundle();
                                                 b.putString("Id", DBManagerFactory.getCurrentUser().get_ID()); //Your id
                                                 b.putString("Fullname", DBManagerFactory.getCurrentUser().getUserFullName()); //Your id
                                                 intent.putExtras(b); //Put your id to your next Intent
                                             }
                                             startActivity(intent);
+
                                         }
-                                    },400);
+                                    }, 400);
                                 }
                             }, 800);
 

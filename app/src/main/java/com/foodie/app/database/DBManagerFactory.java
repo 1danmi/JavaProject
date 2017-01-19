@@ -66,8 +66,10 @@ public class DBManagerFactory {
     {
 
         currentUser = null;
-     //   if (DBtype.equals("Firebase"))
-        //      ((firebaseDB)getManager()).signUp(user,callBack);
+       if (DBtype.equals("Firebase"))
+              ((firebaseDB)getManager()).signOut();
     }
+
+
 
 }

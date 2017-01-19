@@ -1,0 +1,99 @@
+package com.foodie.app.Services;
+
+import android.app.Service;
+import android.content.Intent;
+import android.os.HandlerThread;
+import android.os.IBinder;
+import android.os.Looper;
+import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
+
+import com.foodie.app.entities.Business;
+import com.foodie.app.listsDB.ListDBManager;
+import com.foodie.app.ui.BusinessActivity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by David on 19/1/2017.
+ */
+
+public class DataUpdated extends Service {
+
+
+    private int cpuserTotal = 0;
+    private int businessTotal = 0;
+    private int userTotal = 0;
+    private int activitiesTotal = 0;
+
+    public static final String mBroadcastCpusers = "Cpusers";
+    public static final String mBroadcastUsers = "Users";
+    public static final String mBroadcastActivities = "Activities";
+    public static final String mBroadcastBusiness = "Business";
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        new Thread(new Runnable(){
+            public void run() {
+
+                while(true)
+                {
+                    try {
+
+                        if(cpuserTotal != ListDBManager.getCpusersListSize()) {
+                            cpuserTotal = ListDBManager.getCpusersListSize();
+                            sendMessage("Cpusers");
+
+                        }
+
+                        if(userTotal != ListDBManager.getUsersListSize())
+                        {
+                            userTotal = ListDBManager.getUsersListSize();
+                            sendMessage("Users");
+                        }
+
+                        if(activitiesTotal != ListDBManager.getActivitiesListSize())
+                        {
+                            activitiesTotal = ListDBManager.getActivitiesListSize();
+                            sendMessage("Activities");
+                        }
+
+                        if(businessTotal != ListDBManager.getBusinessListSize())
+                        {
+                            businessTotal = ListDBManager.getBusinessListSize();
+                            sendMessage("Business");
+                        }
+
+
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ignored) {
+
+                    }
+                    //REST OF CODE HERE//
+                }
+
+            }
+        }).start();
+
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+
+    private void sendMessage(String from)
+    {
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(from);
+        broadcastIntent.putExtra("Data", "Broadcast Data");
+        sendBroadcast(broadcastIntent);
+    }
+
+
+}

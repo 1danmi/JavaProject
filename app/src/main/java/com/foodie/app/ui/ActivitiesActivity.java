@@ -136,9 +136,16 @@ public class ActivitiesActivity extends AppCompatActivity {
                         //Business.businessID++;
                         CallBack<Business> callBack = new CallBack<Business>() {
                             @Override
-                            public void run(DataStatus status, List<Business> data) {
-                                DebugHelper.Log("Business insert callBack finish with status: " + status);
+                            public void onSuccess(List<Business> data) {
+                                DebugHelper.Log("Business insert callBack finish with status: Success");
                             }
+
+                            @Override
+                            public void onFailed(DataStatus status, String error) {
+
+                            }
+
+
                         };
                         (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Insert, callBack)).execute(businessDetailsFragment.businessItem.toContentValues());
 
@@ -147,9 +154,15 @@ public class ActivitiesActivity extends AppCompatActivity {
                     } else {
                         CallBack<Business> callBack = new CallBack<Business>() {
                             @Override
-                            public void run(DataStatus status, List<Business> data) {
+                            public void onSuccess(List<Business> data) {
+
+                            }
+
+                            @Override
+                            public void onFailed(DataStatus status, String error) {
                                 DebugHelper.Log("Business insert callBack finish with status: " + status);
                             }
+
                         };
                         (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Update, callBack)).execute(businessItem.toContentValues());
 

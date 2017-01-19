@@ -589,6 +589,8 @@ public class ListDBManager implements IDBManager {
 
     public static void removeOthersUsers()
     {
+        if(DBManagerFactory.getCurrentUser() == null || businesses == null)
+            return;
         CPUser current = DBManagerFactory.getCurrentUser();
 
         for(Business business:businesses)
@@ -612,6 +614,24 @@ public class ListDBManager implements IDBManager {
         }
     }
 
+
+    public static int getCpusersListSize()
+    {
+        return cpusers.size();
+    }
+
+    public static int getUsersListSize()
+    {
+        return users.size();
+    }
+    public static int getActivitiesListSize()
+    {
+        return activities.size();
+    }
+    public static int getBusinessListSize()
+    {
+        return businesses.size();
+    }
 
 
 }

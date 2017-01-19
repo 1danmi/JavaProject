@@ -70,11 +70,12 @@ public class firebaseDB implements IDBManager {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    OnLogIn();
+                    DebugHelper.Log("User authenticated: " + user.getEmail());
                     login = true;
                     DBManagerFactory.setCurrentUser(new CPUser(user.getUid(),user.getEmail(),user.getDisplayName()));
-                    ListDBManager.removeOthersUsers();
+           //         ListDBManager.removeOthersUsers();
                     dataUpdated = true;
+                    onCreate();
 
                 } else {
                     login = false;
@@ -84,24 +85,45 @@ public class firebaseDB implements IDBManager {
         };
 
         mAuth.addAuthStateListener(mAuthListener);
-        mAuth.removeAuthStateListener(mAuthListener);
     }
 
 
-    private void OnLogIn() {
+    private void onCreate() {
 
-        login = true;
         // User is signed in
         localDB = new ListDBManager();
         // Write a message to the database
         this.mDatabase = FirebaseDatabase.getInstance().getReference();
         this.mDatabase.addChildEventListener(new onOnlineDBChange(localDB));
+        this.mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DebugHelper.Log("onDataChange");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         CPUserRef = mDatabase.child("CPUser");
         BusinessRef = mDatabase.child("Business");
+        BusinessRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DebugHelper.Log("onDataChange");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         ActivityRef = mDatabase.child("Activity");
         UserRef = mDatabase.child("User");
+
     }
 
     @Override
@@ -250,6 +272,8 @@ public class firebaseDB implements IDBManager {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
+                DebugHelper.Log("Login status:" +  task.isSuccessful());
+
                 if (callBack != null)
                     if (!task.isSuccessful()) {
 
@@ -302,6 +326,12 @@ public class firebaseDB implements IDBManager {
 
            }
        }
+    }
+
+    public void signOut()
+    {
+        DebugHelper.Log("Signed out");
+        mAuth.signOut();
     }
 
 }

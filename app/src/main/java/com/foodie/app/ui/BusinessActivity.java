@@ -1,6 +1,9 @@
 package com.foodie.app.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -23,9 +26,11 @@ import android.widget.Toast;
 
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
+import com.foodie.app.Services.DataUpdated;
 import com.foodie.app.constants.Constants;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
+import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.DBquery;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
@@ -56,6 +61,20 @@ public class BusinessActivity extends AppCompatActivity
     private CPUser user = null;
     private DrawerLayout drawer;
     private NavigationView navigationView;
+    private IntentFilter mIntentFilter;
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction().equals("Business")) {
+                loadData();
+              //// TODO: implement data update
+            }
+        }
+    };
+
+
+
 
 
     @Override
@@ -78,8 +97,14 @@ public class BusinessActivity extends AppCompatActivity
         TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerCPUserName);
         TextView numOfBusinessse = (TextView) rootView.findViewById(R.id.drawerNumOfBusinesses);
 
+        mIntentFilter = new IntentFilter();
+        mIntentFilter.addAction(DataUpdated.mBroadcastBusiness);
+
+        Intent serviceIntent = new Intent(getApplicationContext(), DataUpdated.class);
+        startService(serviceIntent);
+
         //loadData();
-        loadDemoData();
+       // loadDemoData();
 
 //        drawerCPUserName.setText(user.getUserFullName());
 //        numOfBusinessse.setText(businessRecyclerViewAdapter.getItemCount() + " Businesses");
@@ -101,14 +126,21 @@ public class BusinessActivity extends AppCompatActivity
                     "may be cooked in a variety of ways, including pan-frying, barbecuing, " +
                     "and flame-broiling. Hamburgers are often served with cheese, lettuce, " +
                     "tomato, bacon, onion, pickles, and condiments such as mustard, mayonnaise," +
-                    " ketchup, relish, and chiles.", 23.56, 2.5, 1, hamburger, "Kosher");
+                    " ketchup, relish, and chiles.", 23.56, 2.5, "", hamburger, "Kosher");
             //activitiesList.add(activity);
 
             CallBack<Activity> callBack = new CallBack<Activity>() {
                 @Override
-                public void run(DataStatus status, List<Activity> data) {
-                    DebugHelper.Log("Activity insert callBack finish with status: " + status);
+                public void onSuccess(List<Activity> data) {
+                    DebugHelper.Log("Activity insert callBack finish with status: ");
                 }
+
+                @Override
+                public void onFailed(DataStatus status, String error) {
+
+                }
+
+
             };
             (new AsyncData<Activity>(getApplicationContext(), Activity.getURI(), DataManagerType.Insert, callBack)).execute(activity.toContentValues());
         } catch (Exception e) {
@@ -277,7 +309,13 @@ public class BusinessActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        loadData();
+        registerReceiver(mReceiver, mIntentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(mReceiver);
+        super.onPause();
     }
 
 

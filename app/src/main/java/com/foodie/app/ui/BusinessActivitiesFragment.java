@@ -81,14 +81,21 @@ public class BusinessActivitiesFragment extends Fragment {
                                                             "may be cooked in a variety of ways, including pan-frying, barbecuing, " +
                                                             "and flame-broiling. Hamburgers are often served with cheese, lettuce, " +
                                                             "tomato, bacon, onion, pickles, and condiments such as mustard, mayonnaise," +
-                                                            " ketchup, relish, and chiles.", 23.56,2.5,1,hamburger, "Kosher");
+                                                            " ketchup, relish, and chiles.", 23.56,2.5,"",hamburger, "Kosher");
             //activitiesList.add(activity);
 
             CallBack<Activity> callBack = new CallBack<Activity>() {
                 @Override
-                public void run(DataStatus status, List<Activity> data) {
-                    DebugHelper.Log("Activity insert callBack finish with status: " + status);
+                public void onSuccess(List<Activity> data) {
+                    DebugHelper.Log("Activity insert callBack finish with status: " );
                 }
+
+                @Override
+                public void onFailed(DataStatus status, String error) {
+
+
+                }
+
             };
             (new AsyncData<Activity>(getContext(), Activity.getURI(), DataManagerType.Insert, callBack)).execute(activity.toContentValues());
         } catch (Exception e) {
@@ -113,11 +120,11 @@ public class BusinessActivitiesFragment extends Fragment {
         // Set the function to get status
         data.setCallBack(new CallBack<Activity>() {
             @Override
-            public void run(DataStatus status, List<Activity> data) {
-                DebugHelper.Log("Query callBack finish with status: " + status);
-                if(status  != DataStatus.Success) {
-                    Toast.makeText(getContext(), "Error: " + status , Toast.LENGTH_SHORT).show();
-                }
+            public void onSuccess(List<Activity> data) {
+
+
+
+
                 DebugHelper.Log("Query callBack: items total = "+data.size());
 
                 for(Activity item : data) {
@@ -125,6 +132,13 @@ public class BusinessActivitiesFragment extends Fragment {
                     activityRecyclerViewAdapter.notifyDataSetChanged();
                 }
             }
+
+            @Override
+            public void onFailed(DataStatus status, String error) {
+
+            }
+
+
         });
         // Execute the AsyncTask
         data.execute(new DBquery());

@@ -2,6 +2,7 @@ package com.foodie.app.onlineDB;
 
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.backend.AppContract;
+import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
@@ -27,9 +28,9 @@ public class onOnlineDBChange implements ChildEventListener {
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-       // DebugHelper.Log("onChildAdded: " + dataSnapshot.getKey());
+        DebugHelper.Log("onChildAdded: " + dataSnapshot.getKey());
         for (DataSnapshot data : dataSnapshot.getChildren()) {
-        //    DebugHelper.Log("onChildAdded: " + data.getKey());
+            DebugHelper.Log("onChildAdded: " + data.getKey());
             switch (dataSnapshot.getKey()){
                 case "CPUser":
                     CPUser cpu = data.getValue(CPUser.class);
@@ -37,6 +38,7 @@ public class onOnlineDBChange implements ChildEventListener {
                     localDB.addCPUser(cpu);
                     break;
                 case "Business":
+
                     Business business = data.getValue(Business.class);
                     business.set_ID(data.getKey());
                     localDB.addBusiness(business);
@@ -75,4 +77,5 @@ public class onOnlineDBChange implements ChildEventListener {
     public void onCancelled(DatabaseError databaseError) {
 
     }
+
 }
