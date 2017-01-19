@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,7 +23,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
@@ -30,13 +30,13 @@ import com.foodie.app.Services.DataUpdated;
 import com.foodie.app.constants.Constants;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
-import com.foodie.app.database.DBManagerFactory;
-import com.foodie.app.database.DBquery;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
+import com.foodie.app.listsDB.ContentResolverDatabase;
+import com.foodie.app.provider.MyContentObserver;
 import com.foodie.app.ui.helpers.IntentHelper;
 import com.foodie.app.ui.view_adapters.BusinessRecyclerViewAdapter;
 import com.foodie.app.ui.view_adapters.RecyclerItemClickListener;
@@ -53,7 +53,7 @@ public class BusinessActivity extends AppCompatActivity
     private static final String TAG = "BusinessActivity";
     private BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
 
-
+    private MyContentObserver myContentObserver;
     public static List<Business> businessList;
     private RecyclerView recyclerView;
     private FloatingActionButton addBusinessFAB;
@@ -102,6 +102,11 @@ public class BusinessActivity extends AppCompatActivity
 
         Intent serviceIntent = new Intent(getApplicationContext(), DataUpdated.class);
         startService(serviceIntent);
+
+
+        myContentObserver = new MyContentObserver(new Handler(),getApplicationContext());
+        getContentResolver().registerContentObserver(Business.getURI(), true, myContentObserver);
+
 
         //loadData();
        // loadDemoData();
@@ -155,7 +160,7 @@ public class BusinessActivity extends AppCompatActivity
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new SlideInUpAnimator());
 
-        businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(businessList, getApplicationContext());
+        businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(ContentResolverDatabase.businesses, getApplicationContext());
 
         recyclerView.setAdapter(businessRecyclerViewAdapter);
 
@@ -251,39 +256,14 @@ public class BusinessActivity extends AppCompatActivity
 
     public void loadData() {
 
-
         Bundle b = getIntent().getExtras();
         if (b != null) {
             userId = b.getInt("Id");
             user = new CPUser(b.getString("Fullname"));
         }
-
-
-        //Create an AsyncData object and set the constructor
-        AsyncData<Business> data = new AsyncData<>(getApplicationContext(), Business.getURI());
-        // Set the task to insert
-        data.setDatamanagerType(DataManagerType.Query);
-        // Set the function to get status
-        data.setCallBack(new CallBack<Business>() {
-            @Override
-            public void onSuccess(List<Business> data) {
-                for(Business item : data)
-                {
-                    businessRecyclerViewAdapter.loadNewData(data);
-                }
-            }
-
-            @Override
-            public void onFailed(DataStatus status, String error) {
-                Toast.makeText(getApplicationContext(), "Error: " + status , Toast.LENGTH_SHORT).show();
-            }
-
-
-        });
-        // Execute the AsyncTask
-        data.execute(new DBquery());
+        ContentResolverDatabase.setBusinessRecyclerViewAdapter(businessRecyclerViewAdapter);
+        ContentResolverDatabase.getBusinessesList(getApplicationContext());
         businessRecyclerViewAdapter.notifyDataSetChanged();
-
 
     }
 
@@ -292,7 +272,6 @@ public class BusinessActivity extends AppCompatActivity
     public void onitemClick(View v, int position) {
         try {
             Intent intent = new Intent(this, ActivitiesActivity.class);
-
             intent.putExtra(Constants.BUSINESS_ID, businessRecyclerViewAdapter.getBusinessesList().get(position).get_ID());
             intent.putExtra(Constants.EDIT_MODE, "false");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -310,17 +289,19 @@ public class BusinessActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         registerReceiver(mReceiver, mIntentFilter);
+        getContentResolver().registerContentObserver(Business.getURI(),true, myContentObserver);
     }
 
     @Override
     protected void onPause() {
+        //getContentResolver().unregisterContentObserver(myContentObserver);
         unregisterReceiver(mReceiver);
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        DBManagerFactory.signOut();
+        //DBManagerFactory.signOut();
         super.onStop();
 
     }

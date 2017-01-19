@@ -1,8 +1,6 @@
 package com.foodie.app.entities;
 
 
-import android.net.Uri;
-
 import android.content.ContentValues;
 import android.net.Uri;
 
@@ -173,5 +171,11 @@ public class Activity implements Serializable {
 
     public static Uri getURI() {
         return Uri.parse("content://com.foodie.app/Activity");
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        return this._ID.equals(((Activity)obj)._ID);
     }
 }

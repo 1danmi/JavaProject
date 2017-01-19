@@ -12,7 +12,6 @@ public class Business implements Serializable {
 
     private static final long serialVersionUID = 2L;
 
-
     public static int businessID = 0;
 
     private String _ID;
@@ -43,7 +42,8 @@ public class Business implements Serializable {
         cpuserID = "";
         businessLogo = null;
     }
-//Full constructor
+
+    //Full constructor
     public Business(String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, String cpuserID, byte[] businessLogo) throws Exception {
 
         setBusinessName(businessName);
@@ -55,7 +55,7 @@ public class Business implements Serializable {
         setBusinessLogo(businessLogo);
     }
 
-    public Business(String id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, String cpuserID, byte[] businessLogo) throws Exception {
+    public Business(String id, String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, String cpuserID, byte[] businessLogo) throws Exception {
         set_ID(id);
         setBusinessName(businessName);
         setBusinessAddress(businessAddress);
@@ -76,7 +76,7 @@ public class Business implements Serializable {
 
     }
 
-    public Business(String id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite) throws Exception {
+    public Business(String id, String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite) throws Exception {
         set_ID(id);
         setBusinessName(businessName);
         setBusinessAddress(businessAddress);
@@ -86,7 +86,6 @@ public class Business implements Serializable {
     }
 
 
-
     public String get_ID() {
         return _ID;
     }
@@ -94,7 +93,6 @@ public class Business implements Serializable {
     public void set_ID(String Id) {
         _ID = Id;
     }
-
 
 
     public String getBusinessName() {
@@ -156,7 +154,6 @@ public class Business implements Serializable {
     }
 
 
-
     public ContentValues toContentValues() {
         //    public Business(int id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
 
@@ -178,5 +175,11 @@ public class Business implements Serializable {
 
     public static Uri getURI() {
         return Uri.parse("content://com.foodie.app/Business");
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        return this._ID.equals(((Business)obj)._ID);
     }
 }

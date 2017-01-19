@@ -20,11 +20,9 @@ import android.widget.Toast;
 import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
-import com.foodie.app.Services.DataUpdated;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
 import com.foodie.app.database.DBManagerFactory;
-import com.foodie.app.database.DBquery;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
@@ -146,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
 
-                                          //  test(); //By David
+                                            //test(); //By David
 
                                             if (DBManagerFactory.getCurrentUser() != null) {
                                                 Bundle b = new Bundle();
@@ -283,12 +281,12 @@ public class LoginActivity extends AppCompatActivity {
 
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.burgeranch);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
+            bmp = Bitmap.createScaledBitmap(bmp, 400, 320, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo1 = stream.toByteArray();
 
             demo = new Business(name1, "Derech Agudat Sport Beitar 1, Jerusalem, 9695235", "0543051733", "Burgeranch@burgeranch.co.il", "burgeranch.co.il", "UAkQb4TN3yYsb4RrNDNyRzXDudB2", logo1);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+            (new AsyncData<>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
 
 
 
@@ -296,12 +294,12 @@ public class LoginActivity extends AppCompatActivity {
 
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.mcdonalds_logo);
             stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
+            bmp = Bitmap.createScaledBitmap(bmp, 400, 320, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo2 = stream.toByteArray();
 
             demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com","UAkQb4TN3yYsb4RrNDNyRzXDudB2", logo2);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+            (new AsyncData<>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
 
 
 
@@ -310,24 +308,24 @@ public class LoginActivity extends AppCompatActivity {
 
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.duda_lapizza_logo);
             stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
+            bmp = Bitmap.createScaledBitmap(bmp, 400, 320, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo3 = stream.toByteArray();
 
             demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", "ZIaGMBmujlWMKSsqCs3Cs3zOt1y1", logo3);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+            (new AsyncData<>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
 
 
             String name4 = "Pizza Hut ";
 
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pizza_hut_logo);
             stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
+            bmp = Bitmap.createScaledBitmap(bmp, 400, 320, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo4 = stream.toByteArray();
 
             demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", "ZIaGMBmujlWMKSsqCs3Cs3zOt1y1", logo4);
-            (new AsyncData<Business>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+            (new AsyncData<>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
 
 
 

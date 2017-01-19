@@ -1,10 +1,8 @@
 package com.foodie.app.onlineDB;
 
-import android.accounts.NetworkErrorException;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 
 import com.foodie.app.Helper.DebugHelper;
@@ -25,23 +23,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.InvalidPropertiesFormatException;
-import java.util.concurrent.Executor;
 
 /**
  * Created by David on 9/1/2017.
  */
 
-public class firebaseDB implements IDBManager {
+public class FirebaseDB implements IDBManager {
 
     private ListDBManager localDB;
 
@@ -59,7 +54,7 @@ public class firebaseDB implements IDBManager {
     private FirebaseAuth mAuth;
 
 
-    public firebaseDB() {
+    public FirebaseDB() {
 
         mAuth = FirebaseAuth.getInstance();
         login = false;
@@ -94,7 +89,33 @@ public class firebaseDB implements IDBManager {
         localDB = new ListDBManager();
         // Write a message to the database
         this.mDatabase = FirebaseDatabase.getInstance().getReference();
-        this.mDatabase.addChildEventListener(new onOnlineDBChange(localDB));
+        this.mDatabase.addChildEventListener(new OnOnlineDBChange(localDB));
+        this.mDatabase.child("Business").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                addBusinessToDB(dataSnapshot);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         this.mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -139,13 +160,33 @@ public class firebaseDB implements IDBManager {
         return "";
     }
 
+    protected void addBusinessToDB(DataSnapshot data) {
+        Business business = new Business();
+        business.set_ID(data.getKey());
+        if(data.child(AppContract.Business.BUSINESS_NAME).getValue() != null)
+            business.setBusinessName(data.child(AppContract.Business.BUSINESS_NAME).getValue().toString());
+        if(data.child(AppContract.Business.BUSINESS_ADDRESS).getValue() != null)
+            business.setBusinessAddress(data.child(AppContract.Business.BUSINESS_ADDRESS).getValue().toString());
+        if(data.child(AppContract.Business.BUSINESS_CPUSER_ID).getValue() != null)
+            business.setCpuserID(data.child(AppContract.Business.BUSINESS_CPUSER_ID).getValue().toString());
+        if(data.child(AppContract.Business.BUSINESS_EMAIL).getValue() != null)
+            business.setBusinessEmail(data.child(AppContract.Business.BUSINESS_EMAIL).getValue().toString());
+        if(data.child(AppContract.Business.BUSINESS_PHONE_NUMBER).getValue() != null)
+            business.setBusinessPhoneNo( data.child(AppContract.Business.BUSINESS_PHONE_NUMBER).getValue().toString());
+        if(data.child(AppContract.Business.BUSINESS_WEBSITE).getValue() != null)
+            business.setBusinessWebsite( data.child(AppContract.Business.BUSINESS_WEBSITE).getValue().toString());
+        if(data.child(AppContract.Business.BUSINESS_LOGO).getValue() != null && !data.child(AppContract.Business.BUSINESS_LOGO).getValue().toString().isEmpty()) {
+            byte[] b = HelperClass.fromStringToByteArray(data.child(AppContract.Business.BUSINESS_LOGO).getValue().toString());
+            business.setBusinessLogo(b);
+        }
+        localDB.addBusiness(business);
+    }
+
     @Override
     public String addBusiness(ContentValues values) throws Exception {
         checkForLogin();
         if (values == null)
            throw new NullPointerException("ContentValues is null");
-
-
 
         Business business = Converters.ContentValuesToBusiness(values);
         DatabaseReference toInsert = BusinessRef.push();

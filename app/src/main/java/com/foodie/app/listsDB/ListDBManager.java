@@ -504,7 +504,7 @@ public class ListDBManager implements IDBManager {
     }
 
 
-    public static void login(final String username,final String password,final CallBack<CPUser> callBack){
+    public static void login(final String username, final String password, final CallBack<CPUser> callBack) {
 
         for (CPUser user : cpusers) {
             if (user.getUserEmail().equals(username) && user.getUserEmail().equals(password)) {
@@ -527,11 +527,10 @@ public class ListDBManager implements IDBManager {
         HelperClass.runInMain(new Runnable() {
             @Override
             public void run() {
-                callBack.onFailed(DataStatus.Failed,"Invalid username or password");
+                callBack.onFailed(DataStatus.Failed, "Invalid username or password");
             }
         });
     }
-
 
 
     public String addCPUser(CPUser values) {
@@ -543,18 +542,39 @@ public class ListDBManager implements IDBManager {
 
     public String addBusiness(Business values) {
 
-        businesses.add(values);
-        isUpdated = true;
+        boolean update = false;
+        for (Business b : businesses) {
+            if (b.equals(values)) {
+                b = values;
+                update = true;
+                break;
+            }
+        }
+        if(!update) {
+            businesses.add(values);
+            isUpdated = true;
+        }
         return values.get_ID();
     }
 
 
-    public String addActivity(Activity activity) {
+    public String addActivity(Activity values) {
 
-        activities.add(activity);
-        isUpdated = true;
-        return activity.get_ID();
+        boolean update = false;
+        for (Activity a : activities) {
+            if (a.equals(values)) {
+                a = values;
+                update = true;
+                break;
+            }
+        }
+        if(!update) {
+            activities.add(values);
+            isUpdated = true;
+        }
+        return values.get_ID();
     }
+
 
 
     public String addUser(User user) {
@@ -572,11 +592,9 @@ public class ListDBManager implements IDBManager {
         return null;
     }
 
-    public static void signUp(CPUser user,CallBack<CPUser> callBack)
-    {
-        for(CPUser localUser:cpusers)
-        {
-            if(localUser.getUserEmail().equals(user.getUserEmail())) {
+    public static void signUp(CPUser user, CallBack<CPUser> callBack) {
+        for (CPUser localUser : cpusers) {
+            if (localUser.getUserEmail().equals(user.getUserEmail())) {
                 callBack.onFailed(DataStatus.Failed, "Email already exist");
                 return;
             }
@@ -587,27 +605,24 @@ public class ListDBManager implements IDBManager {
 
     }
 
-    public static void removeOthersUsers()
-    {
-        if(DBManagerFactory.getCurrentUser() == null || businesses == null)
+    public static void removeOthersUsers() {
+        if (DBManagerFactory.getCurrentUser() == null || businesses == null)
             return;
         CPUser current = DBManagerFactory.getCurrentUser();
 
-        for(Business business:businesses)
-        {
-           businesses.remove(business);
+        for (Business business : businesses) {
+            businesses.remove(business);
         }
 
 
         Boolean flag;
-        for(Activity activity:activities)
-        {
+        for (Activity activity : activities) {
             flag = false;
-            for(Business business:businesses){
-                if(activity.getBusinessId().equals(business.get_ID()))
+            for (Business business : businesses) {
+                if (activity.getBusinessId().equals(business.get_ID()))
                     flag = true;
             }
-            if(!flag)
+            if (!flag)
                 activities.remove(activity);
 
 
@@ -615,21 +630,19 @@ public class ListDBManager implements IDBManager {
     }
 
 
-    public static int getCpusersListSize()
-    {
+    public static int getCpusersListSize() {
         return cpusers.size();
     }
 
-    public static int getUsersListSize()
-    {
+    public static int getUsersListSize() {
         return users.size();
     }
-    public static int getActivitiesListSize()
-    {
+
+    public static int getActivitiesListSize() {
         return activities.size();
     }
-    public static int getBusinessListSize()
-    {
+
+    public static int getBusinessListSize() {
         return businesses.size();
     }
 
