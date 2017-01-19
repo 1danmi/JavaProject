@@ -318,5 +318,10 @@ public class BusinessActivity extends AppCompatActivity
         super.onPause();
     }
 
+    @Override
+    protected void onStop() {
+    //    DBManagerFactory.signOut();
+        super.onStop();
 
+    }
 }
