@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
 
-                                            test(); //By David
+                                          //  test(); //By David
 
                                             if (DBManagerFactory.getCurrentUser() != null) {
                                                 Bundle b = new Bundle();
