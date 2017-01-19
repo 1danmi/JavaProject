@@ -320,7 +320,7 @@ public class BusinessActivity extends AppCompatActivity
 
     @Override
     protected void onStop() {
-    //    DBManagerFactory.signOut();
+        DBManagerFactory.signOut();
         super.onStop();
 
     }

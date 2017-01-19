@@ -1,7 +1,9 @@
 package com.foodie.app.onlineDB;
 
 import com.foodie.app.Helper.DebugHelper;
+import com.foodie.app.Helper.HelperClass;
 import com.foodie.app.backend.AppContract;
+import com.foodie.app.database.Converters;
 import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
@@ -38,15 +40,52 @@ public class onOnlineDBChange implements ChildEventListener {
                     localDB.addCPUser(cpu);
                     break;
                 case "Business":
-
-                    Business business = data.getValue(Business.class);
+                    Business business = new Business();
                     business.set_ID(data.getKey());
+                    if(data.child(AppContract.Business.BUSINESS_NAME).getValue() != null)
+                        business.setBusinessName(data.child(AppContract.Business.BUSINESS_NAME).getValue().toString());
+                    if(data.child(AppContract.Business.BUSINESS_ADDRESS).getValue() != null)
+                        business.setBusinessAddress(data.child(AppContract.Business.BUSINESS_ADDRESS).getValue().toString());
+                    if(data.child(AppContract.Business.BUSINESS_CPUSER_ID).getValue() != null)
+                        business.setCpuserID(data.child(AppContract.Business.BUSINESS_CPUSER_ID).getValue().toString());
+                    if(data.child(AppContract.Business.BUSINESS_EMAIL).getValue() != null)
+                        business.setBusinessEmail(data.child(AppContract.Business.BUSINESS_EMAIL).getValue().toString());
+                    if(data.child(AppContract.Business.BUSINESS_PHONE_NUMBER).getValue() != null)
+                        business.setBusinessPhoneNo( data.child(AppContract.Business.BUSINESS_PHONE_NUMBER).getValue().toString());
+                    if(data.child(AppContract.Business.BUSINESS_WEBSITE).getValue() != null)
+                        business.setBusinessWebsite( data.child(AppContract.Business.BUSINESS_WEBSITE).getValue().toString());
+                    if(data.child(AppContract.Business.BUSINESS_LOGO).getValue() != null && data.child(AppContract.Business.BUSINESS_LOGO).getValue().toString().isEmpty()) {
+                        byte[] b = HelperClass.fromStringToByteArray(data.child(AppContract.Business.BUSINESS_LOGO).getValue().toString());
+                        business.setBusinessLogo(b);
+                    }
                     localDB.addBusiness(business);
                     break;
                 case "Activity":
-                    Activity activity = data.getValue(Activity.class);
-                    activity.set_ID(data.getKey());
-                    localDB.addActivity(activity);
+                    try{
+                        Activity activity = new Activity();
+                        if(data.child(AppContract.Activity.ACTIVITY_NAME).getValue() != null)
+                            activity.setActivityName(data.child(AppContract.Activity.ACTIVITY_NAME).getValue().toString());
+                        if(data.child(AppContract.Activity.ACTIVITY_DESCRIPTION).getValue() != null)
+                            activity.setActivityDescription(data.child(AppContract.Activity.ACTIVITY_DESCRIPTION).getValue().toString());
+                        if(data.child(AppContract.Activity.ACTIVITY_COST).getValue() != null)
+                            activity.setActivityCost( Double.parseDouble(data.child(AppContract.Activity.ACTIVITY_COST).getValue().toString()));
+                        if(data.child(AppContract.Activity.ACTIVITY_RATING).getValue() != null)
+                            activity.setActivityRating(Double.parseDouble(data.child(AppContract.Activity.ACTIVITY_RATING).getValue().toString()));
+                        if(data.child(AppContract.Activity.ACTIVITY_BUSINESS_ID).getValue() != null)
+                            activity.setBusinessId(data.child(AppContract.Activity.ACTIVITY_BUSINESS_ID).getValue().toString());
+                        if(data.child(AppContract.Activity.ACTIVITY_FEATURE).getValue() != null)
+                            activity.setFeature( data.child(AppContract.Activity.ACTIVITY_FEATURE).getValue().toString());
+
+                        if(data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue() != null && !data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue().toString().isEmpty()){
+                            byte[] ba = HelperClass.fromStringToByteArray(data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue().toString());
+                            activity.setActivityImages(ba);
+                        }
+                      localDB.addActivity(activity);
+                    }catch (Exception ignored)
+                    {
+
+                    }
+
                     break;
                 case "User":
                     User user = data.getValue(User.class);

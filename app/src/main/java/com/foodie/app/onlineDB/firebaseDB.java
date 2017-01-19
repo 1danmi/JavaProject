@@ -143,7 +143,10 @@ public class firebaseDB implements IDBManager {
     public String addBusiness(ContentValues values) throws Exception {
         checkForLogin();
         if (values == null)
-            throw new NullPointerException("ContentValues is null");
+           throw new NullPointerException("ContentValues is null");
+
+
+
         Business business = Converters.ContentValuesToBusiness(values);
         DatabaseReference toInsert = BusinessRef.push();
         toInsert.child(AppContract.Business.BUSINESS_NAME).setValue(business.getBusinessName());
@@ -152,7 +155,8 @@ public class firebaseDB implements IDBManager {
         toInsert.child(AppContract.Business.BUSINESS_EMAIL).setValue(business.getBusinessEmail());
         toInsert.child(AppContract.Business.BUSINESS_PHONE_NUMBER).setValue(business.getBusinessPhoneNo());
         toInsert.child(AppContract.Business.BUSINESS_WEBSITE).setValue(business.getBusinessWebsite());
-        //  toInsert.child(AppContract.Business.BUSINESS_LOGO).setValue(str);
+        String str = HelperClass.fromByteArraytoString(business.getBusinessLogo());
+        toInsert.child(AppContract.Business.BUSINESS_LOGO).setValue(str);
 
         return "";
     }
@@ -168,8 +172,9 @@ public class firebaseDB implements IDBManager {
         toInsert.child(AppContract.Activity.ACTIVITY_COST).setValue(activity.getActivityCost());
         toInsert.child(AppContract.Activity.ACTIVITY_RATING).setValue(activity.getActivityRating());
         toInsert.child(AppContract.Activity.ACTIVITY_BUSINESS_ID).setValue(activity.getBusinessId());
-//        toInsert.child(AppContract.Activity.ACTIVITY_IMAGE).setValue(activity.getActivityImages());
         toInsert.child(AppContract.Activity.ACTIVITY_FEATURE).setValue(activity.getFeature());
+        String str = HelperClass.fromByteArraytoString(activity.getActivityImages());
+        toInsert.child(AppContract.Activity.ACTIVITY_IMAGE).setValue(str);
         return "";
     }
 
