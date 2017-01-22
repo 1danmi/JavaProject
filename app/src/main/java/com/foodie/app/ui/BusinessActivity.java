@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.Services.DataUpdated;
 import com.foodie.app.constants.Constants;
@@ -69,13 +68,10 @@ public class BusinessActivity extends AppCompatActivity
 
             if (intent.getAction().equals("Business")) {
                 loadData();
-              //// TODO: implement data update
+                //// TODO: implement data update
             }
         }
     };
-
-
-
 
 
     @Override
@@ -105,14 +101,14 @@ public class BusinessActivity extends AppCompatActivity
         startService(serviceIntent);
 
 
-        myContentObserver = new MyContentObserver(new Handler(),getApplicationContext());
+        myContentObserver = new MyContentObserver(new Handler(), getApplicationContext());
         getContentResolver().registerContentObserver(Business.getURI(), true, myContentObserver);
 
 
         //loadData();
-       // loadDemoData();
+        // loadDemoData();
 
- //       drawerCPUserName.setText("test");
+        //       drawerCPUserName.setText("test");
 //        numOfBusinessse.setText(businessRecyclerViewAdapter.getItemCount() + " Businesses");
 
 
@@ -236,19 +232,19 @@ public class BusinessActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.bug_report_navbar) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.language_navbar) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.settings_navbar) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
+        } else if (id == R.id.sign_out_navbar) {
+            DBManagerFactory.signOut();
+            super.onBackPressed();
+        }else if (id == R.id.about_navbar) {
+        DBManagerFactory.signOut();
+        super.onBackPressed();
+    }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -290,7 +286,7 @@ public class BusinessActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         registerReceiver(mReceiver, mIntentFilter);
-        getContentResolver().registerContentObserver(Business.getURI(),true, myContentObserver);
+        getContentResolver().registerContentObserver(Business.getURI(), true, myContentObserver);
     }
 
     @Override

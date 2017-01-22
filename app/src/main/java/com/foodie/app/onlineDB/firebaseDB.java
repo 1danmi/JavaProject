@@ -23,20 +23,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.InvalidPropertiesFormatException;
 
 /**
  * Created by David on 9/1/2017.
  */
 
-public class firebaseDB implements IDBManager {
+public class FirebaseDB implements IDBManager {
 
     private ListDBManager localDB;
 
@@ -55,7 +49,7 @@ public class firebaseDB implements IDBManager {
     private FirebaseAuth mAuth;
 
 
-    public firebaseDB() {
+    public FirebaseDB() {
 
         mAuth = FirebaseAuth.getInstance();
         login = false;
@@ -96,7 +90,7 @@ public class firebaseDB implements IDBManager {
         localDB = new ListDBManager();
         // Write a message to the database
         this.mDatabase = FirebaseDatabase.getInstance().getReference().child(id);
-        this.mDatabase.addChildEventListener(new onOnlineDBChange(localDB));
+        this.mDatabase.addChildEventListener(new OnOnlineDBChange(localDB));
 
         CPUserRef = mDatabase.child("CPUser");
         BusinessRef = mDatabase.child("Business");

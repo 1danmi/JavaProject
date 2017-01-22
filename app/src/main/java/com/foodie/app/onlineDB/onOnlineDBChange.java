@@ -13,21 +13,16 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
-import java.io.FileOutputStream;
-
-
-import static android.provider.Telephony.Mms.Part.FILENAME;
-
 /**
  * Created by David on 15/1/2017.
  */
 
-public class onOnlineDBChange implements ChildEventListener {
+public class OnOnlineDBChange implements ChildEventListener {
 
     ListDBManager localDB;
     public static boolean updated =false;
 
-    public onOnlineDBChange(ListDBManager localDB) {
+    public OnOnlineDBChange(ListDBManager localDB) {
         this.localDB = localDB;
     }
 

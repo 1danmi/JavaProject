@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-    </group>
-
-    <item android:title="Communicate">
+    <item android:title="Tools">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/bug_report_navbar"
+                android:icon="@drawable/ic_bug_report_black_48dp"
+                android:title="Bug Report" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/language_navbar"
+                android:icon="@drawable/ic_language_black_48dp"
+                android:title="Language" />
+            <item
+                android:id="@+id/settings_navbar"
+                android:icon="@drawable/ic_settings_black_48dp"
+                android:title="Settings" />
         </menu>
+
     </item>
+    <group>
+        <item
+            android:id="@+id/sign_out_navbar"
+            android:icon="@drawable/ic_exit_to_app_black_48dp"
+            android:title="Sign Out" />
+        <item
+            android:id="@+id/about_navbar"
+            android:icon="@drawable/ic_info_outline_black_48dp"
+            android:title="About" />
+
+    </group>
 
 </menu>

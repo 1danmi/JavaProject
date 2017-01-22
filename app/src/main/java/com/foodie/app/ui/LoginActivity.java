@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dx.dxloadingbutton.lib.LoadingButton;
-import com.firebase.client.Firebase;
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.database.AsyncData;
@@ -156,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 intent.putExtras(b); //Put your id to your next Intent
                                             }
                                             startActivity(intent);
+                                            signIn.reset();
 
                                         }
                                     }, 400);
