@@ -5,20 +5,9 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
-import android.nfc.FormatException;
 import android.util.Log;
-
-import com.fasterxml.jackson.databind.util.Converter;
-import com.foodie.app.Helper.DebugHelper;
-import com.foodie.app.backend.AppContract;
-import com.foodie.app.database.Converters;
 import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.IDBManager;
-import com.foodie.app.entities.CPUser;
-import com.foodie.app.entities.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by David on 14/13/2016.
@@ -51,7 +40,7 @@ public class MyContentProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-       DebugHelper.Log("MyContentProvider: Delete");
+
 
         String listName = uri.getLastPathSegment();
         String id = selection;
@@ -83,9 +72,9 @@ public class MyContentProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        DebugHelper.Log("My content povider operation: insert");
+
         if (manager == null) {
-            DebugHelper.Log("manager null");
+
             manager = DBManagerFactory.getManager();
         }
         String listName = uri.getLastPathSegment();
@@ -106,7 +95,7 @@ public class MyContentProvider extends ContentProvider {
             }
             return Uri.withAppendedPath(uri, id);
         } catch (Exception ex) {
-            DebugHelper.Log("My content povider operation: insert, error: " + ex.getCause() + ", " + ex.getMessage());
+
         }
         return null;
     }
@@ -125,14 +114,8 @@ public class MyContentProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
 
 
-        DebugHelper.Log("My content povider operation: query");
 
-        if (projection != null)
-            for (int i = 0; i < projection.length; i++) {
-                DebugHelper.Log("My content povider operation query: projection = " + projection[i] + " and selectionArgs =  " + selectionArgs[i]);
-            }
-        else
-            DebugHelper.Log("My content povider operation query: selectionArgs is null");
+
 
 
         String listName = uri.getLastPathSegment();

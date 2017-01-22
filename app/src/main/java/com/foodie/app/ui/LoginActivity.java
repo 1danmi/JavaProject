@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dx.dxloadingbutton.lib.LoadingButton;
+import com.firebase.client.Firebase;
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.database.AsyncData;
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String email = "EMAIL_KEY";
     public static final String password = "PASSWORD_KEY";
     public static final String mypreference = "mypref";
+
 
     ConstraintLayout constraintLayout;
     Snackbar snackbar;
@@ -99,6 +101,8 @@ public class LoginActivity extends AppCompatActivity {
                 checkLogin();
             }
         });
+
+
 
 
     }
@@ -239,7 +243,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailed(DataStatus status, String error) {
-                DebugHelper.Log("Insert callBack finish with status: " + status);
+
             }
 
 
@@ -263,7 +267,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailed(DataStatus status, String error) {
-                DebugHelper.Log("Business insert callBack finish with status: " + status);
 
             }
 

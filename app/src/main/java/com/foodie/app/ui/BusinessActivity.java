@@ -138,7 +138,7 @@ public class BusinessActivity extends AppCompatActivity
             CallBack<Activity> callBack = new CallBack<Activity>() {
                 @Override
                 public void onSuccess(List<Activity> data) {
-                    DebugHelper.Log("Activity insert callBack finish with status: ");
+
                 }
 
                 @Override
