@@ -1,6 +1,7 @@
 package com.foodie.app.ui.view_adapters;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +18,7 @@ public class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchLis
     private static final String TAG = "BusinessRecyclerItemCli";
 
     public interface onRecyclerClickListener {
-        void onitemClick(View v, int position);
+        void onitemClick(View v, int position, MotionEvent e);
 
     }
 
@@ -40,7 +41,7 @@ public class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchLis
         Log.d(TAG, "onSingleTapUp: starts");
         View childView = recyclerView.findChildViewUnder(e.getX(), e.getY());
         if (childView != null && mListener != null) {
-            mListener.onitemClick(childView, recyclerView.getChildAdapterPosition(childView));
+            mListener.onitemClick(childView, recyclerView.getChildAdapterPosition(childView), e);
         }
     }
 
@@ -54,5 +55,13 @@ public class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchLis
             return false;
         }
 
+    }
+
+    public static boolean isViewClicked(View view, MotionEvent e) {
+        Rect rect = new Rect();
+
+        view.getGlobalVisibleRect(rect);
+
+        return rect.contains((int) e.getRawX(), (int) e.getRawY());
     }
 }

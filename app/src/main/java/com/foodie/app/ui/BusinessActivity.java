@@ -16,14 +16,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.Services.DataUpdated;
 import com.foodie.app.constants.Constants;
@@ -241,10 +245,10 @@ public class BusinessActivity extends AppCompatActivity
         } else if (id == R.id.sign_out_navbar) {
             DBManagerFactory.signOut();
             super.onBackPressed();
-        }else if (id == R.id.about_navbar) {
-        DBManagerFactory.signOut();
-        super.onBackPressed();
-    }
+        } else if (id == R.id.about_navbar) {
+            DBManagerFactory.signOut();
+            super.onBackPressed();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -266,18 +270,58 @@ public class BusinessActivity extends AppCompatActivity
 
 
     @Override
-    public void onitemClick(View v, int position) {
+    public void onitemClick(View v, final int position, MotionEvent e) {
         try {
-            Intent intent = new Intent(this, ActivitiesActivity.class);
-            intent.putExtra(Constants.BUSINESS_ID, businessRecyclerViewAdapter.getBusinessesList().get(position).get_ID());
-            intent.putExtra(Constants.EDIT_MODE, "false");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                View image = v.findViewById(R.id.business_image_view);
-                IntentHelper.startActivitiesActivity(this, image, businessRecyclerViewAdapter.getBusinessesList().get(position), "false");
+            ImageButton btnMore = (ImageButton) v.findViewById(R.id.businessMenuButton);
+
+            if (RecyclerItemClickListener.isViewClicked(btnMore, e)) {
+                PopupMenu popupMenu = new PopupMenu(v.getContext(), btnMore);
+
+                getMenuInflater().inflate(R.menu.menu_business_recycler_view, popupMenu.getMenu());
+
+                popupMenu.show();
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Log.d(TAG, "onMenuItemClick: delete pressed");
+                        Log.d(TAG, "onMenuItemClick:" + businessRecyclerViewAdapter.getBusiness(position).getBusinessName() );
+                        switch (item.getItemId()) {
+                            case R.id.deletMenuOption:
+                                CallBack<Business> callBack = new CallBack<Business>() {
+                                    @Override
+                                    public void onSuccess(List<Business> data) {
+                                        DebugHelper.Log("Business insert callBack finish with status: Success");
+                                        Log.d(TAG, "onSuccess: success");
+                                    }
+
+                                    @Override
+                                    public void onFailed(DataStatus status, String error) {
+                                        Log.d(TAG, "onFailed: failed");
+                                    }
+                                };
+                                (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Delete, callBack)).execute(businessRecyclerViewAdapter.getBusiness(position).toContentValues());
+                                return true;
+
+                        }
+                        return false;
+                    }
+                });
+
+            } else {
+
+
+                Intent intent = new Intent(this, ActivitiesActivity.class);
+                intent.putExtra(Constants.BUSINESS_ID, businessRecyclerViewAdapter.getBusinessesList().get(position).get_ID());
+                intent.putExtra(Constants.EDIT_MODE, "false");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    View image = v.findViewById(R.id.business_image_view);
+                    IntentHelper.startActivitiesActivity(this, image, businessRecyclerViewAdapter.getBusinessesList().get(position), "false");
+                }
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception f) {
+            f.printStackTrace();
         }
 
     }
