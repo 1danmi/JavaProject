@@ -47,6 +47,7 @@ public class firebaseDB implements IDBManager {
     private DatabaseReference UserRef;
     private boolean login; // check if the user did a login
     private boolean dataUpdated;
+    private CPUser newUser = null;
 
 
     private FirebaseUser user = null;
@@ -70,7 +71,13 @@ public class firebaseDB implements IDBManager {
                     DBManagerFactory.setCurrentUser(new CPUser(user.getUid(),user.getEmail(),user.getDisplayName()));
            //         ListDBManager.removeOthersUsers();
                     dataUpdated = true;
-                    onCreate();
+                    onCreate(user.getUid());
+                    if(newUser  != null)
+                        try {
+                            addCPUser(newUser.toContentValues());
+                        } catch (Exception ignored) {
+
+                        }
 
                 } else {
                     login = false;
@@ -83,12 +90,12 @@ public class firebaseDB implements IDBManager {
     }
 
 
-    private void onCreate() {
+    private void onCreate(String id) {
 
         // User is signed in
         localDB = new ListDBManager();
         // Write a message to the database
-        this.mDatabase = FirebaseDatabase.getInstance().getReference();
+        this.mDatabase = FirebaseDatabase.getInstance().getReference().child(id);
         this.mDatabase.addChildEventListener(new onOnlineDBChange(localDB));
 
         CPUserRef = mDatabase.child("CPUser");
@@ -100,14 +107,12 @@ public class firebaseDB implements IDBManager {
 
     @Override
     public String addCPUser(ContentValues values) throws Exception {
-        if (!login)
-            throw new InvalidPropertiesFormatException("No user login");
 
         if (values == null) {
             throw new NullPointerException("ContentValues is null");
         }
         CPUser cpuser = Converters.ContentValuesToCPUser(values);
-        CPUserRef.push().setValue(cpuser);
+        CPUserRef.setValue(cpuser);
         return "";
     }
 
@@ -269,7 +274,6 @@ public class firebaseDB implements IDBManager {
 
                 if (callBack != null)
                     if (!task.isSuccessful()) {
-
                         HelperClass.runInMain(new Runnable() {
                             @Override
                             public void run() {
@@ -290,7 +294,7 @@ public class firebaseDB implements IDBManager {
         });
     }
 
-    public void signUp(CPUser user, final CallBack<CPUser> callBack)
+    public void signUp(final CPUser user, final CallBack<CPUser> callBack)
     {
         if(user.getUserEmail().isEmpty())
             callBack.onFailed(DataStatus.InvalidArgumment,"Invalid email");
@@ -299,7 +303,9 @@ public class firebaseDB implements IDBManager {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    newUser = user;
                     callBack.onSuccess(null);
+
                 }else
                     callBack.onFailed(DataStatus.Failed,"Invalid user o password");
 
@@ -307,7 +313,6 @@ public class firebaseDB implements IDBManager {
             }
         });
     }
-
 
 
     public void signOut()

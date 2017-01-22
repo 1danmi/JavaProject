@@ -38,9 +38,7 @@ public class onOnlineDBChange implements ChildEventListener {
         for (DataSnapshot data : dataSnapshot.getChildren()) {
             switch (dataSnapshot.getKey()){
                 case "CPUser":
-                    CPUser cpu = data.getValue(CPUser.class);
-                    cpu.set_ID(data.getKey());
-                    localDB.addCPUser(cpu);
+                        localDB.addCPUser(getCPUser(data));
                     break;
                 case "Business":
                     localDB.addBusiness(getBusiness(data)); ;
@@ -108,6 +106,30 @@ public class onOnlineDBChange implements ChildEventListener {
             business.setBusinessLogo(b);
         }
         return business;
+    }
+
+    private CPUser getCPUser(DataSnapshot data)
+    {
+        CPUser user = new CPUser();
+        user.set_ID(data.getKey());
+        try {
+
+            if(data.child(AppContract.CPUser.CPUSER_FULL_NAME).getValue() != null)
+                user.setUserFullName(data.child(AppContract.CPUser.CPUSER_FULL_NAME).getValue().toString());
+
+            if(data.child(AppContract.CPUser.CPUSER_PWD).getValue() != null)
+                user.setUserFullName(data.child(AppContract.CPUser.CPUSER_PWD).getValue().toString());
+
+            if(data.child(AppContract.CPUser.CPUSER_EMAIL).getValue() != null)
+                user.setUserFullName(data.child(AppContract.CPUser.CPUSER_EMAIL).getValue().toString());
+
+
+        } catch (Exception ignored) {
+
+        }
+
+
+        return user;
     }
 
     @Override

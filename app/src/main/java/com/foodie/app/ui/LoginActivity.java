@@ -144,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
 
-                                            //test(); //By David
+                                           // test(); //By David
 
                                             if (DBManagerFactory.getCurrentUser() != null) {
                                                 Bundle b = new Bundle();
@@ -183,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             signIn.loadingFailed();
-                                            Snackbar.make(constraintLayout,"Connection error, please try again later" , Snackbar.LENGTH_LONG).show();
+                                            Snackbar.make(constraintLayout,error , Snackbar.LENGTH_LONG).show();
 
                                         }
                                     }, 3000);
