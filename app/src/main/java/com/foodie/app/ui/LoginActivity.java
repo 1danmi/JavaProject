@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dx.dxloadingbutton.lib.LoadingButton;
+import com.firebase.client.Firebase;
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.database.AsyncData;
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String email = "EMAIL_KEY";
     public static final String password = "PASSWORD_KEY";
     public static final String mypreference = "mypref";
+
 
     ConstraintLayout constraintLayout;
     Snackbar snackbar;
@@ -101,6 +103,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+
+
     }
 
     private void checkLogin() {
@@ -121,7 +125,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), getString(R.string.error_login), Toast.LENGTH_SHORT).show();
                 } else if (emailEditText.validate()) {
 
-                    //TODO: Implement signing in here
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     sharedPreferences.edit().putString(email, emailAddress).apply();
                     sharedPreferences.edit().putString(password, pwdEditText.getText().toString()).apply();
@@ -144,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
 
-                                            //test(); //By David
+                                           // test(); //By David
 
                                             if (DBManagerFactory.getCurrentUser() != null) {
                                                 Bundle b = new Bundle();
@@ -183,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             signIn.loadingFailed();
-                                            Snackbar.make(constraintLayout,"Connection error, please try again later" , Snackbar.LENGTH_LONG).show();
+                                            Snackbar.make(constraintLayout,error , Snackbar.LENGTH_LONG).show();
 
                                         }
                                     }, 3000);
@@ -240,7 +243,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailed(DataStatus status, String error) {
-                DebugHelper.Log("Insert callBack finish with status: " + status);
+
             }
 
 
@@ -264,7 +267,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailed(DataStatus status, String error) {
-                DebugHelper.Log("Business insert callBack finish with status: " + status);
 
             }
 

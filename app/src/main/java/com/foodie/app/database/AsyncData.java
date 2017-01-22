@@ -224,10 +224,6 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
             DebugHelper.Log("AsyncData: callBack is null");
             return;
         }
-        if (data != null)
-            DebugHelper.Log("AsyncData: callBack data size = " + data.size());
-
-        DebugHelper.Log("AsyncData: callBack status " + status);
 
         final Handler UIHandler = new Handler(Looper.getMainLooper());
 

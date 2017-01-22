@@ -3,7 +3,6 @@ package com.foodie.app.listsDB;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.Helper.HelperClass;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.CallBack;
@@ -53,7 +52,7 @@ public class ListDBManager implements IDBManager {
         cpuser.set_ID(Integer.toString(cpuserId));
 
         cpusers.add(cpuser);
-        DebugHelper.Log("ListDBManager addCPUser: ID " + cpuser.get_ID() + " added");
+
         isUpdated = true;
         return cpuser.get_ID();
     }
@@ -66,7 +65,7 @@ public class ListDBManager implements IDBManager {
         business.set_ID(Integer.toString(businessId));
         businesses.add(business);
         isUpdated = true;
-        DebugHelper.Log("ListDBManager addBusiness: ID " + business.get_ID() + " added");
+
 
         return business.get_ID();
     }
@@ -94,7 +93,7 @@ public class ListDBManager implements IDBManager {
 
         users.add(user);
         isUpdated = true;
-        DebugHelper.Log("User id: " + userId + ", inserted");
+
         return user.get_ID();
     }
 
@@ -161,28 +160,28 @@ public class ListDBManager implements IDBManager {
                     switch (columnsArgs[i]) {
                         case AppContract.CPUser.CPUSER_ID:
                             if (!user.get_ID().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getCPUser: CPUser id " + user.get_ID() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.CPUser.CPUSER_FULL_NAME:
                             if (!user.getUserFullName().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getCPUser: CPUser name " + user.getUserFullName() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.CPUser.CPUSER_EMAIL:
                             if (!user.getUserEmail().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getCPUser: CPUser email " + user.getUserEmail() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.CPUser.CPUSER_PWD:
                             if (!user.getUserPwdHash().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getCPUser: password hash: " + user.getUserPwdHash().toString() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
@@ -190,7 +189,7 @@ public class ListDBManager implements IDBManager {
                     if (!insert)
                         break;
                 }
-                DebugHelper.Log("ListDBManager getCPUser: insert CPUser " + user.get_ID() + " = " + insert);
+
                 if (insert)
                     result.add(user);
                 else
@@ -213,49 +212,49 @@ public class ListDBManager implements IDBManager {
                     switch (columnsArgs[i]) {
                         case AppContract.Business.BUSINESS_ID:
                             if (!bus.get_ID().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_ID + ": " + bus.get_ID() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Business.BUSINESS_NAME:
                             if (!bus.getBusinessName().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_NAME + ": " + bus.getBusinessName() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Business.BUSINESS_ADDRESS:
                             if (!bus.getBusinessAddress().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_ADDRESS + ": " + bus.getBusinessAddress() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Business.BUSINESS_PHONE_NUMBER:
                             if (!bus.getBusinessPhoneNo().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_PHONE_NUMBER + ": " + bus.getBusinessPhoneNo() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Business.BUSINESS_EMAIL:
                             if (!bus.getBusinessEmail().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_EMAIL + ": " + bus.getBusinessEmail() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Business.BUSINESS_WEBSITE:
                             if (!bus.getBusinessWebsite().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_WEBSITE + ": " + bus.getBusinessWebsite() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Business.BUSINESS_CPUSER_ID:
                             if (bus.getCpuserID().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getBusiness: " + AppContract.Business.BUSINESS_CPUSER_ID + ": " + bus.getCpuserID() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
@@ -265,7 +264,7 @@ public class ListDBManager implements IDBManager {
                     if (!insert)
                         break;
                 }
-                DebugHelper.Log("ListDBManager getBusiness: insert business " + bus.get_ID() + " - " + bus.getBusinessName() + " = " + insert);
+
                 if (insert)
                     result.add(bus);
                 else
@@ -289,49 +288,49 @@ public class ListDBManager implements IDBManager {
                     switch (columnsArgs[i]) {
                         case AppContract.Activity.ACTIVITY_ID:
                             if (!ac.get_ID().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_ID + ": " + ac.get_ID() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Activity.ACTIVITY_NAME:
                             if (!ac.getActivityName().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_NAME + ": " + ac.getActivityName() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Activity.ACTIVITY_DESCRIPTION:
                             if (!ac.getActivityDescription().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_DESCRIPTION + ": " + ac.getActivityDescription() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Activity.ACTIVITY_COST:
                             if (!Double.toString(ac.getActivityCost()).equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_COST + ": " + ac.getActivityCost() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Activity.ACTIVITY_RATING:
                             if (!Double.toString(ac.getActivityRating()).equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_RATING + ": " + ac.getActivityRating() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Activity.ACTIVITY_BUSINESS_ID:
                             if (!ac.getBusinessId().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_BUSINESS_ID + ": " + ac.getBusinessId() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.Activity.ACTIVITY_FEATURE:
                             if (!ac.getFeature().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getActivity: " + AppContract.Activity.ACTIVITY_FEATURE + ": " + ac.getFeature() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
@@ -340,7 +339,7 @@ public class ListDBManager implements IDBManager {
                     if (!insert)
                         break;
                 }
-                DebugHelper.Log("ListDBManager getActivity: insert CPUser " + ac.get_ID() + " = " + insert);
+
                 if (insert)
                     result.add(ac);
                 else
@@ -354,7 +353,7 @@ public class ListDBManager implements IDBManager {
     @Override
     public Cursor getUser(String[] args, String[] columnsArgs) {
 
-        //    public User(int ID,String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
+
 
         List<User> result = new ArrayList<>();
         boolean insert = true;
@@ -364,41 +363,41 @@ public class ListDBManager implements IDBManager {
                     switch (columnsArgs[i]) {
                         case AppContract.User.USER_ID:
                             if (!us.get_ID().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_ID + ": " + us.get_ID() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.User.USER_FULL_NAME:
                             if (!us.getUserFullName().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_FULL_NAME + ": " + us.getUserFullName() + " != " + args[i]);
+
                                 insert = false;
                             }
 
                         case AppContract.User.USER_EMAIL:
                             if (!us.getUserEmail().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_EMAIL + ": " + us.getUserEmail() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.User.USER_PHONE_NUMBER:
                             if (!us.getUserPhoneNumber().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_PHONE_NUMBER + ": " + us.getUserPhoneNumber() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.User.USER_PWD:
                             if (!us.getUserPwdHash().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_PWD + ": " + us.getUserPwdHash() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
 
                         case AppContract.User.USER_ADDRESS:
                             if (!us.getUserAddress().equals(args[i])) {
-                                DebugHelper.Log("ListDBManager getUser: " + AppContract.User.USER_ADDRESS + ": " + us.getUserAddress() + " != " + args[i]);
+
                                 insert = false;
                             }
                             break;
@@ -408,7 +407,7 @@ public class ListDBManager implements IDBManager {
                     if (!insert)
                         break;
                 }
-                DebugHelper.Log("ListDBManager getUser: insert user " + us.get_ID() + " = " + insert);
+
                 if (insert)
                     result.add(us);
                 else
@@ -533,6 +532,72 @@ public class ListDBManager implements IDBManager {
     }
 
 
+    public void updateCPUser(CPUser values) {
+        for (CPUser cpuser:cpusers ) {
+            if(values.get_ID().equals(cpuser.get_ID()))
+            {
+                cpusers.remove(cpuser);
+                break;
+            }
+
+        }
+        cpusers.add(values);
+        isUpdated = true;
+
+    }
+
+
+    public void updateBusiness(Business values) {
+
+        for (Business business:businesses ) {
+            if(values.get_ID().equals(business.get_ID()))
+            {
+                businesses.remove(business);
+                break;
+            }
+
+        }
+
+        businesses.add(values);
+        isUpdated = true;
+
+    }
+
+
+    public void updateActivity(Activity values) {
+
+        for (Activity activies:activities ) {
+            if(values.get_ID().equals(activies.get_ID()))
+            {
+                activities.remove(activies);
+                break;
+            }
+
+        }
+
+        activities.add(values);
+        isUpdated = true;
+
+    }
+
+
+
+    public void updateUser(User user) {
+
+
+        for (User userlist:users ) {
+            if(user.get_ID().equals(userlist.get_ID()))
+            {
+                users.remove(userlist);
+                break;
+            }
+
+        }
+        users.add(user);
+        isUpdated = true;
+
+    }
+
     public String addCPUser(CPUser values) {
         cpusers.add(values);
         isUpdated = true;
@@ -592,6 +657,9 @@ public class ListDBManager implements IDBManager {
         return null;
     }
 
+
+
+
     public static void signUp(CPUser user, CallBack<CPUser> callBack) {
         for (CPUser localUser : cpusers) {
             if (localUser.getUserEmail().equals(user.getUserEmail())) {
@@ -645,6 +713,9 @@ public class ListDBManager implements IDBManager {
     public static int getBusinessListSize() {
         return businesses.size();
     }
+
+
+
 
 
 }

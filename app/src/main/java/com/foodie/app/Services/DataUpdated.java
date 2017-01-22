@@ -8,6 +8,8 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
+import com.foodie.app.Helper.DebugHelper;
+import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.entities.Business;
 import com.foodie.app.listsDB.ListDBManager;
 import com.foodie.app.ui.BusinessActivity;
@@ -39,9 +41,18 @@ public class DataUpdated extends Service {
         new Thread(new Runnable(){
             public void run() {
 
+                DebugHelper.Log("DataUpdated: Services start");
                 while(true)
                 {
                     try {
+
+                        if(!DBManagerFactory.getDBupdated()) {
+                            sendMessage("Cpusers");
+                            sendMessage("Users");
+                            sendMessage("Activities");
+                            sendMessage("Business");
+
+                        }
 
                         if(cpuserTotal != ListDBManager.getCpusersListSize()) {
                             cpuserTotal = ListDBManager.getCpusersListSize();
@@ -72,7 +83,7 @@ public class DataUpdated extends Service {
                     } catch (InterruptedException ignored) {
 
                     }
-                    //REST OF CODE HERE//
+
                 }
 
             }
@@ -89,6 +100,7 @@ public class DataUpdated extends Service {
 
     private void sendMessage(String from)
     {
+        DebugHelper.Log("DataUpdated: Something happen in " + from);
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(from);
         broadcastIntent.putExtra("Data", "Broadcast Data");

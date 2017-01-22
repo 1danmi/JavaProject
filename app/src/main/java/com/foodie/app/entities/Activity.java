@@ -4,9 +4,13 @@ package com.foodie.app.entities;
 import android.content.ContentValues;
 import android.net.Uri;
 
+import com.foodie.app.Helper.HelperClass;
 import com.foodie.app.backend.AppContract;
+import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -177,5 +181,24 @@ public class Activity implements Serializable {
     @Override
     public boolean equals(Object obj) {
         return this._ID.equals(((Activity)obj)._ID);
+    }
+
+
+    @Exclude
+    public Map<String, Object> toMap() {
+
+
+        HashMap<String, Object> result = new HashMap<>();
+        result.put(AppContract.Activity.ACTIVITY_ID, this.get_ID());
+        result.put(AppContract.Activity.ACTIVITY_NAME, this.getActivityName());
+        result.put(AppContract.Activity.ACTIVITY_DESCRIPTION, this.getActivityDescription());
+        result.put(AppContract.Activity.ACTIVITY_COST, this.getActivityCost());
+        result.put(AppContract.Activity.ACTIVITY_RATING, this.getActivityRating());
+        result.put(AppContract.Activity.ACTIVITY_BUSINESS_ID, this.getBusinessId());
+        result.put(AppContract.Activity.ACTIVITY_FEATURE, this.getFeature());
+        result.put(AppContract.Activity.ACTIVITY_IMAGE, HelperClass.fromByteArraytoString(this.getActivityImages()));
+
+
+        return result;
     }
 }
