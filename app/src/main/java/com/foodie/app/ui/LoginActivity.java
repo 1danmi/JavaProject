@@ -121,7 +121,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), getString(R.string.error_login), Toast.LENGTH_SHORT).show();
                 } else if (emailEditText.validate()) {
 
-                    //TODO: Implement signing in here
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     sharedPreferences.edit().putString(email, emailAddress).apply();
                     sharedPreferences.edit().putString(password, pwdEditText.getText().toString()).apply();

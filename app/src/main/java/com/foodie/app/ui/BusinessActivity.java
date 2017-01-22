@@ -112,7 +112,7 @@ public class BusinessActivity extends AppCompatActivity
         //loadData();
        // loadDemoData();
 
-//        drawerCPUserName.setText(user.getUserFullName());
+ //       drawerCPUserName.setText("test");
 //        numOfBusinessse.setText(businessRecyclerViewAdapter.getItemCount() + " Businesses");
 
 

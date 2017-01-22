@@ -51,6 +51,7 @@ public class DataUpdated extends Service {
                             sendMessage("Business");
 
                         }
+
                         if(cpuserTotal != ListDBManager.getCpusersListSize()) {
                             cpuserTotal = ListDBManager.getCpusersListSize();
                             sendMessage("Cpusers");
@@ -80,7 +81,7 @@ public class DataUpdated extends Service {
                     } catch (InterruptedException ignored) {
 
                     }
-                    //REST OF CODE HERE//
+
                 }
 
             }
