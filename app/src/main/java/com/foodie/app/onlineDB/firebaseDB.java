@@ -268,7 +268,7 @@ public class firebaseDB implements IDBManager {
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+            public void onComplete(@NonNull final Task<AuthResult> task) {
 
                 DebugHelper.Log("Login status:" +  task.isSuccessful());
 
@@ -277,7 +277,7 @@ public class firebaseDB implements IDBManager {
                         HelperClass.runInMain(new Runnable() {
                             @Override
                             public void run() {
-                                callBack.onFailed(DataStatus.Failed, "Invalid username or password");
+                                callBack.onFailed(DataStatus.Failed, task.getException().getMessage());
                             }
                         });
                     } else {
