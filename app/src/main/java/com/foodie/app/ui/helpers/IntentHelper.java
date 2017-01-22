@@ -34,10 +34,7 @@ public class IntentHelper {
                             (int) background.getX(), (int) background.getY(),
                             background.getMeasuredWidth(), background.getMeasuredHeight());
         } else {
-            options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(
-                            a,
-                            Pair.create(background, a.getString(R.string.transition_collection_background)));
+            options = ActivityOptionsCompat.makeSceneTransitionAnimation(a, Pair.create(background, a.getString(R.string.transition_collection_background)));
         }
         ActivityCompat.startActivity(a, intent, options.toBundle());
     }

@@ -26,18 +26,22 @@ public class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchLis
 
     public RecyclerItemClickListener(Context context, final RecyclerView recyclerView, final onRecyclerClickListener mListener) {
         this.mListener = mListener;
-        mGestureDetector = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() {
+                mGestureDetector = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
-                Log.d(TAG, "onSingleTapUp: starts");
-                View childView = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                if (childView != null && mListener != null) {
-                    mListener.onitemClick(childView, recyclerView.getChildAdapterPosition(childView));
-                }
+                onSingelTapEx(e, recyclerView, mListener);
                 return true;
             }
         });
 
+    }
+
+    protected void onSingelTapEx(MotionEvent e, RecyclerView recyclerView, onRecyclerClickListener mListener) {
+        Log.d(TAG, "onSingleTapUp: starts");
+        View childView = recyclerView.findChildViewUnder(e.getX(), e.getY());
+        if (childView != null && mListener != null) {
+            mListener.onitemClick(childView, recyclerView.getChildAdapterPosition(childView));
+        }
     }
 
     @Override

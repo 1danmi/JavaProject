@@ -24,7 +24,7 @@
 
             <Button
                 android:text="1.23$"
-                android:id="@+id/button2"
+                android:id="@+id/priceButton"
                 android:layout_width="125dp"
                 android:textColor="@color/white"
                 android:background="@color/accent"
@@ -64,7 +64,8 @@
                 android:layout_alignTop="@+id/imageView2"
                 android:layout_toRightOf="@+id/imageView2"
                 android:layout_toEndOf="@+id/imageView2"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="4dp"
+                android:editable="true" />
 
             <TextView
                 android:text="Business"

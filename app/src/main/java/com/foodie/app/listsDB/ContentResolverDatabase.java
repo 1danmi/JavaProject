@@ -69,6 +69,34 @@ public class ContentResolverDatabase  {
         // Execute the AsyncTask
         data.execute(new DBquery());
     }
+
+    public static void getUserBusinessesList(final Context mContext, String userid){
+
+        //Create an AsyncData object and set the constructor
+        AsyncData<Business> data = new AsyncData<>(mContext, Business.getURI());
+        // Set the task to insert
+        data.setDatamanagerType(DataManagerType.Query);
+        // Set the function to get status
+        data.setCallBack(new CallBack<Business>() {
+            @Override
+            public void onSuccess(List<Business> data) {
+                for(Business item : data)
+                {
+                    ContentResolverDatabase.setBusinessList(data);
+                }
+            }
+            @Override
+            public void onFailed(DataStatus status, String error) {
+                Toast.makeText(mContext, "Error: " + status , Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
+        // Execute the AsyncTask
+        data.execute(new DBquery());
+    }
+
+
     public static void getActivitiesList(final Context mContext){
 
 

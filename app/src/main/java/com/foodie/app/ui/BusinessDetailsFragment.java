@@ -13,9 +13,11 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,8 +65,8 @@ public class BusinessDetailsFragment extends Fragment {
     //Fragment requires empty public constructor
     public BusinessDetailsFragment() {
         // Required empty public constructor
-        setEnterTransition(R.anim.slide_up);
-        setExitTransition(R.anim.slide_down);
+//        setEnterTransition(R.anim.slide_up);
+//        setExitTransition(R.anim.slide_down);
     }
 
     //Called when the fragment initializes.
@@ -97,6 +99,9 @@ public class BusinessDetailsFragment extends Fragment {
                 }
             }
         });
+
+
+
 
         return rootView;
 

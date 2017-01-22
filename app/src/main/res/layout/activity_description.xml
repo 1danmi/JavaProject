@@ -19,10 +19,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView"
+            <EditText
+                android:id="@+id/activityDescriptionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@null"
                 android:text="Salmon"
                 android:textSize="32sp"
                 android:textColor="@color/primary_text"
@@ -37,7 +38,7 @@
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam pellentesque nisl diam, id egestas odio lacinia sit amet. Ut hendrerit ante ante, non ultricies massa pharetra ac. Quisque non mi libero. Aliquam ac consequat ante. Morbi laoreet pharetra ligula vel placerat. Phasellus lacinia facilisis dolor in tincidunt. Aenean eget urna a neque scelerisque tempor. Vestibulum congue pellentesque euismod. Morbi accumsan odio ante, et tempor odio egestas eget. Aliquam elementum efficitur imperdiet. "
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView2"
+                android:id="@+id/activityDescriptionTextView"
                 android:layout_marginEnd="24dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"

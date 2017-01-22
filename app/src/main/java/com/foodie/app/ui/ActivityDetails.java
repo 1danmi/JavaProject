@@ -8,16 +8,19 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.foodie.app.R;
+import com.foodie.app.constants.Constants;
 import com.foodie.app.ui.view_adapters.AppBarStateChangeListener;
 
 public class ActivityDetails extends AppCompatActivity {
     private static final String TAG = "ActivityDetails";
 
     private AppBarLayout appBarLayout;
-    private TextView dishNameTextView;
+    private EditText dishNameTextView, activityDescriptionTitle;
+    private boolean mEditMode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class ActivityDetails extends AppCompatActivity {
         });
         setActionBar();
         appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
-        dishNameTextView = (TextView) findViewById(R.id.dishNameTextView);
+        dishNameTextView = (EditText) findViewById(R.id.dishNameTextView);
         appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onExpanded(AppBarLayout appBarLayout) {
@@ -55,6 +58,17 @@ public class ActivityDetails extends AppCompatActivity {
             public void onIdle(AppBarLayout appBarLayout) {
             }
         });
+        activityDescriptionTitle = (EditText) findViewById(R.id.activityDescriptionTitle);
+        activityDescriptionTitle.setEnabled(true);
+//        activityDescriptionTitle
+
+        mEditMode = getIntent().getBooleanExtra(Constants.EDIT_MODE, false);
+        if(mEditMode) {
+            dishNameTextView.setEnabled(true);
+        }else{
+            dishNameTextView.setEnabled(false);
+
+        }
 
 
     }

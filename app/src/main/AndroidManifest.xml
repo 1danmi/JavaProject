@@ -15,24 +15,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <service android:name=".Services.DataUpdated" />
+
         <activity
             android:name=".ui.LoginActivity"
             android:theme="@style/LoginTheme">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/AppThemeWithoutActionBar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
 
         </activity>
         <activity
@@ -45,11 +47,11 @@
         <activity
             android:name=".ui.ActivitiesActivity"
             android:label="@string/title_activity_activities"
-            android:parentActivityName="com.foodie.app.ui.BusinessActivity"
+            android:parentActivityName=".ui.BusinessActivity"
             android:theme="@style/AppThemeWithoutActionBar">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.foodie.app.ui.ActivitiesActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.foodie.app.ui.ActivitiesActivity" />
         </activity>
 
         <provider
@@ -63,11 +65,13 @@
             android:name=".ui.ActivityDetails"
             android:label="@string/app_name"
             android:theme="@style/LoginTheme">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
     </application>
 

@@ -13,9 +13,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,11 +42,9 @@ public class ActivitiesActivity extends AppCompatActivity {
 
 
     private static final String TAG = "ActivitiesActivity";
-    //private static CoordinatorLayout rootLayout;
     public static Business businessItem;
     private AppBarLayout appBarLayout;
     private ViewPager viewPager;
-    //private CardView businessLogoCardView;
     private ImageView businessLogoHeader;
     private TabLayout tabLayout;
     private TextView businessNameHeader;
@@ -52,11 +53,9 @@ public class ActivitiesActivity extends AppCompatActivity {
     private String businessID;
     private BusinessDetailsFragment businessDetailsFragment;
     private BusinessActivitiesFragment businessActivitiesFragment;
-    //private FABProgressCircle addFAB, editFAB;
     private FloatingActionButton addButton, editButton, addActivityButton;
     private CoordinatorLayout rootLayout;
-    private float fabTranslationX;
-    private float fabTranslationY;
+    private DisplayMetrics metrics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +72,19 @@ public class ActivitiesActivity extends AppCompatActivity {
 
         initializeViews();
 
+        metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        viewPager.setTranslationY(metrics.heightPixels);
+
+        //AccelerateDecelerateInterpolator()
+        viewPager.animate().setInterpolator(new AccelerateDecelerateInterpolator())
+                .setDuration(700)
+                .setStartDelay(0)
+                .translationYBy(-metrics.heightPixels)
+                .start();
+
         initializeComponents();
+
 
         setFabs();
 
@@ -104,11 +115,9 @@ public class ActivitiesActivity extends AppCompatActivity {
     }
 
     private void setFabs() {
-        fabTranslationX = addButton.getTranslationX();
-        fabTranslationY = addButton.getTranslationY();
         // Setup up active buttons
         if (mEditMode.equals("true")) {
-            AnimationHelper.show(fabTranslationX, fabTranslationY, addButton);
+            AnimationHelper.showFab(addButton);
             AnimationHelper.hideFab(editButton);
 
 
@@ -174,6 +183,17 @@ public class ActivitiesActivity extends AppCompatActivity {
                 }
             }
         });
+
+        addActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(v.getContext(), ActivityDetails.class);
+                intent.putExtra(Constants.BUSINESS_ID, businessItem.get_ID());
+                intent.putExtra(Constants.EDIT_MODE, true);
+                startActivity(intent);
+            }
+        });
     }
 
     //Initializes the views
@@ -220,12 +240,12 @@ public class ActivitiesActivity extends AppCompatActivity {
     private void inflateData() {
 
         if (!businessID.equals("")) {
-            DBquery dBquery = new DBquery(new String[]{AppContract.Business.BUSINESS_ID},new String[]{businessID});
+            DBquery dBquery = new DBquery(new String[]{AppContract.Business.BUSINESS_ID}, new String[]{businessID});
             (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Query, new CallBack<Business>() {
                 @Override
                 public void onSuccess(List<Business> data) {
                     DebugHelper.Log("inflateData: Success");
-                    if(data!=null) {
+                    if (data != null) {
                         DebugHelper.Log("inflateData: first data = " + data.get(0).get_ID());
 
                         businessItem = data.get(0);
@@ -241,7 +261,7 @@ public class ActivitiesActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailed(DataStatus status, String error) {
-                    DebugHelper.Log("inflateData: " + status + ": "+error);
+                    DebugHelper.Log("inflateData: " + status + ": " + error);
                 }
 
 
@@ -312,11 +332,13 @@ public class ActivitiesActivity extends AppCompatActivity {
             case 1:
                 AnimationHelper.hideFab(editButton);
                 AnimationHelper.hideFab(addButton);
-                AnimationHelper.showFab(addActivityButton);
+                AnimationHelper.hideFab(addActivityButton);
+                if (!businessItem.get_ID().equals(""))
+                    AnimationHelper.showFab(addActivityButton);
                 break;
             case 0:
                 AnimationHelper.hideFab(addActivityButton);
-                if(mEditMode.equals("true"))
+                if (mEditMode.equals("true"))
                     AnimationHelper.showFab(addButton);
                 else
                     AnimationHelper.showFab(editButton);
@@ -387,6 +409,12 @@ public class ActivitiesActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        viewPager.animate().setInterpolator(new LinearInterpolator())
+                .setDuration(700)
+                .setStartDelay(0)
+                .translationYBy(metrics.heightPixels)
+                .start();
+
     }
 
 }

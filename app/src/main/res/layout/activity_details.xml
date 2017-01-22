@@ -45,18 +45,24 @@
 
             </FrameLayout>
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginStart="24dp"
                 android:fontFamily="sans-serif-regular"
                 android:text="Salmon"
                 android:textColor="@color/white"
                 android:textSize="36sp"
-                android:id="@+id/dishNameTextView" />
+                android:id="@+id/dishNameTextView"
+                android:inputType="none"
+                android:capitalize="words"
+                android:hapticFeedbackEnabled="true"
+                android:hint="Dish Name"
+                android:background="@null"
+                android:maxLines="1"
+                android:layout_marginBottom="10dp" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/activity_toolbar"
@@ -68,8 +74,6 @@
                 />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_activity_details" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -83,6 +87,8 @@
         app:srcCompat="@drawable/ic_mode_edit_white_48dp"
         android:elevation="8dp"
         app:pressedTranslationZ="12dp"/>
+
+    <include layout="@layout/content_activity_details" />
 
 
 </android.support.design.widget.CoordinatorLayout>

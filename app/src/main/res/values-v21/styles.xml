@@ -25,9 +25,17 @@
         <item name="android:windowExitTransition">@android:transition/slide_left</item>
         <item name="android:windowReenterTransition">@android:transition/slide_bottom</item>
 
-         <!--specify shared element transitions-->
-        <!--<item name="android:windowSharedElementEnterTransition">@transition/slide</item>-->
-        <!--<item name="android:windowSharedElementExitTransition">@transition/slide</item>-->
+        <!--specify shared element transitions-->
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/business_details_shared_enter
+        </item>
+        <item name="android:windowSharedElementReturnTransition">@android:transition/slide_left
+        </item>
+        <item name="android:windowSharedElementExitTransition">@android:transition/slide_left</item>
+        <item name="android:windowSharedElementReenterTransition">
+            @transition/business_details_shared_enter
+        </item>
+
     </style>
 
     <style name="LoginTheme" parent="AppThemeWithoutActionBar">
