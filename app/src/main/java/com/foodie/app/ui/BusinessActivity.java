@@ -30,6 +30,7 @@ import com.foodie.app.Services.DataUpdated;
 import com.foodie.app.constants.Constants;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
+import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Activity;
@@ -299,10 +300,11 @@ public class BusinessActivity extends AppCompatActivity
         super.onPause();
     }
 
-    @Override
-    protected void onStop() {
-        //DBManagerFactory.signOut();
-        super.onStop();
 
+    @Override
+    protected void onDestroy() {
+        DBManagerFactory.signOut();
+        finish();
+        super.onDestroy();
     }
 }

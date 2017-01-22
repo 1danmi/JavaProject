@@ -2,7 +2,7 @@ package com.foodie.app.database;
 
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.listsDB.ListDBManager;
-import com.foodie.app.onlineDB.FirebaseDB;
+import com.foodie.app.onlineDB.firebaseDB;
 
 /**
  * Created by Daniel on 12/14/2016.
@@ -11,6 +11,7 @@ import com.foodie.app.onlineDB.FirebaseDB;
 public class DBManagerFactory {
 
     private static IDBManager manager = null;
+    private static boolean DBupdated = true;
     private static String DBtype = "Firebase";
     private static CPUser currentUser = null;
     public static String getDBtype() {
@@ -31,7 +32,7 @@ public class DBManagerFactory {
         if (manager == null && DBtype.equals("List"))
             manager = new ListDBManager();
         if (manager == null && DBtype.equals("Firebase"))
-            manager = new FirebaseDB();
+            manager = new firebaseDB();
 
         return manager;
     }
@@ -44,7 +45,7 @@ public class DBManagerFactory {
         if (DBtype.equals("List"))
             ListDBManager.login(email,password,callBack);
         if (DBtype.equals("Firebase"))
-            ((FirebaseDB)getManager()).login(email,password,callBack);
+            ((firebaseDB)getManager()).login(email,password,callBack);
 
 
 
@@ -55,7 +56,7 @@ public class DBManagerFactory {
         if (DBtype.equals("List"))
             ListDBManager.signUp(user,callBack);
         if (DBtype.equals("Firebase"))
-            ((FirebaseDB)getManager()).signUp(user,callBack);
+            ((firebaseDB)getManager()).signUp(user,callBack);
     }
 
     public static void signOut()
@@ -63,9 +64,23 @@ public class DBManagerFactory {
 
         currentUser = null;
        if (DBtype.equals("Firebase"))
-              ((FirebaseDB)getManager()).signOut();
+              ((firebaseDB)getManager()).signOut();
     }
 
 
+    public static boolean getDBupdated()
+    {
+        if(DBupdated)
+            return DBupdated;
+
+        DBupdated = true;
+        return false;
+    }
+
+    public static void setDBupdated(boolean value)
+    {
+        if(DBupdated)
+            DBupdated = value;
+    }
 
 }

@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
+import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.entities.Business;
 import com.foodie.app.listsDB.ListDBManager;
 import com.foodie.app.ui.BusinessActivity;
@@ -43,6 +44,13 @@ public class DataUpdated extends Service {
                 {
                     try {
 
+                        if(!DBManagerFactory.getDBupdated()) {
+                            sendMessage("Cpusers");
+                            sendMessage("Users");
+                            sendMessage("Activities");
+                            sendMessage("Business");
+
+                        }
                         if(cpuserTotal != ListDBManager.getCpusersListSize()) {
                             cpuserTotal = ListDBManager.getCpusersListSize();
                             sendMessage("Cpusers");

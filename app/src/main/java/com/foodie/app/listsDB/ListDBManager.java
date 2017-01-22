@@ -533,6 +533,72 @@ public class ListDBManager implements IDBManager {
     }
 
 
+    public void updateCPUser(CPUser values) {
+        for (CPUser cpuser:cpusers ) {
+            if(values.get_ID().equals(cpuser.get_ID()))
+            {
+                cpusers.remove(cpuser);
+                break;
+            }
+
+        }
+        cpusers.add(values);
+        isUpdated = true;
+
+    }
+
+
+    public void updateBusiness(Business values) {
+
+        for (Business business:businesses ) {
+            if(values.get_ID().equals(business.get_ID()))
+            {
+                businesses.remove(business);
+                break;
+            }
+
+        }
+
+        businesses.add(values);
+        isUpdated = true;
+
+    }
+
+
+    public void updateActivity(Activity values) {
+
+        for (Activity activies:activities ) {
+            if(values.get_ID().equals(activies.get_ID()))
+            {
+                activities.remove(activies);
+                break;
+            }
+
+        }
+
+        activities.add(values);
+        isUpdated = true;
+
+    }
+
+
+
+    public void updateUser(User user) {
+
+
+        for (User userlist:users ) {
+            if(user.get_ID().equals(userlist.get_ID()))
+            {
+                users.remove(userlist);
+                break;
+            }
+
+        }
+        users.add(user);
+        isUpdated = true;
+
+    }
+
     public String addCPUser(CPUser values) {
         cpusers.add(values);
         isUpdated = true;
@@ -592,6 +658,9 @@ public class ListDBManager implements IDBManager {
         return null;
     }
 
+
+
+
     public static void signUp(CPUser user, CallBack<CPUser> callBack) {
         for (CPUser localUser : cpusers) {
             if (localUser.getUserEmail().equals(user.getUserEmail())) {
@@ -645,6 +714,9 @@ public class ListDBManager implements IDBManager {
     public static int getBusinessListSize() {
         return businesses.size();
     }
+
+
+
 
 
 }

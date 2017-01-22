@@ -3,9 +3,13 @@ package com.foodie.app.entities;
 import android.content.ContentValues;
 import android.net.Uri;
 
+import com.foodie.app.Helper.HelperClass;
 import com.foodie.app.backend.AppContract;
+import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Business implements Serializable {
@@ -181,5 +185,21 @@ public class Business implements Serializable {
     @Override
     public boolean equals(Object obj) {
         return this._ID.equals(((Business)obj)._ID);
+    }
+
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put(AppContract.Business.BUSINESS_ID, this.get_ID());
+        result.put(AppContract.Business.BUSINESS_NAME, this.getBusinessName());
+        result.put(AppContract.Business.BUSINESS_LOGO, HelperClass.fromByteArraytoString(this.getBusinessLogo()));
+        result.put(AppContract.Business.BUSINESS_CPUSER_ID, this.getCpuserID());
+        result.put(AppContract.Business.BUSINESS_WEBSITE, this.getBusinessWebsite());
+        result.put(AppContract.Business.BUSINESS_ADDRESS, this.getBusinessAddress());
+        result.put(AppContract.Business.BUSINESS_EMAIL, this.getBusinessEmail());
+        result.put(AppContract.Business.BUSINESS_PHONE_NUMBER, this.getBusinessPhoneNo());
+
+        return result;
     }
 }

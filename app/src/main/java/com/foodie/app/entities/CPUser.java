@@ -4,7 +4,12 @@ package com.foodie.app.entities;
 import android.content.ContentValues;
 import android.net.Uri;
 
+import com.foodie.app.backend.AppContract;
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -113,5 +118,15 @@ public class CPUser implements Serializable {
 
     public static Uri getURI() {
         return Uri.parse("content://com.foodie.app/cpuser");
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put(AppContract.CPUser.CPUSER_ID, this.get_ID());
+        result.put(AppContract.CPUser.CPUSER_FULL_NAME, this.getUserFullName());
+        result.put(AppContract.CPUser.CPUSER_EMAIL, this.getUserEmail());
+        result.put(AppContract.CPUser.CPUSER_PWD, this.getUserPwdHash());
+        return result;
     }
 }

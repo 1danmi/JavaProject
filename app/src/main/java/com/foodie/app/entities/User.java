@@ -3,8 +3,11 @@ package com.foodie.app.entities;
 import android.net.Uri;
 
 import com.foodie.app.backend.AppContract;
+import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -147,6 +150,19 @@ public class User implements Serializable {
 
     public static Uri getURI() {
         return Uri.parse("content://com.foodie.app/user");
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+
+        HashMap<String, Object> result = new HashMap<>();
+        result.put(AppContract.User.USER_ID, this.get_ID());
+        result.put(AppContract.User.USER_FULL_NAME, this.getUserFullName());
+        result.put(AppContract.User.USER_EMAIL, this.getUserEmail());
+        result.put(AppContract.User.USER_PHONE_NUMBER, this.getUserPhoneNumber());
+        result.put(AppContract.User.USER_PWD, this.getUserPwdHash());
+        result.put(AppContract.User.USER_ADDRESS, this.getUserAddress());
+        return result;
     }
 
 }
