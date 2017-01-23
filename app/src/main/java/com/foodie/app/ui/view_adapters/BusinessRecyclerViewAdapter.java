@@ -4,24 +4,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
-import com.foodie.app.database.AsyncData;
-import com.foodie.app.database.CallBack;
-import com.foodie.app.database.DataManagerType;
-import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
 
 import java.util.List;
@@ -69,40 +60,40 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         }
         holder.title.setText(businessItem.getBusinessName());
         holder.address.setText(businessItem.getBusinessAddress());
-        holder.menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final PopupMenu popupMenu = new PopupMenu(mContext, v);
-                final Menu menu = popupMenu.getMenu();
-
-                popupMenu.getMenuInflater().inflate(R.menu.menu_business_recycler_view, menu);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int id = item.getItemId();
-
-                        //noinspection SimplifiableIfStatement
-                        if (id == R.id.deletMenuOption) {
-                            CallBack<Business> callBack = new CallBack<Business>() {
-                                @Override
-                                public void onSuccess(List<Business> data) {
-                                    DebugHelper.Log("Business insert callBack finish with status: Success");
-                                }
-
-                                @Override
-                                public void onFailed(DataStatus status, String error) {
-
-                                }
-
-
-                            };
-                            (new AsyncData<>(mContext, Business.getURI(), DataManagerType.Delete, callBack)).execute(businessItem.toContentValues());
-                        }
-                        return true;
-                    }
-                });
-            }
-        });
+//        holder.menu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final PopupMenu popupMenu = new PopupMenu(mContext, v);
+//                final Menu menu = popupMenu.getMenu();
+//
+//                popupMenu.getMenuInflater().inflate(R.menu.menu_business_recycler_view, menu);
+//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                    @Override
+//                    public boolean onMenuItemClick(MenuItem item) {
+//                        int id = item.getItemId();
+//
+//                        //noinspection SimplifiableIfStatement
+//                        if (id == R.id.deletMenuOption) {
+//                            CallBack<Business> callBack = new CallBack<Business>() {
+//                                @Override
+//                                public void onSuccess(List<Business> data) {
+//                                    DebugHelper.Log("Business insert callBack finish with status: Success");
+//                                }
+//
+//                                @Override
+//                                public void onFailed(DataStatus status, String error) {
+//
+//                                }
+//
+//
+//                            };
+//                            (new AsyncData<>(mContext, Business.getURI(), DataManagerType.Delete, callBack)).execute(businessItem.toContentValues());
+//                        }
+//                        return true;
+//                    }
+//                });
+//            }
+//        });
         //TODO: Add query for number of activities of the business
 
     }
@@ -121,7 +112,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     public BusinessImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Called by the layout manager when it needs a new view
         Log.d(TAG, "onCreateViewHolder: new view requested");
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.business_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.business_card2, parent, false);
         return new BusinessImageViewHolder(view);
     }
 
@@ -141,7 +132,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         TextView address;
         TextView activitiesCounter;
         View mView;
-        ImageButton menu;
+        //ImageButton menu;
 
         public BusinessImageViewHolder(View itemView) {
             super(itemView);
@@ -151,7 +142,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
             this.title = (TextView) itemView.findViewById(R.id.businessTitleTextView);
             this.address = (TextView) itemView.findViewById(R.id.businessAddressTextView);
             this.activitiesCounter = (TextView) itemView.findViewById(R.id.numOfActivities);
-            this.menu = (ImageButton) itemView.findViewById(R.id.businessMenuButton);
+            //this.menu = (ImageButton) itemView.findViewById(R.id.businessMenuButton);
         }
     }
 

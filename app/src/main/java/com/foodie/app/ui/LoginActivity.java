@@ -322,7 +322,7 @@ public class LoginActivity extends AppCompatActivity {
 
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pizza_hut_logo);
             stream = new ByteArrayOutputStream();
-            bmp = Bitmap.createScaledBitmap(bmp, 400, 320, true);
+            bmp = Bitmap.createScaledBitmap(bmp, 256, 256, true);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo4 = stream.toByteArray();
 

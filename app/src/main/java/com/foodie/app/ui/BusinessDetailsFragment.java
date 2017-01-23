@@ -13,11 +13,9 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.text.InputType;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -621,7 +619,7 @@ public class BusinessDetailsFragment extends Fragment {
             try {
                 InputStream inputStream = getContext().getContentResolver().openInputStream(data.getData());
                 Bitmap bmp = BitmapFactory.decodeStream(inputStream);
-                bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
+                bmp = Bitmap.createScaledBitmap(bmp, 256, 256, true);
                 businessLogoHeader.setImageBitmap(bmp);
                 businessLogoHeader.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();

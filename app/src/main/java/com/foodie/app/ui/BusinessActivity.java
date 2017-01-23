@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -56,7 +57,7 @@ public class BusinessActivity extends AppCompatActivity
 
     private static final String TAG = "BusinessActivity";
     private BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
-
+    private final boolean secondLayout = true;
     private MyContentObserver myContentObserver;
     public static List<Business> businessList;
     private RecyclerView recyclerView;
@@ -66,6 +67,8 @@ public class BusinessActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private IntentFilter mIntentFilter;
+    private ImageButton btnMore;
+    private Button deleteBtn;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -272,58 +275,84 @@ public class BusinessActivity extends AppCompatActivity
     @Override
     public void onitemClick(View v, final int position, MotionEvent e) {
         try {
-            ImageButton btnMore = (ImageButton) v.findViewById(R.id.businessMenuButton);
-
-            if (RecyclerItemClickListener.isViewClicked(btnMore, e)) {
-                PopupMenu popupMenu = new PopupMenu(v.getContext(), btnMore);
-
-                getMenuInflater().inflate(R.menu.menu_business_recycler_view, popupMenu.getMenu());
-
-                popupMenu.show();
-
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Log.d(TAG, "onMenuItemClick: delete pressed");
-                        Log.d(TAG, "onMenuItemClick:" + businessRecyclerViewAdapter.getBusiness(position).getBusinessName() );
-                        switch (item.getItemId()) {
-                            case R.id.deletMenuOption:
-                                CallBack<Business> callBack = new CallBack<Business>() {
-                                    @Override
-                                    public void onSuccess(List<Business> data) {
-                                        DebugHelper.Log("Business insert callBack finish with status: Success");
-                                        Log.d(TAG, "onSuccess: success");
-                                    }
-
-                                    @Override
-                                    public void onFailed(DataStatus status, String error) {
-                                        Log.d(TAG, "onFailed: failed");
-                                    }
-                                };
-                                (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Delete, callBack)).execute(businessRecyclerViewAdapter.getBusiness(position).toContentValues());
-                                return true;
-
+            if (secondLayout) {
+                deleteBtn = (Button) v.findViewById(R.id.deleteButton);
+                if (RecyclerItemClickListener.isViewClicked(deleteBtn, e)) {
+                    deleteBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            deleteItem(position);
                         }
-                        return false;
+                    });
+                } else {
+
+
+                    Intent intent = new Intent(this, ActivitiesActivity.class);
+                    intent.putExtra(Constants.BUSINESS_ID, businessRecyclerViewAdapter.getBusinessesList().get(position).get_ID());
+                    intent.putExtra(Constants.EDIT_MODE, "false");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        View image = v.findViewById(R.id.business_image_view);
+                        IntentHelper.startActivitiesActivity(this, image, businessRecyclerViewAdapter.getBusinessesList().get(position), "false");
                     }
-                });
+                }
 
             } else {
+                btnMore = (ImageButton) v.findViewById(R.id.businessMenuButton);
+
+                if (RecyclerItemClickListener.isViewClicked(btnMore, e)) {
+                    PopupMenu popupMenu = new PopupMenu(v.getContext(), btnMore);
+
+                    getMenuInflater().inflate(R.menu.menu_business_recycler_view, popupMenu.getMenu());
+
+                    popupMenu.show();
+
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            Log.d(TAG, "onMenuItemClick: delete pressed");
+                            Log.d(TAG, "onMenuItemClick:" + businessRecyclerViewAdapter.getBusiness(position).getBusinessName());
+                            switch (item.getItemId()) {
+                                case R.id.deletMenuOption:
+                                    deleteItem(position);
+                                    return true;
+                            }
+                            return false;
+                        }
+                    });
+
+                } else {
 
 
-                Intent intent = new Intent(this, ActivitiesActivity.class);
-                intent.putExtra(Constants.BUSINESS_ID, businessRecyclerViewAdapter.getBusinessesList().get(position).get_ID());
-                intent.putExtra(Constants.EDIT_MODE, "false");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    View image = v.findViewById(R.id.business_image_view);
-                    IntentHelper.startActivitiesActivity(this, image, businessRecyclerViewAdapter.getBusinessesList().get(position), "false");
+                    Intent intent = new Intent(this, ActivitiesActivity.class);
+                    intent.putExtra(Constants.BUSINESS_ID, businessRecyclerViewAdapter.getBusinessesList().get(position).get_ID());
+                    intent.putExtra(Constants.EDIT_MODE, "false");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        View image = v.findViewById(R.id.business_image_view);
+                        IntentHelper.startActivitiesActivity(this, image, businessRecyclerViewAdapter.getBusinessesList().get(position), "false");
+                    }
                 }
             }
-
         } catch (Exception f) {
             f.printStackTrace();
         }
 
+
+    }
+
+    protected void deleteItem(int position) {
+        CallBack<Business> callBack = new CallBack<Business>() {
+            @Override
+            public void onSuccess(List<Business> data) {
+                DebugHelper.Log("Business insert callBack finish with status: Success");
+                Log.d(TAG, "onSuccess: success");
+            }
+
+            @Override
+            public void onFailed(DataStatus status, String error) {
+                Log.d(TAG, "onFailed: failed");
+            }
+        };
+        (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Delete, callBack)).execute(businessRecyclerViewAdapter.getBusiness(position).toContentValues());
     }
 
     @Override
