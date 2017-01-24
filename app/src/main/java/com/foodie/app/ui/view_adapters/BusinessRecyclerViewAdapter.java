@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -112,7 +113,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     public BusinessImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Called by the layout manager when it needs a new view
         Log.d(TAG, "onCreateViewHolder: new view requested");
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.business_card2, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.business_card, parent, false);
         return new BusinessImageViewHolder(view);
     }
 
@@ -132,7 +133,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         TextView address;
         TextView activitiesCounter;
         View mView;
-        //ImageButton menu;
+        ImageButton menu;
 
         public BusinessImageViewHolder(View itemView) {
             super(itemView);
@@ -142,7 +143,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
             this.title = (TextView) itemView.findViewById(R.id.businessTitleTextView);
             this.address = (TextView) itemView.findViewById(R.id.businessAddressTextView);
             this.activitiesCounter = (TextView) itemView.findViewById(R.id.numOfActivities);
-            //this.menu = (ImageButton) itemView.findViewById(R.id.businessMenuButton);
+            this.menu = (ImageButton) itemView.findViewById(R.id.businessMenuButton);
         }
     }
 

@@ -57,7 +57,7 @@ public class BusinessActivity extends AppCompatActivity
 
     private static final String TAG = "BusinessActivity";
     private BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
-    private final boolean secondLayout = true;
+    private final boolean secondLayout = false;
     private MyContentObserver myContentObserver;
     public static List<Business> businessList;
     private RecyclerView recyclerView;
