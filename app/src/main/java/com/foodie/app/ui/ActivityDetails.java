@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -14,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -36,8 +38,10 @@ import com.foodie.app.database.DBquery;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
+import com.foodie.app.listsDB.ContentResolverDatabase;
 import com.foodie.app.ui.helpers.AnimationHelper;
 import com.foodie.app.ui.view_adapters.AppBarStateChangeListener;
+import com.foodie.app.ui.view_adapters.SuggestionRecyclerViewAdapter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -70,7 +74,9 @@ public class ActivityDetails extends AppCompatActivity {
     private Button priceBtn;
     private RecyclerView suggestionRecyclerView;
 
-    Bitmap doneBitmap, editBitmap;
+    private Bitmap doneBitmap, editBitmap;
+
+    private SuggestionRecyclerViewAdapter suggestionRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,6 +238,12 @@ public class ActivityDetails extends AppCompatActivity {
                         AnimationHelper.showFab(addEditActivityBtn);
                         setEditMode(false);
                         setTitle(dishNameEditText.getText().toString().trim());
+                        (new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... params) {
+                                return  null;
+                            }
+                        }).execute();
                         if(addActivity()) {
                             Snackbar.make(rootLayout, "Success", Snackbar.LENGTH_LONG).show();
                         }else{
@@ -386,7 +398,7 @@ public class ActivityDetails extends AppCompatActivity {
 
                 InputStream inputStream = getContentResolver().openInputStream(data.getData());
                 Bitmap bmp = BitmapFactory.decodeStream(inputStream);
-                bmp = Bitmap.createScaledBitmap(bmp, 400, 225, true);
+                bmp = Bitmap.createScaledBitmap(bmp, 800, 450, true);
                 dishImage.setImageBitmap(bmp);
                 dishImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -415,6 +427,11 @@ public class ActivityDetails extends AppCompatActivity {
     }
 
     private void setData(String activityID) {
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        suggestionRecyclerView.setLayoutManager(layoutManager);
+        suggestionRecyclerViewAdapter = new SuggestionRecyclerViewAdapter(ContentResolverDatabase.activities, getApplicationContext());
+        suggestionRecyclerView.setAdapter(suggestionRecyclerViewAdapter);
         if (activityID.equals("")) {
             setTitle("");
             dishBusinessName.setText(businessName);

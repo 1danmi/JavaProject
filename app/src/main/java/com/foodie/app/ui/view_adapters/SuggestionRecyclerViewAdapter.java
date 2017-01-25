@@ -50,6 +50,7 @@ public class SuggestionRecyclerViewAdapter extends RecyclerView.Adapter<Suggesti
         holder.suggestionImage.setImageBitmap(bmp);
         holder.activityName.setText(activityItem.getActivityName());
         holder.price.setText("$" + Double.toString(activityItem.getActivityCost()));
+        holder.feature.setText(activityItem.getFeature());
 
     }
 
@@ -78,6 +79,7 @@ public class SuggestionRecyclerViewAdapter extends RecyclerView.Adapter<Suggesti
         ImageView suggestionImage;
         TextView activityName;
         TextView price;
+        TextView feature;
 
         public SuggestionImageViewHolder(View itemView) {
             super(itemView);
@@ -85,6 +87,7 @@ public class SuggestionRecyclerViewAdapter extends RecyclerView.Adapter<Suggesti
             this.suggestionImage = (ImageView) itemView.findViewById(R.id.suggestion_image);
             this.activityName = (TextView) itemView.findViewById(R.id.suggestion_name);
             this.price = (TextView) itemView.findViewById(R.id.suggestion_price);
+            this.feature = (TextView) itemView.findViewById(R.id.suggestion_feature_text);
         }
     }
 
