@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+
 import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.IDBManager;
 
@@ -19,12 +20,13 @@ public class MyContentProvider extends ContentProvider {
     private static String lastErrorType = "";
     private static String lastErrorMessage = "";
 
-    public static String getLastErrorType(){
+    public static String getLastErrorType() {
         String temp = lastErrorType;
         lastErrorType = "";
         return temp;
     }
-    public static String getLastErrorMessage(){
+
+    public static String getLastErrorMessage() {
         String temp = lastErrorMessage;
         lastErrorMessage = "";
         return temp;
@@ -114,37 +116,32 @@ public class MyContentProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
 
 
-
-
-
-
         String listName = uri.getLastPathSegment();
 
         try {
 
-                    switch (listName) {
+            switch (listName) {
                 case "user":
                     return manager.getUser(selectionArgs, projection);
 
 
-
                 case "cpuser":
-                        return manager.getCPUser(selectionArgs, projection);
+                    return manager.getCPUser(selectionArgs, projection);
 
                 case "Business":
-                return manager.getBusiness(selectionArgs, projection);
+                    return manager.getBusiness(selectionArgs, projection);
 
 
-                case "activity":
-                return manager.getActivity(selectionArgs, projection);
+                case "Activity":
+                    return manager.getActivity(selectionArgs, projection);
 
             }
-        }catch (NetworkErrorException ex){
+        } catch (NetworkErrorException ex) {
             lastErrorMessage = ex.getMessage();
             lastErrorType = ex.toString();
             return null;
 
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             lastErrorMessage = ex.getMessage();
             lastErrorType = ex.toString();
             return null;

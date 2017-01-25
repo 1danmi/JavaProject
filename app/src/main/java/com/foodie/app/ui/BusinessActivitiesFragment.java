@@ -1,8 +1,6 @@
 package com.foodie.app.ui;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,19 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
-import com.foodie.app.database.AsyncData;
-import com.foodie.app.database.CallBack;
-import com.foodie.app.database.DBquery;
-import com.foodie.app.database.DataManagerType;
-import com.foodie.app.database.DataStatus;
+import com.foodie.app.constants.Constants;
 import com.foodie.app.entities.Activity;
+import com.foodie.app.listsDB.ContentResolverDatabase;
 import com.foodie.app.ui.view_adapters.ActivityRecyclerViewAdapter;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +27,18 @@ public class BusinessActivitiesFragment extends Fragment {
     ActivityRecyclerViewAdapter activityRecyclerViewAdapter;
     private RecyclerView recyclerView;
     private List<Activity> activitiesList;
+    private String businessID;
 
     public BusinessActivitiesFragment() {
         // Required empty public constructor
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,16 +49,7 @@ public class BusinessActivitiesFragment extends Fragment {
         activitiesList = new ArrayList<Activity>();
         setupRecyclerView();
 
-//        new AsyncTask<Object, Object, Void>() {
-//            protected Void doInBackground(Object... params) {
-//                // Background Code
-//                //loadDemoData();
 
-                loadData();
-//                return null;
-//            }
-
-//        }.execute();
 
 
 
@@ -68,44 +58,10 @@ public class BusinessActivitiesFragment extends Fragment {
 
     }
 
-    private void loadDemoData() {
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.hamburger);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp = Bitmap.createScaledBitmap(bmp, 1000,800, true);
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] hamburger = stream.toByteArray();
-        try {
-            Activity activity = new Activity("Hamburger", "A Hamburger (or cheeseburger when served with a slice of cheese)" +
-                                                            " is a sandwich consisting of one or more cooked patties of ground " +
-                                                            "meat, usually beef, placed inside a sliced bread roll or bun. Hamburgers " +
-                                                            "may be cooked in a variety of ways, including pan-frying, barbecuing, " +
-                                                            "and flame-broiling. Hamburgers are often served with cheese, lettuce, " +
-                                                            "tomato, bacon, onion, pickles, and condiments such as mustard, mayonnaise," +
-                                                            " ketchup, relish, and chiles.", 23.56,2.5,"",hamburger, "Kosher");
-            //activitiesList.add(activity);
-
-            CallBack<Activity> callBack = new CallBack<Activity>() {
-                @Override
-                public void onSuccess(List<Activity> data) {
-                    DebugHelper.Log("Activity insert callBack finish with status: " );
-                }
-
-                @Override
-                public void onFailed(DataStatus status, String error) {
-
-
-                }
-
-            };
-            (new AsyncData<Activity>(getContext(), Activity.getURI(), DataManagerType.Insert, callBack)).execute(activity.toContentValues());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        activityRecyclerViewAdapter = new ActivityRecyclerViewAdapter(activitiesList, getActivity());
+        activityRecyclerViewAdapter = new ActivityRecyclerViewAdapter( ContentResolverDatabase.activities, getActivity());
         recyclerView.setAdapter(activityRecyclerViewAdapter);
 
 
@@ -113,37 +69,11 @@ public class BusinessActivitiesFragment extends Fragment {
 
     public void loadData() {
 
-               //Create an AsyncData object and set the constructor
-        AsyncData<Activity> data = new AsyncData<>(getContext(), Activity.getURI());
-        // Set the task to insert
-        data.setDatamanagerType(DataManagerType.Query);
-        // Set the function to get status
-        data.setCallBack(new CallBack<Activity>() {
-            @Override
-            public void onSuccess(List<Activity> data) {
-
-
-
-
-                DebugHelper.Log("Query callBack: items total = "+data.size());
-
-                for(Activity item : data) {
-                    activityRecyclerViewAdapter.loadNewData(data);
-                    activityRecyclerViewAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailed(DataStatus status, String error) {
-
-            }
-
-
-        });
-        // Execute the AsyncTask
-        data.execute(new DBquery());
-
-
+        Bundle bundle = this.getArguments();
+        businessID = bundle.getString(Constants.BUSINESS_ID, "");
+        ContentResolverDatabase.setActivityRecyclerViewAdapter(activityRecyclerViewAdapter);
+        ContentResolverDatabase.getBusinessActivitiesList(getContext(), businessID);
+        activityRecyclerViewAdapter.notifyDataSetChanged();
     }
 
 }

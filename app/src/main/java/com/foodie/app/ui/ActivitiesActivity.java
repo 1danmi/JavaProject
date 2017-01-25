@@ -1,5 +1,6 @@
 package com.foodie.app.ui;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -63,11 +65,6 @@ public class ActivitiesActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.shared_element_transation));
-//        }
-
         setContentView(R.layout.activity_activities);
 
         initializeViews();
@@ -85,7 +82,6 @@ public class ActivitiesActivity extends AppCompatActivity {
 
         initializeComponents();
 
-
         setFabs();
 
         setActionBar();
@@ -93,7 +89,6 @@ public class ActivitiesActivity extends AppCompatActivity {
         inflateData();
 
         setAppBar();
-
 
     }
 
@@ -157,7 +152,7 @@ public class ActivitiesActivity extends AppCompatActivity {
 
                         };
                         (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Insert, callBack)).execute(businessDetailsFragment.businessItem.toContentValues());
-
+                        Snackbar.make(rootLayout, "Business added successfully!",Snackbar.LENGTH_LONG);
                         AnimationHelper.showFab(editButton);
                         AnimationHelper.hideFab(addButton);
                     } else {
@@ -174,7 +169,7 @@ public class ActivitiesActivity extends AppCompatActivity {
 
                         };
                         (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Update, callBack)).execute(businessItem.toContentValues());
-
+                        Snackbar.make(rootLayout, "Update successful!",Snackbar.LENGTH_LONG).show();
                         AnimationHelper.showFab(editButton);
                         AnimationHelper.hideFab(addButton);
                     }
@@ -187,11 +182,15 @@ public class ActivitiesActivity extends AppCompatActivity {
         addActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(v.getContext(), ActivityDetails.class);
-                intent.putExtra(Constants.BUSINESS_ID, businessItem.get_ID());
+                intent.putExtra(Constants.ACTIVITY_ID,"");
                 intent.putExtra(Constants.EDIT_MODE, true);
-                startActivity(intent);
+                intent.putExtra(Constants.BUSINESS_NAME, businessItem.getBusinessName());
+                intent.putExtra(Constants.BUSINESS_ID, businessID);
+                AnimationHelper.hideFab(addActivityButton);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ActivitiesActivity.this).toBundle());
+                }
             }
         });
     }
@@ -272,7 +271,6 @@ public class ActivitiesActivity extends AppCompatActivity {
             setTabLayout();
             businessDetailsFragment.inflateData();
 
-
         }
 
 
@@ -280,7 +278,7 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     private void setData(String businessID) {
         if (businessID.equals("")) {
-            businessItem = new Business();
+            //businessItem = new Business();
             isPhotoChanged = false;
         } else {
             businessNameHeader.setText(businessItem.getBusinessName());
@@ -414,6 +412,14 @@ public class ActivitiesActivity extends AppCompatActivity {
                 .setStartDelay(0)
                 .translationYBy(metrics.heightPixels)
                 .start();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(tabLayout.getSelectedTabPosition()==1)
+            AnimationHelper.showFab(addActivityButton);
 
     }
 

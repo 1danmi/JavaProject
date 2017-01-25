@@ -1,5 +1,6 @@
 package com.foodie.app.ui;
 
+import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -183,7 +184,9 @@ public class BusinessActivity extends AppCompatActivity
                 Intent intent = new Intent(v.getContext(), ActivitiesActivity.class);
                 intent.putExtra(Constants.EDIT_MODE, "true");
                 intent.putExtra(Constants.BUSINESS_ID, "");
-                startActivity(intent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(BusinessActivity.this).toBundle());
+                }
             }
         });
         return toolbar;
@@ -293,6 +296,7 @@ public class BusinessActivity extends AppCompatActivity
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         View image = v.findViewById(R.id.business_image_view);
                         IntentHelper.startActivitiesActivity(this, image, businessRecyclerViewAdapter.getBusinessesList().get(position), "false");
+
                     }
                 }
 

@@ -125,7 +125,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/confPwdNameEditText"
         app:layout_constraintRight_toRightOf="@+id/confPwdNameEditText"
         app:layout_constraintTop_toBottomOf="@+id/confPwdNameEditText"
-        app:lb_btnColor="@color/primary"
+        app:lb_btnColor="@color/red_500"
         app:lb_btnText="@string/sign_up_button"
         app:lb_resetAfterFailed="true"
         app:rippleColor="#000000" />

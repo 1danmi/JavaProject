@@ -37,7 +37,7 @@ public class AnimationHelper {
         show(0, 0, fab);
     }
 
-    public static void show(float translationX, float translationY, FloatingActionButton fab) {
+    private static void show(float translationX, float translationY, FloatingActionButton fab) {
 
         // Set FAB's translation
         setTranslation(translationX, translationY, fab);

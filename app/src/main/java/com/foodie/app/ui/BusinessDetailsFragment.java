@@ -52,8 +52,6 @@ public class BusinessDetailsFragment extends Fragment {
     private FABProgressCircle addFAB, editFAB;
     private FloatingActionButton addButton, editButton;
     protected static Business businessItem;
-    private static final String BUSINESS_ID = "businessId";
-    private static final String EDIT_MODE = "mEditKey";
     private CardView businessLogoCardView;
     private ImageView businessLogoHeader;
     private View parent;
@@ -117,8 +115,8 @@ public class BusinessDetailsFragment extends Fragment {
         String businessID = "";
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            businessID = bundle.getString(BUSINESS_ID,"");
-            String edit = bundle.getString(EDIT_MODE, "false");
+            businessID = bundle.getString(Constants.BUSINESS_ID,"");
+            String edit = bundle.getString(Constants.EDIT_MODE, "false");
             if (edit.equals("true")) {
                 mEditMode = true;
             } else {
@@ -137,7 +135,7 @@ public class BusinessDetailsFragment extends Fragment {
         }
     }
 
-    //Configure the edit and confirm buttons
+    //Configure the editBitmap and confirm buttons
     private void setFABs(final View rootView) {
         addFAB = (FABProgressCircle) rootView.findViewById(R.id.add_fab);
         editFAB = (FABProgressCircle) rootView.findViewById(R.id.edit_fab);
@@ -201,7 +199,6 @@ public class BusinessDetailsFragment extends Fragment {
 
     protected void setSnackBarView(View view){
         snackBarView = view;
-
     }
 
     protected boolean inputCheck() {
@@ -293,7 +290,7 @@ public class BusinessDetailsFragment extends Fragment {
             if (mName != null) {
                 input.setText(mName);
             }
-
+            input.setHint("Business name");
             input.setInputType(InputType.TYPE_CLASS_TEXT);
             input.setTextColor(getResources().getColor(R.color.white));
 

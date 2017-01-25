@@ -3,6 +3,7 @@ package com.foodie.app.listsDB;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
 import com.foodie.app.database.DBquery;
@@ -46,6 +47,7 @@ public class ContentResolverDatabase  {
 
     public static void getBusinessesList(final Context mContext){
 
+        businesses.clear();
         //Create an AsyncData object and set the constructor
         AsyncData<Business> data = new AsyncData<>(mContext, Business.getURI());
         // Set the task to insert
@@ -72,6 +74,7 @@ public class ContentResolverDatabase  {
 
     public static void getUserBusinessesList(final Context mContext, String userid){
 
+        businesses.clear();
         //Create an AsyncData object and set the constructor
         AsyncData<Business> data = new AsyncData<>(mContext, Business.getURI());
         // Set the task to insert
@@ -99,7 +102,7 @@ public class ContentResolverDatabase  {
 
     public static void getActivitiesList(final Context mContext){
 
-
+        activities.clear();
         //Create an AsyncData object and set the constructor
         AsyncData<Activity> data = new AsyncData<>(mContext, Activity.getURI());
         // Set the task to insert
@@ -121,6 +124,32 @@ public class ContentResolverDatabase  {
         });
         // Execute the AsyncTask
         data.execute(new DBquery());
+    }
+
+    public static void getBusinessActivitiesList(final Context mContext, String businessId){
+
+        activities.clear();
+        //Create an AsyncData object and set the constructor
+        AsyncData<Activity> data = new AsyncData<>(mContext, Activity.getURI());
+        // Set the task to insert
+        data.setDatamanagerType(DataManagerType.Query);
+        // Set the function to get status
+        data.setCallBack(new CallBack<Activity>() {
+            @Override
+            public void onSuccess(List<Activity> data) {
+                for(Activity item : data) {
+                    ContentResolverDatabase.setActivityList(data);
+                }
+            }
+            @Override
+            public void onFailed(DataStatus status, String error) {
+                Toast.makeText(mContext, error , Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
+        // Execute the AsyncTask
+        data.execute(new DBquery(new String[]{AppContract.Activity.ACTIVITY_BUSINESS_ID},new String[]{businessId}));
     }
 
     public static void setBusinessList(List<Business> businessList){

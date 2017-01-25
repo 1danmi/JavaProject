@@ -10,10 +10,8 @@ import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.entities.User;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.foodie.app.backend.AppContract.CPUser.CPUSER_EMAIL;
 import static com.foodie.app.backend.AppContract.CPUser.CPUSER_FULL_NAME;
@@ -77,7 +75,7 @@ public class Converters {
         contentValues.put(AppContract.Activity.ACTIVITY_DESCRIPTION, activity.getActivityDescription());
         contentValues.put(AppContract.Activity.ACTIVITY_COST, activity.getActivityCost());
         contentValues.put(AppContract.Activity.ACTIVITY_BUSINESS_ID, activity.getBusinessId());
-        contentValues.put(AppContract.Activity.ACTIVITY_IMAGE, activity.getActivityImages());
+        contentValues.put(AppContract.Activity.ACTIVITY_IMAGE, activity.getActivityImage());
         contentValues.put(AppContract.Activity.ACTIVITY_RATING, activity.getActivityRating());
         contentValues.put(AppContract.Activity.ACTIVITY_FEATURE, activity.getFeature());
 
@@ -138,7 +136,7 @@ public class Converters {
         activity.setActivityCost(contentValues.getAsDouble(AppContract.Activity.ACTIVITY_COST));
         activity.setActivityRating(contentValues.getAsDouble(AppContract.Activity.ACTIVITY_RATING));
         activity.setBusinessId(contentValues.getAsString(AppContract.Activity.ACTIVITY_BUSINESS_ID));
-        activity.setActivityImages(contentValues.getAsByteArray(AppContract.Activity.ACTIVITY_IMAGE));
+        activity.setActivityImage(contentValues.getAsByteArray(AppContract.Activity.ACTIVITY_IMAGE));
         activity.setFeature(contentValues.getAsString(AppContract.Activity.ACTIVITY_FEATURE));
 
         return activity;
@@ -228,7 +226,7 @@ public class Converters {
 
         for (Activity a : activities) {
             matrixCursor.addRow(new Object[]{a.get_ID(), a.getActivityName(),  a.getActivityDescription(),
-                    a.getActivityCost(), a.getActivityRating(), a.getBusinessId(), a.getActivityImages(), a.getFeature()});
+                    a.getActivityCost(), a.getActivityRating(), a.getBusinessId(), a.getActivityImage(), a.getFeature()});
         }
 
         return matrixCursor;

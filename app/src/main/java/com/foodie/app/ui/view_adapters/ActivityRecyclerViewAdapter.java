@@ -44,7 +44,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
         final Activity activityItem = activitiesList.get(position);
         Log.d(TAG, "onBindViewHolder: " + activityItem.getActivityName() + " --> " + position);
 
-        Bitmap bmp = BitmapFactory.decodeByteArray(activityItem.getActivityImages(), 0, activityItem.getActivityImages().length);
+        Bitmap bmp = BitmapFactory.decodeByteArray(activityItem.getActivityImage(), 0, activityItem.getActivityImage().length);
         holder.image.setImageBitmap(bmp);
         holder.activityName.setText(activityItem.getActivityName());
         holder.description.setText(activityItem.getActivityDescription());
@@ -88,7 +88,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
             Log.d(TAG, "BusinessImageViewHolder: starts");
             this.image = (ImageView) itemView.findViewById(R.id.activity_image_view);
             this.activityName = (TextView) itemView.findViewById(R.id.activity_title_text_view);
-            this.description = (TextView) itemView.findViewById(R.id.activity_description_text_view);
+            this.description = (TextView) itemView.findViewById(R.id.dish_description_text_view);
             this.ratingText = (TextView) itemView.findViewById(R.id.rating_text_view);
             this.ratingBar = (RatingBar) itemView.findViewById(R.id.activity_rating_bar);
             this.price = (TextView) itemView.findViewById(R.id.price_text_view);

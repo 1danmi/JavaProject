@@ -37,32 +37,40 @@ public class Activity implements Serializable {
 
     private String businessId;
 
-    private byte[] activityImages; //for future use
+    private byte[] activityImage; //for future use
 
     private String feature;
 
-    public Activity() {
+    public Activity(){
+        _ID="";
+        activityName="";
+        activityDescription= "";
+        activityCost =0;
+        activityRating=0;
+        businessId= "";
+        setActivityImage(null);
+        feature="";
     }
 
-    public Activity(String activityName, String activityDescription, double activityCost, double activityRating, String businessId, byte[] activityImages, String feature) throws Exception {
+    public Activity(String activityName, String activityDescription, double activityCost, double activityRating, String businessId, byte[] activityImage, String feature) throws Exception {
 
         setActivityName(activityName);
         setActivityDescription(activityDescription);
         setActivityCost(activityCost);
         setActivityRating(activityRating);
         setBusinessId(businessId);
-        setActivityImages(activityImages);
+        setActivityImage(activityImage);
         setFeature(feature);
     }
 
-    public Activity(String id,String activityName, String activityDescription, double activityCost, double activityRating, String businessId, byte[] activityImages, String feature) throws Exception {
+    public Activity(String id, String activityName, String activityDescription, double activityCost, double activityRating, String businessId, byte[] activityImage, String feature) throws Exception {
         set_ID(id);
         setActivityName(activityName);
         setActivityDescription(activityDescription);
         setActivityCost(activityCost);
         setActivityRating(activityRating);
         setBusinessId(businessId);
-        setActivityImages(activityImages);
+        setActivityImage(activityImage);
         setFeature(feature);
     }
 
@@ -140,12 +148,12 @@ public class Activity implements Serializable {
         this.businessId = businessId;
     }
 
-    public byte[] getActivityImages() {
-        return activityImages;
+    public byte[] getActivityImage() {
+        return activityImage;
     }
 
-    public void setActivityImages(byte[] activityImages) {
-        this.activityImages = activityImages;
+    public void setActivityImage(byte[] activityImage) {
+        this.activityImage = activityImage;
     }
 
     public String getFeature() {
@@ -164,7 +172,7 @@ public class Activity implements Serializable {
         contentValues.put(AppContract.Activity.ACTIVITY_DESCRIPTION, this.getActivityDescription());
         contentValues.put(AppContract.Activity.ACTIVITY_COST, this.getActivityCost());
         contentValues.put(AppContract.Activity.ACTIVITY_BUSINESS_ID, this.getBusinessId());
-        contentValues.put(AppContract.Activity.ACTIVITY_IMAGE, this.getActivityImages());
+        contentValues.put(AppContract.Activity.ACTIVITY_IMAGE, this.getActivityImage());
         contentValues.put(AppContract.Activity.ACTIVITY_RATING, this.getActivityRating());
         contentValues.put(AppContract.Activity.ACTIVITY_FEATURE, this.getFeature());
 
@@ -196,7 +204,7 @@ public class Activity implements Serializable {
         result.put(AppContract.Activity.ACTIVITY_RATING, this.getActivityRating());
         result.put(AppContract.Activity.ACTIVITY_BUSINESS_ID, this.getBusinessId());
         result.put(AppContract.Activity.ACTIVITY_FEATURE, this.getFeature());
-        result.put(AppContract.Activity.ACTIVITY_IMAGE, HelperClass.fromByteArraytoString(this.getActivityImages()));
+        result.put(AppContract.Activity.ACTIVITY_IMAGE, HelperClass.fromByteArraytoString(this.getActivityImage()));
 
 
         return result;

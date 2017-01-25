@@ -466,7 +466,7 @@ public class ListDBManager implements IDBManager {
                 a.setActivityDescription(activity.getActivityDescription());
                 a.setActivityCost(activity.getActivityCost());
                 a.setActivityRating(activity.getActivityRating());
-                a.setActivityImages(activity.getActivityImages());
+                a.setActivityImage(activity.getActivityImage());
                 a.setBusinessId(activity.getBusinessId());
                 a.setFeature(activity.getFeature());
 
@@ -625,18 +625,7 @@ public class ListDBManager implements IDBManager {
 
     public String addActivity(Activity values) {
 
-        boolean update = false;
-        for (Activity a : activities) {
-            if (a.equals(values)) {
-                a = values;
-                update = true;
-                break;
-            }
-        }
-        if(!update) {
-            activities.add(values);
-            isUpdated = true;
-        }
+      activities.add(values);
         return values.get_ID();
     }
 

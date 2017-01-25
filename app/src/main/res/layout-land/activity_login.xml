@@ -94,7 +94,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/pwdEditText"
         app:layout_constraintRight_toRightOf="@+id/pwdEditText"
         app:layout_constraintTop_toBottomOf="@+id/pwdEditText"
-        app:lb_btnColor="@color/primary"
+        app:lb_btnColor="@color/red_500"
         app:lb_btnText="@string/action_sign_in_short"
         app:lb_resetAfterFailed="true"
         app:rippleColor="#000000" />

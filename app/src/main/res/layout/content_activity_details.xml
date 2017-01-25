@@ -8,14 +8,20 @@
     tools:context="com.foodie.app.ui.ActivityDetails"
     tools:showIn="@layout/activity_details">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-        <include layout="@layout/activity_header" />
-        <include layout="@layout/activity_description" />
-        <include layout="@layout/suggestions_recycler_view" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <include layout="@layout/activity_header" />
+
+            <include layout="@layout/activity_description" />
+
+            <include layout="@layout/suggestions_recycler_view" />
+        </LinearLayout>
+    <!--</ScrollView>-->
 </android.support.v4.widget.NestedScrollView>

@@ -5,23 +5,24 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="What's else?"
-        android:layout_width="match_parent"
+        android:text="What Else?"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
         android:textColor="@color/primary_text"
-        android:textSize="34sp"
+        android:textSize="24sp"
         android:fontFamily="sans-serif-light"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp" />
 
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp"
+        android:id="@+id/suggestion_recycler_view" />
 </LinearLayout>

@@ -45,15 +45,15 @@
                     app:layout_collapseMode="parallax"
                     android:layout_height="235dp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"/>
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="100dp"/>-->
             </LinearLayout>
 
             <View
-                android:id="@+id/movieHeader"
+                android:id="@+id/header_backgrount"
                 android:layout_width="fill_parent"
-                android:layout_height="65dp"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom"
                 android:background="@color/primary"
                 android:fitsSystemWindows="true" />
@@ -79,10 +79,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/primary"
-            app:tabIndicatorColor="@color/primary_text"
+            app:tabIndicatorColor="@color/colorAccent"
             app:tabIndicatorHeight="3dp"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/primary_text"
+            app:tabSelectedTextColor="@color/colorAccent"
             app:tabTextColor="@color/icons" />
 
 

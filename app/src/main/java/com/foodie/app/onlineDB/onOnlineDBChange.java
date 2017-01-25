@@ -71,7 +71,7 @@ public class OnOnlineDBChange implements ChildEventListener {
 
             if(data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue() != null && !data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue().toString().isEmpty()){
                 byte[] ba = HelperClass.fromStringToByteArray(data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue().toString());
-                activity.setActivityImages(ba);
+                activity.setActivityImage(ba);
             }
           return activity;
         }catch (Exception ignored)

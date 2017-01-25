@@ -46,7 +46,7 @@ public class SuggestionRecyclerViewAdapter extends RecyclerView.Adapter<Suggesti
         final Activity activityItem = activitiesList.get(position);
         Log.d(TAG, "onBindViewHolder: " + activityItem.getActivityName() + " --> " + position);
 
-        Bitmap bmp = BitmapFactory.decodeByteArray(activityItem.getActivityImages(), 0, activityItem.getActivityImages().length);
+        Bitmap bmp = BitmapFactory.decodeByteArray(activityItem.getActivityImage(), 0, activityItem.getActivityImage().length);
         holder.suggestionImage.setImageBitmap(bmp);
         holder.activityName.setText(activityItem.getActivityName());
         holder.price.setText("$" + Double.toString(activityItem.getActivityCost()));
