@@ -625,7 +625,14 @@ public class ListDBManager implements IDBManager {
 
     public String addActivity(Activity values) {
 
-      activities.add(values);
+
+        for(Activity activity:activities)
+        {
+            if(activity.get_ID().equals(values.get_ID()))
+                return activity.get_ID();
+        }
+
+       activities.add(values);
         return values.get_ID();
     }
 
