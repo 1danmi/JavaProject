@@ -56,6 +56,7 @@ public class OnOnlineDBChange implements ChildEventListener {
     private Activity getActivity(DataSnapshot data) {
         try{
             Activity activity = new Activity();
+//            activity.set_ID(data.)
             if(data.child(AppContract.Activity.ACTIVITY_NAME).getValue() != null)
                 activity.setActivityName(data.child(AppContract.Activity.ACTIVITY_NAME).getValue().toString());
             if(data.child(AppContract.Activity.ACTIVITY_DESCRIPTION).getValue() != null)

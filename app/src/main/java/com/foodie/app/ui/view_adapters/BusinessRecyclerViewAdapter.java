@@ -121,5 +121,14 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         return businessesList;
     }
 
+    public void replaceAll(List<Business> models) {
+        for (int i = businessesList.size() - 1; i >= 0; i--) {
+            final Business model = businessesList.get(i);
+            if (!models.contains(model)) {
+                businessesList.remove(model);
+            }
+        }
+        businessesList.addAll(models);
+    }
 }
 

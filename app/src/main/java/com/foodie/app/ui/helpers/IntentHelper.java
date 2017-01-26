@@ -28,8 +28,7 @@ public class IntentHelper {
 
         ActivityOptionsCompat options;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            options = ActivityOptionsCompat
-                    .makeScaleUpAnimation(
+            options = ActivityOptionsCompat.makeScaleUpAnimation(
                             background,
                             (int) background.getX(), (int) background.getY(),
                             background.getMeasuredWidth(), background.getMeasuredHeight());

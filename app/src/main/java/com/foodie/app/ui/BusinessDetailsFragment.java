@@ -2,13 +2,11 @@ package com.foodie.app.ui;
 
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.CoordinatorLayout;
@@ -20,7 +18,6 @@ import android.support.v7.widget.CardView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -31,9 +28,6 @@ import android.widget.TextView;
 import com.foodie.app.R;
 import com.foodie.app.constants.Constants;
 import com.foodie.app.entities.Business;
-import com.foodie.app.ui.helpers.AnimationHelper;
-import com.foodie.app.ui.helpers.IntentHelper;
-import com.foodie.app.ui.view_adapters.RecyclerItemClickListener;
 import com.github.jorgecastilloprz.FABProgressCircle;
 
 import java.io.ByteArrayOutputStream;
@@ -41,8 +35,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.foodie.app.entities.Business.businessID;
 
 
 /**
@@ -80,8 +72,6 @@ public class BusinessDetailsFragment extends Fragment   {
 
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_business_details, container, false);
-
-
 
         initializeViews(rootView);
 

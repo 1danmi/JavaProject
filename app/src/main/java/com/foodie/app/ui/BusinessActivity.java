@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.foodie.app.Helper.DebugHelper;
@@ -54,7 +56,7 @@ import java.util.List;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class BusinessActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RecyclerItemClickListener.onRecyclerClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RecyclerItemClickListener.onRecyclerClickListener, android.widget.SearchView.OnQueryTextListener {
 
     private static final String TAG = "BusinessActivity";
     private BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
@@ -96,7 +98,7 @@ public class BusinessActivity extends AppCompatActivity
         businessList = new ArrayList<>();
         setRecyclerView();
 
-        loadData();
+
 
         final View rootView = getLayoutInflater().inflate(R.layout.nav_header_business, null);
         TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerCPUserName);
@@ -111,7 +113,6 @@ public class BusinessActivity extends AppCompatActivity
 
         myContentObserver = new MyContentObserver(new Handler(), getApplicationContext());
         getContentResolver().registerContentObserver(Business.getURI(), true, myContentObserver);
-
 
 
     }
@@ -211,7 +212,12 @@ public class BusinessActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.business, menu);
+//        getMenuInflater().inflate(R.menu.business, menu);
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+
+        final MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -355,6 +361,7 @@ public class BusinessActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        loadData();
         registerReceiver(mReceiver, mIntentFilter);
         getContentResolver().registerContentObserver(Business.getURI(), true, myContentObserver);
     }
@@ -366,11 +373,39 @@ public class BusinessActivity extends AppCompatActivity
         super.onPause();
     }
 
-
     @Override
     protected void onDestroy() {
         DBManagerFactory.signOut();
         finish();
         super.onDestroy();
     }
+
+    private List<Business> filterLanguage(List<Business> businesses, String query) {
+        final List<Business> filteredModelList = new ArrayList<>();
+
+        for (Business b : businesses) {
+            String text = b.getBusinessName().toLowerCase();
+            if (text.contains(query.trim().toLowerCase())) {
+                filteredModelList.add(b);
+            }
+        }
+        return filteredModelList;
+    }
+
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        // Here is where we are going to implement the filterLanguage logic
+        final List<Business> filteredModelList = filterLanguage(ContentResolverDatabase.businesses, query);
+        businessRecyclerViewAdapter.loadNewData(filteredModelList);
+        recyclerView.scrollToPosition(0);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+
 }
