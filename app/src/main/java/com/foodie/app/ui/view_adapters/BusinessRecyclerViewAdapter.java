@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.foodie.app.R;
 import com.foodie.app.entities.Business;
+import com.foodie.app.listsDB.ContentResolverDatabase;
 
 import java.util.List;
 
@@ -61,40 +62,9 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         }
         holder.title.setText(businessItem.getBusinessName());
         holder.address.setText(businessItem.getBusinessAddress());
-//        holder.menu.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final PopupMenu popupMenu = new PopupMenu(mContext, v);
-//                final Menu menu = popupMenu.getMenu();
-//
-//                popupMenu.getMenuInflater().inflate(R.menu.menu_business_recycler_view, menu);
-//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item) {
-//                        int id = item.getItemId();
-//
-//                        //noinspection SimplifiableIfStatement
-//                        if (id == R.id.deletMenuOption) {
-//                            CallBack<Business> callBack = new CallBack<Business>() {
-//                                @Override
-//                                public void onSuccess(List<Business> data) {
-//                                    DebugHelper.Log("Business insert callBack finish with status: Success");
-//                                }
-//
-//                                @Override
-//                                public void onFailed(DataStatus status, String error) {
-//
-//                                }
-//
-//
-//                            };
-//                            (new AsyncData<>(mContext, Business.getURI(), DataManagerType.Delete, callBack)).execute(businessItem.toContentValues());
-//                        }
-//                        return true;
-//                    }
-//                });
-//            }
-//        });
+        ContentResolverDatabase.getBusinessActivitiesList(mContext, businessItem.get_ID(), true);
+        holder.numOfActivities.setText(Integer.toString(ContentResolverDatabase.activities.size()) + " Dishes");
+
         //TODO: Add query for number of activities of the business
 
     }
@@ -131,9 +101,9 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         ImageView logo;
         TextView title;
         TextView address;
-        TextView activitiesCounter;
         View mView;
         ImageButton menu;
+        TextView numOfActivities;
 
         public BusinessImageViewHolder(View itemView) {
             super(itemView);
@@ -142,8 +112,8 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
             this.logo = (ImageView) itemView.findViewById(R.id.business_image_view);
             this.title = (TextView) itemView.findViewById(R.id.businessTitleTextView);
             this.address = (TextView) itemView.findViewById(R.id.businessAddressTextView);
-            this.activitiesCounter = (TextView) itemView.findViewById(R.id.numOfActivities);
             this.menu = (ImageButton) itemView.findViewById(R.id.businessMenuButton);
+            this.numOfActivities = (TextView) itemView.findViewById(R.id.numOfActivities);
         }
     }
 

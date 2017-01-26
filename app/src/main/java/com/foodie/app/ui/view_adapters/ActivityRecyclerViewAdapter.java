@@ -95,5 +95,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
         }
     }
 
-
+    public List<Activity> getActivitiesList() {
+        return activitiesList;
+    }
 }

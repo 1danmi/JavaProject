@@ -118,8 +118,8 @@ public class MyContentProvider extends ContentProvider {
 
         String listName = uri.getLastPathSegment();
 
-        try {
 
+        try {
             switch (listName) {
                 case "user":
                     return manager.getUser(selectionArgs, projection);

@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Daniel on 1/19/2017.
  */
 
-public class ContentResolverDatabase  {
+public class ContentResolverDatabase {
 
 
     //lists
@@ -45,7 +45,7 @@ public class ContentResolverDatabase  {
         activities = new ArrayList<>();
     }
 
-    public static void getBusinessesList(final Context mContext){
+    public static void getBusinessesList(final Context mContext) {
 
         businesses.clear();
         //Create an AsyncData object and set the constructor
@@ -56,14 +56,14 @@ public class ContentResolverDatabase  {
         data.setCallBack(new CallBack<Business>() {
             @Override
             public void onSuccess(List<Business> data) {
-                for(Business item : data)
-                {
+                for (Business item : data) {
                     ContentResolverDatabase.setBusinessList(data);
                 }
             }
+
             @Override
             public void onFailed(DataStatus status, String error) {
-                Toast.makeText(mContext, "Error: " + status , Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Error: " + status, Toast.LENGTH_SHORT).show();
             }
 
 
@@ -72,7 +72,7 @@ public class ContentResolverDatabase  {
         data.execute(new DBquery());
     }
 
-    public static void getUserBusinessesList(final Context mContext, String userid){
+    public static void getUserBusinessesList(final Context mContext, String userid) {
 
         businesses.clear();
         //Create an AsyncData object and set the constructor
@@ -83,14 +83,14 @@ public class ContentResolverDatabase  {
         data.setCallBack(new CallBack<Business>() {
             @Override
             public void onSuccess(List<Business> data) {
-                for(Business item : data)
-                {
+                for (Business item : data) {
                     ContentResolverDatabase.setBusinessList(data);
                 }
             }
+
             @Override
             public void onFailed(DataStatus status, String error) {
-                Toast.makeText(mContext, "Error: " + status , Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Error: " + status, Toast.LENGTH_SHORT).show();
             }
 
 
@@ -100,7 +100,7 @@ public class ContentResolverDatabase  {
     }
 
 
-    public static void getActivitiesList(final Context mContext){
+    public static void getActivitiesList(final Context mContext) {
 
         activities.clear();
         //Create an AsyncData object and set the constructor
@@ -111,13 +111,14 @@ public class ContentResolverDatabase  {
         data.setCallBack(new CallBack<Activity>() {
             @Override
             public void onSuccess(List<Activity> data) {
-                for(Activity item : data) {
-                    ContentResolverDatabase.setActivityList(data);
+                for (Activity item : data) {
+                    ContentResolverDatabase.setActivityList(data,false);
                 }
             }
+
             @Override
             public void onFailed(DataStatus status, String error) {
-                Toast.makeText(mContext, "Error: " + status , Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Error: " + status, Toast.LENGTH_SHORT).show();
             }
 
 
@@ -126,7 +127,7 @@ public class ContentResolverDatabase  {
         data.execute(new DBquery());
     }
 
-    public static void getBusinessActivitiesList(final Context mContext, String businessId){
+    public static void getBusinessActivitiesList(final Context mContext, String businessId, final boolean size) {
 
         activities.clear();
         //Create an AsyncData object and set the constructor
@@ -137,28 +138,33 @@ public class ContentResolverDatabase  {
         data.setCallBack(new CallBack<Activity>() {
             @Override
             public void onSuccess(List<Activity> data) {
-                for(Activity item : data) {
-                    ContentResolverDatabase.setActivityList(data);
+                for (Activity item : data) {
+                    ContentResolverDatabase.setActivityList(data, size);
                 }
             }
+
             @Override
             public void onFailed(DataStatus status, String error) {
-                Toast.makeText(mContext, error , Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, error, Toast.LENGTH_SHORT).show();
             }
 
 
         });
         // Execute the AsyncTask
-        data.execute(new DBquery(new String[]{AppContract.Activity.ACTIVITY_BUSINESS_ID},new String[]{businessId}));
+        data.execute(new DBquery(new String[]{AppContract.Activity.ACTIVITY_BUSINESS_ID}, new String[]{businessId}));
     }
 
-    public static void setBusinessList(List<Business> businessList){
+
+    public static void setBusinessList(List<Business> businessList) {
         businesses = businessList;
+
         businessRecyclerViewAdapter.loadNewData(businesses);
     }
-    public static void setActivityList(List<Activity> activityList){
+
+    public static void setActivityList(List<Activity> activityList, boolean size) {
         activities = activityList;
-        activitiesRecyclerViewAdapter.loadNewData(activities);
+        if (!size)
+            activitiesRecyclerViewAdapter.loadNewData(activities);
     }
 
 

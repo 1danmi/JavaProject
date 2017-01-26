@@ -113,12 +113,6 @@ public class BusinessActivity extends AppCompatActivity
         getContentResolver().registerContentObserver(Business.getURI(), true, myContentObserver);
 
 
-        //loadData();
-        // loadDemoData();
-
-        //       drawerCPUserName.setText("test");
-//        numOfBusinessse.setText(businessRecyclerViewAdapter.getItemCount() + " Businesses");
-
 
     }
 
@@ -273,7 +267,6 @@ public class BusinessActivity extends AppCompatActivity
         businessRecyclerViewAdapter.notifyDataSetChanged();
 
     }
-
 
     @Override
     public void onitemClick(View v, final int position, MotionEvent e) {

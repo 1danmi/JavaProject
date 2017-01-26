@@ -384,13 +384,14 @@ public class ActivitiesActivity extends AppCompatActivity {
         if (businessItem != null) {
             bundle.putString(Constants.BUSINESS_ID, businessItem.get_ID());
             bundle.putString(Constants.EDIT_MODE, mEditMode);
+            bundle.putString(Constants.BUSINESS_NAME, businessItem.getBusinessName());
         } else {
             bundle.putInt(Constants.BUSINESS_ID, 0);
         }
         businessDetailsFragment.setArguments(bundle);
         businessActivitiesFragment.setArguments(bundle);
         adapter.addFragment(businessDetailsFragment, "Details");
-        adapter.addFragment(businessActivitiesFragment, "Activities");
+        adapter.addFragment(businessActivitiesFragment, "Menu");
         businessDetailsFragment.setSnackBarView(rootLayout);
 
         viewPager.setAdapter(adapter);
