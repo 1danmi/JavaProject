@@ -182,7 +182,30 @@ public class OnOnlineDBChange implements ChildEventListener {
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
+        DebugHelper.Log("onChildRemoved: " + dataSnapshot.getKey());
+        for (DataSnapshot data : dataSnapshot.getChildren()) {
+            switch (dataSnapshot.getKey()){
+                case "CPUser":
+//                    CPUser cpu = data.getValue(CPUser.class);
+//                    cpu.set_ID(data.getKey());
+//                    localDB.updateCPUser(cpu);
+                    break;
+                case "Business":
+//                    localDB.updateBusiness(getBusiness(data));
+                    break;
+                case "Activity":
+//                    localDB.updateActivity(getActivity(data));
+                    break;
+                case "User":
+//                    User user = data.getValue(User.class);
+//                    user.set_ID(data.getKey());
+//                    localDB.updateUser(user);
+                    break;
+            }
+        }
+        DBManagerFactory.setDBupdated(false);
 
+        updated = true;
     }
 
     @Override
