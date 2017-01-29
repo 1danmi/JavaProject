@@ -464,7 +464,8 @@ public class ActivityDetails extends AppCompatActivity {
             ratingBar.setRating((float) activityItem.getActivityRating());
             ratingBarText.setText(Double.toString(activityItem.getActivityRating()));
             dishBusinessName.setText(businessName);
-            String cost = Double.toString(activityItem.getActivityCost()).replace(".0", "");
+            mPrice = activityItem.getActivityCost();
+            String cost = Double.toString(mPrice).replace(".0", "");
             priceBtn.setText(cost + "$");
             isPhotoChanged = true;
             isPriceChanged = true;

@@ -11,8 +11,6 @@ import com.google.firebase.database.Exclude;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /**
@@ -91,15 +89,15 @@ public class Activity implements Serializable {
         return activityName;
     }
 
-    public void setActivityName(String activityName) throws Exception {
-        Pattern pattern =
-                Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))*)$");
-        Matcher matcher =
-                pattern.matcher(activityName);
-        if (matcher.find())
+    public void setActivityName(String activityName){
+//        Pattern pattern =
+//                Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))*)$");
+//        Matcher matcher =
+//                pattern.matcher(activityName);
+//        if (matcher.find())
             this.activityName = activityName;
-        else
-            throw new Exception("Activity name must contains at least 2 characters!");
+//        else
+//            throw new Exception("Activity name must contains at least 2 characters!");
     }
 
 //    public Calendar getActivityDate() {
