@@ -154,8 +154,6 @@ public class FirebaseDB implements IDBManager {
         toInsert.child(AppContract.Activity.ACTIVITY_RATING).setValue(activity.getActivityRating());
         toInsert.child(AppContract.Activity.ACTIVITY_BUSINESS_ID).setValue(activity.getBusinessId());
         toInsert.child(AppContract.Activity.ACTIVITY_FEATURE).setValue(activity.getFeature());
-        String str = HelperClass.fromByteArraytoString(activity.getActivityImage());
-        toInsert.child(AppContract.Activity.ACTIVITY_IMAGE).setValue(str);
         if(activity.getActivityImage() != null)
             (new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(),"Activity",toInsert.getKey(),"jpg")).uploadFile(activity.getActivityImage());
 
@@ -183,6 +181,7 @@ public class FirebaseDB implements IDBManager {
 
     @Override
     public boolean removeBusiness(String id) throws Exception {
+        DebugHelper.Log("removeBusiness: id = "+id);
         BusinessRef.child(id).removeValue();
         return false;
     }
