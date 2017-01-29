@@ -62,11 +62,11 @@ public class FirebaseDB implements IDBManager {
                 if (user != null) {
                     DebugHelper.Log("User authenticated: " + user.getEmail());
                     login = true;
-                    DBManagerFactory.setCurrentUser(new CPUser(user.getUid(),user.getEmail(),user.getDisplayName()));
-           //         ListDBManager.removeOthersUsers();
+                    DBManagerFactory.setCurrentUser(new CPUser(user.getUid(), user.getEmail(), user.getDisplayName()));
+                    //         ListDBManager.removeOthersUsers();
                     dataUpdated = true;
                     onCreate(user.getUid());
-                    if(newUser  != null)
+                    if (newUser != null)
                         try {
                             addCPUser(newUser.toContentValues());
                         } catch (Exception ignored) {
@@ -113,28 +113,28 @@ public class FirebaseDB implements IDBManager {
 
     @Override
     public String addBusiness(ContentValues values) throws Exception {
-     
+
         if (values == null)
-           throw new NullPointerException("ContentValues is null");
+            throw new NullPointerException("ContentValues is null");
 
         Business business = Converters.ContentValuesToBusiness(values);
         DatabaseReference toInsert = BusinessRef.push();
-        if(business.getBusinessName() != null)
+        if (business.getBusinessName() != null)
             toInsert.child(AppContract.Business.BUSINESS_NAME).setValue(business.getBusinessName());
-        if(business.getBusinessAddress() != null)
+        if (business.getBusinessAddress() != null)
             toInsert.child(AppContract.Business.BUSINESS_ADDRESS).setValue(business.getBusinessAddress());
 
         toInsert.child(AppContract.Business.BUSINESS_CPUSER_ID).setValue(DBManagerFactory.getCurrentUser().get_ID());
 
-        if(business.getBusinessEmail() != null)
+        if (business.getBusinessEmail() != null)
             toInsert.child(AppContract.Business.BUSINESS_EMAIL).setValue(business.getBusinessEmail());
-        if(business.getBusinessPhoneNo() != null)
+        if (business.getBusinessPhoneNo() != null)
             toInsert.child(AppContract.Business.BUSINESS_PHONE_NUMBER).setValue(business.getBusinessPhoneNo());
-        if(business.getBusinessWebsite() != null)
+        if (business.getBusinessWebsite() != null)
             toInsert.child(AppContract.Business.BUSINESS_WEBSITE).setValue(business.getBusinessWebsite());
 
         String str = HelperClass.fromByteArraytoString(business.getBusinessLogo());
-        if(!str.isEmpty())
+        if (!str.isEmpty())
             toInsert.child(AppContract.Business.BUSINESS_LOGO).setValue(str);
 
         return "";
@@ -142,7 +142,7 @@ public class FirebaseDB implements IDBManager {
 
     @Override
     public String addActivity(ContentValues values) throws Exception {
-        if(values == null)
+        if (values == null)
             throw new NullPointerException("ContentValues is null");
         Activity activity = Converters.ContentValuesToActivity(values);
         DatabaseReference toInsert = ActivityRef.push();
@@ -161,7 +161,7 @@ public class FirebaseDB implements IDBManager {
     @Override
     public String addUser(ContentValues values) throws Exception {
 
-     
+
         if (values == null) {
             throw new NullPointerException("ContentValues is null");
         }
@@ -195,26 +195,26 @@ public class FirebaseDB implements IDBManager {
 
     @Override
     public Cursor getCPUser(String[] args, String[] columnsArgs) throws Exception {
-     
+
 
         return localDB.getCPUser(args, columnsArgs);
     }
 
     @Override
     public Cursor getBusiness(String[] args, String[] columnsArgs) throws Exception {
-     
+
         return localDB.getBusiness(args, columnsArgs);
     }
 
     @Override
     public Cursor getActivity(String[] args, String[] columnsArgs) throws Exception {
-     
+
         return localDB.getActivity(args, columnsArgs);
     }
 
     @Override
     public Cursor getUser(String[] args, String[] columnsArgs) throws Exception {
-     
+
         return localDB.getUser(args, columnsArgs);
     }
 
@@ -259,13 +259,13 @@ public class FirebaseDB implements IDBManager {
     }
 
 
-    public void login(final String email,final String password,final CallBack<CPUser> callBack) {
+    public void login(final String email, final String password, final CallBack<CPUser> callBack) {
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull final Task<AuthResult> task) {
 
-                DebugHelper.Log("Login status:" +  task.isSuccessful());
+                DebugHelper.Log("Login status:" + task.isSuccessful());
 
                 if (callBack != null)
                     if (!task.isSuccessful()) {
@@ -289,20 +289,19 @@ public class FirebaseDB implements IDBManager {
         });
     }
 
-    public void signUp(final CPUser user, final CallBack<CPUser> callBack)
-    {
-        if(user.getUserEmail().isEmpty())
-            callBack.onFailed(DataStatus.InvalidArgumment,"Invalid email");
+    public void signUp(final CPUser user, final CallBack<CPUser> callBack) {
+        if (user.getUserEmail().isEmpty())
+            callBack.onFailed(DataStatus.InvalidArgumment, "Invalid email");
 
-        mAuth.createUserWithEmailAndPassword(user.getUserEmail(),user.getUserPwdHash()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(user.getUserEmail(), user.getUserPwdHash()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     newUser = user;
                     callBack.onSuccess(null);
 
-                }else
-                    callBack.onFailed(DataStatus.Failed,"Invalid user o password");
+                } else
+                    callBack.onFailed(DataStatus.Failed, "Invalid user o password");
 
                 // ...
             }
@@ -310,8 +309,7 @@ public class FirebaseDB implements IDBManager {
     }
 
 
-    public void signOut()
-    {
+    public void signOut() {
         DebugHelper.Log("Signed out");
         mAuth.signOut();
     }

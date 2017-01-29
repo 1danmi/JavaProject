@@ -295,15 +295,12 @@ public class BusinessActivity extends AppCompatActivity
                         }
                     });
                 } else {
-
-
                     Intent intent = new Intent(this, ActivitiesActivity.class);
                     intent.putExtra(Constants.BUSINESS_ID, businessRecyclerViewAdapter.getBusinessesList().get(position).get_ID());
                     intent.putExtra(Constants.EDIT_MODE, "false");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         View image = v.findViewById(R.id.business_image_view);
                         IntentHelper.startActivitiesActivity(this, image, businessRecyclerViewAdapter.getBusinessesList().get(position), "false");
-
                     }
                 }
 
