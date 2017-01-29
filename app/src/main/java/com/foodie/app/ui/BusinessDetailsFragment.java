@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BusinessDetailsFragment extends Fragment   {
+public class BusinessDetailsFragment extends Fragment {
 
     private static final String TAG = "BusinessDetailsFragment";
 
@@ -60,9 +60,7 @@ public class BusinessDetailsFragment extends Fragment   {
 
     //Fragment requires empty public constructor
     public BusinessDetailsFragment() {
-        // Required empty public constructor
-//        setEnterTransition(R.anim.slide_up);
-//        setExitTransition(R.anim.slide_down);
+
     }
 
     //Called when the fragment initializes.
@@ -95,8 +93,6 @@ public class BusinessDetailsFragment extends Fragment   {
         });
 
 
-
-
         return rootView;
 
     }
@@ -113,7 +109,7 @@ public class BusinessDetailsFragment extends Fragment   {
         String businessID = "";
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            businessID = bundle.getString(Constants.BUSINESS_ID,"");
+            businessID = bundle.getString(Constants.BUSINESS_ID, "");
             String edit = bundle.getString(Constants.EDIT_MODE, "false");
             if (edit.equals("true")) {
                 mEditMode = true;
@@ -153,7 +149,7 @@ public class BusinessDetailsFragment extends Fragment   {
 
     }
 
-    protected void setSnackBarView(View view){
+    protected void setSnackBarView(View view) {
         snackBarView = view;
     }
 

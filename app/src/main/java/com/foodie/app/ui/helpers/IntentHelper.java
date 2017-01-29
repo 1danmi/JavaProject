@@ -29,9 +29,9 @@ public class IntentHelper {
         ActivityOptionsCompat options;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             options = ActivityOptionsCompat.makeScaleUpAnimation(
-                            background,
-                            (int) background.getX(), (int) background.getY(),
-                            background.getMeasuredWidth(), background.getMeasuredHeight());
+                    background,
+                    (int) background.getX(), (int) background.getY(),
+                    background.getMeasuredWidth(), background.getMeasuredHeight());
         } else {
             options = ActivityOptionsCompat.makeSceneTransitionAnimation(a, Pair.create(background, a.getString(R.string.transition_collection_background)));
         }

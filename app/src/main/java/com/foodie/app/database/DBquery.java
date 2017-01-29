@@ -53,11 +53,11 @@ public class DBquery {
         this.login = login;
     }
 
-    public DBquery(){}
+    public DBquery() {
+    }
 
     public DBquery(String[] projection, String selection,
-    String[] selectionArgs, String sortOrder)
-    {
+                   String[] selectionArgs, String sortOrder) {
 
         this.projection = projection;
         this.selection = selection;
@@ -65,14 +65,12 @@ public class DBquery {
         this.sortOrder = sortOrder;
     }
 
-    public DBquery(String[] projection, String[] selectionArgs)
-    {
+    public DBquery(String[] projection, String[] selectionArgs) {
         this.projection = projection;
         this.selectionArgs = selectionArgs;
     }
 
-    public DBquery(String[] login)
-    {
+    public DBquery(String[] login) {
         this.login = login;
     }
 }

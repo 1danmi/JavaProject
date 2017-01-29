@@ -152,7 +152,7 @@ public class ActivitiesActivity extends AppCompatActivity {
 
                         };
                         (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Insert, callBack)).execute(businessDetailsFragment.businessItem.toContentValues());
-                        Snackbar.make(rootLayout, "Business added successfully!",Snackbar.LENGTH_LONG);
+                        Snackbar.make(rootLayout, "Business added successfully!", Snackbar.LENGTH_LONG);
                         AnimationHelper.showFab(editButton);
                         AnimationHelper.hideFab(addButton);
                     } else {
@@ -169,7 +169,7 @@ public class ActivitiesActivity extends AppCompatActivity {
 
                         };
                         (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Update, callBack)).execute(businessItem.toContentValues());
-                        Snackbar.make(rootLayout, "Update successful!",Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(rootLayout, "Update successful!", Snackbar.LENGTH_LONG).show();
                         AnimationHelper.showFab(editButton);
                         AnimationHelper.hideFab(addButton);
                     }
@@ -183,7 +183,7 @@ public class ActivitiesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ActivityDetails.class);
-                intent.putExtra(Constants.ACTIVITY_ID,"");
+                intent.putExtra(Constants.ACTIVITY_ID, "");
                 intent.putExtra(Constants.EDIT_MODE, true);
                 intent.putExtra(Constants.BUSINESS_NAME, businessItem.getBusinessName());
                 intent.putExtra(Constants.BUSINESS_ID, businessID);
@@ -419,7 +419,7 @@ public class ActivitiesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(tabLayout.getSelectedTabPosition()==1)
+        if (tabLayout.getSelectedTabPosition() == 1)
             AnimationHelper.showFab(addActivityButton);
 
     }

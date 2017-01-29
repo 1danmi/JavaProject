@@ -354,7 +354,6 @@ public class ListDBManager implements IDBManager {
     public Cursor getUser(String[] args, String[] columnsArgs) {
 
 
-
         List<User> result = new ArrayList<>();
         boolean insert = true;
         if (columnsArgs != null) {
@@ -533,9 +532,8 @@ public class ListDBManager implements IDBManager {
 
 
     public void updateCPUser(CPUser values) {
-        for (CPUser cpuser:cpusers ) {
-            if(values.get_ID().equals(cpuser.get_ID()))
-            {
+        for (CPUser cpuser : cpusers) {
+            if (values.get_ID().equals(cpuser.get_ID())) {
                 cpusers.remove(cpuser);
                 break;
             }
@@ -549,9 +547,8 @@ public class ListDBManager implements IDBManager {
 
     public void updateBusiness(Business values) {
 
-        for (Business business:businesses ) {
-            if(values.get_ID().equals(business.get_ID()))
-            {
+        for (Business business : businesses) {
+            if (values.get_ID().equals(business.get_ID())) {
                 businesses.remove(business);
                 break;
             }
@@ -566,9 +563,8 @@ public class ListDBManager implements IDBManager {
 
     public void updateActivity(Activity values) {
 
-        for (Activity activies:activities ) {
-            if(values.get_ID().equals(activies.get_ID()))
-            {
+        for (Activity activies : activities) {
+            if (values.get_ID().equals(activies.get_ID())) {
                 activities.remove(activies);
                 break;
             }
@@ -581,13 +577,11 @@ public class ListDBManager implements IDBManager {
     }
 
 
-
     public void updateUser(User user) {
 
 
-        for (User userlist:users ) {
-            if(user.get_ID().equals(userlist.get_ID()))
-            {
+        for (User userlist : users) {
+            if (user.get_ID().equals(userlist.get_ID())) {
                 users.remove(userlist);
                 break;
             }
@@ -615,7 +609,7 @@ public class ListDBManager implements IDBManager {
                 break;
             }
         }
-        if(!update) {
+        if (!update) {
             businesses.add(values);
             isUpdated = true;
         }
@@ -626,16 +620,14 @@ public class ListDBManager implements IDBManager {
     public String addActivity(Activity values) {
 
 
-        for(Activity activity:activities)
-        {
-            if(activity.get_ID().equals(values.get_ID()))
+        for (Activity activity : activities) {
+            if (activity.get_ID().equals(values.get_ID()))
                 return activity.get_ID();
         }
 
-       activities.add(values);
+        activities.add(values);
         return values.get_ID();
     }
-
 
 
     public String addUser(User user) {
@@ -652,8 +644,6 @@ public class ListDBManager implements IDBManager {
         }
         return null;
     }
-
-
 
 
     public static void signUp(CPUser user, CallBack<CPUser> callBack) {
@@ -709,9 +699,6 @@ public class ListDBManager implements IDBManager {
     public static int getBusinessListSize() {
         return businesses.size();
     }
-
-
-
 
 
 }

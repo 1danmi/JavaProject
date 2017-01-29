@@ -21,7 +21,7 @@ public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private  String _ID;
+    private String _ID;
 
     private String activityName;
 
@@ -39,15 +39,15 @@ public class Activity implements Serializable {
 
     private String feature;
 
-    public Activity(){
-        _ID="";
-        activityName="";
-        activityDescription= "";
-        activityCost =0;
-        activityRating=0;
-        businessId= "";
+    public Activity() {
+        _ID = "";
+        activityName = "";
+        activityDescription = "";
+        activityCost = 0;
+        activityRating = 0;
+        businessId = "";
         setActivityImage(null);
-        feature="";
+        feature = "";
     }
 
     public Activity(String activityName, String activityDescription, double activityCost, double activityRating, String businessId, byte[] activityImage, String feature) throws Exception {
@@ -81,21 +81,17 @@ public class Activity implements Serializable {
     }
 
 
-
-
-
-
     public String getActivityName() {
         return activityName;
     }
 
-    public void setActivityName(String activityName){
+    public void setActivityName(String activityName) {
 //        Pattern pattern =
 //                Pattern.compile("^(([a-zA-Z]{2,15}){1}(\\s([a-zA-Z]{2,15}))*)$");
 //        Matcher matcher =
 //                pattern.matcher(activityName);
 //        if (matcher.find())
-            this.activityName = activityName;
+        this.activityName = activityName;
 //        else
 //            throw new Exception("Activity name must contains at least 2 characters!");
     }
@@ -186,7 +182,7 @@ public class Activity implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        return this._ID.equals(((Activity)obj)._ID);
+        return this._ID.equals(((Activity) obj)._ID);
     }
 
 

@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/business_header_layout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:orientation="vertical"
-    android:id="@+id/business_header_layout">
+    android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
 
@@ -17,18 +17,18 @@
         <android.support.v7.widget.CardView
             android:id="@+id/business_header_card_view"
             android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
+            android:background="@drawable/header_image_border"
             app:cardCornerRadius="0dp"
             app:cardElevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_height="80dp"
-            app:layout_constraintVertical_bias="0.13"
-            android:background="@drawable/header_image_border">
+            app:layout_constraintVertical_bias="0.13">
 
             <ImageView
                 android:id="@+id/business_header_image"
@@ -36,35 +36,33 @@
                 android:layout_height="match_parent"
 
                 android:contentDescription="@string/header_logo"
+                android:scaleType="centerCrop"
+                android:transitionName="@string/transition_collection_background"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/firebase"
-                android:scaleType="centerCrop"
-                android:transitionName="@string/transition_collection_background"/>
+                app:srcCompat="@drawable/firebase" />
         </android.support.v7.widget.CardView>
 
 
-
-            <TextView
-                android:id="@+id/business_header_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:maxLines="1"
-                android:paddingBottom="2dp"
-                android:scrollHorizontally="true"
-                android:text="@string/name_prompt"
-                android:textColor="@color/icons"
-                android:textSize="24sp"
-                android:fontFamily="sans-serif-regular"
-                app:layout_constraintBottom_toBottomOf="@+id/business_header_card_view"
-                app:layout_constraintLeft_toRightOf="@+id/business_header_card_view"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp" />
-
+        <TextView
+            android:id="@+id/business_header_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-regular"
+            android:gravity="bottom"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="1"
+            android:paddingBottom="2dp"
+            android:scrollHorizontally="true"
+            android:text="@string/name_prompt"
+            android:textColor="@color/icons"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/business_header_card_view"
+            app:layout_constraintLeft_toRightOf="@+id/business_header_card_view" />
 
 
     </android.support.constraint.ConstraintLayout>

@@ -184,7 +184,7 @@ public class Business implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        return this._ID.equals(((Business)obj)._ID);
+        return this._ID.equals(((Business) obj)._ID);
     }
 
 

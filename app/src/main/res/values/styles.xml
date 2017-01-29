@@ -19,7 +19,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-
     <style name="AppThemeWithoutActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primary</item>

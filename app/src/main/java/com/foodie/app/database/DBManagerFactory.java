@@ -14,17 +14,21 @@ public class DBManagerFactory {
     private static boolean DBupdated = true;
     private static String DBtype = "Firebase";
     private static CPUser currentUser = null;
+
     public static String getDBtype() {
         return DBtype;
     }
 
-    public static CPUser getCurrentUser(){return currentUser;}
-    public static boolean setCurrentUser(CPUser value){
+    public static CPUser getCurrentUser() {
+        return currentUser;
+    }
 
-        if(currentUser != null)
+    public static boolean setCurrentUser(CPUser value) {
+
+        if (currentUser != null)
             return false;
 
-        currentUser =value;
+        currentUser = value;
         return true;
     }
 
@@ -37,49 +41,44 @@ public class DBManagerFactory {
         return manager;
     }
 
-    public static void login(String email,String password, CallBack<CPUser> callBack)  {
+    public static void login(String email, String password, CallBack<CPUser> callBack) {
 
-        if(currentUser != null)
-            callBack.onFailed(DataStatus.AlreadyExist,"User already did login");
+        if (currentUser != null)
+            callBack.onFailed(DataStatus.AlreadyExist, "User already did login");
 
         if (DBtype.equals("List"))
-            ListDBManager.login(email,password,callBack);
+            ListDBManager.login(email, password, callBack);
         if (DBtype.equals("Firebase"))
-            ((FirebaseDB)getManager()).login(email,password,callBack);
-
+            ((FirebaseDB) getManager()).login(email, password, callBack);
 
 
     }
 
-    public static void signUp(CPUser user,CallBack<CPUser> callBack)
-    {
+    public static void signUp(CPUser user, CallBack<CPUser> callBack) {
         if (DBtype.equals("List"))
-            ListDBManager.signUp(user,callBack);
+            ListDBManager.signUp(user, callBack);
         if (DBtype.equals("Firebase"))
-            ((FirebaseDB)getManager()).signUp(user,callBack);
+            ((FirebaseDB) getManager()).signUp(user, callBack);
     }
 
-    public static void signOut()
-    {
+    public static void signOut() {
 
         currentUser = null;
-       if (DBtype.equals("Firebase"))
-              ((FirebaseDB)getManager()).signOut();
+        if (DBtype.equals("Firebase"))
+            ((FirebaseDB) getManager()).signOut();
     }
 
 
-    public static boolean getDBupdated()
-    {
-        if(DBupdated)
+    public static boolean getDBupdated() {
+        if (DBupdated)
             return DBupdated;
 
         DBupdated = true;
         return false;
     }
 
-    public static void setDBupdated(boolean value)
-    {
-        if(DBupdated)
+    public static void setDBupdated(boolean value) {
+        if (DBupdated)
             DBupdated = value;
     }
 

@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Foodie</string>
     <string name="title_activity_login">Sign in</string>
-
-
     <string name="not_yet_implemented">Not yet implemented</string>
 
     <!-- String related to content description -->
@@ -25,14 +23,11 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-
-
     <string name="new_account">Don\'t have an account yet?</string>
     <string name="existing_account">Already have an account?</string>
     <string name="sign_up_view">
         <u><b>Sign Up</b></u>
     </string>
-
     <string name="sign_in_view">
         <u><b>Sign In</b></u>
     </string>
@@ -41,10 +36,8 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_up_button">Sign Up</string>
     <string name="title_activity_business">businessActivity</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
     <string name="title_activity_activities">ActivitiesActivity</string>
 

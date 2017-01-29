@@ -100,7 +100,6 @@ public class BusinessActivity extends AppCompatActivity
         setRecyclerView();
 
 
-
         final View rootView = getLayoutInflater().inflate(R.layout.nav_header_business, null);
         TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerCPUserName);
         TextView numOfBusinessse = (TextView) rootView.findViewById(R.id.drawerNumOfBusinesses);

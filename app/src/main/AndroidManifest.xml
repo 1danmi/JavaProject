@@ -29,13 +29,6 @@
             android:name=".ui.MainActivity"
             android:theme="@style/AppThemeWithoutActionBar">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-
         </activity>
         <activity
             android:name=".ui.RegisterActivity"
@@ -67,12 +60,6 @@
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="stateHidden|adjustPan">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
     </application>
 

@@ -48,7 +48,6 @@
 
             </FrameLayout>
 
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/activity_toolbar"
                 android:layout_width="match_parent"
@@ -66,10 +65,10 @@
         android:id="@+id/fabProgressCircle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
         app:arcColor="@color/yellow_500"
         app:finalIcon="@drawable/ic_mode_edit_white_48dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
         app:reusable="true">
 
         <android.support.design.widget.FloatingActionButton
@@ -84,7 +83,5 @@
             app:pressedTranslationZ="12dp"
             app:srcCompat="@drawable/ic_mode_edit_white_48dp" />
     </com.github.jorgecastilloprz.FABProgressCircle>
-
-
 
 </android.support.design.widget.CoordinatorLayout>

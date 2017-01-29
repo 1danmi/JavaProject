@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BusinessActivitiesFragment extends Fragment implements RecyclerItemClickListener.onRecyclerClickListener{
+public class BusinessActivitiesFragment extends Fragment implements RecyclerItemClickListener.onRecyclerClickListener {
 
     ActivityRecyclerViewAdapter activityRecyclerViewAdapter;
     private RecyclerView recyclerView;
@@ -68,7 +68,7 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        activityRecyclerViewAdapter = new ActivityRecyclerViewAdapter( ContentResolverDatabase.activities, getActivity());
+        activityRecyclerViewAdapter = new ActivityRecyclerViewAdapter(ContentResolverDatabase.activities, getActivity());
         recyclerView.setAdapter(activityRecyclerViewAdapter);
 
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, this));
@@ -80,7 +80,7 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
 
         Bundle bundle = this.getArguments();
         businessID = bundle.getString(Constants.BUSINESS_ID, "");
-        businessName = bundle.getString(Constants.BUSINESS_NAME,"");
+        businessName = bundle.getString(Constants.BUSINESS_NAME, "");
         ContentResolverDatabase.setActivityRecyclerViewAdapter(activityRecyclerViewAdapter);
         ContentResolverDatabase.setBusinessBackground(backgroundImage);
         ContentResolverDatabase.getBusinessActivitiesList(getContext(), businessID, false);
@@ -92,16 +92,13 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
     public void onitemClick(View v, int position, MotionEvent e) {
 
         Intent intent = new Intent(v.getContext(), ActivityDetails.class);
-        intent.putExtra(Constants.ACTIVITY_ID,activityRecyclerViewAdapter.getActivitiesList().get(position).get_ID());
+        intent.putExtra(Constants.ACTIVITY_ID, activityRecyclerViewAdapter.getActivitiesList().get(position).get_ID());
         intent.putExtra(Constants.EDIT_MODE, false);
         intent.putExtra(Constants.BUSINESS_NAME, businessName);
         intent.putExtra(Constants.BUSINESS_ID, businessID);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
         }
-
-
-
 
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

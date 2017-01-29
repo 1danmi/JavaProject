@@ -2,20 +2,12 @@ package com.foodie.app.Services;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.HandlerThread;
 import android.os.IBinder;
-import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.database.DBManagerFactory;
-import com.foodie.app.entities.Business;
 import com.foodie.app.listsDB.ListDBManager;
-import com.foodie.app.ui.BusinessActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by David on 19/1/2017.
@@ -38,15 +30,14 @@ public class DataUpdated extends Service {
     public void onCreate() {
         super.onCreate();
 
-        new Thread(new Runnable(){
+        new Thread(new Runnable() {
             public void run() {
 
                 DebugHelper.Log("DataUpdated: Services start");
-                while(true)
-                {
+                while (true) {
                     try {
 
-                        if(!DBManagerFactory.getDBupdated()) {
+                        if (!DBManagerFactory.getDBupdated()) {
                             sendMessage("Cpusers");
                             sendMessage("Users");
                             sendMessage("Activities");
@@ -54,26 +45,23 @@ public class DataUpdated extends Service {
 
                         }
 
-                        if(cpuserTotal != ListDBManager.getCpusersListSize()) {
+                        if (cpuserTotal != ListDBManager.getCpusersListSize()) {
                             cpuserTotal = ListDBManager.getCpusersListSize();
                             sendMessage("Cpusers");
 
                         }
 
-                        if(userTotal != ListDBManager.getUsersListSize())
-                        {
+                        if (userTotal != ListDBManager.getUsersListSize()) {
                             userTotal = ListDBManager.getUsersListSize();
                             sendMessage("Users");
                         }
 
-                        if(activitiesTotal != ListDBManager.getActivitiesListSize())
-                        {
+                        if (activitiesTotal != ListDBManager.getActivitiesListSize()) {
                             activitiesTotal = ListDBManager.getActivitiesListSize();
                             sendMessage("Activities");
                         }
 
-                        if(businessTotal != ListDBManager.getBusinessListSize())
-                        {
+                        if (businessTotal != ListDBManager.getBusinessListSize()) {
                             businessTotal = ListDBManager.getBusinessListSize();
                             sendMessage("Business");
                         }
@@ -98,8 +86,7 @@ public class DataUpdated extends Service {
     }
 
 
-    private void sendMessage(String from)
-    {
+    private void sendMessage(String from) {
         DebugHelper.Log("DataUpdated: Something happen in " + from);
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(from);

@@ -8,12 +8,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.dx.dxloadingbutton.lib.LoadingButton;
-import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
-import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
 import com.foodie.app.database.DBManagerFactory;
-import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.CPUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -77,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                 //Create an AsyncData object and set the constructor
-                DBManagerFactory.signUp(user,new CallBack<CPUser>() {
+                DBManagerFactory.signUp(user, new CallBack<CPUser>() {
                     @Override
                     public void onSuccess(List<CPUser> data) {
                         signUpBtn.loadingSuccessful();
@@ -95,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
 
 
-            });
+                });
 
             }
         });
