@@ -27,12 +27,14 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     private static final String TAG = "businessRecyclerViewAda";
     private List<Business> businessesList;
     private Context mContext;
+    private boolean lock;
 
 
 
     public BusinessRecyclerViewAdapter(List<Business> businessesList, Context mContext) {
         this.businessesList = businessesList;
         this.mContext = mContext;
+        lock = false;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     @Override
     public void onBindViewHolder(final BusinessImageViewHolder holder, int position) {
         // Called by the layout manager when it wants new data in an existing row
-
+        //while(lock){}
         final Business businessItem = businessesList.get(position);
         Log.d(TAG, "onBindViewHolder: " + businessItem.getBusinessName() + " --> " + position);
 
@@ -82,14 +84,32 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     @Override
     public BusinessImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Called by the layout manager when it needs a new view
+        //while(lock){}
         Log.d(TAG, "onCreateViewHolder: new view requested");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.business_card, parent, false);
         return new BusinessImageViewHolder(view);
     }
 
     public void loadNewData(List<Business> newBusinesses) {
-        this.businessesList = newBusinesses;
+        //while(lock){}
+//        lock = true;
+        businessesList.clear();
         notifyDataSetChanged();
+        for(int i=0;i<newBusinesses.size();i++)
+            add(newBusinesses.get(i),i);
+//        lock=false;
+        //notifyDataSetChanged();
+    }
+
+    public void remove(int position) {
+        businessesList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void add(Business business, int position) {
+        businessesList.add(business);
+        notifyItemInserted(position);
+//        notifyDataSetChanged();
     }
 
     public Business getBusiness(int position) {

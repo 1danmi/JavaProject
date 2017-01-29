@@ -154,6 +154,7 @@ public class FirebaseDB implements IDBManager {
         toInsert.child(AppContract.Activity.ACTIVITY_FEATURE).setValue(activity.getFeature());
         String str = HelperClass.fromByteArraytoString(activity.getActivityImage());
         toInsert.child(AppContract.Activity.ACTIVITY_IMAGE).setValue(str);
+        toInsert.child(AppContract.Activity.ACTIVITY_ID).setValue(toInsert.getKey());
         return "";
     }
 

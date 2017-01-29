@@ -138,7 +138,8 @@ public class ActivityDetails extends AppCompatActivity {
         priceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setPrice();
+                if (mEditMode)
+                    setPrice();
             }
         });
     }
@@ -152,7 +153,7 @@ public class ActivityDetails extends AppCompatActivity {
         final EditText input = new EditText(ActivityDetails.this);
 
         input.setHint("Dish price");
-        input.setInputType(InputType.TYPE_CLASS_NUMBER |  InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         input.setTextColor(getResources().getColor(R.color.white));
 
         alert.setView(input, 60, 0, 60, 0);
@@ -241,12 +242,12 @@ public class ActivityDetails extends AppCompatActivity {
                         (new AsyncTask<Void, Void, Void>() {
                             @Override
                             protected Void doInBackground(Void... params) {
-                                return  null;
+                                return null;
                             }
                         }).execute();
-                        if(addActivity()) {
+                        if (addActivity()) {
                             Snackbar.make(rootLayout, "Success", Snackbar.LENGTH_LONG).show();
-                        }else{
+                        } else {
                             Snackbar.make(rootLayout, "Failed", Snackbar.LENGTH_LONG).show();
                         }
                     }
@@ -269,20 +270,37 @@ public class ActivityDetails extends AppCompatActivity {
             activityItem.setBusinessId(businessID);
             activityItem.setFeature(featureEditText.getText().toString().trim());
 
-            CallBack<com.foodie.app.entities.Activity> callBack = new CallBack<com.foodie.app.entities.Activity>() {
-                @Override
-                public void onSuccess(List<com.foodie.app.entities.Activity> data) {
-                    DebugHelper.Log("Business insert callBack finish with status: Success");
-                }
+            if (activityID.equals("")) {
+                CallBack<com.foodie.app.entities.Activity> callBack = new CallBack<com.foodie.app.entities.Activity>() {
+                    @Override
+                    public void onSuccess(List<com.foodie.app.entities.Activity> data) {
+                        DebugHelper.Log("Business insert callBack finish with status: Success");
+                    }
 
-                @Override
-                public void onFailed(DataStatus status, String error) {
+                    @Override
+                    public void onFailed(DataStatus status, String error) {
 
-                }
+                    }
 
 
-            };
-            (new AsyncData<>(getApplicationContext(), com.foodie.app.entities.Activity.getURI(), DataManagerType.Insert, callBack)).execute(activityItem.toContentValues());
+                };
+                (new AsyncData<>(getApplicationContext(), com.foodie.app.entities.Activity.getURI(), DataManagerType.Insert, callBack)).execute(activityItem.toContentValues());
+            } else {
+                CallBack<com.foodie.app.entities.Activity> callBack = new CallBack<com.foodie.app.entities.Activity>() {
+                    @Override
+                    public void onSuccess(List<com.foodie.app.entities.Activity> data) {
+
+                    }
+
+                    @Override
+                    public void onFailed(DataStatus status, String error) {
+                        DebugHelper.Log("Business insert callBack finish with status: " + status);
+                    }
+
+                };
+                (new AsyncData<>(getApplicationContext(), com.foodie.app.entities.Activity.getURI(), DataManagerType.Update, callBack)).execute(activityItem.toContentValues());
+                Snackbar.make(rootLayout, "Update successful!", Snackbar.LENGTH_LONG).show();
+            }
         } catch (Exception e) {
             Snackbar.make(rootLayout, e.getMessage(), Snackbar.LENGTH_LONG).show();
         }
@@ -441,12 +459,13 @@ public class ActivityDetails extends AppCompatActivity {
         } else {
             setTitle(activityItem.getActivityName());
             dishNameEditText.setText(activityItem.getActivityName());
-            featureEditText.setText(activityItem.getActivityDescription());
+            featureEditText.setText(activityItem.getFeature());
             dishDescription.setText(activityItem.getActivityDescription());
             ratingBar.setRating((float) activityItem.getActivityRating());
             ratingBarText.setText(Double.toString(activityItem.getActivityRating()));
             dishBusinessName.setText(businessName);
-            priceBtn.setText(Double.toString(activityItem.getActivityCost()));
+            String cost = Double.toString(activityItem.getActivityCost()).replace(".0", "");
+            priceBtn.setText(cost + "$");
             isPhotoChanged = true;
             isPriceChanged = true;
             if (activityItem.getActivityImage() != null) {

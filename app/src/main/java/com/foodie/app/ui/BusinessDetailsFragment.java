@@ -151,48 +151,6 @@ public class BusinessDetailsFragment extends Fragment   {
             editFAB.setVisibility(View.GONE);
         }
 
-//        editButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mEditMode = true;
-//                addFAB.setVisibility(View.VISIBLE);
-//                editFAB.setVisibility(View.GONE);
-//            }
-//        });
-//
-//        addButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mEditMode = false;
-//                if (inputCheck(rootLayout)) {
-//                    if (businessItem.equals("")) {
-//                        //businessItem.set_ID(Business.businessID + 1);
-//                        //Business.businessID++;
-//                        CallBack<Business> callBack = new CallBack<Business>() {
-//                            @Override
-//                            public void run(DataStatus status, List<Business> data) {
-//                                DebugHelper.Log("Business insert callBack finish with status: " + status);
-//                            }
-//                        };
-//                        (new AsyncData<Business>(getContext(), Business.getURI(), DataManagerType.Insert, callBack)).execute(businessItem.toContentValues());
-//
-//                        addFAB.setVisibility(View.GONE);
-//                        editFAB.setVisibility(View.VISIBLE);
-//                    } else {
-//                        CallBack<Business> callBack = new CallBack<Business>() {
-//                            @Override
-//                            public void run(DataStatus status, List<Business> data) {
-//                                DebugHelper.Log("Business insert callBack finish with status: " + status);
-//                            }
-//                        };
-//                        (new AsyncData<Business>(getContext(), Business.getURI(), DataManagerType.Update, callBack)).execute(businessItem.toContentValues());
-//
-//                        addFAB.setVisibility(View.GONE);
-//                        editFAB.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            }
-//        });
     }
 
     protected void setSnackBarView(View view){

@@ -1,6 +1,9 @@
 package com.foodie.app.listsDB;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.foodie.app.backend.AppContract;
@@ -33,6 +36,7 @@ public class ContentResolverDatabase {
     public static List<Activity> activities;
     public CPUser cpuserConected;
     public User userConected;
+    private static ImageView businessBackground;
     private static BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
     private static ActivityRecyclerViewAdapter activitiesRecyclerViewAdapter;
 
@@ -56,9 +60,9 @@ public class ContentResolverDatabase {
         data.setCallBack(new CallBack<Business>() {
             @Override
             public void onSuccess(List<Business> data) {
-                for (Business item : data) {
+//                for (Business item : data) {
                     ContentResolverDatabase.setBusinessList(data);
-                }
+//                }
             }
 
             @Override
@@ -140,6 +144,10 @@ public class ContentResolverDatabase {
             public void onSuccess(List<Activity> data) {
                 for (Activity item : data) {
                     ContentResolverDatabase.setActivityList(data, size);
+                    if(businessBackground!=null && activities.size()>0){
+                        Bitmap bmp = BitmapFactory.decodeByteArray(activities.get(0).getActivityImage(), 0, activities.get(0).getActivityImage().length);
+                        businessBackground.setImageBitmap(bmp);
+                    }
                 }
             }
 
@@ -162,6 +170,7 @@ public class ContentResolverDatabase {
     }
 
     public static void setActivityList(List<Activity> activityList, boolean size) {
+        //activities.clear();
         activities = activityList;
         if (!size)
             activitiesRecyclerViewAdapter.loadNewData(activities);
@@ -174,5 +183,9 @@ public class ContentResolverDatabase {
 
     public static void setActivityRecyclerViewAdapter(ActivityRecyclerViewAdapter adapter) {
         activitiesRecyclerViewAdapter = adapter;
+    }
+
+    public static void setBusinessBackground(ImageView businessBackground) {
+        ContentResolverDatabase.businessBackground = businessBackground;
     }
 }

@@ -36,7 +36,8 @@ public class OnOnlineDBChange implements ChildEventListener {
                         localDB.addCPUser(getCPUser(data));
                     break;
                 case "Business":
-                    localDB.addBusiness(getBusiness(data)); ;
+                    localDB.addBusiness(getBusiness(data));
+
                     break;
                 case "Activity":
                     localDB.addActivity(getActivity(data));
@@ -69,7 +70,8 @@ public class OnOnlineDBChange implements ChildEventListener {
                 activity.setBusinessId(data.child(AppContract.Activity.ACTIVITY_BUSINESS_ID).getValue().toString());
             if(data.child(AppContract.Activity.ACTIVITY_FEATURE).getValue() != null)
                 activity.setFeature( data.child(AppContract.Activity.ACTIVITY_FEATURE).getValue().toString());
-
+            if (data.child(AppContract.Activity.ACTIVITY_ID).getValue() != null)
+                activity.set_ID(data.child(AppContract.Activity.ACTIVITY_ID).getValue().toString());
             if(data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue() != null && !data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue().toString().isEmpty()){
                 byte[] ba = HelperClass.fromStringToByteArray(data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue().toString());
                 activity.setActivityImage(ba);

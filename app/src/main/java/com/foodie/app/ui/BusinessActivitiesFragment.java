@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.foodie.app.R;
 import com.foodie.app.constants.Constants;
@@ -33,6 +34,8 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
     private RecyclerView recyclerView;
     private List<Activity> activitiesList;
     private String businessID, businessName;
+    private ImageView backgroundImage;
+    private View parent;
 
     public BusinessActivitiesFragment() {
         // Required empty public constructor
@@ -51,12 +54,11 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
 
         View rootView = inflater.inflate(R.layout.fragment_business_activities, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.business_activities_recycler_view);
+        parent = getActivity().findViewById(R.id.activities_activity_layout);
+        backgroundImage = (ImageView) parent.findViewById(R.id.app_bar_business_logo);
+
         activitiesList = new ArrayList<Activity>();
         setupRecyclerView();
-
-
-
-
 
         return rootView;
 
@@ -80,8 +82,10 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
         businessID = bundle.getString(Constants.BUSINESS_ID, "");
         businessName = bundle.getString(Constants.BUSINESS_NAME,"");
         ContentResolverDatabase.setActivityRecyclerViewAdapter(activityRecyclerViewAdapter);
+        ContentResolverDatabase.setBusinessBackground(backgroundImage);
         ContentResolverDatabase.getBusinessActivitiesList(getContext(), businessID, false);
-        activityRecyclerViewAdapter.notifyDataSetChanged();
+
+        //activityRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -54,7 +54,7 @@ public class MyContentProvider extends ContentProvider {
                 case "Business":
                     if (manager.removeBusiness(id))
                         return 1;
-                case "activity":
+                case "Activity":
                     if (manager.removeActivity(id))
                         return 1;
                 case "cpuser":
@@ -167,7 +167,7 @@ public class MyContentProvider extends ContentProvider {
                     if (manager.updateBusiness(id, values))
                         return 1;
 
-                case "activity":
+                case "Activity":
                     if (manager.updateActivity(id, values))
                         return 1;
 

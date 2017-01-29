@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SearchView;
@@ -78,7 +79,7 @@ public class BusinessActivity extends AppCompatActivity
 
             if (intent.getAction().equals("Business")) {
                 loadData();
-                //// TODO: implement data update
+                // TODO: implement data update
             }
         }
     };
@@ -158,7 +159,10 @@ public class BusinessActivity extends AppCompatActivity
 
         recyclerView = (RecyclerView) findViewById(R.id.business_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setItemAnimator(new SlideInUpAnimator());
+//        recyclerView.setItemAnimator(new ScaleInBottomAnimator(new AccelerateDecelerateInterpolator()));
+//        recyclerView.setItemAnimator(new ScaleInTopAnimator(new AccelerateDecelerateInterpolator()));
+//        recyclerView.setItemAnimator(new ScaleInLeftAnimator(new AccelerateDecelerateInterpolator()));
+        recyclerView.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
 
         businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(ContentResolverDatabase.businesses, getApplicationContext());
 
@@ -270,8 +274,13 @@ public class BusinessActivity extends AppCompatActivity
         }
         ContentResolverDatabase.setBusinessRecyclerViewAdapter(businessRecyclerViewAdapter);
         ContentResolverDatabase.getBusinessesList(getApplicationContext());
-        businessRecyclerViewAdapter.notifyDataSetChanged();
+        //businessRecyclerViewAdapter.notifyDataSetChanged();
 
+
+        recyclerView.getItemAnimator().setAddDuration(800);
+        recyclerView.getItemAnimator().setRemoveDuration(800);
+        recyclerView.getItemAnimator().setMoveDuration(800);
+        recyclerView.getItemAnimator().setChangeDuration(800);
     }
 
     @Override

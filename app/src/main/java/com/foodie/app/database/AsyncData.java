@@ -7,13 +7,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 
 import com.foodie.app.Helper.DebugHelper;
-import com.foodie.app.backend.AppContract;
-import com.foodie.app.entities.CPUser;
-import com.foodie.app.entities.User;
 import com.foodie.app.provider.MyContentProvider;
+import com.foodie.app.ui.view_adapters.BusinessRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -32,6 +29,8 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
 
     private String contenProviderErrorMessage = "";
     private String contenProviderErrorType = "";
+    List<T> BusinessList;
+    public BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
 
 
     public AsyncData(Context context, Uri uri) {
@@ -164,8 +163,9 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
 
 
                     case "Business":
-                        List<T> BusinessList = (List<T>) Converters.cursorToBusinessList(result);
+                        BusinessList = (List<T>) Converters.cursorToBusinessList(result);
                         runCallBack(getErrorType(true), BusinessList);
+
                         break;
 
 
@@ -264,4 +264,11 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
 
     }
 
+//    @Override
+//    protected void onProgressUpdate(Integer... values) {
+//        if(values!=null&&values.length>0)
+//            if(values[0]==0) {
+//                businessRecyclerViewAdapter.loadNewData((List<Business>) BusinessList);
+//            }
+//    }
 }

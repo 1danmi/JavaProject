@@ -64,7 +64,23 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
 
 
     public void loadNewData(List<Activity> newActivities) {
-        this.activitiesList = newActivities;
+        activitiesList.clear();
+        boolean exist;
+        for (Activity a : newActivities) {
+            exist = false;
+            if (!a.get_ID().equals("")) {
+                for (Activity a2 : activitiesList) {
+                    if (a.get_ID().equals(a2.get_ID())) {
+                        exist = true;
+                        break;
+                    }
+                }
+                if (!exist){
+                    activitiesList.add(a);
+                }
+            }
+        }
+//        this.activitiesList = newActivities;
         notifyDataSetChanged();
     }
 
