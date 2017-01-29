@@ -42,6 +42,7 @@ import com.foodie.app.listsDB.ContentResolverDatabase;
 import com.foodie.app.ui.helpers.AnimationHelper;
 import com.foodie.app.ui.view_adapters.AppBarStateChangeListener;
 import com.foodie.app.ui.view_adapters.SuggestionRecyclerViewAdapter;
+import com.github.jorgecastilloprz.FABProgressCircle;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -59,7 +60,7 @@ public class ActivityDetails extends AppCompatActivity {
     private com.foodie.app.entities.Activity activityItem;
     private String activityID, businessID, businessName;
     private double mPrice;
-    private boolean mEditMode, isPhotoChanged, isPriceChanged;
+    private boolean mEditMode, isPhotoChanged, isPriceChanged, fabLock;
 
 
     //Views:
@@ -68,12 +69,12 @@ public class ActivityDetails extends AppCompatActivity {
     private Toolbar toolbar;
     private ImageView dishImage;
     private FloatingActionButton addEditActivityBtn;
+    private FABProgressCircle fabProgressCircle;
     private EditText dishNameEditText, featureEditText, dishDescription;
     private RatingBar ratingBar;
     private TextView dishBusinessName, ratingBarText, mNumOfVotes;
     private Button priceBtn;
     private RecyclerView suggestionRecyclerView;
-
     private Bitmap doneBitmap, editBitmap;
 
     private SuggestionRecyclerViewAdapter suggestionRecyclerViewAdapter;
@@ -202,11 +203,12 @@ public class ActivityDetails extends AppCompatActivity {
         appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onExpanded(AppBarLayout appBarLayout) {
-//                setActivityTitle("");
+                AnimationHelper.showFab(addEditActivityBtn);
             }
 
             @Override
             public void onCollapsed(AppBarLayout appBarLayout) {
+                AnimationHelper.hideFab(addEditActivityBtn);
 //                setActivityTitle(dishNameEditText.getText().toString());
             }
 
@@ -217,6 +219,8 @@ public class ActivityDetails extends AppCompatActivity {
     }
 
     private void setFabs() {
+
+        fabLock = false;
 
         if (mEditMode) {
             AnimationHelper.hideFab(addEditActivityBtn);
@@ -232,33 +236,52 @@ public class ActivityDetails extends AppCompatActivity {
         addEditActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mEditMode) {
-                    if (inputCheck()) {
-                        AnimationHelper.hideFab(addEditActivityBtn);
-                        addEditActivityBtn.setImageBitmap(editBitmap);
-                        AnimationHelper.showFab(addEditActivityBtn);
-                        setEditMode(false);
-                        setTitle(dishNameEditText.getText().toString().trim());
-                        (new AsyncTask<Void, Void, Void>() {
-                            @Override
-                            protected Void doInBackground(Void... params) {
-                                return null;
-                            }
-                        }).execute();
-                        if (addActivity()) {
-                            Snackbar.make(rootLayout, "Success", Snackbar.LENGTH_LONG).show();
-                        } else {
-                            Snackbar.make(rootLayout, "Failed", Snackbar.LENGTH_LONG).show();
-                        }
-                    }
-                } else {
-                    AnimationHelper.hideFab(addEditActivityBtn);
-                    addEditActivityBtn.setImageBitmap(doneBitmap);
-                    AnimationHelper.showFab(addEditActivityBtn);
-                    setEditMode(true);
-                }
+                fabClick();
             }
         });
+    }
+
+    protected void fabClick() {
+        if (mEditMode) {
+            fabProgressCircle.show();
+
+            //AnimationHelper.hideFab(addEditActivityBtn);
+            //addEditActivityBtn.setImageBitmap(editBitmap);
+            //AnimationHelper.showFab(addEditActivityBtn);
+            (new AsyncTask<Void, Void, Boolean>() {
+                @Override
+                protected Boolean doInBackground(Void... params) {
+                    if (inputCheck()) {
+                        return addActivity();
+                    }
+                    return false;
+                }
+
+                @Override
+                protected void onPostExecute(Boolean result) {
+                   // postInsert(result);
+                }
+            }).execute();
+
+
+        } else {
+
+            AnimationHelper.hideFab(addEditActivityBtn);
+            addEditActivityBtn.setImageBitmap(doneBitmap);
+            AnimationHelper.showFab(addEditActivityBtn);
+            setEditMode(true);
+        }
+    }
+
+    private void postInsert(Boolean result) {
+        if (result) {
+            fabProgressCircle.beginFinalAnimation();
+            setTitle(dishNameEditText.getText().toString().trim());
+            setEditMode(false);
+        } else {
+            fabProgressCircle.beginFinalAnimation();
+            Snackbar.make(rootLayout, "Failed", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private boolean addActivity() {
@@ -275,11 +298,12 @@ public class ActivityDetails extends AppCompatActivity {
                     @Override
                     public void onSuccess(List<com.foodie.app.entities.Activity> data) {
                         DebugHelper.Log("Business insert callBack finish with status: Success");
+                        postInsert(true);
                     }
 
                     @Override
                     public void onFailed(DataStatus status, String error) {
-
+                        postInsert(false);
                     }
 
 
@@ -350,6 +374,7 @@ public class ActivityDetails extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         dishImage = (ImageView) findViewById(R.id.dish_image);
         addEditActivityBtn = (FloatingActionButton) findViewById(R.id.add_edit_activity_btn);
+        fabProgressCircle = (FABProgressCircle) findViewById(R.id.fabProgressCircle1);
 
         dishNameEditText = (EditText) findViewById(R.id.dish_name);
         ratingBar = (RatingBar) findViewById(R.id.activity_rating_bar);
