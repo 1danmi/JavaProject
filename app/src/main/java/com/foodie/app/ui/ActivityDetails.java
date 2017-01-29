@@ -259,7 +259,7 @@ public class ActivityDetails extends AppCompatActivity {
 
                 @Override
                 protected void onPostExecute(Boolean result) {
-                   // postInsert(result);
+                    // postInsert(result);
                 }
             }).execute();
 

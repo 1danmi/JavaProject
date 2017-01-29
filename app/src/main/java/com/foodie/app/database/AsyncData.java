@@ -138,7 +138,6 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
     }
 
 
-
     private void remove(String id) {
 
         if (context.getContentResolver().delete(uri, id, null) == 1) {
@@ -197,13 +196,13 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
 
             String id = value.getAsString("_ID");
 
-            if(id.equals("")) {
+            if (id.equals("")) {
                 DebugHelper.Log("AsyncData: invalid id " + id);
                 runCallBack(DataStatus.InvalidArgumment, null);
                 return;
             }
 
-            if (context.getContentResolver().update(uri, value,id,null) != 0) {
+            if (context.getContentResolver().update(uri, value, id, null) != 0) {
                 runCallBack(DataStatus.Success, null);
             } else {
                 runCallBack(DataStatus.Failed, null);

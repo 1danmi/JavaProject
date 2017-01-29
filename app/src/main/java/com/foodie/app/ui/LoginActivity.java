@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this).toBundle());
-                    }else{
+                    } else {
                         startActivity(intent);
                     }
 
@@ -102,8 +102,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-
-
     }
 
     private void checkLogin() {
@@ -133,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     /***************************Login*****************************/
 
-                    DBManagerFactory.login(emailEditText.getText().toString(), pwdEditText.getText().toString(),new CallBack<CPUser>() {
+                    DBManagerFactory.login(emailEditText.getText().toString(), pwdEditText.getText().toString(), new CallBack<CPUser>() {
                         @Override
                         public void onSuccess(final List<CPUser> data) {
                             signIn.postDelayed(new Runnable() {
@@ -146,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
 
-                                           // test(); //By David
+                                            // test(); //By David
 
                                             if (DBManagerFactory.getCurrentUser() != null) {
                                                 Bundle b = new Bundle();
@@ -165,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailed(final DataStatus status,final String error) {
+                        public void onFailed(final DataStatus status, final String error) {
 
                             switch (status) {
                                 case Success:
@@ -186,7 +184,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             signIn.loadingFailed();
-                                            Snackbar.make(constraintLayout,error , Snackbar.LENGTH_LONG).show();
+                                            Snackbar.make(constraintLayout, error, Snackbar.LENGTH_LONG).show();
 
                                         }
                                     }, 3000);
@@ -254,9 +252,7 @@ public class LoginActivity extends AppCompatActivity {
         /******************Business test ***************************/
 
 
-
         Business demo;
-
 
 
         CallBack<Business> callBack = new CallBack<Business>() {
@@ -274,8 +270,6 @@ public class LoginActivity extends AppCompatActivity {
         };
 
 
-
-
         try {
 
             String name1 = "Burgeranch ";
@@ -288,8 +282,7 @@ public class LoginActivity extends AppCompatActivity {
             byte[] logo1 = stream.toByteArray();
 
             demo = new Business(name1, "Derech Agudat Sport Beitar 1, Jerusalem, 9695235", "0543051733", "Burgeranch@burgeranch.co.il", "burgeranch.co.il", "UAkQb4TN3yYsb4RrNDNyRzXDudB2", logo1);
-            (new AsyncData<>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
-
+            (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Insert, callBack)).execute(demo.toContentValues());
 
 
             String name2 = "McDonald's ";
@@ -300,10 +293,8 @@ public class LoginActivity extends AppCompatActivity {
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] logo2 = stream.toByteArray();
 
-            demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com","UAkQb4TN3yYsb4RrNDNyRzXDudB2", logo2);
-            (new AsyncData<>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
-
-
+            demo = new Business(name2, "Sderot Yitshak Rabin 10, Jerusalem, 1234558", "0543051733", "McDonald@mcdonald.com", "mcdonald.com", "UAkQb4TN3yYsb4RrNDNyRzXDudB2", logo2);
+            (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Insert, callBack)).execute(demo.toContentValues());
 
 
             String name3 = "Duda Lapizza ";
@@ -315,7 +306,7 @@ public class LoginActivity extends AppCompatActivity {
             byte[] logo3 = stream.toByteArray();
 
             demo = new Business(name3, "Sderot Hatsvi 5, Jerusalem, 6546185", "0543051733", "duda@lapizza.com", "duda-lapizza.com", "ZIaGMBmujlWMKSsqCs3Cs3zOt1y1", logo3);
-            (new AsyncData<>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
+            (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Insert, callBack)).execute(demo.toContentValues());
 
 
             String name4 = "Pizza Hut ";
@@ -327,8 +318,7 @@ public class LoginActivity extends AppCompatActivity {
             byte[] logo4 = stream.toByteArray();
 
             demo = new Business(name4, "Nayot 9, Jerusalem, 6546185", "0543051733", "pizza@pizza-hut.com", "pizza-hut.com", "ZIaGMBmujlWMKSsqCs3Cs3zOt1y1", logo4);
-            (new AsyncData<>(getApplicationContext(),Business.getURI(),DataManagerType.Insert,callBack)).execute(demo.toContentValues());
-
+            (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Insert, callBack)).execute(demo.toContentValues());
 
 
         } catch (Exception e) {

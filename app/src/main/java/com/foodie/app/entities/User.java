@@ -38,8 +38,6 @@ public class User implements Serializable {
     }
 
     public User(String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
-
-
         setUserFullName(userFullName);
         setUserEmail(userEmail);
         setUserPhoneNumber(userPhoneNumber);
@@ -47,8 +45,7 @@ public class User implements Serializable {
         setUserAddress(address);
     }
 
-    public User(String ID,String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
-
+    public User(String ID, String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
         set_ID(ID);
         setUserFullName(userFullName);
         setUserEmail(userEmail);
@@ -57,8 +54,7 @@ public class User implements Serializable {
         setUserAddress(address);
     }
 
-    public User(String ID,String userFullName, String userEmail)
-    {
+    public User(String ID, String userFullName, String userEmail) {
         set_ID(ID);
         this.userFullName = userFullName;
         this.userEmail = userEmail;

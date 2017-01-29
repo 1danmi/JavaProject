@@ -64,7 +64,7 @@ public class AppContract {
     public static class Activity {
         public static final String ACTIVITY_ID = "_ID";
         public static final String ACTIVITY_NAME = "activityName";
-//        public static final String ACTIVITY_DATE = "activityDate";
+        //        public static final String ACTIVITY_DATE = "activityDate";
         public static final String ACTIVITY_DESCRIPTION = "activityDescription";
         public static final String ACTIVITY_COST = "activityCost";
         public static final String ACTIVITY_RATING = "activityRating";

@@ -19,7 +19,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-
     <style name="AppThemeWithoutActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primary</item>
@@ -67,9 +66,10 @@
     </style>
 
     <style name="rating_bar" parent="Theme.AppCompat">
-        <item name="colorControlNormal">@color/amber_500</item>
+        <item name="colorControlNormal">@color/green_500</item>
         <item name="colorControlActivated">@color/grey_500</item>
     </style>
+
 
 </resources>
 

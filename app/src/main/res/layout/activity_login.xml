@@ -6,11 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background_narrow2"
-
-
-
     tools:context="com.foodie.app.ui.LoginActivity">
-
 
     <ImageView
         android:id="@+id/fingerprintImage"
@@ -64,10 +60,7 @@
         app:met_singleLineEllipsis="true"
         app:met_textColor="#FAFAFA"
         app:met_textColorHint="@color/hint_color_2k_57"
-        app:met_underlineColor="#FAFAFA"
-
-        />
-
+        app:met_underlineColor="#FAFAFA" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/pwdEditText"
@@ -94,7 +87,6 @@
         app:met_textColor="#FAFAFA"
         app:met_textColorHint="@color/hint_color_2k_57"
         app:met_underlineColor="#FAFAFA" />
-
 
     <com.dx.dxloadingbutton.lib.LoadingButton
         android:id="@+id/sign_in_btn"
@@ -139,6 +131,5 @@
         android:textSize="12sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/newAccountTextView"
         app:layout_constraintLeft_toRightOf="@+id/newAccountTextView" />
-
 
 </android.support.constraint.ConstraintLayout>

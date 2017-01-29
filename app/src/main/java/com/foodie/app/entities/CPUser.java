@@ -31,6 +31,7 @@ public class CPUser implements Serializable {
 
     public CPUser() {
     }
+
     public CPUser(String userFullName) {
         this.userFullName = userFullName;
     }

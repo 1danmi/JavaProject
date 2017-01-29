@@ -6,38 +6,14 @@
     <color name="ripple_accent">#42FF9800</color>
     <color name="hint_color_2k_57">#B3000000</color>
 
-
-
-    <!--<color name="primary">#2196F3</color>-->
-    <!--<color name="primary_dark">#1976D2</color>-->
-    <!--<color name="primary_light">#BBDEFB</color>-->
-    <!--<color name="accent">#536DFE</color>-->
-    <!--<color name="primary_text">#212121</color>-->
-    <!--<color name="secondary_text">#757575</color>-->
-    <!--<color name="icons">#FFFFFF</color>-->
-    <!--<color name="divider">#BDBDBD</color>-->
-
     <color name="primary">@color/grey_800</color>
-    <!--<color name="primary">#F44336</color>-->
-    <!--<color name="primary_dark">#D32F2F</color>-->
     <color name="primary_dark">@color/grey_900</color>
     <color name="primary_light">#FFCDD2</color>
-    <!--<color name="accent">#FF9800</color>-->
-    <!--<color name="accent">@color/amber_500</color>-->
     <color name="accent">@color/green_500</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
-
-    <!--<color name="primary">#4CAF50</color>-->
-    <!--<color name="primary_dark">#388E3C</color>-->
-    <!--<color name="primary_light">#C8E6C9</color>-->
-    <!--<color name="accent">#8BC34A</color>-->
-    <!--<color name="primary_text">#212121</color>-->
-    <!--<color name="secondary_text">#757575</color>-->
-    <!--<color name="icons">#FFFFFF</color>-->
-    <!--<color name="divider">#BDBDBD</color>-->
 
     <color name="red_50">#FFEBEE</color>
     <color name="red_100">#FFCDD2</color>
@@ -314,7 +290,5 @@
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
-
-
 
 </resources>

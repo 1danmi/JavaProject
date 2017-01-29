@@ -3,9 +3,6 @@ package com.foodie.app.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.foodie.app.entities.CPUser;
-import com.foodie.app.entities.User;
-
 /**
  * Created by Daniel on 12/13/2016.
  */
@@ -28,13 +25,13 @@ public interface IDBManager {
 
     boolean removeUser(String id) throws Exception;
 
-    Cursor getCPUser(String[] args,String[] columnsArgs)throws Exception;
+    Cursor getCPUser(String[] args, String[] columnsArgs) throws Exception;
 
-    Cursor getBusiness(String[] args,String[] columnsArgs)throws Exception;
+    Cursor getBusiness(String[] args, String[] columnsArgs) throws Exception;
 
-    Cursor getActivity(String[] args,String[] columnsArgs)throws Exception;
+    Cursor getActivity(String[] args, String[] columnsArgs) throws Exception;
 
-    Cursor getUser(String[] args,String[] columnsArgs)throws Exception;
+    Cursor getUser(String[] args, String[] columnsArgs) throws Exception;
 
 
     boolean updateCPUser(String id, ContentValues values) throws Exception;
@@ -46,8 +43,6 @@ public interface IDBManager {
     boolean updateUser(String id, ContentValues values) throws Exception;
 
     boolean isDBUpdated();
-
-
 
 
 }

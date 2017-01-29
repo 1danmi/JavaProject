@@ -14,8 +14,8 @@ import com.foodie.app.listsDB.ContentResolverDatabase;
 public class MyContentObserver extends ContentObserver {
 
 
-
     private Context mContext;
+
     /**
      * Creates a content observer.
      *
@@ -36,6 +36,7 @@ public class MyContentObserver extends ContentObserver {
         super.onChange(selfChange, uri);
         ContentResolverDatabase.getBusinessesList(mContext);
     }
+
     public void setmContext(Context mContext) {
         this.mContext = mContext;
     }
