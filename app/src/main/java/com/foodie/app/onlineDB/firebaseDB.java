@@ -60,10 +60,11 @@ public class FirebaseDB implements IDBManager {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    ListDBManager.resetDB();
                     DebugHelper.Log("User authenticated: " + user.getEmail());
                     login = true;
                     DBManagerFactory.setCurrentUser(new CPUser(user.getUid(),user.getEmail(),user.getDisplayName()));
-           //         ListDBManager.removeOthersUsers();
+           //       ListDBManager.removeOthersUsers();
                     dataUpdated = true;
                     onCreate(user.getUid());
                     if(newUser  != null)
@@ -133,9 +134,10 @@ public class FirebaseDB implements IDBManager {
         if(business.getBusinessWebsite() != null)
             toInsert.child(AppContract.Business.BUSINESS_WEBSITE).setValue(business.getBusinessWebsite());
 
-        String str = HelperClass.fromByteArraytoString(business.getBusinessLogo());
-        if(!str.isEmpty())
-            toInsert.child(AppContract.Business.BUSINESS_LOGO).setValue(str);
+        if(business.getBusinessLogo() != null)
+            (new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(),"Business",toInsert.getKey(),"jpg")).uploadFile(business.getBusinessLogo());
+
+        toInsert.child(AppContract.Business.BUSINESS_ID).setValue(toInsert.getKey());
 
         return "";
     }
@@ -154,6 +156,9 @@ public class FirebaseDB implements IDBManager {
         toInsert.child(AppContract.Activity.ACTIVITY_FEATURE).setValue(activity.getFeature());
         String str = HelperClass.fromByteArraytoString(activity.getActivityImage());
         toInsert.child(AppContract.Activity.ACTIVITY_IMAGE).setValue(str);
+        if(activity.getActivityImage() != null)
+            (new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(),"Activity",toInsert.getKey(),"jpg")).uploadFile(activity.getActivityImage());
+
         toInsert.child(AppContract.Activity.ACTIVITY_ID).setValue(toInsert.getKey());
         return "";
     }

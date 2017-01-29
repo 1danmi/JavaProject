@@ -54,10 +54,12 @@ public class OnOnlineDBChange implements ChildEventListener {
         updated = true;
     }
 
-    private Activity getActivity(DataSnapshot data) {
+    private Activity getActivity(final DataSnapshot data) {
         try{
             Activity activity = new Activity();
-//            activity.set_ID(data.)
+
+            activity.set_ID(data.getKey());
+
             if(data.child(AppContract.Activity.ACTIVITY_NAME).getValue() != null)
                 activity.setActivityName(data.child(AppContract.Activity.ACTIVITY_NAME).getValue().toString());
             if(data.child(AppContract.Activity.ACTIVITY_DESCRIPTION).getValue() != null)
@@ -72,10 +74,17 @@ public class OnOnlineDBChange implements ChildEventListener {
                 activity.setFeature( data.child(AppContract.Activity.ACTIVITY_FEATURE).getValue().toString());
             if (data.child(AppContract.Activity.ACTIVITY_ID).getValue() != null)
                 activity.set_ID(data.child(AppContract.Activity.ACTIVITY_ID).getValue().toString());
-            if(data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue() != null && !data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue().toString().isEmpty()){
-                byte[] ba = HelperClass.fromStringToByteArray(data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue().toString());
-                activity.setActivityImage(ba);
-            }
+            new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(),"Activity",activity.get_ID(),"jpg").downloadFile(new downloadFileCallBack() {
+                @Override
+                public void onDownload(byte[] img) {
+                    ListDBManager.UpdateActivityPicture(data.getKey(),img);
+                }
+
+                @Override
+                public void onFailed(String error) {
+
+                }
+            });
           return activity;
         }catch (Exception ignored)
         {
@@ -84,7 +93,7 @@ public class OnOnlineDBChange implements ChildEventListener {
         return null;
     }
 
-    private Business getBusiness(DataSnapshot data) {
+    private Business getBusiness(final DataSnapshot data) {
         Business business = new Business();
         business.set_ID(data.getKey());
         if(data.child(AppContract.Business.BUSINESS_NAME).getValue() != null)
@@ -99,10 +108,20 @@ public class OnOnlineDBChange implements ChildEventListener {
             business.setBusinessPhoneNo( data.child(AppContract.Business.BUSINESS_PHONE_NUMBER).getValue().toString());
         if(data.child(AppContract.Business.BUSINESS_WEBSITE).getValue() != null)
             business.setBusinessWebsite( data.child(AppContract.Business.BUSINESS_WEBSITE).getValue().toString());
-        if(data.child(AppContract.Business.BUSINESS_LOGO).getValue() != null && !data.child(AppContract.Business.BUSINESS_LOGO).getValue().toString().isEmpty()) {
-            byte[] b = HelperClass.fromStringToByteArray(data.child(AppContract.Business.BUSINESS_LOGO).getValue().toString());
-            business.setBusinessLogo(b);
-        }
+
+
+        new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(),"Business",business.get_ID(),"jpg").downloadFile(new downloadFileCallBack() {
+            @Override
+            public void onDownload(byte[] img) {
+            ListDBManager.UpdateBusinessPicture(data.getKey(),img);
+            }
+
+            @Override
+            public void onFailed(String error) {
+
+            }
+        });
+
         return business;
     }
 

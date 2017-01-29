@@ -36,6 +36,13 @@ public class ListDBManager implements IDBManager {
         businesses = new ArrayList<>();
         activities = new ArrayList<>();
     }
+    public static void resetDB()
+    {
+        users.clear();
+        cpusers.clear();
+        businesses.clear();
+        activities.clear();
+    }
 
     private int getMaxID(String classList) {
 
@@ -712,6 +719,43 @@ public class ListDBManager implements IDBManager {
 
 
 
+    public static void UpdateBusinessPicture(String id,byte[] img)
+    {
+        Business business;
+        int i = 0;
+        for(Business b:businesses)
+        {
+
+            if(b.get_ID().equals(id))
+            {
+                business = b;
+                b.setBusinessLogo(img);
+                businesses.set(i,b);
+                break;
+            }
+            i++;
+        }
+        DBManagerFactory.setDBupdated(false);
+    }
+
+    public static void UpdateActivityPicture(String id,byte[] img)
+    {
+        Activity activity;
+        int i = 0;
+        for(Activity a:activities)
+        {
+
+            if(a.get_ID().equals(id))
+            {
+                activity = a;
+                a.setActivityImage(img);
+                activities.set(i,a);
+                break;
+            }
+            i++;
+        }
+        DBManagerFactory.setDBupdated(false);
+    }
 
 
 }
