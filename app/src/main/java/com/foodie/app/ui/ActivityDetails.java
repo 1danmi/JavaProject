@@ -57,7 +57,7 @@ import java.util.regex.Pattern;
 public class ActivityDetails extends AppCompatActivity implements RecyclerItemClickListener.onRecyclerClickListener {
     private static final String TAG = "ActivityDetails";
 
-    private boolean debug = true;
+    private boolean debug = false;
 
     //Dish values
     private com.foodie.app.entities.Activity activityItem;
