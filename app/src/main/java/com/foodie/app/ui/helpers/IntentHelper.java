@@ -39,11 +39,11 @@ public class IntentHelper {
         ActivityCompat.startActivity(a, intent, options.toBundle());
     }
 
-    public static void startDetailsActivity(Activity a, View background, com.foodie.app.entities.Activity activityItem,String businessID) {
+    public static void startDetailsActivity(Activity a, View background, com.foodie.app.entities.Activity activityItem,String businessID, String businessName) {
         Intent intent = new Intent(a, ActivityDetails.class);
         intent.putExtra(Constants.ACTIVITY_ID, activityItem.get_ID());
         intent.putExtra(Constants.EDIT_MODE, false);
-        intent.putExtra(Constants.BUSINESS_NAME, activityItem.getActivityName());
+        intent.putExtra(Constants.BUSINESS_NAME, businessName);
         intent.putExtra(Constants.BUSINESS_ID, businessID);
 
         ActivityOptionsCompat options;

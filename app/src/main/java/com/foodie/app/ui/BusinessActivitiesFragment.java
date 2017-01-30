@@ -97,7 +97,7 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
 //        intent.putExtra(Constants.BUSINESS_ID, businessID);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View image = v.findViewById(R.id.activity_image_view);
-            IntentHelper.startDetailsActivity(getActivity(), image,activityRecyclerViewAdapter.getActivitiesList().get(position),businessID);
+            IntentHelper.startDetailsActivity(getActivity(), image,activityRecyclerViewAdapter.getActivitiesList().get(position),businessID, businessName);
 //            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
         }
 

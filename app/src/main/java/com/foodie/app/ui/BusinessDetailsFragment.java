@@ -243,7 +243,7 @@ public class BusinessDetailsFragment extends Fragment {
                 input.setText(mName);
             }
             input.setHint("Business name");
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            input.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_CAP_WORDS);
             input.setTextColor(getResources().getColor(R.color.white));
 
             alert.setView(input, 60, 0, 60, 0);
@@ -264,7 +264,7 @@ public class BusinessDetailsFragment extends Fragment {
                                                 setName(v);
                                             }
                                         });
-                                snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                snackbar.setActionTextColor(getResources().getColor(R.color.accent));
                                 snackbar.show();
 
                             }
@@ -294,7 +294,7 @@ public class BusinessDetailsFragment extends Fragment {
                 input.setText(mAddress);
             }
 
-            input.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+            input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS|InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             input.setTextColor(getResources().getColor(R.color.white));
             input.setHorizontallyScrolling(false);
 
@@ -317,7 +317,7 @@ public class BusinessDetailsFragment extends Fragment {
                                                 setAddress(v);
                                             }
                                         });
-                                snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                snackbar.setActionTextColor(getResources().getColor(R.color.accent));
                                 snackbar.show();
 
                             }
@@ -374,7 +374,7 @@ public class BusinessDetailsFragment extends Fragment {
                                                     setPhone(v);
                                                 }
                                             });
-                                    snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                    snackbar.setActionTextColor(getResources().getColor(R.color.accent));
                                     snackbar.show();
                                 }
                             } else {
@@ -386,7 +386,7 @@ public class BusinessDetailsFragment extends Fragment {
                                                 setName(v);
                                             }
                                         });
-                                snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                snackbar.setActionTextColor(getResources().getColor(R.color.accent));
                                 snackbar.show();
 
                             }
@@ -443,7 +443,7 @@ public class BusinessDetailsFragment extends Fragment {
                                                     setWebsite(v);
                                                 }
                                             });
-                                    snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                    snackbar.setActionTextColor(getResources().getColor(R.color.accent));
                                     snackbar.show();
                                 }
                             } else {
@@ -455,7 +455,7 @@ public class BusinessDetailsFragment extends Fragment {
                                                 setName(v);
                                             }
                                         });
-                                snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                snackbar.setActionTextColor(getResources().getColor(R.color.accent));
                                 snackbar.show();
 
                             }
@@ -523,7 +523,7 @@ public class BusinessDetailsFragment extends Fragment {
                                                     setName(v);
                                                 }
                                             });
-                                    snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                    snackbar.setActionTextColor(getResources().getColor(R.color.accent));
                                     snackbar.show();
                                 }
                             } else {
@@ -535,7 +535,7 @@ public class BusinessDetailsFragment extends Fragment {
                                                 setEmail(v);
                                             }
                                         });
-                                snackbar.setActionTextColor(getResources().getColor(R.color.primary));
+                                snackbar.setActionTextColor(getResources().getColor(R.color.accent));
                                 snackbar.show();
 
                             }

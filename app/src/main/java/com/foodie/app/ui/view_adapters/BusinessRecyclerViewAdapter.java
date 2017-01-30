@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.foodie.app.R;
@@ -29,11 +30,13 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     private List<Business> businessesList;
     private Context mContext;
     private boolean lock;
+    private ProgressBar loadingImage;
+    private TextView noBusinessesText;
 
-
-
-    public BusinessRecyclerViewAdapter(List<Business> businessesList, Context mContext) {
+    public BusinessRecyclerViewAdapter(List<Business> businessesList, Context mContext, ProgressBar loading, TextView noBusiness) {
         this.businessesList = businessesList;
+        this.noBusinessesText = noBusiness;
+        loadingImage = loading;
         this.mContext = mContext;
         lock = false;
     }
@@ -54,14 +57,14 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
 
         //final int THUMBSIZE = 128;
         Bitmap bmp;
-        if(businessItem.getBusinessLogo() != null) {
+        if (businessItem.getBusinessLogo() != null) {
             bmp = BitmapFactory.decodeByteArray(businessItem.getBusinessLogo(), 0, businessItem.getBusinessLogo().length);
 
             //bmp = ThumbnailUtils.extractThumbnail(bmp, THUMBSIZE, THUMBSIZE);
             holder.logo.setImageBitmap(bmp);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.logo.setTransitionName(Business.getURI()+businessItem.getBusinessName());
+            holder.logo.setTransitionName(Business.getURI() + businessItem.getBusinessName());
         }
         holder.title.setText(businessItem.getBusinessName());
         holder.address.setText(businessItem.getBusinessAddress());
@@ -99,8 +102,8 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
 //        lock = true;
         businessesList.clear();
         notifyDataSetChanged();
-        for(int i=0;i<newBusinesses.size();i++)
-            add(newBusinesses.get(i),i);
+        for (int i = 0; i < newBusinesses.size(); i++)
+            add(newBusinesses.get(i), i);
 //        lock=false;
         //notifyDataSetChanged();
     }
@@ -133,7 +136,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
             super(itemView);
             Log.d(TAG, "BusinessImageViewHolder: starts");
             mView = itemView;
-            this.logo = (GifImageView) itemView.findViewById(R.id.business_image_view);
+            this.logo = (GifImageView) itemView.findViewById(R.id.gif_loading_business);
             this.title = (TextView) itemView.findViewById(R.id.businessTitleTextView);
             this.address = (TextView) itemView.findViewById(R.id.businessAddressTextView);
             this.menu = (ImageButton) itemView.findViewById(R.id.businessMenuButton);
@@ -153,6 +156,14 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
             }
         }
         businessesList.addAll(models);
+    }
+
+    public ProgressBar getLoadingImage() {
+        return loadingImage;
+    }
+
+    public TextView getNoBusinessesText() {
+        return noBusinessesText;
     }
 }
 

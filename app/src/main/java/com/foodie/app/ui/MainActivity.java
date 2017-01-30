@@ -11,6 +11,7 @@ import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.entities.CPUser;
+import com.foodie.app.listsDB.ContentResolverDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String mEmail = sharedPreferences.getString("EMAIL_KEY", "");
         String mPassword = sharedPreferences.getString("PASSWORD_KEY", "");
-
+        ContentResolverDatabase.loadingCounter=2;
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         AuthCredential credential = EmailAuthProvider.getCredential(mEmail, mPassword);
         // Prompt the user to re-provide their sign-in credentials

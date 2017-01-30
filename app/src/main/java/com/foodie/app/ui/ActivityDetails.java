@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,7 +41,9 @@ import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
 import com.foodie.app.listsDB.ContentResolverDatabase;
 import com.foodie.app.ui.helpers.AnimationHelper;
+import com.foodie.app.ui.helpers.IntentHelper;
 import com.foodie.app.ui.view_adapters.AppBarStateChangeListener;
+import com.foodie.app.ui.view_adapters.RecyclerItemClickListener;
 import com.foodie.app.ui.view_adapters.SuggestionRecyclerViewAdapter;
 import com.github.jorgecastilloprz.FABProgressCircle;
 
@@ -51,7 +54,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ActivityDetails extends AppCompatActivity {
+public class ActivityDetails extends AppCompatActivity implements RecyclerItemClickListener.onRecyclerClickListener {
     private static final String TAG = "ActivityDetails";
 
     private boolean debug = true;
@@ -312,17 +315,19 @@ public class ActivityDetails extends AppCompatActivity {
                 CallBack<com.foodie.app.entities.Activity> callBack = new CallBack<com.foodie.app.entities.Activity>() {
                     @Override
                     public void onSuccess(List<com.foodie.app.entities.Activity> data) {
-
+                        Snackbar.make(rootLayout, "Update successful!", Snackbar.LENGTH_LONG).show();
+                        postInsert(true);
                     }
 
                     @Override
                     public void onFailed(DataStatus status, String error) {
                         DebugHelper.Log("Business insert callBack finish with status: " + status);
+                        postInsert(false);
                     }
 
                 };
                 (new AsyncData<>(getApplicationContext(), com.foodie.app.entities.Activity.getURI(), DataManagerType.Update, callBack)).execute(activityItem.toContentValues());
-                Snackbar.make(rootLayout, "Update successful!", Snackbar.LENGTH_LONG).show();
+
             }
         } catch (Exception e) {
             Snackbar.make(rootLayout, e.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -472,8 +477,9 @@ public class ActivityDetails extends AppCompatActivity {
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         suggestionRecyclerView.setLayoutManager(layoutManager);
-        suggestionRecyclerViewAdapter = new SuggestionRecyclerViewAdapter(ContentResolverDatabase.activities, getApplicationContext());
+        suggestionRecyclerViewAdapter = new SuggestionRecyclerViewAdapter(ContentResolverDatabase.activities, getApplicationContext(),activityID);
         suggestionRecyclerView.setAdapter(suggestionRecyclerViewAdapter);
+        suggestionRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, suggestionRecyclerView, this));
         if (activityID.equals("")) {
             setTitle("");
             dishBusinessName.setText(businessName);
@@ -500,6 +506,16 @@ public class ActivityDetails extends AppCompatActivity {
                     dishImage.setTransitionName(Business.getURI() + activityItem.getActivityName());
                 }
             }
+        }
+    }
+
+
+    @Override
+    public void onitemClick(View v, int position, MotionEvent e) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            View image = v.findViewById(R.id.suggestion_image);
+            IntentHelper.startDetailsActivity(this, image,suggestionRecyclerViewAdapter.getActivitiesList().get(position),businessID, businessName);
+//            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
         }
     }
 }

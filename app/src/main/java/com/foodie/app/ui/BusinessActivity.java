@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -69,6 +70,8 @@ public class BusinessActivity extends AppCompatActivity
     private IntentFilter mIntentFilter;
     private ImageButton btnMore;
     private Button deleteBtn;
+    private ProgressBar progressBar;
+    private TextView noBusinessesText;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -90,7 +93,8 @@ public class BusinessActivity extends AppCompatActivity
         Log.d(TAG, "onCreate: starts");
 
         Toolbar toolbar = setActionBarAndFAB();
-
+        progressBar = (ProgressBar) findViewById(R.id.business_progress_bar);
+        noBusinessesText = (TextView) findViewById(R.id.noBusinessesTextView);
         setDrawer(toolbar);
         businessList = new ArrayList<>();
         setRecyclerView();
@@ -99,6 +103,8 @@ public class BusinessActivity extends AppCompatActivity
         final View rootView = getLayoutInflater().inflate(R.layout.nav_header_business, null);
         TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerUserNameTextView);
         TextView userEmail = (TextView) rootView.findViewById(R.id.drawerEmailTextView);
+
+
 
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(DataUpdated.mBroadcastBusiness);
@@ -123,7 +129,7 @@ public class BusinessActivity extends AppCompatActivity
 //        recyclerView.setItemAnimator(new ScaleInLeftAnimator(new AccelerateDecelerateInterpolator()));
         recyclerView.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
 
-        businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(ContentResolverDatabase.businesses, getApplicationContext());
+        businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(ContentResolverDatabase.businesses, getApplicationContext(), progressBar, noBusinessesText);
 
         recyclerView.setAdapter(businessRecyclerViewAdapter);
 
@@ -217,6 +223,7 @@ public class BusinessActivity extends AppCompatActivity
 
         } else if (id == R.id.sign_out_navbar) {
             DBManagerFactory.signOut();
+            ContentResolverDatabase.loadingCounter=2;
             super.onBackPressed();
         } else if (id == R.id.about_navbar) {
 
@@ -262,7 +269,7 @@ public class BusinessActivity extends AppCompatActivity
                     intent.putExtra(Constants.BUSINESS_ID, businessRecyclerViewAdapter.getBusinessesList().get(position).get_ID());
                     intent.putExtra(Constants.EDIT_MODE, "false");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        View image = v.findViewById(R.id.business_image_view);
+                        View image = v.findViewById(R.id.gif_loading_business);
                         IntentHelper.startActivitiesActivity(this, image, businessRecyclerViewAdapter.getBusinessesList().get(position), "false");
                     }
                 }
@@ -298,7 +305,7 @@ public class BusinessActivity extends AppCompatActivity
                     intent.putExtra(Constants.BUSINESS_ID, businessRecyclerViewAdapter.getBusinessesList().get(position).get_ID());
                     intent.putExtra(Constants.EDIT_MODE, "false");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        View image = v.findViewById(R.id.business_image_view);
+                        View image = v.findViewById(R.id.gif_loading_business);
                         IntentHelper.startActivitiesActivity(this, image, businessRecyclerViewAdapter.getBusinessesList().get(position), "false");
                     }
                 }
@@ -323,7 +330,7 @@ public class BusinessActivity extends AppCompatActivity
                 Log.d(TAG, "onFailed: failed");
             }
         };
-        (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Delete, callBack)).execute(businessRecyclerViewAdapter.getBusiness(position).toContentValues());
+        (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Delete, callBack)).execute(businessRecyclerViewAdapter.getBusiness(position).get_ID());
     }
 
     @Override

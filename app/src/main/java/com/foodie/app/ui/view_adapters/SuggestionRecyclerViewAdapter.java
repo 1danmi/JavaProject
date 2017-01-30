@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.foodie.app.R;
 import com.foodie.app.entities.Activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,10 +26,13 @@ public class SuggestionRecyclerViewAdapter extends RecyclerView.Adapter<Suggesti
     private static final String TAG = "SuggestionRecyclerViewA";
     private List<Activity> activitiesList;
     private Context mContext;
+    private String activityID;
 
 
-    public SuggestionRecyclerViewAdapter(List<Activity> activitiesList, Context mContext) {
-        this.activitiesList = activitiesList;
+    public SuggestionRecyclerViewAdapter(List<Activity> newActivitiesList, Context mContext, String id) {
+        activityID = id;
+        activitiesList = new ArrayList<Activity>();
+        loadNewData(newActivitiesList);
         this.mContext = mContext;
     }
 
@@ -65,7 +69,23 @@ public class SuggestionRecyclerViewAdapter extends RecyclerView.Adapter<Suggesti
 
 
     public void loadNewData(List<Activity> newActivities) {
-        this.activitiesList = newActivities;
+        activitiesList.clear();
+        boolean exist;
+        for (Activity a : newActivities) {
+            exist = false;
+            if (!a.get_ID().equals("") && !a.get_ID().equals(activityID)) {
+                for (Activity a2 : activitiesList) {
+                    if (a.get_ID().equals(a2.get_ID())) {
+                        exist = true;
+                        break;
+                    }
+                }
+                if (!exist){
+                    activitiesList.add(a);
+                }
+            }
+        }
+//        this.activitiesList = newActivities;
         notifyDataSetChanged();
     }
 
@@ -91,6 +111,12 @@ public class SuggestionRecyclerViewAdapter extends RecyclerView.Adapter<Suggesti
             this.feature = (TextView) itemView.findViewById(R.id.suggestion_feature_text);
         }
     }
+    public List<Activity> getActivitiesList() {
+        return activitiesList;
+    }
 
 
+    public void setActivityID(String activityID) {
+        this.activityID = activityID;
+    }
 }
