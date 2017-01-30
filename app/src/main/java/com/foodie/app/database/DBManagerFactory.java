@@ -1,5 +1,6 @@
 package com.foodie.app.database;
 
+import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.listsDB.ListDBManager;
 import com.foodie.app.onlineDB.FirebaseDB;
@@ -80,6 +81,23 @@ public class DBManagerFactory {
     public static void setDBupdated(boolean value) {
         if (DBupdated)
             DBupdated = value;
+    }
+
+    public static void UpdateCurrentUser(CPUser user)
+    {
+        try {
+            DebugHelper.Log("Updating current user");
+            if(currentUser != null)
+            {
+                currentUser.setUserFullName(user.getUserFullName());
+                currentUser.setUserPwdHash(user.getUserPwdHash());
+            }
+        }catch (Exception ignored)
+        {
+
+        }
+
+
     }
 
 }

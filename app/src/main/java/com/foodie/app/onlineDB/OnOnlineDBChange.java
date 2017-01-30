@@ -32,7 +32,9 @@ public class OnOnlineDBChange implements ChildEventListener {
         for (DataSnapshot data : dataSnapshot.getChildren()) {
             switch (dataSnapshot.getKey()){
                 case "CPUser":
-                        localDB.addCPUser(getCPUser(data));
+                        CPUser user= getCPUser(data);
+                        localDB.addCPUser(user);
+                        DBManagerFactory.UpdateCurrentUser(user);
                     break;
                 case "Business":
                     localDB.addBusiness(getBusiness(data));
@@ -42,9 +44,9 @@ public class OnOnlineDBChange implements ChildEventListener {
                     localDB.addActivity(getActivity(data));
                     break;
                 case "User":
-                    User user = data.getValue(User.class);
-                    user.set_ID(data.getKey());
-                    localDB.addUser(user);
+//                    User user = data.getValue(User.class);
+//                    user.set_ID(data.getKey());
+//                    localDB.addUser(user);
                     break;
             }
         }
