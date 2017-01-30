@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseError;
 public class OnOnlineDBChange implements ChildEventListener {
 
     ListDBManager localDB;
-    public static boolean updated = false;
+    public static boolean updated =false;
 
     public OnOnlineDBChange(ListDBManager localDB) {
         this.localDB = localDB;
@@ -31,9 +31,9 @@ public class OnOnlineDBChange implements ChildEventListener {
 
         DebugHelper.Log("onChildAdded: " + dataSnapshot.getKey());
         for (DataSnapshot data : dataSnapshot.getChildren()) {
-            switch (dataSnapshot.getKey()) {
+            switch (dataSnapshot.getKey()){
                 case "CPUser":
-                    localDB.addCPUser(getCPUser(data));
+                        localDB.addCPUser(getCPUser(data));
                     break;
                 case "Business":
                     localDB.addBusiness(getBusiness(data));
@@ -54,69 +54,90 @@ public class OnOnlineDBChange implements ChildEventListener {
         updated = true;
     }
 
-    private Activity getActivity(DataSnapshot data) {
-        try {
+    private Activity getActivity(final DataSnapshot data) {
+        try{
             Activity activity = new Activity();
-//            activity.set_ID(data.)
-            if (data.child(AppContract.Activity.ACTIVITY_NAME).getValue() != null)
+
+            activity.set_ID(data.getKey());
+
+            if(data.child(AppContract.Activity.ACTIVITY_NAME).getValue() != null)
                 activity.setActivityName(data.child(AppContract.Activity.ACTIVITY_NAME).getValue().toString());
-            if (data.child(AppContract.Activity.ACTIVITY_DESCRIPTION).getValue() != null)
+            if(data.child(AppContract.Activity.ACTIVITY_DESCRIPTION).getValue() != null)
                 activity.setActivityDescription(data.child(AppContract.Activity.ACTIVITY_DESCRIPTION).getValue().toString());
-            if (data.child(AppContract.Activity.ACTIVITY_COST).getValue() != null)
-                activity.setActivityCost(Double.parseDouble(data.child(AppContract.Activity.ACTIVITY_COST).getValue().toString()));
-            if (data.child(AppContract.Activity.ACTIVITY_RATING).getValue() != null)
+            if(data.child(AppContract.Activity.ACTIVITY_COST).getValue() != null)
+                activity.setActivityCost( Double.parseDouble(data.child(AppContract.Activity.ACTIVITY_COST).getValue().toString()));
+            if(data.child(AppContract.Activity.ACTIVITY_RATING).getValue() != null)
                 activity.setActivityRating(Double.parseDouble(data.child(AppContract.Activity.ACTIVITY_RATING).getValue().toString()));
-            if (data.child(AppContract.Activity.ACTIVITY_BUSINESS_ID).getValue() != null)
+            if(data.child(AppContract.Activity.ACTIVITY_BUSINESS_ID).getValue() != null)
                 activity.setBusinessId(data.child(AppContract.Activity.ACTIVITY_BUSINESS_ID).getValue().toString());
-            if (data.child(AppContract.Activity.ACTIVITY_FEATURE).getValue() != null)
-                activity.setFeature(data.child(AppContract.Activity.ACTIVITY_FEATURE).getValue().toString());
+            if(data.child(AppContract.Activity.ACTIVITY_FEATURE).getValue() != null)
+                activity.setFeature( data.child(AppContract.Activity.ACTIVITY_FEATURE).getValue().toString());
             if (data.child(AppContract.Activity.ACTIVITY_ID).getValue() != null)
                 activity.set_ID(data.child(AppContract.Activity.ACTIVITY_ID).getValue().toString());
-            if (data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue() != null && !data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue().toString().isEmpty()) {
-                byte[] ba = HelperClass.fromStringToByteArray(data.child(AppContract.Activity.ACTIVITY_IMAGE).getValue().toString());
-                activity.setActivityImage(ba);
-            }
-            return activity;
-        } catch (Exception ignored) {
+            new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(),"Activity",activity.get_ID(),"jpg").downloadFile(new downloadFileCallBack() {
+                @Override
+                public void onDownload(byte[] img) {
+                    ListDBManager.UpdateActivityPicture(data.getKey(),img);
+                }
+
+                @Override
+                public void onFailed(String error) {
+
+                }
+            });
+          return activity;
+        }catch (Exception ignored)
+        {
 
         }
         return null;
     }
 
-    private Business getBusiness(DataSnapshot data) {
+    private Business getBusiness(final DataSnapshot data) {
         Business business = new Business();
         business.set_ID(data.getKey());
-        if (data.child(AppContract.Business.BUSINESS_NAME).getValue() != null)
+        if(data.child(AppContract.Business.BUSINESS_NAME).getValue() != null)
             business.setBusinessName(data.child(AppContract.Business.BUSINESS_NAME).getValue().toString());
-        if (data.child(AppContract.Business.BUSINESS_ADDRESS).getValue() != null)
+        if(data.child(AppContract.Business.BUSINESS_ADDRESS).getValue() != null)
             business.setBusinessAddress(data.child(AppContract.Business.BUSINESS_ADDRESS).getValue().toString());
-        if (data.child(AppContract.Business.BUSINESS_CPUSER_ID).getValue() != null)
+        if(data.child(AppContract.Business.BUSINESS_CPUSER_ID).getValue() != null)
             business.setCpuserID(data.child(AppContract.Business.BUSINESS_CPUSER_ID).getValue().toString());
-        if (data.child(AppContract.Business.BUSINESS_EMAIL).getValue() != null)
+        if(data.child(AppContract.Business.BUSINESS_EMAIL).getValue() != null)
             business.setBusinessEmail(data.child(AppContract.Business.BUSINESS_EMAIL).getValue().toString());
-        if (data.child(AppContract.Business.BUSINESS_PHONE_NUMBER).getValue() != null)
-            business.setBusinessPhoneNo(data.child(AppContract.Business.BUSINESS_PHONE_NUMBER).getValue().toString());
-        if (data.child(AppContract.Business.BUSINESS_WEBSITE).getValue() != null)
-            business.setBusinessWebsite(data.child(AppContract.Business.BUSINESS_WEBSITE).getValue().toString());
-        if (data.child(AppContract.Business.BUSINESS_LOGO).getValue() != null && !data.child(AppContract.Business.BUSINESS_LOGO).getValue().toString().isEmpty()) {
-            byte[] b = HelperClass.fromStringToByteArray(data.child(AppContract.Business.BUSINESS_LOGO).getValue().toString());
-            business.setBusinessLogo(b);
-        }
+        if(data.child(AppContract.Business.BUSINESS_PHONE_NUMBER).getValue() != null)
+            business.setBusinessPhoneNo( data.child(AppContract.Business.BUSINESS_PHONE_NUMBER).getValue().toString());
+        if(data.child(AppContract.Business.BUSINESS_WEBSITE).getValue() != null)
+            business.setBusinessWebsite( data.child(AppContract.Business.BUSINESS_WEBSITE).getValue().toString());
+
+
+        new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(),"Business",business.get_ID(),"jpg").downloadFile(new downloadFileCallBack() {
+            @Override
+            public void onDownload(byte[] img) {
+            ListDBManager.UpdateBusinessPicture(data.getKey(),img);
+            }
+
+            @Override
+            public void onFailed(String error) {
+
+            }
+        });
+
         return business;
     }
 
-    private CPUser getCPUser(DataSnapshot data) {
+    private CPUser getCPUser(DataSnapshot data)
+    {
         CPUser user = new CPUser();
         user.set_ID(data.getKey());
         try {
 
-            if (data.child(AppContract.CPUser.CPUSER_FULL_NAME).getValue() != null)
+            if(data.child(AppContract.CPUser.CPUSER_FULL_NAME).getValue() != null)
                 user.setUserFullName(data.child(AppContract.CPUser.CPUSER_FULL_NAME).getValue().toString());
 
-            if (data.child(AppContract.CPUser.CPUSER_PWD).getValue() != null)
+            if(data.child(AppContract.CPUser.CPUSER_PWD).getValue() != null)
                 user.setUserFullName(data.child(AppContract.CPUser.CPUSER_PWD).getValue().toString());
 
-            if (data.child(AppContract.CPUser.CPUSER_EMAIL).getValue() != null)
+            if(data.child(AppContract.CPUser.CPUSER_EMAIL).getValue() != null)
                 user.setUserFullName(data.child(AppContract.CPUser.CPUSER_EMAIL).getValue().toString());
 
 
@@ -133,7 +154,7 @@ public class OnOnlineDBChange implements ChildEventListener {
 
         DebugHelper.Log("onChildChanged: " + dataSnapshot.getKey());
         for (DataSnapshot data : dataSnapshot.getChildren()) {
-            switch (dataSnapshot.getKey()) {
+            switch (dataSnapshot.getKey()){
                 case "CPUser":
                     CPUser cpu = data.getValue(CPUser.class);
                     cpu.set_ID(data.getKey());
@@ -161,7 +182,30 @@ public class OnOnlineDBChange implements ChildEventListener {
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
+        DebugHelper.Log("onChildRemoved: " + dataSnapshot.getKey());
+        for (DataSnapshot data : dataSnapshot.getChildren()) {
+            switch (dataSnapshot.getKey()){
+                case "CPUser":
+//                    CPUser cpu = data.getValue(CPUser.class);
+//                    cpu.set_ID(data.getKey());
+//                    localDB.updateCPUser(cpu);
+                    break;
+                case "Business":
+//                    localDB.updateBusiness(getBusiness(data));
+                    break;
+                case "Activity":
+//                    localDB.updateActivity(getActivity(data));
+                    break;
+                case "User":
+//                    User user = data.getValue(User.class);
+//                    user.set_ID(data.getKey());
+//                    localDB.updateUser(user);
+                    break;
+            }
+        }
+        DBManagerFactory.setDBupdated(false);
 
+        updated = true;
     }
 
     @Override

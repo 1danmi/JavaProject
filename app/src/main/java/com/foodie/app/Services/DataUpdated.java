@@ -1,6 +1,7 @@
 package com.foodie.app.Services;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -93,6 +94,5 @@ public class DataUpdated extends Service {
         broadcastIntent.putExtra("Data", "Broadcast Data");
         sendBroadcast(broadcastIntent);
     }
-
 
 }

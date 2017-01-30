@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoadingButton"><attr format="reference|color" name="btnColor"/><attr format="reference|string" name="text"/><attr format="reference|string" name="textColor"/><attr format="boolean" name="resetAfterFailed"/><attr format="reference|color" name="mRippleColor"/></declare-styleable>
+    <string name="app_name">library</string>
+    <string name="button_text">Sign In</string>
+</resources>

@@ -113,8 +113,10 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
                 }
                 break;
             case Delete:
-                if (objects[0] instanceof String)
+                if (objects[0] instanceof String) {
                     remove((String) objects[0]);
+                    DebugHelper.Log("AsyncData: doInBackground -> Delete id " + (String) objects[0]);
+                }
                 break;
 
         }

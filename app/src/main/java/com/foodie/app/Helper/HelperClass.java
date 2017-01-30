@@ -1,5 +1,6 @@
 package com.foodie.app.Helper;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -49,5 +50,6 @@ public class HelperClass {
     public static String fromByteArraytoString(byte[] b) {
         return Arrays.toString(b);
     }
+    
 
 }

@@ -61,7 +61,7 @@ public class ContentResolverDatabase {
             @Override
             public void onSuccess(List<Business> data) {
 //                for (Business item : data) {
-                ContentResolverDatabase.setBusinessList(data);
+                    ContentResolverDatabase.setBusinessList(data);
 //                }
             }
 
@@ -116,7 +116,7 @@ public class ContentResolverDatabase {
             @Override
             public void onSuccess(List<Activity> data) {
                 for (Activity item : data) {
-                    ContentResolverDatabase.setActivityList(data, false);
+                    ContentResolverDatabase.setActivityList(data,false);
                 }
             }
 
@@ -144,7 +144,7 @@ public class ContentResolverDatabase {
             public void onSuccess(List<Activity> data) {
                 for (Activity item : data) {
                     ContentResolverDatabase.setActivityList(data, size);
-                    if (businessBackground != null && activities.size() > 0) {
+                    if(businessBackground!=null && activities.size()>0 &&activities.get(0).getActivityImage() != null ){
                         Bitmap bmp = BitmapFactory.decodeByteArray(activities.get(0).getActivityImage(), 0, activities.get(0).getActivityImage().length);
                         businessBackground.setImageBitmap(bmp);
                     }

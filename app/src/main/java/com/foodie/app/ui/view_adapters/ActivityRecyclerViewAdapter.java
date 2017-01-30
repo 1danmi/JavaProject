@@ -44,8 +44,10 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
         final Activity activityItem = activitiesList.get(position);
         Log.d(TAG, "onBindViewHolder: " + activityItem.getActivityName() + " --> " + position);
 
-        Bitmap bmp = BitmapFactory.decodeByteArray(activityItem.getActivityImage(), 0, activityItem.getActivityImage().length);
-        holder.image.setImageBitmap(bmp);
+        if(activityItem.getActivityImage() != null) {
+            Bitmap bmp = BitmapFactory.decodeByteArray(activityItem.getActivityImage(), 0, activityItem.getActivityImage().length);
+            holder.image.setImageBitmap(bmp);
+        }
         holder.activityName.setText(activityItem.getActivityName());
         holder.description.setText(activityItem.getActivityDescription());
         holder.ratingText.setText(Double.toString(activityItem.getActivityRating()));
