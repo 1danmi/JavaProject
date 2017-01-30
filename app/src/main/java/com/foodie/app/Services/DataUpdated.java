@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.listsDB.ListDBManager;
+import com.google.android.gms.nearby.messages.internal.Update;
 
 /**
  * Created by David on 19/1/2017.
@@ -21,6 +22,8 @@ public class DataUpdated extends Service {
     private int businessTotal = 0;
     private int userTotal = 0;
     private int activitiesTotal = 0;
+    private boolean userUpdated = false;
+
 
     public static final String mBroadcastCpusers = "Cpusers";
     public static final String mBroadcastUsers = "Users";
@@ -38,9 +41,17 @@ public class DataUpdated extends Service {
                 while (true) {
                     try {
 
+                        if(DBManagerFactory.getCurrentUser() != null && DBManagerFactory.getCurrentUser().getUserFullName() != null && !DBManagerFactory.getCurrentUser().getUserFullName().isEmpty()){
+                            if(!userUpdated) {
+                                sendMessage("Cpusers");
+                                userUpdated = true;
+                            }
+
+                        }else {
+                            userUpdated = false;
+                        }
+
                         if (!DBManagerFactory.getDBupdated()) {
-                            sendMessage("Cpusers");
-                            sendMessage("Users");
                             sendMessage("Activities");
                             sendMessage("Business");
 
