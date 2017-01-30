@@ -31,7 +31,7 @@ public class ContentResolverDatabase {
 
 
     //lists
-    public static int loadingCounter=2;
+    public static int loadingCounter=0;
     public static List<User> users;
     public static List<CPUser> cpusers;
     public static List<Business> businesses;

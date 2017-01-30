@@ -336,7 +336,7 @@ public class BusinessActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        loadData();
+        //loadData();
         registerReceiver(mReceiver, mIntentFilter);
         getContentResolver().registerContentObserver(Business.getURI(), true, myContentObserver);
     }
