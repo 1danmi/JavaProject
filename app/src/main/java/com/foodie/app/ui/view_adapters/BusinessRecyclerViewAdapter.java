@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.foodie.app.R;
@@ -18,6 +17,8 @@ import com.foodie.app.entities.Business;
 import com.foodie.app.listsDB.ContentResolverDatabase;
 
 import java.util.List;
+
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by Daniel on 12/16/2016.
@@ -66,6 +67,9 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         holder.address.setText(businessItem.getBusinessAddress());
         ContentResolverDatabase.getBusinessActivitiesList(mContext, businessItem.get_ID(), true);
         holder.numOfActivities.setText(Integer.toString(ContentResolverDatabase.activities.size()) + " Dishes");
+//        Animation rotation = AnimationUtils.loadAnimation(mContext, R.anim.rotate_loading);
+//        rotation.setRepeatCount(Animation.INFINITE);
+//        holder.logo.startAnimation(rotation);
 
         //TODO: Add query for number of activities of the business
 
@@ -118,7 +122,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
 
     static class BusinessImageViewHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "BusinessImageViewHolder";
-        ImageView logo;
+        GifImageView logo;
         TextView title;
         TextView address;
         View mView;
@@ -129,7 +133,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
             super(itemView);
             Log.d(TAG, "BusinessImageViewHolder: starts");
             mView = itemView;
-            this.logo = (ImageView) itemView.findViewById(R.id.business_image_view);
+            this.logo = (GifImageView) itemView.findViewById(R.id.business_image_view);
             this.title = (TextView) itemView.findViewById(R.id.businessTitleTextView);
             this.address = (TextView) itemView.findViewById(R.id.businessAddressTextView);
             this.menu = (ImageButton) itemView.findViewById(R.id.businessMenuButton);

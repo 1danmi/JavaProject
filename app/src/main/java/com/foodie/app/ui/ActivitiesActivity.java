@@ -197,7 +197,7 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     //Initializes the views
     private void initializeViews() {
-        rootLayout = (CoordinatorLayout) findViewById(R.id.activities_activity_layout);
+        rootLayout = (CoordinatorLayout) findViewById(R.id.business_activities_coordinator_layout);
         addButton = (FloatingActionButton) findViewById(R.id.add_fab_button2);
         editButton = (FloatingActionButton) findViewById(R.id.edit_fab_button2);
         addActivityButton = (FloatingActionButton) findViewById(R.id.add_activity_button);

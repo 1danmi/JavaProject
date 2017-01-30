@@ -57,18 +57,19 @@ public class RegisterActivity extends AppCompatActivity {
                     MaterialEditText p1 = (MaterialEditText) findViewById(R.id.pwdEditText);
                     MaterialEditText p2 = (MaterialEditText) findViewById(R.id.confPwdNameEditText);
 
-                    if (!p1.getText().toString().equals(p2.getText().toString()))
-                        throw new Exception("The fields password and confirm password doesn't match");
+                    if (!p1.getText().toString().trim().equals(p2.getText().toString().trim()))
+                        throw new Exception("Your passwords doesn't match!");
 
-                    user.setUserFullName(((MaterialEditText) findViewById(R.id.userNameEditText)).getText().toString());
-                    user.setUserEmail(((MaterialEditText) findViewById(R.id.emailEditText)).getText().toString());
-                    user.setUserPwd(((MaterialEditText) findViewById(R.id.pwdEditText)).getText().toString());
+                    user.setUserFullName(((MaterialEditText) findViewById(R.id.userNameEditText)).getText().toString().trim());
+                    user.setUserEmail(((MaterialEditText) findViewById(R.id.emailEditText)).getText().toString().trim());
+                    user.setUserPwd(((MaterialEditText) findViewById(R.id.pwdEditText)).getText().toString().trim());
 
 
                 } catch (Exception e) {
 
                     snackbar = Snackbar.make(constraintLayout, e.getMessage(), Snackbar.LENGTH_LONG);
                     snackbar.show();
+                    signUpBtn.loadingFailed();
                     return;
                 }
 

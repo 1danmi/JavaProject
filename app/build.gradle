@@ -58,6 +58,8 @@ dependencies {
     compile 'com.iarcuschin:simpleratingbar:0.1.5'
     compile 'com.github.DoodleScheduling:android-material-chips:1.1.0'
     compile 'com.google.firebase:firebase-storage:9.6.1'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.4'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
 
 

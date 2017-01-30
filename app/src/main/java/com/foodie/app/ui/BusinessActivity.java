@@ -5,8 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,7 +39,6 @@ import com.foodie.app.database.CallBack;
 import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
-import com.foodie.app.entities.Activity;
 import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.listsDB.ContentResolverDatabase;
@@ -50,7 +47,6 @@ import com.foodie.app.ui.helpers.IntentHelper;
 import com.foodie.app.ui.view_adapters.BusinessRecyclerViewAdapter;
 import com.foodie.app.ui.view_adapters.RecyclerItemClickListener;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,8 +97,8 @@ public class BusinessActivity extends AppCompatActivity
 
 
         final View rootView = getLayoutInflater().inflate(R.layout.nav_header_business, null);
-        TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerCPUserName);
-        TextView numOfBusinessse = (TextView) rootView.findViewById(R.id.drawerNumOfBusinesses);
+        TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerUserNameTextView);
+        TextView userEmail = (TextView) rootView.findViewById(R.id.drawerEmailTextView);
 
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(DataUpdated.mBroadcastBusiness);
@@ -115,42 +111,6 @@ public class BusinessActivity extends AppCompatActivity
         getContentResolver().registerContentObserver(Business.getURI(), true, myContentObserver);
 
 
-    }
-
-
-    private void loadDemoData() {
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.hamburger);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp = Bitmap.createScaledBitmap(bmp, 1000, 800, true);
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] hamburger = stream.toByteArray();
-        try {
-            Activity activity = new Activity("Hamburger", "A Hamburger (or cheeseburger when served with a slice of cheese)" +
-                    " is a sandwich consisting of one or more cooked patties of ground " +
-                    "meat, usually beef, placed inside a sliced bread roll or bun. Hamburgers " +
-                    "may be cooked in a variety of ways, including pan-frying, barbecuing, " +
-                    "and flame-broiling. Hamburgers are often served with cheese, lettuce, " +
-                    "tomato, bacon, onion, pickles, and condiments such as mustard, mayonnaise," +
-                    " ketchup, relish, and chiles.", 23.56, 2.5, "", hamburger, "Kosher");
-            //activitiesList.add(activity);
-
-            CallBack<Activity> callBack = new CallBack<Activity>() {
-                @Override
-                public void onSuccess(List<Activity> data) {
-
-                }
-
-                @Override
-                public void onFailed(DataStatus status, String error) {
-
-                }
-
-
-            };
-            (new AsyncData<Activity>(getApplicationContext(), Activity.getURI(), DataManagerType.Insert, callBack)).execute(activity.toContentValues());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -246,7 +206,11 @@ public class BusinessActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.bug_report_navbar) {
-            // Handle the camera action
+            String emailAddress = "abenathardavid@gmail.com; danielmiller20@gmail.com;";
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
+            emailIntent.setType("message/rfc822");
+            startActivity(Intent.createChooser(emailIntent, "Send Email"));
         } else if (id == R.id.language_navbar) {
 
         } else if (id == R.id.settings_navbar) {
@@ -255,8 +219,7 @@ public class BusinessActivity extends AppCompatActivity
             DBManagerFactory.signOut();
             super.onBackPressed();
         } else if (id == R.id.about_navbar) {
-            DBManagerFactory.signOut();
-            super.onBackPressed();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

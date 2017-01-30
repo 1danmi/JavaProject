@@ -259,13 +259,12 @@ public class ActivityDetails extends AppCompatActivity {
 
                 @Override
                 protected void onPostExecute(Boolean result) {
-                    // postInsert(result);
+                    setEditMode(false);
                 }
             }).execute();
 
 
         } else {
-
             AnimationHelper.hideFab(addEditActivityBtn);
             addEditActivityBtn.setImageBitmap(doneBitmap);
             AnimationHelper.showFab(addEditActivityBtn);

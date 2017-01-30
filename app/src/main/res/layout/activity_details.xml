@@ -66,7 +66,7 @@
         android:id="@+id/fabProgressCircle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:arcColor="@color/yellow_500"
+        app:arcColor="@color/amber_500"
         app:finalIcon="@drawable/ic_mode_edit_white_48dp"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
