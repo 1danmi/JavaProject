@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String mEmail = sharedPreferences.getString("EMAIL_KEY", "");
         String mPassword = sharedPreferences.getString("PASSWORD_KEY", "");
-        ContentResolverDatabase.loadingCounter=2;
+        ContentResolverDatabase.loadingCounter=0;
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         AuthCredential credential = EmailAuthProvider.getCredential(mEmail, mPassword);
         // Prompt the user to re-provide their sign-in credentials

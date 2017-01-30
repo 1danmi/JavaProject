@@ -223,7 +223,7 @@ public class BusinessActivity extends AppCompatActivity
 
         } else if (id == R.id.sign_out_navbar) {
             DBManagerFactory.signOut();
-            ContentResolverDatabase.loadingCounter=2;
+            ContentResolverDatabase.loadingCounter=0;
             super.onBackPressed();
         } else if (id == R.id.about_navbar) {
 
