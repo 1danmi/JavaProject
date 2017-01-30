@@ -360,7 +360,7 @@ public class BusinessActivity extends AppCompatActivity
                 Log.d(TAG, "onFailed: failed");
             }
         };
-        (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Delete, callBack)).execute(businessRecyclerViewAdapter.getBusiness(position).toContentValues());
+        (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Delete, callBack)).execute(businessRecyclerViewAdapter.getBusiness(position).get_ID());
     }
 
     @Override

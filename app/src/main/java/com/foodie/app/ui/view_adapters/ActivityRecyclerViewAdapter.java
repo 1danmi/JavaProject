@@ -60,7 +60,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
     public ActivityRecyclerViewAdapter.ActivityImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Called by the layout manager when it needs a new view
         Log.d(TAG, "onCreateViewHolder: new view requested");
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_card2, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_card, parent, false);
         return new ActivityRecyclerViewAdapter.ActivityImageViewHolder(view);
     }
 

@@ -95,7 +95,10 @@ public class MyContentProvider extends ContentProvider {
                 case "Cpuser":
                     id = manager.addCPUser(values);
             }
-            return Uri.withAppendedPath(uri, id);
+            if(id != null && !id.isEmpty())
+                return Uri.withAppendedPath(uri, id);
+            return uri;
+
         } catch (Exception ex) {
 
         }
