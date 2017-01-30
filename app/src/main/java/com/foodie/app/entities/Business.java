@@ -193,7 +193,7 @@ public class Business implements Serializable {
         HashMap<String, Object> result = new HashMap<>();
         result.put(AppContract.Business.BUSINESS_ID, this.get_ID());
         result.put(AppContract.Business.BUSINESS_NAME, this.getBusinessName());
-        result.put(AppContract.Business.BUSINESS_LOGO, HelperClass.fromByteArraytoString(this.getBusinessLogo()));
+    //    result.put(AppContract.Business.BUSINESS_LOGO, HelperClass.fromByteArraytoString(this.getBusinessLogo()));
         result.put(AppContract.Business.BUSINESS_CPUSER_ID, this.getCpuserID());
         result.put(AppContract.Business.BUSINESS_WEBSITE, this.getBusinessWebsite());
         result.put(AppContract.Business.BUSINESS_ADDRESS, this.getBusinessAddress());

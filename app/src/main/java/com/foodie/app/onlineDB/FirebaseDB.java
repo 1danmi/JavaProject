@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
 /**
  * Created by David on 9/1/2017.
  */
@@ -139,7 +141,7 @@ public class FirebaseDB implements IDBManager {
 
         toInsert.child(AppContract.Business.BUSINESS_ID).setValue(toInsert.getKey());
 
-        return "";
+        return toInsert.getKey();
     }
 
     @Override
@@ -158,7 +160,7 @@ public class FirebaseDB implements IDBManager {
             (new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(),"Activity",toInsert.getKey(),"jpg")).uploadFile(activity.getActivityImage());
 
         toInsert.child(AppContract.Activity.ACTIVITY_ID).setValue(toInsert.getKey());
-        return "";
+        return toInsert.getKey();
     }
 
     @Override
@@ -183,18 +185,26 @@ public class FirebaseDB implements IDBManager {
     public boolean removeBusiness(String id) throws Exception {
         DebugHelper.Log("removeBusiness: id = "+id);
         BusinessRef.child(id).removeValue();
-        return false;
+
+        localDB.removeBusiness(id);
+        List<Activity> businessActivities = Converters.cursorToActivityList(localDB.getActivity(new String[]{AppContract.Activity.ACTIVITY_BUSINESS_ID},new String[]{id}));
+        for (Activity ac : businessActivities)
+        {
+            removeActivity(ac.get_ID());
+        }
+        return true;
     }
 
     @Override
     public boolean removeActivity(String id) throws Exception {
         ActivityRef.child(id).removeValue();
-        return false;
+        localDB.removeActivity(id);
+        return true;
     }
 
     @Override
     public boolean removeUser(String id) throws Exception {
-        return false;
+        return true;
     }
 
     @Override
@@ -228,6 +238,7 @@ public class FirebaseDB implements IDBManager {
         CPUser toUpdate = Converters.ContentValuesToCPUser(values);
         toUpdate.set_ID(DBManagerFactory.getCurrentUser().get_ID());
         CPUserRef.child(DBManagerFactory.getCurrentUser().get_ID()).updateChildren(toUpdate.toMap());
+
         return true;
     }
 
@@ -237,6 +248,11 @@ public class FirebaseDB implements IDBManager {
         Business toUpdate = Converters.ContentValuesToBusiness(values);
         toUpdate.setCpuserID(DBManagerFactory.getCurrentUser().get_ID());
         BusinessRef.child(toUpdate.get_ID()).updateChildren(toUpdate.toMap());
+        if(toUpdate.getBusinessLogo() != null) {
+            (new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(), "Business", toUpdate.get_ID(), "jpg")).uploadFile(toUpdate.getBusinessLogo());
+            ListDBManager.UpdateBusinessPicture(toUpdate.get_ID(),toUpdate.getBusinessLogo());
+        }
+
         return true;
     }
 
@@ -245,6 +261,10 @@ public class FirebaseDB implements IDBManager {
 
         Activity toUpdate = Converters.ContentValuesToActivity(values);
         ActivityRef.child(toUpdate.get_ID()).updateChildren(toUpdate.toMap());
+        if(toUpdate.getActivityImage() != null) {
+            (new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(), "Activity", toUpdate.get_ID(), "jpg")).uploadFile(toUpdate.getActivityImage());
+            ListDBManager.UpdateActivityPicture(toUpdate.get_ID(),toUpdate.getActivityImage());
+        }
         return true;
     }
 
@@ -280,7 +300,6 @@ public class FirebaseDB implements IDBManager {
                             }
                         });
                     } else {
-
                         HelperClass.runInMain(new Runnable() {
                             @Override
                             public void run() {
@@ -304,11 +323,8 @@ public class FirebaseDB implements IDBManager {
                 if (task.isSuccessful()) {
                     newUser = user;
                     callBack.onSuccess(null);
-
                 }else
                     callBack.onFailed(DataStatus.Failed,"Invalid user o password");
-
-                // ...
             }
         });
     }

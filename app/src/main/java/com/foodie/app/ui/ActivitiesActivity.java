@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.foodie.app.Helper.DebugHelper;
+import com.foodie.app.ProgressNotification.NotificationCallBack;
 import com.foodie.app.R;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.constants.Constants;
@@ -34,11 +35,15 @@ import com.foodie.app.database.DBquery;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
+import com.foodie.app.onlineDB.OnlineStorage;
+import com.foodie.app.onlineDB.UploadStatus;
 import com.foodie.app.ui.helpers.AnimationHelper;
 import com.foodie.app.ui.view_adapters.AppBarStateChangeListener;
 import com.foodie.app.ui.view_adapters.BusinessViewPagerAdapter;
 
 import java.util.List;
+
+import com.foodie.app.ProgressNotification.ProgressNotification;
 
 public class ActivitiesActivity extends AppCompatActivity {
 
@@ -142,11 +147,22 @@ public class ActivitiesActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(List<Business> data) {
                                 DebugHelper.Log("Business insert callBack finish with status: Success");
+                                new ProgressNotification(getApplicationContext()).startNotification(new NotificationCallBack() {
+                                    @Override
+                                    public double progress() {
+                                        UploadStatus current = OnlineStorage.getFileStatusById(null);
+
+                                        if(current != null)
+                                            return current.getProgress();
+
+                                        return 0;
+                                    }
+                                });
                             }
 
                             @Override
                             public void onFailed(DataStatus status, String error) {
-
+                                DebugHelper.Log("Business insert callBack finish with status: " + status);
                             }
 
 

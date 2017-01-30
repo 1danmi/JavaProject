@@ -1,19 +1,14 @@
 package com.foodie.app.onlineDB;
 
-import android.app.Activity;
-import android.app.Application;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnPausedListener;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +24,7 @@ public class OnlineStorage {
     NotificationManager mNotifyManager;
     private String id;
 
-    private static List<UploadStatus> uploadingFiles;
+    private static List<UploadStatus> uploadingFiles = new ArrayList<>();
 
     public OnlineStorage(String userId,String entitie,String id,String imageType) {
 
@@ -39,10 +34,15 @@ public class OnlineStorage {
 
     public void uploadFile(byte[] data)
     {
+        UploadStatus temp = getFileStatusById(this.id);
+        if(temp !=null) {
+            uploadingFiles.remove(temp);
+        }
+
         uploadingFiles.add(new UploadStatus(this.id,storageRef.putBytes(data)));
     }
 
-    public void downloadFile(final downloadFileCallBack onDownload )
+    public void downloadFile(final DownloadFileCallBack onDownload )
     {
 
         final long TWO_MEGABYTE = 2*1024 * 1024;
@@ -61,6 +61,9 @@ public class OnlineStorage {
 
     public static UploadStatus getFileStatusById(String id)
     {
+        if(id == null || id.isEmpty())
+            return uploadingFiles.get(uploadingFiles.size()-1);
+
         for(UploadStatus us: uploadingFiles)
         {
             if(us.getId().equals(id))

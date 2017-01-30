@@ -1,7 +1,6 @@
 package com.foodie.app.onlineDB;
 
 import com.foodie.app.Helper.DebugHelper;
-import com.foodie.app.Helper.HelperClass;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.entities.Activity;
@@ -74,7 +73,7 @@ public class OnOnlineDBChange implements ChildEventListener {
                 activity.setFeature( data.child(AppContract.Activity.ACTIVITY_FEATURE).getValue().toString());
             if (data.child(AppContract.Activity.ACTIVITY_ID).getValue() != null)
                 activity.set_ID(data.child(AppContract.Activity.ACTIVITY_ID).getValue().toString());
-            new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(),"Activity",activity.get_ID(),"jpg").downloadFile(new downloadFileCallBack() {
+            new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(),"Activity",activity.get_ID(),"jpg").downloadFile(new DownloadFileCallBack() {
                 @Override
                 public void onDownload(byte[] img) {
                     ListDBManager.UpdateActivityPicture(data.getKey(),img);
@@ -110,7 +109,7 @@ public class OnOnlineDBChange implements ChildEventListener {
             business.setBusinessWebsite( data.child(AppContract.Business.BUSINESS_WEBSITE).getValue().toString());
 
 
-        new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(),"Business",business.get_ID(),"jpg").downloadFile(new downloadFileCallBack() {
+        new OnlineStorage(DBManagerFactory.getCurrentUser().get_ID(),"Business",business.get_ID(),"jpg").downloadFile(new DownloadFileCallBack() {
             @Override
             public void onDownload(byte[] img) {
             ListDBManager.UpdateBusinessPicture(data.getKey(),img);
@@ -184,26 +183,26 @@ public class OnOnlineDBChange implements ChildEventListener {
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         DebugHelper.Log("onChildRemoved: " + dataSnapshot.getKey());
         for (DataSnapshot data : dataSnapshot.getChildren()) {
-            switch (dataSnapshot.getKey()){
-                case "CPUser":
-//                    CPUser cpu = data.getValue(CPUser.class);
-//                    cpu.set_ID(data.getKey());
-//                    localDB.updateCPUser(cpu);
-                    break;
-                case "Business":
-//                    localDB.updateBusiness(getBusiness(data));
-                    break;
-                case "Activity":
-//                    localDB.updateActivity(getActivity(data));
-                    break;
-                case "User":
-//                    User user = data.getValue(User.class);
-//                    user.set_ID(data.getKey());
-//                    localDB.updateUser(user);
-                    break;
+            String id = data.getKey();
+            try {
+                switch (dataSnapshot.getKey()) {
+                    case "CPUser":
+                        break;
+                    case "Business":
+                        localDB.removeBusiness(id);
+                        break;
+                    case "Activity":
+                        localDB.removeActivity(id);
+                        break;
+                    case "User":
+                        break;
+                }
+            }catch (Exception ex)
+            {
+
             }
         }
-        DBManagerFactory.setDBupdated(false);
+    //    DBManagerFactory.setDBupdated(false);
 
         updated = true;
     }
