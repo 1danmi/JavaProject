@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewDaniel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="72dp">
+
+
+            <TextView
+                android:text="Daniel Miller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:fontFamily="sans-serif-light"
+                android:textSize="24sp"
+                android:gravity="center"
+                android:id="@+id/textView"
+                android:layout_marginBottom="16dp" />
+
+            <RelativeLayout
+                android:id="@+id/email_layout"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:paddingLeft="16dp"
+                android:paddingEnd="16dp"
+                android:paddingRight="16dp"
+                android:paddingStart="16dp">
+
+                <ImageView
+                    android:id="@+id/email_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_email_black_48dp"
+                    android:tint="@color/icon_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="56dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="56dp">
+
+                    <TextView
+                        android:id="@+id/email_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="danielmiller20@gmail.com"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/email_prompt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14sp"
+                        android:text="@string/prompt_email" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/github_layout"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:paddingEnd="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingStart="16dp">
+
+                <ImageView
+                    android:id="@+id/github_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/github"
+                    android:tint="@color/icon_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="56dp"
+                    android:layout_marginStart="56dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/github_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="github.com/danmi20"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/github_prompt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14sp"
+                        android:text="GitHub" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/linkedin_layout"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:paddingEnd="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingStart="16dp">
+
+                <ImageView
+                    android:id="@+id/linkedin_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/linkedin"
+                    android:tint="@color/icon_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="56dp"
+                    android:layout_marginStart="56dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/linkedin_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="linkedin.com/in/danmi"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/linkedin_prompt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14sp"
+                        android:text="LinkedIn" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/telegram_layout"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:paddingEnd="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingStart="16dp">
+
+                <ImageView
+                    android:id="@+id/telegram_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/telegram"
+                    android:tint="@color/icon_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="56dp"
+                    android:layout_marginStart="56dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/telegram_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="t.me/danmi"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/set_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14sp"
+                        android:text="Telegram" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="32dp"
+        android:elevation="8dp"
+        android:src="@drawable/profile_daniel"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="0dp"
+        app:layout_anchor="@id/cardViewDaniel"
+        app:layout_anchorGravity="top|center" />
+
+</android.support.design.widget.CoordinatorLayout>

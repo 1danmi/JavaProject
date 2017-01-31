@@ -31,7 +31,7 @@ public class ContentResolverDatabase {
 
 
     //lists
-    public static int loadingCounter=0;
+    public static int loadingCounter = 0;
     public static List<User> users;
     public static List<CPUser> cpusers;
     public static List<Business> businesses;
@@ -51,7 +51,7 @@ public class ContentResolverDatabase {
         activities = new ArrayList<>();
     }
 
-    public static void getBusinessesList(final Context mContext) {
+    public static void getBusinessesList(final Context mContext, final CallBack callBack) {
 
         businesses.clear();
         //Create an AsyncData object and set the constructor
@@ -63,7 +63,8 @@ public class ContentResolverDatabase {
             @Override
             public void onSuccess(List<Business> data) {
 //                for (Business item : data) {
-                    ContentResolverDatabase.setBusinessList(data);
+                ContentResolverDatabase.setBusinessList(data);
+                callBack.onSuccess(null);
 //                }
             }
 
@@ -118,7 +119,7 @@ public class ContentResolverDatabase {
             @Override
             public void onSuccess(List<Activity> data) {
                 for (Activity item : data) {
-                    ContentResolverDatabase.setActivityList(data,false);
+                    ContentResolverDatabase.setActivityList(data, false);
                 }
             }
 
@@ -146,10 +147,7 @@ public class ContentResolverDatabase {
             public void onSuccess(List<Activity> data) {
                 for (Activity item : data) {
                     ContentResolverDatabase.setActivityList(data, size);
-                    if(businessBackground!=null && activities.size()>0 &&activities.get(0).getActivityImage() != null ){
-                        Bitmap bmp = BitmapFactory.decodeByteArray(activities.get(0).getActivityImage(), 0, activities.get(0).getActivityImage().length);
-                        businessBackground.setImageBitmap(bmp);
-                    }
+
                 }
             }
 
@@ -169,13 +167,13 @@ public class ContentResolverDatabase {
         businesses = businessList;
 
         businessRecyclerViewAdapter.loadNewData(businesses);
-        if(loadingCounter>1) {
+        if (loadingCounter > 1) {
             loadingCounter--;
-        }else{
+        } else {
             businessRecyclerViewAdapter.getLoadingImage().setVisibility(View.GONE);
-            if(businessList.size()==0){
+            if (businessList.size() == 0) {
                 businessRecyclerViewAdapter.getNoBusinessesText().setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 businessRecyclerViewAdapter.getNoBusinessesText().setVisibility(View.GONE);
             }
         }
@@ -186,6 +184,10 @@ public class ContentResolverDatabase {
         activities = activityList;
         if (!size)
             activitiesRecyclerViewAdapter.loadNewData(activities);
+        if (businessBackground != null && activities.size() > 0 && activities.get(0).getActivityImage() != null) {
+            Bitmap bmp = BitmapFactory.decodeByteArray(activities.get(0).getActivityImage(), 0, activities.get(0).getActivityImage().length);
+            businessBackground.setImageBitmap(bmp);
+        }
     }
 
     public static void setBusinessRecyclerViewAdapter(BusinessRecyclerViewAdapter adapter) {

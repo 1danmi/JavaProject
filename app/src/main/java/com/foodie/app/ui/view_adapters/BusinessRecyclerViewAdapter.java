@@ -69,7 +69,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         holder.title.setText(businessItem.getBusinessName());
         holder.address.setText(businessItem.getBusinessAddress());
         ContentResolverDatabase.getBusinessActivitiesList(mContext, businessItem.get_ID(), true);
-        holder.numOfActivities.setText(Integer.toString(ContentResolverDatabase.activities.size()) + " Dishes");
+        holder.numOfActivities.setText(businessItem.getBusinessPhoneNo());
 //        Animation rotation = AnimationUtils.loadAnimation(mContext, R.anim.rotate_loading);
 //        rotation.setRepeatCount(Animation.INFINITE);
 //        holder.logo.startAnimation(rotation);

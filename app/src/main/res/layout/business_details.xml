@@ -44,11 +44,11 @@
 
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="parallax"
-                    app:srcCompat="@drawable/background5" />
+                    app:srcCompat="@drawable/background5"/>
 
-                <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="100dp"/>-->
+                <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
             </LinearLayout>
 
             <View

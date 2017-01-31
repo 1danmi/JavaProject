@@ -62,27 +62,40 @@
 
     <include layout="@layout/content_activity_details" />
 
-    <com.github.jorgecastilloprz.FABProgressCircle
-        android:id="@+id/fabProgressCircle1"
+
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:arcColor="@color/amber_500"
-        app:finalIcon="@drawable/ic_mode_edit_white_48dp"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:reusable="true">
+        app:layout_anchorGravity="bottom|end">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_edit_activity_btn"
+
+
+        <com.github.jorgecastilloprz.FABProgressCircle
+            android:id="@+id/fabProgressCircle1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            android:elevation="8dp"
-            app:backgroundTint="@color/accent"
-            app:fabSize="normal"
+            app:arcColor="@color/amber_500">
 
-            app:pressedTranslationZ="12dp"
-            app:srcCompat="@drawable/ic_mode_edit_white_48dp" />
-    </com.github.jorgecastilloprz.FABProgressCircle>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/add_edit_activity_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                android:elevation="8dp"
+                app:backgroundTint="@color/accent"
+                app:fabSize="normal"
+                app:pressedTranslationZ="12dp"
+                />
+        </com.github.jorgecastilloprz.FABProgressCircle>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/ic_done_white"
+            android:id="@+id/doneImage"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

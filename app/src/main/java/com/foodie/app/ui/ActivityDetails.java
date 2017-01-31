@@ -46,6 +46,7 @@ import com.foodie.app.ui.view_adapters.AppBarStateChangeListener;
 import com.foodie.app.ui.view_adapters.RecyclerItemClickListener;
 import com.foodie.app.ui.view_adapters.SuggestionRecyclerViewAdapter;
 import com.github.jorgecastilloprz.FABProgressCircle;
+import com.github.jorgecastilloprz.listeners.FABProgressListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -54,7 +55,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ActivityDetails extends AppCompatActivity implements RecyclerItemClickListener.onRecyclerClickListener {
+public class ActivityDetails extends AppCompatActivity implements RecyclerItemClickListener.onRecyclerClickListener, FABProgressListener {
     private static final String TAG = "ActivityDetails";
 
     private boolean debug = false;
@@ -78,8 +79,8 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
     private TextView dishBusinessName, ratingBarText, mNumOfVotes;
     private Button priceBtn;
     private RecyclerView suggestionRecyclerView;
-    private Bitmap doneBitmap, editBitmap;
-
+    private Bitmap doneBitmap, editBitmap, uploadBitmap;
+    private ImageView doneImage;
     private SuggestionRecyclerViewAdapter suggestionRecyclerViewAdapter;
 
     @Override
@@ -227,7 +228,7 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
 
         if (mEditMode) {
             AnimationHelper.hideFab(addEditActivityBtn);
-            addEditActivityBtn.setImageBitmap(doneBitmap);
+            addEditActivityBtn.setImageBitmap(uploadBitmap);
             AnimationHelper.showFab(addEditActivityBtn);
 
         } else {
@@ -246,6 +247,7 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
 
     protected void fabClick() {
         if (mEditMode) {
+            fabProgressCircle.attachListener(this);
             fabProgressCircle.show();
 
             //AnimationHelper.hideFab(addEditActivityBtn);
@@ -269,7 +271,7 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
 
         } else {
             AnimationHelper.hideFab(addEditActivityBtn);
-            addEditActivityBtn.setImageBitmap(doneBitmap);
+            addEditActivityBtn.setImageBitmap(uploadBitmap);
             AnimationHelper.showFab(addEditActivityBtn);
             setEditMode(true);
         }
@@ -291,7 +293,7 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
             activityItem.setActivityName(dishNameEditText.getText().toString().trim());
             activityItem.setActivityDescription(dishDescription.getText().toString().trim());
             activityItem.setActivityCost(mPrice);
-            activityItem.setActivityRating(3.5);
+            activityItem.setActivityRating(ratingBar.getRating());
             activityItem.setBusinessId(businessID);
             activityItem.setFeature(featureEditText.getText().toString().trim());
 
@@ -337,7 +339,7 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
 
     private boolean inputCheck() {
         Snackbar snackbar = Snackbar.make(rootLayout, "You have to choose a photo!", Snackbar.LENGTH_LONG);
-        snackbar.setActionTextColor(getResources().getColor(R.color.colorAccent));
+        snackbar.setActionTextColor(getResources().getColor(R.color.accent));
 
         if (debug)
             return true;
@@ -391,6 +393,9 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
 
         doneBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_done_white);
         editBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_mode_edit_white_48dp);
+        uploadBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_cloud_upload_white_48dp);
+
+        doneImage = (ImageView) findViewById(R.id.doneImage);
     }
 
 
@@ -512,10 +517,18 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
 
     @Override
     public void onitemClick(View v, int position, MotionEvent e) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+        if (!mEditMode && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View image = v.findViewById(R.id.suggestion_image);
             IntentHelper.startDetailsActivity(this, image,suggestionRecyclerViewAdapter.getActivitiesList().get(position),businessID, businessName);
 //            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
         }
+    }
+
+    @Override
+    public void onFABProgressAnimationEnd() {
+        addEditActivityBtn.setImageBitmap(doneBitmap);
+        doneImage.setVisibility(View.VISIBLE);
+
     }
 }

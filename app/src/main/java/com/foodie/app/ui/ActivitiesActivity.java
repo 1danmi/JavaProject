@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.ProgressNotification.NotificationCallBack;
+import com.foodie.app.ProgressNotification.ProgressNotification;
 import com.foodie.app.R;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.constants.Constants;
@@ -42,8 +43,6 @@ import com.foodie.app.ui.view_adapters.AppBarStateChangeListener;
 import com.foodie.app.ui.view_adapters.BusinessViewPagerAdapter;
 
 import java.util.List;
-
-import com.foodie.app.ProgressNotification.ProgressNotification;
 
 public class ActivitiesActivity extends AppCompatActivity {
 
@@ -63,6 +62,7 @@ public class ActivitiesActivity extends AppCompatActivity {
     private FloatingActionButton addButton, editButton, addActivityButton;
     private CoordinatorLayout rootLayout;
     private DisplayMetrics metrics;
+    private boolean isBusinessExist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -296,9 +296,11 @@ public class ActivitiesActivity extends AppCompatActivity {
         if (businessID.equals("")) {
             //businessItem = new Business();
             isPhotoChanged = false;
+            isBusinessExist = false;
         } else {
             businessNameHeader.setText(businessItem.getBusinessName());
             isPhotoChanged = true;
+            isBusinessExist = true;
             if (businessItem.getBusinessLogo() != null) {
                 Bitmap bmp = BitmapFactory.decodeByteArray(businessItem.getBusinessLogo(), 0, businessItem.getBusinessLogo().length);
                 businessLogoHeader.setImageBitmap(bmp);
@@ -347,7 +349,7 @@ public class ActivitiesActivity extends AppCompatActivity {
                 AnimationHelper.hideFab(editButton);
                 AnimationHelper.hideFab(addButton);
                 AnimationHelper.hideFab(addActivityButton);
-                if (!businessItem.get_ID().equals(""))
+                if (isBusinessExist && mEditMode.equals("false"))
                     AnimationHelper.showFab(addActivityButton);
                 break;
             case 0:
@@ -356,8 +358,6 @@ public class ActivitiesActivity extends AppCompatActivity {
                     AnimationHelper.showFab(addButton);
                 else
                     AnimationHelper.showFab(editButton);
-
-
         }
     }
 

@@ -13,6 +13,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,6 +44,7 @@ import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.listsDB.ContentResolverDatabase;
+import com.foodie.app.listsDB.ListDBManager;
 import com.foodie.app.provider.MyContentObserver;
 import com.foodie.app.ui.helpers.IntentHelper;
 import com.foodie.app.ui.view_adapters.BusinessRecyclerViewAdapter;
@@ -54,7 +56,7 @@ import java.util.List;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class BusinessActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RecyclerItemClickListener.onRecyclerClickListener, android.widget.SearchView.OnQueryTextListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RecyclerItemClickListener.onRecyclerClickListener, android.widget.SearchView.OnQueryTextListener,  SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "BusinessActivity";
     private BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
@@ -72,6 +74,9 @@ public class BusinessActivity extends AppCompatActivity
     private Button deleteBtn;
     private ProgressBar progressBar;
     private TextView noBusinessesText;
+    private SwipeRefreshLayout refreshLayout;
+    TextView userName;
+    TextView emailAddress;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -80,6 +85,12 @@ public class BusinessActivity extends AppCompatActivity
                 loadData();
                 // TODO: implement data update
             }
+            if (intent.getAction().equals("Cpusers")) {
+                if(ListDBManager.getBusinessListSize()==0)
+                    loadData();
+                // TODO: implement data update
+            }
+
         }
     };
 
@@ -95,6 +106,8 @@ public class BusinessActivity extends AppCompatActivity
         Toolbar toolbar = setActionBarAndFAB();
         progressBar = (ProgressBar) findViewById(R.id.business_progress_bar);
         noBusinessesText = (TextView) findViewById(R.id.noBusinessesTextView);
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.content_business);
+        refreshLayout.setOnRefreshListener(this);
         setDrawer(toolbar);
         businessList = new ArrayList<>();
         setRecyclerView();
@@ -223,9 +236,16 @@ public class BusinessActivity extends AppCompatActivity
 
         } else if (id == R.id.sign_out_navbar) {
             DBManagerFactory.signOut();
+            ContentResolverDatabase.businesses.clear();
             ContentResolverDatabase.loadingCounter=0;
             super.onBackPressed();
         } else if (id == R.id.about_navbar) {
+            Intent intent = new Intent(this, AboutActivity.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            }else{
+
+            }
 
         }
 
@@ -241,8 +261,19 @@ public class BusinessActivity extends AppCompatActivity
             userId = b.getInt("Id");
             user = new CPUser(b.getString("Fullname"));
         }
+        CallBack<Void> callback = new CallBack<Void>() {
+            @Override
+            public void onSuccess(List<Void> data) {
+                refreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailed(DataStatus status, String error) {
+
+            }
+        };
         ContentResolverDatabase.setBusinessRecyclerViewAdapter(businessRecyclerViewAdapter);
-        ContentResolverDatabase.getBusinessesList(getApplicationContext());
+        ContentResolverDatabase.getBusinessesList(getApplicationContext(), callback);
         //businessRecyclerViewAdapter.notifyDataSetChanged();
 
 
@@ -383,4 +414,9 @@ public class BusinessActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onRefresh() {
+        Log.d(TAG, "onRefresh: starts");
+        loadData();
+    }
 }
