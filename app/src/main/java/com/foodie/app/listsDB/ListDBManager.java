@@ -341,6 +341,8 @@ public class ListDBManager implements IDBManager {
                                 insert = false;
                             }
                             break;
+                        default:
+                            return null;
 
                     }
                     if (!insert)
