@@ -23,12 +23,14 @@ public class DataUpdated extends Service {
     private int userTotal = 0;
     private int activitiesTotal = 0;
     private boolean userUpdated = false;
+    private static boolean noBussiness = false;
 
 
     public static final String mBroadcastCpusers = "Cpusers";
     public static final String mBroadcastUsers = "Users";
     public static final String mBroadcastActivities = "Activities";
     public static final String mBroadcastBusiness = "Business";
+    public static final String mBroadcastNoBussiness = "noBusiness";
 
     @Override
     public void onCreate() {
@@ -41,9 +43,15 @@ public class DataUpdated extends Service {
                 while (true) {
                     try {
 
+                        if(noBussiness)
+                        {
+                            sendMessage(mBroadcastNoBussiness);
+                            noBussiness = false;
+                        }
+
                         if(DBManagerFactory.getCurrentUser() != null && DBManagerFactory.getCurrentUser().getUserFullName() != null && !DBManagerFactory.getCurrentUser().getUserFullName().isEmpty()){
                             if(!userUpdated) {
-                                sendMessage("Cpusers");
+                                sendMessage(mBroadcastCpusers);
                                 userUpdated = true;
                             }
 
@@ -59,23 +67,23 @@ public class DataUpdated extends Service {
 
                         if (cpuserTotal != ListDBManager.getCpusersListSize()) {
                             cpuserTotal = ListDBManager.getCpusersListSize();
-                            sendMessage("Cpusers");
+                            sendMessage(mBroadcastCpusers);
 
                         }
 
                         if (userTotal != ListDBManager.getUsersListSize()) {
                             userTotal = ListDBManager.getUsersListSize();
-                            sendMessage("Users");
+                            sendMessage(mBroadcastUsers);
                         }
 
                         if (activitiesTotal != ListDBManager.getActivitiesListSize()) {
                             activitiesTotal = ListDBManager.getActivitiesListSize();
-                            sendMessage("Activities");
+                            sendMessage(mBroadcastActivities);
                         }
 
                         if (businessTotal != ListDBManager.getBusinessListSize()) {
                             businessTotal = ListDBManager.getBusinessListSize();
-                            sendMessage("Business");
+                            sendMessage(mBroadcastBusiness);
                         }
 
 
@@ -104,6 +112,11 @@ public class DataUpdated extends Service {
         broadcastIntent.setAction(from);
         broadcastIntent.putExtra("Data", "Broadcast Data");
         sendBroadcast(broadcastIntent);
+    }
+
+    public static void setNoBussiness(boolean flag)
+    {
+        noBussiness = flag;
     }
 
 }

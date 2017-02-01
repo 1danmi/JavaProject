@@ -29,6 +29,8 @@ public class OnOnlineDBChange implements ChildEventListener {
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
         DebugHelper.Log("onChildAdded: " + dataSnapshot.getKey());
+
+
         for (DataSnapshot data : dataSnapshot.getChildren()) {
             switch (dataSnapshot.getKey()){
                 case "CPUser":

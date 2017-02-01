@@ -102,38 +102,58 @@ public class BusinessActivity extends AppCompatActivity
 
 
         final View rootView = getLayoutInflater().inflate(R.layout.nav_header_business, null);
-        TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerUserNameTextView);
-        TextView userEmail = (TextView) rootView.findViewById(R.id.drawerEmailTextView);
+        final TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerUserNameTextView);
+        final TextView userEmail = (TextView) rootView.findViewById(R.id.drawerEmailTextView);
 
 
-        mIntentFilter = new IntentFilter();
-        mIntentFilter.addAction(DataUpdated.mBroadcastBusiness);
 
-        Intent serviceIntent = new Intent(getApplicationContext(), DataUpdated.class);
-        startService(serviceIntent);
+
 
 
         myContentObserver = new MyContentObserver(new Handler(), getApplicationContext());
         getContentResolver().registerContentObserver(Business.getURI(), true, myContentObserver);
+
+/*****************************SERVICE*********************************************/
+        mIntentFilter = new IntentFilter();
+        mIntentFilter.addAction(DataUpdated.mBroadcastBusiness);
+        mIntentFilter.addAction(DataUpdated.mBroadcastNoBussiness);
+        mIntentFilter.addAction(DataUpdated.mBroadcastNoBussiness);
+        mIntentFilter.addAction(DataUpdated.mBroadcastCpusers);
+
 
 
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                if (intent.getAction().equals("Business")) {
+                if (intent.getAction().equals(DataUpdated.mBroadcastBusiness)) {
                     refreshLayout.setRefreshing(true);
                     onRefresh();
                     // TODO: implement data update
                 }
-                if (intent.getAction().equals("Cpusers")) {
-                    if (ListDBManager.getBusinessListSize() == 0)
-                        loadData();
-                    // TODO: implement data update
+                if (intent.getAction().equals(DataUpdated.mBroadcastCpusers)) {
+                    DebugHelper.Log("Business activity: cpu updated");
+                    //Todo: implement user details here
+                    drawerCPUserName.setText(DBManagerFactory.getCurrentUser().getUserFullName());
+                    userEmail.setText(DBManagerFactory.getCurrentUser().getUserEmail());
+
+
+                }
+                if(intent.getAction().equals(DataUpdated.mBroadcastNoBussiness))
+                {
+                    //Todo: implement action when the user have no business
+                    DebugHelper.Log("Business activity: no business");
+
                 }
 
             }
         };
+
+        registerReceiver(mReceiver, mIntentFilter);
+
+        Intent serviceIntent = new Intent(getApplicationContext(), DataUpdated.class);
+        startService(serviceIntent);
+  /****************************************END SERVICE****************************************/
 
         //refreshLayout.setRefreshing(true);
     }
