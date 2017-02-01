@@ -102,8 +102,8 @@ public class BusinessActivity extends AppCompatActivity
 
 
         final View rootView = getLayoutInflater().inflate(R.layout.nav_header_business, null);
-        TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerUserNameTextView);
-        TextView userEmail = (TextView) rootView.findViewById(R.id.drawerEmailTextView);
+        final TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerUserNameTextView);
+        final TextView userEmail = (TextView) rootView.findViewById(R.id.drawerEmailTextView);
 
 
 
@@ -132,13 +132,16 @@ public class BusinessActivity extends AppCompatActivity
                     // TODO: implement data update
                 }
                 if (intent.getAction().equals(DataUpdated.mBroadcastCpusers)) {
-                    if (ListDBManager.getBusinessListSize() == 0)
-                    //    loadData();
-                    // TODO: implement data update
                     DebugHelper.Log("Business activity: cpu updated");
+                    //Todo: implement user details here
+                    drawerCPUserName.setText(DBManagerFactory.getCurrentUser().getUserFullName());
+                    userEmail.setText(DBManagerFactory.getCurrentUser().getUserEmail());
+
+
                 }
                 if(intent.getAction().equals(DataUpdated.mBroadcastNoBussiness))
                 {
+                    //Todo: implement action when the user have no business
                     DebugHelper.Log("Business activity: no business");
 
                 }
