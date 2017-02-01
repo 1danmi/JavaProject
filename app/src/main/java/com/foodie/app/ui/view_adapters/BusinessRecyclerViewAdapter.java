@@ -1,5 +1,6 @@
 package com.foodie.app.ui.view_adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,7 +17,6 @@ import android.widget.TextView;
 
 import com.foodie.app.R;
 import com.foodie.app.entities.Business;
-import com.foodie.app.listsDB.ContentResolverDatabase;
 
 import java.util.List;
 
@@ -31,8 +31,10 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     private boolean lock;
     private ProgressBar loadingImage;
     private TextView noBusinessesText;
+    private Activity activity;
 
-    public BusinessRecyclerViewAdapter(List<Business> businessesList, Context mContext, ProgressBar loading, TextView noBusiness) {
+    public BusinessRecyclerViewAdapter(List<Business> businessesList, Context mContext, ProgressBar loading, TextView noBusiness, Activity a) {
+        this.activity = a;
         this.businessesList = businessesList;
         this.noBusinessesText = noBusiness;
         loadingImage = loading;
@@ -68,7 +70,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         }
         holder.title.setText(businessItem.getBusinessName());
         holder.address.setText(businessItem.getBusinessAddress());
-        ContentResolverDatabase.getBusinessActivitiesList(mContext, businessItem.get_ID(), true);
+//        ContentResolverDatabase.getBusinessActivitiesList(mContext, businessItem.get_ID(), true);
         holder.numOfActivities.setText(businessItem.getBusinessPhoneNo());
 
         //TODO: Add query for number of activities of the business
@@ -95,14 +97,11 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     }
 
     public void loadNewData(List<Business> newBusinesses) {
-        //while(lock){}
-//        lock = true;
         businessesList.clear();
         notifyDataSetChanged();
         for (int i = 0; i < newBusinesses.size(); i++)
             add(newBusinesses.get(i), i);
-//        lock=false;
-        //notifyDataSetChanged();
+
     }
 
     public void remove(int position) {
@@ -110,10 +109,9 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         notifyItemRemoved(position);
     }
 
-    public void add(Business business, int position) {
+    public void add(Business business, final int position) {
         businessesList.add(business);
         notifyItemInserted(position);
-//        notifyDataSetChanged();
     }
 
     public Business getBusiness(int position) {

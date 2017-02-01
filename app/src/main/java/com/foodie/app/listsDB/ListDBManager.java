@@ -576,7 +576,7 @@ public class ListDBManager implements IDBManager {
     public void updateActivity(Activity values) {
 
         for (Activity activies:activities ) {
-            if(values.get_ID().equals(activies.get_ID()))
+            if(values!=null && values.get_ID().equals(activies.get_ID()))
             {
                 activities.remove(activies);
                 break;

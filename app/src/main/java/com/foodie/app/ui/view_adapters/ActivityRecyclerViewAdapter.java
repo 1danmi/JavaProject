@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
     private static final String TAG = "businessRecyclerViewAda";
     private List<Activity> activitiesList;
     private Context mContext;
+
 
 
     public ActivityRecyclerViewAdapter(List<Activity> activitiesList, Context mContext) {
@@ -47,6 +49,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
         if(activityItem.getActivityImage() != null) {
             Bitmap bmp = BitmapFactory.decodeByteArray(activityItem.getActivityImage(), 0, activityItem.getActivityImage().length);
             holder.image.setImageBitmap(bmp);
+            holder.loading.setVisibility(View.GONE);
         }
         holder.activityName.setText(activityItem.getActivityName());
         holder.description.setText(activityItem.getActivityDescription());
@@ -82,7 +85,6 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
                 }
             }
         }
-//        this.activitiesList = newActivities;
         notifyDataSetChanged();
     }
 
@@ -100,6 +102,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
         TextView ratingText;
         RatingBar ratingBar;
         TextView price;
+        ProgressBar loading;
 
         public ActivityImageViewHolder(View itemView) {
             super(itemView);
@@ -110,6 +113,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
             this.ratingText = (TextView) itemView.findViewById(R.id.rating_text_view);
             this.ratingBar = (RatingBar) itemView.findViewById(R.id.activity_rating_bar);
             this.price = (TextView) itemView.findViewById(R.id.price_text_view);
+            this.loading = (ProgressBar) itemView.findViewById(R.id.activity_image_progres_bar);
         }
     }
 

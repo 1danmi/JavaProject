@@ -17,7 +17,6 @@ import static com.foodie.app.backend.AppContract.CPUser.CPUSER_EMAIL;
 import static com.foodie.app.backend.AppContract.CPUser.CPUSER_FULL_NAME;
 import static com.foodie.app.backend.AppContract.CPUser.CPUSER_ID;
 
-
 /**
  * Created by Daniel on 12/13/2016.
  */
@@ -35,7 +34,6 @@ public class Converters {
         return contentValues;
     }
 
-
     public static ContentValues UserToContentValues(User user) {
 
         ContentValues contentValues = new ContentValues();
@@ -49,7 +47,6 @@ public class Converters {
 
         return contentValues;
     }
-
 
     public static ContentValues BusinessToContentValues(Business business) {
 
@@ -66,7 +63,6 @@ public class Converters {
         return contentValues;
     }
 
-
     public static ContentValues ActivityToContentValues(Activity activity) {
 
         ContentValues contentValues = new ContentValues();
@@ -79,10 +75,8 @@ public class Converters {
         contentValues.put(AppContract.Activity.ACTIVITY_RATING, activity.getActivityRating());
         contentValues.put(AppContract.Activity.ACTIVITY_FEATURE, activity.getFeature());
 
-
         return contentValues;
     }
-
 
     public static CPUser ContentValuesToCPUser(ContentValues contentValues) throws Exception {
 
@@ -94,7 +88,6 @@ public class Converters {
 
         return cpuser;
     }
-
 
     public static User ContentValuesToUser(ContentValues contentValues) throws Exception {
 
@@ -109,7 +102,6 @@ public class Converters {
 
         return user;
     }
-
 
     public static Business ContentValuesToBusiness(ContentValues contentValues) throws Exception {
 
@@ -126,7 +118,6 @@ public class Converters {
         return business;
     }
 
-
     public static Activity ContentValuesToActivity(ContentValues contentValues) throws Exception {
 
         Activity activity = new Activity();
@@ -142,7 +133,6 @@ public class Converters {
         return activity;
     }
 
-
     public static Cursor CPUserListToCursor(List<CPUser> cpusers) {
         String[] columns = new String[]
                 {
@@ -151,16 +141,13 @@ public class Converters {
                         AppContract.CPUser.CPUSER_EMAIL,
                         AppContract.CPUser.CPUSER_PWD
                 };
-
         MatrixCursor matrixCursor = new MatrixCursor(columns);
-
         for (CPUser cp : cpusers) {
             matrixCursor.addRow(new Object[]{cp.get_ID(), cp.getUserFullName(), cp.getUserEmail(), cp.getUserPwdHash()});
         }
 
         return matrixCursor;
     }
-
 
     public static Cursor UserListToCursor(List<User> users) {
         String[] columns = new String[]
@@ -173,9 +160,7 @@ public class Converters {
                         AppContract.User.USER_ADDRESS,
                         AppContract.User.USER_IMAGE
                 };
-
         MatrixCursor matrixCursor = new MatrixCursor(columns);
-
         for (User u : users) {
             matrixCursor.addRow(new Object[]{u.get_ID(), u.getUserFullName(), u.getUserEmail(), u.getUserPwdHash(),
                     u.getUserPhoneNumber(), u.getUserAddress(), u.getUserImage()});
@@ -197,9 +182,7 @@ public class Converters {
                         AppContract.Business.BUSINESS_CPUSER_ID,
                         AppContract.Business.BUSINESS_LOGO
                 };
-
         MatrixCursor matrixCursor = new MatrixCursor(columns);
-
         for (Business b : businesses) {
             matrixCursor.addRow(new Object[]{b.get_ID(), b.getBusinessName(), b.getBusinessEmail(), b.getBusinessWebsite(),
                     b.getBusinessPhoneNo(), b.getBusinessAddress(), b.getCpuserID(), b.getBusinessLogo()});
@@ -221,9 +204,7 @@ public class Converters {
                         AppContract.Activity.ACTIVITY_IMAGE,
                         AppContract.Activity.ACTIVITY_FEATURE
                 };
-
         MatrixCursor matrixCursor = new MatrixCursor(columns);
-
         for (Activity a : activities) {
             matrixCursor.addRow(new Object[]{a.get_ID(), a.getActivityName(), a.getActivityDescription(),
                     a.getActivityCost(), a.getActivityRating(), a.getBusinessId(), a.getActivityImage(), a.getFeature()});
@@ -234,12 +215,7 @@ public class Converters {
 
     public static List<CPUser> cursorToCPUserList(Cursor cursor) {
 
-//    public CPUser(int _ID, String userEmail, String userFullName, String userPwdHash)
-
-
         List<CPUser> result = new ArrayList<>();
-
-
         while (cursor.moveToNext()) {
             result.add(new CPUser(cursor.getString(cursor.getColumnIndex(AppContract.CPUser.CPUSER_ID)),
                     cursor.getString(cursor.getColumnIndex(AppContract.CPUser.CPUSER_EMAIL)),
@@ -247,7 +223,6 @@ public class Converters {
                     cursor.getString(cursor.getColumnIndex(AppContract.CPUser.CPUSER_PWD))
             ));
         }
-
         cursor.close();
 
         return result;
@@ -255,14 +230,8 @@ public class Converters {
 
     public static List<User> cursorToUserList(Cursor cursor) {
 
-
         List<User> result = new ArrayList<>();
-
-        //    public User(int ID,String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
-
-
         while (cursor.moveToNext()) {
-
             try {
                 result.add(new User(cursor.getString(cursor.getColumnIndex(AppContract.User.USER_ID)),
                         cursor.getString(cursor.getColumnIndex(AppContract.User.USER_FULL_NAME)),
@@ -271,13 +240,10 @@ public class Converters {
                         cursor.getString(cursor.getColumnIndex(AppContract.User.USER_PWD)),
                         cursor.getString(cursor.getColumnIndex(AppContract.User.USER_ADDRESS))
                 ));
-
             } catch (Exception e) {
 
             }
-
         }
-
         cursor.close();
 
         return result;
@@ -285,15 +251,9 @@ public class Converters {
 
     public static List<Activity> cursorToActivityList(Cursor cursor) {
 
-
         List<Activity> result = new ArrayList<>();
 
-        //    public User(int ID,String userFullName, String userEmail, String userPhoneNumber, String password, String address) throws Exception {
-
-        //    public Activity(int id,String activityName, String activityDescription, double activityCost, double activityRating, int businessId, byte[] activityImages, String feature) throws Exception {
-
         while (cursor.moveToNext()) {
-
             try {
                 result.add(new Activity(cursor.getString(cursor.getColumnIndex(AppContract.Activity.ACTIVITY_ID)),
                         cursor.getString(cursor.getColumnIndex(AppContract.Activity.ACTIVITY_NAME)),
@@ -304,13 +264,10 @@ public class Converters {
                         cursor.getBlob(cursor.getColumnIndex(AppContract.Activity.ACTIVITY_IMAGE)),
                         cursor.getString(cursor.getColumnIndex(AppContract.Activity.ACTIVITY_FEATURE))
                 ));
-
             } catch (Exception ignored) {
 
             }
-
         }
-
         cursor.close();
 
         return result;
@@ -318,14 +275,8 @@ public class Converters {
 
     public static List<Business> cursorToBusinessList(Cursor cursor) {
 
-        //    public Business(int id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
-
-
         List<Business> result = new ArrayList<>();
-
-
         while (cursor.moveToNext()) {
-
             try {
                 result.add(new Business(cursor.getString(cursor.getColumnIndex(AppContract.Business.BUSINESS_ID)),
                         cursor.getString(cursor.getColumnIndex(AppContract.Business.BUSINESS_NAME)),
@@ -341,13 +292,9 @@ public class Converters {
             } catch (Exception ignored) {
 
             }
-
         }
-
         cursor.close();
 
         return result;
     }
-
-
 }

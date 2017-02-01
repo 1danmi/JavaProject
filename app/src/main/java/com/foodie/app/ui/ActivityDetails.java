@@ -12,6 +12,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,9 +21,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -154,6 +158,10 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
                 ratingBarText.setText(Float.toString(rating));
             }
         });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
     }
 
     private void setPrice() {
@@ -167,7 +175,8 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         input.setHint("Dish price");
         input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         input.setTextColor(getResources().getColor(R.color.white));
-        if(mPrice>0){
+        input.setHintTextColor(ContextCompat.getColor(getApplicationContext(), R.color.grey_500));
+        if (mPrice > 0) {
             String cost = Double.toString(mPrice).replace(".0", "");
             input.setText(cost);
         }
@@ -415,7 +424,6 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         doneImage = (ImageView) findViewById(R.id.doneImage);
     }
 
-
     private void setEditMode(boolean b) {
         mEditMode = b;
         if (b) {
@@ -493,6 +501,49 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 onBackPressed();
+                break;
+            case R.id.delete_action:
+                if (!activityID.equals("")) {
+                    if (!mEditMode) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(ActivityDetails.this, R.style.MyAlertDialogStyle);
+                        alert.setTitle("Are you sure?").setMessage("The dish will be deleted!");
+                        alert.setPositiveButton("Delete", null);
+                        alert.setNegativeButton("Cancel", null);
+                        // Create EditText box to input repeat number
+
+                        alert.setPositiveButton("Delete",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        deleteActivity();
+                                    }
+                                }
+
+                        );
+                        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+
+                                {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        // do nothing
+                                    }
+                                }
+
+                        );
+                        alert.show();
+                    }else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(ActivityDetails.this, R.style.MyAlertDialogStyle);
+                        alert.setMessage("You can't delete in edit mode").setTitle("Error!");
+                        alert.setPositiveButton("Cancel", null);
+                        alert.setPositiveButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                                    }
+                                }
+
+                        );
+                        alert.show();
+                    }
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -502,7 +553,7 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         suggestionRecyclerView.setLayoutManager(layoutManager);
-        suggestionRecyclerViewAdapter = new SuggestionRecyclerViewAdapter(ContentResolverDatabase.activities, getApplicationContext(),activityID);
+        suggestionRecyclerViewAdapter = new SuggestionRecyclerViewAdapter(ContentResolverDatabase.activities, getApplicationContext(), activityID);
         suggestionRecyclerView.setAdapter(suggestionRecyclerViewAdapter);
         suggestionRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, suggestionRecyclerView, this));
         if (activityID.equals("")) {
@@ -541,7 +592,7 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
 
         if (!mEditMode && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View image = v.findViewById(R.id.suggestion_image);
-            IntentHelper.startDetailsActivity(this, image,suggestionRecyclerViewAdapter.getActivitiesList().get(position),businessID, businessName);
+            IntentHelper.startDetailsActivity(this, image, suggestionRecyclerViewAdapter.getActivitiesList().get(position), businessID, businessName);
 //            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
         }
     }
@@ -550,4 +601,33 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
     public void onFABProgressAnimationEnd() {
         AnimationHelper.showFab(doneImage);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.delete_menu, menu);
+        MenuItem item = menu.findItem(R.id.delete_action);
+        if(activityID.equals("")) {
+            item.setVisible(false);
+        }
+        return true;
+    }
+
+    private void deleteActivity() {
+        CallBack<com.foodie.app.entities.Activity> callBack = new CallBack<com.foodie.app.entities.Activity>() {
+            @Override
+            public void onSuccess(List<com.foodie.app.entities.Activity> data) {
+                DebugHelper.Log("Business insert callBack finish with status: Success");
+                onBackPressed();
+                Log.d(TAG, "onSuccess: success");
+            }
+
+            @Override
+            public void onFailed(DataStatus status, String error) {
+                Log.d(TAG, "onFailed: failed");
+            }
+        };
+        (new AsyncData<>(getApplicationContext(), com.foodie.app.entities.Activity.getURI(), DataManagerType.Delete, callBack)).execute(activityID);
+    }
 }
+

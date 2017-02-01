@@ -33,7 +33,6 @@ public interface IDBManager {
 
     Cursor getUser(String[] args, String[] columnsArgs) throws Exception;
 
-
     boolean updateCPUser(String id, ContentValues values) throws Exception;
 
     boolean updateBusiness(String id, ContentValues values) throws Exception;
@@ -43,6 +42,5 @@ public interface IDBManager {
     boolean updateUser(String id, ContentValues values) throws Exception;
 
     boolean isDBUpdated();
-
 
 }

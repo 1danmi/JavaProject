@@ -120,6 +120,8 @@ public class BusinessActivity extends AppCompatActivity
         mIntentFilter.addAction(DataUpdated.mBroadcastCpusers);
 
 
+
+
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -140,12 +142,8 @@ public class BusinessActivity extends AppCompatActivity
 
                 }
                 if (intent.getAction().equals(DataUpdated.mBroadcastNoBussiness)) {
-//                    thisActivity.runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
                     noBusiness();
-//                        }
-//                    });
+
                     DebugHelper.Log("Business activity: no business");
 
                 }
@@ -171,7 +169,7 @@ public class BusinessActivity extends AppCompatActivity
 //        recyclerView.setItemAnimator(new ScaleInLeftAnimator(new AccelerateDecelerateInterpolator()));
         recyclerView.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
 
-        businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(ContentResolverDatabase.businesses, getApplicationContext(), progressBar, noBusinessesText);
+        businessRecyclerViewAdapter = new BusinessRecyclerViewAdapter(ContentResolverDatabase.businesses, getApplicationContext(), progressBar, noBusinessesText, this);
 
         recyclerView.setAdapter(businessRecyclerViewAdapter);
 

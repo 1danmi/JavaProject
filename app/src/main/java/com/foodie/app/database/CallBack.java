@@ -7,6 +7,7 @@ import java.util.List;
  */
 
 public interface CallBack<T> {
+
     public void onSuccess(final List<T> data);
 
     public void onFailed(final DataStatus status, final String error);

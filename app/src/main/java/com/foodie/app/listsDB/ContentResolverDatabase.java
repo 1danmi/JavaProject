@@ -133,7 +133,7 @@ public class ContentResolverDatabase {
         data.execute(new DBquery());
     }
 
-    public static void getBusinessActivitiesList(final Context mContext, String businessId, final boolean size) {
+    public static void getBusinessActivitiesList(final Context mContext, String businessId, final boolean size, final CallBack<Void> callBack) {
 
         activities.clear();
         //Create an AsyncData object and set the constructor
@@ -146,7 +146,7 @@ public class ContentResolverDatabase {
             public void onSuccess(List<Activity> data) {
                 for (Activity item : data) {
                     ContentResolverDatabase.setActivityList(data, size);
-
+                    callBack.onSuccess(null);
                 }
             }
 

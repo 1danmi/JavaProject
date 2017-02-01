@@ -26,8 +26,8 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp" />
 
-            <include layout="@layout/about_david" />
             <include layout="@layout/about_daniel" />
+            <include layout="@layout/about_david" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

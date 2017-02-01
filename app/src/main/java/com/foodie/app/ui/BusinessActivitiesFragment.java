@@ -4,12 +4,11 @@ package com.foodie.app.ui;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BusinessActivitiesFragment extends Fragment implements RecyclerItemClickListener.onRecyclerClickListener {
+public class BusinessActivitiesFragment extends Fragment implements RecyclerItemClickListener.onRecyclerClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "BusinessActivitiesFragm";
 
@@ -48,6 +47,7 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
     private ImageView backgroundImage;
     private View parent;
     private ImageButton btnMore;
+    private SwipeRefreshLayout refreshLayout;
 
     public BusinessActivitiesFragment() {
         // Required empty public constructor
@@ -56,7 +56,7 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
     @Override
     public void onResume() {
         super.onResume();
-        loadData();
+        //loadData();
     }
 
     @Override
@@ -64,6 +64,8 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_business_activities, container, false);
+        refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.activities_refresh_layout);
+        refreshLayout.setOnRefreshListener(this);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.business_activities_recycler_view);
         parent = getActivity().findViewById(R.id.activities_activity_layout);
         backgroundImage = (ImageView) parent.findViewById(R.id.app_bar_business_logo);
@@ -92,9 +94,20 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
         Bundle bundle = this.getArguments();
         businessID = bundle.getString(Constants.BUSINESS_ID, "");
         businessName = bundle.getString(Constants.BUSINESS_NAME, "");
+        CallBack<Void> callBack = new CallBack<Void>() {
+            @Override
+            public void onSuccess(List<Void> data) {
+                refreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailed(DataStatus status, String error) {
+
+            }
+        };
         ContentResolverDatabase.setActivityRecyclerViewAdapter(activityRecyclerViewAdapter);
         ContentResolverDatabase.setBusinessBackground(backgroundImage);
-        ContentResolverDatabase.getBusinessActivitiesList(getContext(), businessID, false);
+        ContentResolverDatabase.getBusinessActivitiesList(getContext(), businessID, false, callBack);
 
         //activityRecyclerViewAdapter.notifyDataSetChanged();
     }
@@ -102,33 +115,10 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
     @Override
     public void onItemClick(View v, final int position, MotionEvent e) {
         btnMore = (ImageButton) v.findViewById(R.id.activity_menu_button);
-
-        if (RecyclerItemClickListener.isViewClicked(btnMore, e)) {
-            PopupMenu popupMenu = new PopupMenu(v.getContext(), btnMore);
-
-            getActivity().getMenuInflater().inflate(R.menu.menu_business_recycler_view, popupMenu.getMenu());
-
-            popupMenu.show();
-
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    Log.d(TAG, "onMenuItemClick: delete pressed");
-                    Log.d(TAG, "onMenuItemClick:" + activityRecyclerViewAdapter.getActivity(position).getActivityName());
-                    switch (item.getItemId()) {
-                        case R.id.deletMenuOption:
-                            deleteItem(position);
-                            return true;
-                    }
-                    return false;
-                }
-            });
-
-        } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 View image = v.findViewById(R.id.activity_image_view);
                 IntentHelper.startDetailsActivity(getActivity(), image, activityRecyclerViewAdapter.getActivitiesList().get(position), businessID, businessName);
-            }
+//            }
         }
     }
 
@@ -148,6 +138,9 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
         (new AsyncData<>(getContext(), Activity.getURI(), DataManagerType.Delete, callBack)).execute(activityRecyclerViewAdapter.getActivity(position).get_ID());
     }
 
-
+    @Override
+    public void onRefresh() {
+        loadData();
+    }
 }
 

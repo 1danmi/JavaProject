@@ -48,7 +48,7 @@
         <activity
             android:name=".ui.ActivityDetails"
             android:label="@string/app_name"
-            android:theme="@style/LoginTheme"
+            android:theme="@style/AppThemeWithoutActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.AboutActivity"
