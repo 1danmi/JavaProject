@@ -1,7 +1,6 @@
 package com.foodie.app.ui.helpers;
 
 import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -16,7 +15,7 @@ public class AnimationHelper {
     //global
     private static final int FAB_ANIM_DURATION = 200;
 
-    public static void hideFab(FloatingActionButton fab) {
+    public static void hideFab(View fab) {
         // Only use scale animation if FAB is visible
         if (fab.getVisibility() == View.VISIBLE) {
             // Pivots indicate where the animation begins from
@@ -33,11 +32,11 @@ public class AnimationHelper {
     }
 
 
-    public static void showFab(FloatingActionButton fab) {
+    public static void showFab(View fab) {
         show(0, 0, fab);
     }
 
-    private static void show(float translationX, float translationY, FloatingActionButton fab) {
+    private static void show(float translationX, float translationY, View fab) {
 
         // Set FAB's translation
         setTranslation(translationX, translationY, fab);
@@ -66,7 +65,7 @@ public class AnimationHelper {
         fab.setVisibility(View.VISIBLE);
     }
 
-    private static void setTranslation(float translationX, float translationY, FloatingActionButton fab) {
+    private static void setTranslation(float translationX, float translationY, View fab) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
             fab.animate().setInterpolator(new DecelerateInterpolator()).setDuration(FAB_ANIM_DURATION)
                     .translationX(translationX).translationY(translationY);

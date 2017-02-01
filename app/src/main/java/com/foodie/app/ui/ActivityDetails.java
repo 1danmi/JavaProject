@@ -147,6 +147,13 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
                     setPrice();
             }
         });
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                ratingBarText.setText(Float.toString(rating));
+            }
+        });
     }
 
     private void setPrice() {
@@ -160,13 +167,17 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         input.setHint("Dish price");
         input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         input.setTextColor(getResources().getColor(R.color.white));
+        if(mPrice>0){
+            String cost = Double.toString(mPrice).replace(".0", "");
+            input.setText(cost);
+        }
 
         alert.setView(input, 60, 0, 60, 0);
         alert.setPositiveButton("Ok",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         Pattern pattern =
-                                Pattern.compile("^([1-9]{1}\\d{0,3}(|\\.\\d{2}))$");
+                                Pattern.compile("^([1-9]\\d{0,3}(|\\.\\d{2}))$");
                         String price = input.getText().toString().trim();
                         Matcher matcher =
                                 pattern.matcher(price);
@@ -207,12 +218,14 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onExpanded(AppBarLayout appBarLayout) {
-                AnimationHelper.showFab(addEditActivityBtn);
+                AnimationHelper.showFab(fabProgressCircle);
+//                AnimationHelper.showFab(addEditActivityBtn);
             }
 
             @Override
             public void onCollapsed(AppBarLayout appBarLayout) {
-                AnimationHelper.hideFab(addEditActivityBtn);
+//                AnimationHelper.hideFab(addEditActivityBtn);
+                AnimationHelper.hideFab(fabProgressCircle);
 //                setActivityTitle(dishNameEditText.getText().toString());
             }
 
@@ -227,14 +240,18 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         fabLock = false;
 
         if (mEditMode) {
-            AnimationHelper.hideFab(addEditActivityBtn);
+//            AnimationHelper.hideFab(addEditActivityBtn);
+            AnimationHelper.hideFab(fabProgressCircle);
             addEditActivityBtn.setImageBitmap(uploadBitmap);
-            AnimationHelper.showFab(addEditActivityBtn);
+//            AnimationHelper.showFab(addEditActivityBtn);
+            AnimationHelper.showFab(fabProgressCircle);
 
         } else {
-            AnimationHelper.hideFab(addEditActivityBtn);
+//            AnimationHelper.hideFab(addEditActivityBtn);
+            AnimationHelper.hideFab(fabProgressCircle);
             addEditActivityBtn.setImageBitmap(editBitmap);
-            AnimationHelper.showFab(addEditActivityBtn);
+//            AnimationHelper.showFab(addEditActivityBtn);
+            AnimationHelper.showFab(fabProgressCircle);
         }
 
         addEditActivityBtn.setOnClickListener(new View.OnClickListener() {
@@ -250,9 +267,6 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
             fabProgressCircle.attachListener(this);
             fabProgressCircle.show();
 
-            //AnimationHelper.hideFab(addEditActivityBtn);
-            //addEditActivityBtn.setImageBitmap(editBitmap);
-            //AnimationHelper.showFab(addEditActivityBtn);
             (new AsyncTask<Void, Void, Boolean>() {
                 @Override
                 protected Boolean doInBackground(Void... params) {
@@ -270,9 +284,11 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
 
 
         } else {
-            AnimationHelper.hideFab(addEditActivityBtn);
+//            AnimationHelper.hideFab(addEditActivityBtn);
+            AnimationHelper.hideFab(fabProgressCircle);
             addEditActivityBtn.setImageBitmap(uploadBitmap);
-            AnimationHelper.showFab(addEditActivityBtn);
+//            AnimationHelper.showFab(addEditActivityBtn);
+            AnimationHelper.showFab(fabProgressCircle);
             setEditMode(true);
         }
     }
@@ -281,6 +297,7 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         if (result) {
             fabProgressCircle.beginFinalAnimation();
             setTitle(dishNameEditText.getText().toString().trim());
+            Snackbar.make(rootLayout, "Failed", Snackbar.LENGTH_LONG).show();
             setEditMode(false);
         } else {
             fabProgressCircle.beginFinalAnimation();
@@ -405,11 +422,14 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
             dishNameEditText.setEnabled(true);
             featureEditText.setEnabled(true);
             dishDescription.setEnabled(true);
+            ratingBar.setIsIndicator(false);
 
         } else {
             dishNameEditText.setEnabled(false);
             featureEditText.setEnabled(false);
             dishDescription.setEnabled(false);
+            ratingBar.setIsIndicator(true);
+
         }
     }
 
@@ -491,6 +511,7 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
             activityItem = new com.foodie.app.entities.Activity();
             isPhotoChanged = false;
             isPriceChanged = false;
+            mPrice = 0;
         } else {
             setTitle(activityItem.getActivityName());
             dishNameEditText.setText(activityItem.getActivityName());
@@ -516,7 +537,7 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
 
 
     @Override
-    public void onitemClick(View v, int position, MotionEvent e) {
+    public void onItemClick(View v, int position, MotionEvent e) {
 
         if (!mEditMode && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View image = v.findViewById(R.id.suggestion_image);
@@ -527,8 +548,6 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
 
     @Override
     public void onFABProgressAnimationEnd() {
-        addEditActivityBtn.setImageBitmap(doneBitmap);
-        doneImage.setVisibility(View.VISIBLE);
-
+        AnimationHelper.showFab(doneImage);
     }
 }

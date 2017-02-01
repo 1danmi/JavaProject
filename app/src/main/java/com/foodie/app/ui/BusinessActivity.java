@@ -5,9 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -56,7 +59,7 @@ import java.util.List;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class BusinessActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RecyclerItemClickListener.onRecyclerClickListener, android.widget.SearchView.OnQueryTextListener,  SwipeRefreshLayout.OnRefreshListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RecyclerItemClickListener.onRecyclerClickListener, android.widget.SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "BusinessActivity";
     private BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
@@ -77,22 +80,7 @@ public class BusinessActivity extends AppCompatActivity
     private SwipeRefreshLayout refreshLayout;
     TextView userName;
     TextView emailAddress;
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            if (intent.getAction().equals("Business")) {
-                loadData();
-                // TODO: implement data update
-            }
-            if (intent.getAction().equals("Cpusers")) {
-                if(ListDBManager.getBusinessListSize()==0)
-                    loadData();
-                // TODO: implement data update
-            }
-
-        }
-    };
+    private BroadcastReceiver mReceiver;
 
 
     @Override
@@ -118,7 +106,6 @@ public class BusinessActivity extends AppCompatActivity
         TextView userEmail = (TextView) rootView.findViewById(R.id.drawerEmailTextView);
 
 
-
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(DataUpdated.mBroadcastBusiness);
 
@@ -130,8 +117,26 @@ public class BusinessActivity extends AppCompatActivity
         getContentResolver().registerContentObserver(Business.getURI(), true, myContentObserver);
 
 
-    }
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
 
+                if (intent.getAction().equals("Business")) {
+                    refreshLayout.setRefreshing(true);
+                    onRefresh();
+                    // TODO: implement data update
+                }
+                if (intent.getAction().equals("Cpusers")) {
+                    if (ListDBManager.getBusinessListSize() == 0)
+                        loadData();
+                    // TODO: implement data update
+                }
+
+            }
+        };
+
+        //refreshLayout.setRefreshing(true);
+    }
 
     private void setRecyclerView() {
 
@@ -230,21 +235,31 @@ public class BusinessActivity extends AppCompatActivity
             emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
             emailIntent.setType("message/rfc822");
             startActivity(Intent.createChooser(emailIntent, "Send Email"));
-        } else if (id == R.id.language_navbar) {
+        } else if (id == R.id.privacy_navbar) {
+            String url = "https://sites.google.com/view/foodie-app/home";
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(getResources().getColor(R.color.primary)).setShowTitle(true);
+            builder.setStartAnimations(this, R.anim.slide_in_right, R.anim.slide_out_left);
+            builder.setExitAnimations(this, R.anim.slide_in_left, R.anim.slide_out_right);
+            builder.setCloseButtonIcon(
+                    BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(this, Uri.parse(url));
 
         } else if (id == R.id.settings_navbar) {
-
+            Intent intent = new Intent(this, SettingActivity.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            }
         } else if (id == R.id.sign_out_navbar) {
             DBManagerFactory.signOut();
             ContentResolverDatabase.businesses.clear();
-            ContentResolverDatabase.loadingCounter=0;
+            ContentResolverDatabase.loadingCounter = 0;
             super.onBackPressed();
         } else if (id == R.id.about_navbar) {
             Intent intent = new Intent(this, AboutActivity.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            }else{
-
             }
 
         }
@@ -284,7 +299,7 @@ public class BusinessActivity extends AppCompatActivity
     }
 
     @Override
-    public void onitemClick(View v, final int position, MotionEvent e) {
+    public void onItemClick(View v, final int position, MotionEvent e) {
         try {
             if (secondLayout) {
                 deleteBtn = (Button) v.findViewById(R.id.deleteButton);

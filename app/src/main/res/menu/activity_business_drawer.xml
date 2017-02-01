@@ -7,9 +7,9 @@
                 android:icon="@drawable/ic_bug_report_black_48dp"
                 android:title="Bug Report" />
             <item
-                android:id="@+id/language_navbar"
+                android:id="@+id/privacy_navbar"
                 android:icon="@drawable/ic_language_black_48dp"
-                android:title="Language" />
+                android:title="Privacy Policy" />
             <item
                 android:id="@+id/settings_navbar"
                 android:icon="@drawable/ic_settings_black_48dp"

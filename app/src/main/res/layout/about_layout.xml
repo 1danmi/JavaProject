@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:text="About Us"
+                android:textSize="45sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:fontFamily="sans-serif-thin"
+                android:gravity="center"
+                android:id="@+id/textView4"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp" />
+
+            <include layout="@layout/about_david" />
+            <include layout="@layout/about_daniel" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

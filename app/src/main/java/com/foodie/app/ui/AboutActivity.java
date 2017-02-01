@@ -5,8 +5,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.AppBarLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,12 +25,16 @@ public class AboutActivity extends AppCompatActivity {
     private RelativeLayout davidEmailLayout, davidGitLayout, davidInLayout, davidTelegramLayout;
     private TextView danielEmail, danielGit, danielIn, danielTelegram;
     private TextView davidEmail, davidGit, davidIn, davidTelegram;
+    private AppBarLayout appBarLayout;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
+        appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_about);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_about);
         initializeDaniel();
 
         initializeDavid();
@@ -35,6 +43,9 @@ public class AboutActivity extends AppCompatActivity {
 
         setDavidClicks();
 
+        setAppBar();
+
+        setTitle("About");
 
 
     }
@@ -144,5 +155,39 @@ public class AboutActivity extends AppCompatActivity {
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.launchUrl(this, Uri.parse(url));
         }
+    }
+
+    private void setAppBar() {
+        setSupportActionBar(toolbar);
+        setActionBar();
+    }
+
+    //Sets the actionbar visibility.
+    private void setActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.activity_toolbar);
+
+            if (toolbar != null) {
+                setSupportActionBar(toolbar);
+                actionBar = getSupportActionBar();
+            }
+        }
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

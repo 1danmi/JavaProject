@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,8 +19,6 @@ import com.foodie.app.entities.Business;
 import com.foodie.app.listsDB.ContentResolverDatabase;
 
 import java.util.List;
-
-import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by Daniel on 12/16/2016.
@@ -62,6 +61,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
 
             //bmp = ThumbnailUtils.extractThumbnail(bmp, THUMBSIZE, THUMBSIZE);
             holder.logo.setImageBitmap(bmp);
+            holder.progressBar.setVisibility(View.GONE);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             holder.logo.setTransitionName(Business.getURI() + businessItem.getBusinessName());
@@ -70,9 +70,6 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         holder.address.setText(businessItem.getBusinessAddress());
         ContentResolverDatabase.getBusinessActivitiesList(mContext, businessItem.get_ID(), true);
         holder.numOfActivities.setText(businessItem.getBusinessPhoneNo());
-//        Animation rotation = AnimationUtils.loadAnimation(mContext, R.anim.rotate_loading);
-//        rotation.setRepeatCount(Animation.INFINITE);
-//        holder.logo.startAnimation(rotation);
 
         //TODO: Add query for number of activities of the business
 
@@ -125,22 +122,24 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
 
     static class BusinessImageViewHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "BusinessImageViewHolder";
-        GifImageView logo;
+        ImageView logo;
         TextView title;
         TextView address;
         View mView;
         ImageButton menu;
         TextView numOfActivities;
+        ProgressBar progressBar;
 
         public BusinessImageViewHolder(View itemView) {
             super(itemView);
             Log.d(TAG, "BusinessImageViewHolder: starts");
             mView = itemView;
-            this.logo = (GifImageView) itemView.findViewById(R.id.gif_loading_business);
+            this.logo = (ImageView) itemView.findViewById(R.id.gif_loading_business);
             this.title = (TextView) itemView.findViewById(R.id.businessTitleTextView);
             this.address = (TextView) itemView.findViewById(R.id.businessAddressTextView);
             this.menu = (ImageButton) itemView.findViewById(R.id.businessMenuButton);
             this.numOfActivities = (TextView) itemView.findViewById(R.id.numOfActivities);
+            this.progressBar = (ProgressBar) itemView.findViewById(R.id.business_card_progress_bar);
         }
     }
 

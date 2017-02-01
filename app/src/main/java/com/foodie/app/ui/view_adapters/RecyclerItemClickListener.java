@@ -18,7 +18,7 @@ public class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchLis
     private static final String TAG = "BusinessRecyclerItemCli";
 
     public interface onRecyclerClickListener {
-        void onitemClick(View v, int position, MotionEvent e);
+        void onItemClick(View v, int position, MotionEvent e);
 
     }
 
@@ -41,7 +41,7 @@ public class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchLis
         Log.d(TAG, "onSingleTapUp: starts");
         View childView = recyclerView.findChildViewUnder(e.getX(), e.getY());
         if (childView != null && mListener != null) {
-            mListener.onitemClick(childView, recyclerView.getChildAdapterPosition(childView), e);
+            mListener.onItemClick(childView, recyclerView.getChildAdapterPosition(childView), e);
         }
     }
 

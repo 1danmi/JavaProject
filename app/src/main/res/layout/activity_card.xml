@@ -91,7 +91,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hapticFeedbackEnabled="true"
-                    android:isIndicator="false"
                     android:numStars="5"
                     android:rating="3.5"
                     android:stepSize="0.5"

@@ -88,7 +88,7 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
     }
 
     @Override
-    public void onitemClick(View v, int position, MotionEvent e) {
+    public void onItemClick(View v, int position, MotionEvent e) {
 
 //        Intent intent = new Intent(v.getContext(), ActivityDetails.class);
 //        intent.putExtra(Constants.ACTIVITY_ID, activityRecyclerViewAdapter.getActivitiesList().get(position).get_ID());
