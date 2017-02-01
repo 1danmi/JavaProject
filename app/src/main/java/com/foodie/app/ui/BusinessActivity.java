@@ -363,7 +363,7 @@ public class BusinessActivity extends AppCompatActivity
 
     }
 
-    protected void deleteItem(int position) {
+    private void deleteItem(int position) {
         CallBack<Business> callBack = new CallBack<Business>() {
             @Override
             public void onSuccess(List<Business> data) {
