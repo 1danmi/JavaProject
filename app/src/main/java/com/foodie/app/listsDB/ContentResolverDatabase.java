@@ -3,7 +3,6 @@ package com.foodie.app.listsDB;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -165,18 +164,17 @@ public class ContentResolverDatabase {
 
     public static void setBusinessList(List<Business> businessList) {
         businesses = businessList;
-
         businessRecyclerViewAdapter.loadNewData(businesses);
-        if (loadingCounter > 1) {
-            loadingCounter--;
-        } else {
-            businessRecyclerViewAdapter.getLoadingImage().setVisibility(View.GONE);
-            if (businessList.size() == 0) {
-                businessRecyclerViewAdapter.getNoBusinessesText().setVisibility(View.VISIBLE);
-            } else {
-                businessRecyclerViewAdapter.getNoBusinessesText().setVisibility(View.GONE);
-            }
-        }
+//        if (loadingCounter > 1) {
+//            loadingCounter--;
+//        } else {
+//            businessRecyclerViewAdapter.getLoadingImage().setVisibility(View.GONE);
+//            if (businessList.size() == 0) {
+//                businessRecyclerViewAdapter.getNoBusinessesText().setVisibility(View.VISIBLE);
+//            } else {
+//                businessRecyclerViewAdapter.getNoBusinessesText().setVisibility(View.GONE);
+//            }
+//        }
     }
 
     public static void setActivityList(List<Activity> activityList, boolean size) {

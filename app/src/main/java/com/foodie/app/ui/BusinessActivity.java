@@ -1,5 +1,6 @@
 package com.foodie.app.ui;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -47,7 +48,6 @@ import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
 import com.foodie.app.entities.CPUser;
 import com.foodie.app.listsDB.ContentResolverDatabase;
-import com.foodie.app.listsDB.ListDBManager;
 import com.foodie.app.provider.MyContentObserver;
 import com.foodie.app.ui.helpers.IntentHelper;
 import com.foodie.app.ui.view_adapters.BusinessRecyclerViewAdapter;
@@ -81,6 +81,7 @@ public class BusinessActivity extends AppCompatActivity
     TextView userName;
     TextView emailAddress;
     private BroadcastReceiver mReceiver;
+    private Activity thisActivity = this;
 
 
     @Override
@@ -94,6 +95,7 @@ public class BusinessActivity extends AppCompatActivity
         Toolbar toolbar = setActionBarAndFAB();
         progressBar = (ProgressBar) findViewById(R.id.business_progress_bar);
         noBusinessesText = (TextView) findViewById(R.id.noBusinessesTextView);
+        noBusinessesText.setVisibility(View.GONE);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.content_business);
         refreshLayout.setOnRefreshListener(this);
         setDrawer(toolbar);
@@ -104,10 +106,7 @@ public class BusinessActivity extends AppCompatActivity
         final View rootView = getLayoutInflater().inflate(R.layout.nav_header_business, null);
         final TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerUserNameTextView);
         final TextView userEmail = (TextView) rootView.findViewById(R.id.drawerEmailTextView);
-
-
-
-
+        refreshLayout.setRefreshing(true);
 
 
         myContentObserver = new MyContentObserver(new Handler(), getApplicationContext());
@@ -121,27 +120,32 @@ public class BusinessActivity extends AppCompatActivity
         mIntentFilter.addAction(DataUpdated.mBroadcastCpusers);
 
 
-
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 
                 if (intent.getAction().equals(DataUpdated.mBroadcastBusiness)) {
-                    refreshLayout.setRefreshing(true);
+
+                    noBusinessesText.setVisibility(View.GONE);
                     onRefresh();
+
                     // TODO: implement data update
                 }
                 if (intent.getAction().equals(DataUpdated.mBroadcastCpusers)) {
                     DebugHelper.Log("Business activity: cpu updated");
                     //Todo: implement user details here
-                    drawerCPUserName.setText(DBManagerFactory.getCurrentUser().getUserFullName());
-                    userEmail.setText(DBManagerFactory.getCurrentUser().getUserEmail());
+                    //drawerCPUserName.setText(DBManagerFactory.getCurrentUser().getUserFullName());
+                    //userEmail.setText(DBManagerFactory.getCurrentUser().getUserEmail());
 
 
                 }
-                if(intent.getAction().equals(DataUpdated.mBroadcastNoBussiness))
-                {
-                    //Todo: implement action when the user have no business
+                if (intent.getAction().equals(DataUpdated.mBroadcastNoBussiness)) {
+//                    thisActivity.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+                    noBusiness();
+//                        }
+//                    });
                     DebugHelper.Log("Business activity: no business");
 
                 }
@@ -153,9 +157,9 @@ public class BusinessActivity extends AppCompatActivity
 
         Intent serviceIntent = new Intent(getApplicationContext(), DataUpdated.class);
         startService(serviceIntent);
-  /****************************************END SERVICE****************************************/
+        /****************************************END SERVICE****************************************/
 
-        //refreshLayout.setRefreshing(true);
+
     }
 
     private void setRecyclerView() {
@@ -312,10 +316,6 @@ public class BusinessActivity extends AppCompatActivity
         //businessRecyclerViewAdapter.notifyDataSetChanged();
 
 
-        recyclerView.getItemAnimator().setAddDuration(800);
-        recyclerView.getItemAnimator().setRemoveDuration(800);
-        recyclerView.getItemAnimator().setMoveDuration(800);
-        recyclerView.getItemAnimator().setChangeDuration(800);
     }
 
     @Override
@@ -417,6 +417,7 @@ public class BusinessActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         DBManagerFactory.signOut();
+        ContentResolverDatabase.businesses.clear();
         finish();
         super.onDestroy();
     }
@@ -453,5 +454,10 @@ public class BusinessActivity extends AppCompatActivity
     public void onRefresh() {
         Log.d(TAG, "onRefresh: starts");
         loadData();
+    }
+
+    private void noBusiness() {
+        refreshLayout.setRefreshing(false);
+        noBusinessesText.setVisibility(View.VISIBLE);
     }
 }
