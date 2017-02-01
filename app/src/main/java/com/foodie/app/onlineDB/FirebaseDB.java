@@ -187,7 +187,7 @@ public class FirebaseDB implements IDBManager {
         BusinessRef.child(id).removeValue();
 
         localDB.removeBusiness(id);
-        List<Activity> businessActivities = Converters.cursorToActivityList(localDB.getActivity(new String[]{AppContract.Activity.ACTIVITY_BUSINESS_ID},new String[]{id}));
+        List<Activity> businessActivities = Converters.cursorToActivityList(localDB.getActivity(new String[]{id},new String[]{AppContract.Activity.ACTIVITY_BUSINESS_ID}));
         for (Activity ac : businessActivities)
         {
             removeActivity(ac.get_ID());
