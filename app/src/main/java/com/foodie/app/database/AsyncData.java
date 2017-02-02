@@ -129,7 +129,8 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
 
     private void Insert(ContentValues... contentValues) {
         for (ContentValues value : contentValues) {
-            if (context.getContentResolver().insert(uri, value) != null) {
+            Uri u = context.getContentResolver().insert(uri, value);
+            if (u != null) {
                 runCallBack(DataStatus.Success, null);
             } else {
                 runCallBack(DataStatus.InvalidArgumment, null);

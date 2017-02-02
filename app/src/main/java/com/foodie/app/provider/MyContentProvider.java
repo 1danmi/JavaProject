@@ -102,7 +102,7 @@ public class MyContentProvider extends ContentProvider {
         } catch (Exception ex) {
 
         }
-        return null;
+        return Uri.parse(id);
     }
 
     @Override

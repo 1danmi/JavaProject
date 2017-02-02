@@ -306,11 +306,11 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         if (result) {
             fabProgressCircle.beginFinalAnimation();
             setTitle(dishNameEditText.getText().toString().trim());
-            Snackbar.make(rootLayout, "Failed", Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(rootLayout, "Success", Snackbar.LENGTH_LONG).show();
             setEditMode(false);
         } else {
             fabProgressCircle.beginFinalAnimation();
-            Snackbar.make(rootLayout, "Failed", Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(rootLayout, "Failed", Snackbar.LENGTH_LONG).show();
         }
     }
 

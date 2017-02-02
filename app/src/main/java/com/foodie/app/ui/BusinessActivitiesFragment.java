@@ -56,7 +56,7 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
     @Override
     public void onResume() {
         super.onResume();
-        //loadData();
+        loadData();
     }
 
     @Override

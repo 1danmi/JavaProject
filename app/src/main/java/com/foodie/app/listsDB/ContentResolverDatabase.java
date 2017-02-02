@@ -1,8 +1,6 @@
 package com.foodie.app.listsDB;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -144,10 +142,8 @@ public class ContentResolverDatabase {
         data.setCallBack(new CallBack<Activity>() {
             @Override
             public void onSuccess(List<Activity> data) {
-                for (Activity item : data) {
                     ContentResolverDatabase.setActivityList(data, size);
                     callBack.onSuccess(null);
-                }
             }
 
             @Override
@@ -180,12 +176,12 @@ public class ContentResolverDatabase {
     public static void setActivityList(List<Activity> activityList, boolean size) {
         //activities.clear();
         activities = activityList;
-        if (!size)
+        //if (!size)
             activitiesRecyclerViewAdapter.loadNewData(activities);
-        if (businessBackground != null && activities.size() > 0 && activities.get(0).getActivityImage() != null) {
-            Bitmap bmp = BitmapFactory.decodeByteArray(activities.get(0).getActivityImage(), 0, activities.get(0).getActivityImage().length);
-            businessBackground.setImageBitmap(bmp);
-        }
+//        if (businessBackground != null && activities.size() > 0 && activities.get(0).getActivityImage() != null) {
+//            Bitmap bmp = BitmapFactory.decodeByteArray(activities.get(0).getActivityImage(), 0, activities.get(0).getActivityImage().length);
+//            businessBackground.setImageBitmap(bmp);
+//        }
     }
 
     public static void setBusinessRecyclerViewAdapter(BusinessRecyclerViewAdapter adapter) {
@@ -198,5 +194,9 @@ public class ContentResolverDatabase {
 
     public static void setBusinessBackground(ImageView businessBackground) {
         ContentResolverDatabase.businessBackground = businessBackground;
+    }
+
+    void A3(){
+        
     }
 }
