@@ -82,6 +82,7 @@ public class BusinessActivity extends AppCompatActivity
     private TextView drawerUserEmail;
     private BroadcastReceiver mReceiver;
     private Activity thisActivity = this;
+    private Intent serviceIntent;
 
 
     @Override
@@ -156,7 +157,7 @@ public class BusinessActivity extends AppCompatActivity
 
         registerReceiver(mReceiver, mIntentFilter);
 
-        Intent serviceIntent = new Intent(getApplicationContext(), DataUpdated.class);
+        serviceIntent = new Intent(getApplicationContext(), DataUpdated.class);
         startService(serviceIntent);
         /****************************************END SERVICE****************************************/
 
@@ -295,6 +296,8 @@ public class BusinessActivity extends AppCompatActivity
             }
         } else if (id == R.id.sign_out_navbar) {
             DBManagerFactory.signOut();
+            if(serviceIntent!=null)
+                stopService(serviceIntent);
             ContentResolverDatabase.businesses.clear();
             ContentResolverDatabase.loadingCounter = 0;
             super.onBackPressed();

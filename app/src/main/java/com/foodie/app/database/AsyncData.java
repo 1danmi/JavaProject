@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.foodie.app.Helper.DebugHelper;
+import com.foodie.app.listsDB.ContentResolverDatabase;
 import com.foodie.app.provider.MyContentProvider;
 import com.foodie.app.ui.view_adapters.BusinessRecyclerViewAdapter;
 
@@ -131,6 +132,7 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
         for (ContentValues value : contentValues) {
             Uri u = context.getContentResolver().insert(uri, value);
             if (u != null) {
+                ContentResolverDatabase.lastActivityID = u.toString();
                 runCallBack(DataStatus.Success, null);
             } else {
                 runCallBack(DataStatus.InvalidArgumment, null);

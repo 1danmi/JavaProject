@@ -40,6 +40,7 @@ public class ContentResolverDatabase {
     private static ImageView businessBackground;
     private static BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
     private static ActivityRecyclerViewAdapter activitiesRecyclerViewAdapter;
+    public static String lastActivityID;
 
     boolean isUpdated = false;
 
@@ -163,16 +164,6 @@ public class ContentResolverDatabase {
     public static void setBusinessList(List<Business> businessList) {
         businesses = businessList;
         businessRecyclerViewAdapter.loadNewData(businesses);
-//        if (loadingCounter > 1) {
-//            loadingCounter--;
-//        } else {
-//            businessRecyclerViewAdapter.getLoadingImage().setVisibility(View.GONE);
-//            if (businessList.size() == 0) {
-//                businessRecyclerViewAdapter.getNoBusinessesText().setVisibility(View.VISIBLE);
-//            } else {
-//                businessRecyclerViewAdapter.getNoBusinessesText().setVisibility(View.GONE);
-//            }
-//        }
     }
 
     public static void setActivityList(List<Activity> activityList, boolean size) {

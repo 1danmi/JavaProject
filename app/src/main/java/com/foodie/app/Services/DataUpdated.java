@@ -1,7 +1,6 @@
 package com.foodie.app.Services;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -9,7 +8,6 @@ import android.support.annotation.Nullable;
 import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.database.DBManagerFactory;
 import com.foodie.app.listsDB.ListDBManager;
-import com.google.android.gms.nearby.messages.internal.Update;
 
 /**
  * Created by David on 19/1/2017.
@@ -24,6 +22,7 @@ public class DataUpdated extends Service {
     private int activitiesTotal = 0;
     private boolean userUpdated = false;
     private static boolean noBussiness = false;
+
 
 
     public static final String mBroadcastCpusers = "Cpusers";
@@ -119,4 +118,9 @@ public class DataUpdated extends Service {
         noBussiness = flag;
     }
 
+    @Override
+    public void onDestroy() {
+        noBussiness = false;
+        super.onDestroy();
+    }
 }

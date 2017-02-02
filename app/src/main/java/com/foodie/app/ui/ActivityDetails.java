@@ -69,7 +69,7 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
     private String activityID, businessID, businessName;
     private double mPrice;
     private boolean mEditMode, isPhotoChanged, isPriceChanged, fabLock;
-
+    private Menu mOptionsMenu;
 
     //Views:
     private CoordinatorLayout rootLayout;
@@ -605,6 +605,7 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        mOptionsMenu = menu;
         getMenuInflater().inflate(R.menu.delete_menu, menu);
         MenuItem item = menu.findItem(R.id.delete_action);
         if(activityID.equals("")) {
