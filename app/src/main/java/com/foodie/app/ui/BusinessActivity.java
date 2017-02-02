@@ -78,8 +78,8 @@ public class BusinessActivity extends AppCompatActivity
     private ProgressBar progressBar;
     private TextView noBusinessesText;
     private SwipeRefreshLayout refreshLayout;
-    TextView userName;
-    TextView emailAddress;
+    private TextView drawerCPUserName;
+    private TextView drawerUserEmail;
     private BroadcastReceiver mReceiver;
     private Activity thisActivity = this;
 
@@ -102,10 +102,13 @@ public class BusinessActivity extends AppCompatActivity
         businessList = new ArrayList<>();
         setRecyclerView();
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        drawerCPUserName = (TextView) header.findViewById(R.id.drawerUserNameTextView);
+        drawerUserEmail = (TextView) header.findViewById(R.id.drawerEmailTextView);
 
-        final View rootView = getLayoutInflater().inflate(R.layout.nav_header_business, null);
-        final TextView drawerCPUserName = (TextView) rootView.findViewById(R.id.drawerUserNameTextView);
-        final TextView userEmail = (TextView) rootView.findViewById(R.id.drawerEmailTextView);
+
+
         refreshLayout.setRefreshing(true);
 
 
@@ -135,9 +138,9 @@ public class BusinessActivity extends AppCompatActivity
                 }
                 if (intent.getAction().equals(DataUpdated.mBroadcastCpusers)) {
                     DebugHelper.Log("Business activity: cpu updated");
+                    setUserName();
+                    onRefresh();
                     //Todo: implement user details here
-                    //drawerCPUserName.setText(DBManagerFactory.getCurrentUser().getUserFullName());
-                    //userEmail.setText(DBManagerFactory.getCurrentUser().getUserEmail());
 
 
                 }
@@ -157,6 +160,22 @@ public class BusinessActivity extends AppCompatActivity
         startService(serviceIntent);
         /****************************************END SERVICE****************************************/
 
+
+    }
+
+    private void setUserName() {
+
+//        new Handler(Looper.getMainLooper()).post(new Runnable() {
+//            @Override
+//            public void run() {
+        Log.d(TAG, "run: run");
+        String email = DBManagerFactory.getCurrentUser().getUserEmail();
+        String name = DBManagerFactory.getCurrentUser().getUserFullName();
+
+        drawerCPUserName.setText(name);
+        drawerUserEmail.setText(email);
+//            }
+//        });
 
     }
 
@@ -204,6 +223,7 @@ public class BusinessActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         navigationView.setNavigationItemSelectedListener(this);
     }
 
