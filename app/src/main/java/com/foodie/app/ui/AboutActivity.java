@@ -28,6 +28,10 @@ public class AboutActivity extends AppCompatActivity {
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
 
+    /**
+     * Creates the activity that shows the developers info details.
+     * @param savedInstanceState A saves instance of the activity from previous state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,7 @@ public class AboutActivity extends AppCompatActivity {
 
         appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_about);
         toolbar = (Toolbar) findViewById(R.id.toolbar_about);
+
         initializeDaniel();
 
         initializeDavid();
@@ -50,6 +55,9 @@ public class AboutActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Handles the click's actions in Daniel's tab.
+     */
     private void setDanielClicks() {
 
         danielEmailLayout.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +87,9 @@ public class AboutActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Handles the click's actions in David's tab.
+     */
     private void setDavidClicks() {
         davidEmailLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +117,9 @@ public class AboutActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Initializes the views in Daniel's tab.
+     */
     private void initializeDaniel() {
         daniel = (CardView) findViewById(R.id.cardViewDaniel);
         danielEmail = (TextView) daniel.findViewById(R.id.email_text);
@@ -118,8 +132,11 @@ public class AboutActivity extends AppCompatActivity {
         danielTelegramLayout = (RelativeLayout) daniel.findViewById(R.id.telegram_layout);
     }
 
+    /**
+     * Initializes the views in David's tab.
+     */
     private void initializeDavid() {
-        david= (CardView) findViewById(R.id.cardViewDavid);
+        david = (CardView) findViewById(R.id.cardViewDavid);
         davidEmail = (TextView) david.findViewById(R.id.email_text);
         davidGit = (TextView) david.findViewById(R.id.github_link);
         davidIn = (TextView) david.findViewById(R.id.linkedin_link);
@@ -131,7 +148,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     /**
-     * Opens eamil activity implicitly.
+     * Opens email activity implicitly.
      * @param email the email address to sent to the activity.
      */
     private void openEmail(String email) {
@@ -141,6 +158,10 @@ public class AboutActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(emailIntent, "Send Email"));
     }
 
+    /**
+     * Open links in Chrome Custom Tabs mode.
+     * @param url The URI to open.
+     */
     private void openCustomTabs(String url) {
         if (url.length() > 0) {
             if (!url.startsWith("https://") && !url.startsWith("http://")) {
@@ -157,12 +178,17 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets the appbar.
+     */
     private void setAppBar() {
         setSupportActionBar(toolbar);
         setActionBar();
     }
 
-    //Sets the actionbar visibility.
+    /**
+     * Sets the actionbar visibility.
+     */
     private void setActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar == null) {
@@ -180,6 +206,11 @@ public class AboutActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Handles the menu items clicks.
+     * @param item The menu item's ID.
+     * @return A boolean that represents whether the operation was successful.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

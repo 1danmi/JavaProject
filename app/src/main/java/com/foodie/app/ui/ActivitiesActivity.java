@@ -27,8 +27,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.foodie.app.Helper.DebugHelper;
-import com.foodie.app.ProgressNotification.NotificationCallBack;
-import com.foodie.app.ProgressNotification.ProgressNotification;
 import com.foodie.app.R;
 import com.foodie.app.backend.AppContract;
 import com.foodie.app.constants.Constants;
@@ -38,16 +36,16 @@ import com.foodie.app.database.DBquery;
 import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Business;
-import com.foodie.app.onlineDB.OnlineStorage;
-import com.foodie.app.onlineDB.UploadStatus;
 import com.foodie.app.ui.helpers.AnimationHelper;
 import com.foodie.app.ui.view_adapters.AppBarStateChangeListener;
 import com.foodie.app.ui.view_adapters.BusinessViewPagerAdapter;
 
 import java.util.List;
 
+/**
+ * The activity that shows the business details and activities.
+ */
 public class ActivitiesActivity extends AppCompatActivity {
-
 
     private static final String TAG = "ActivitiesActivity";
     public static Business businessItem;
@@ -66,6 +64,10 @@ public class ActivitiesActivity extends AppCompatActivity {
     private DisplayMetrics metrics;
     private boolean isBusinessExist;
 
+    /**
+     * Creates the activity where the business details and activities are presented.
+     * @param savedInstanceState A saves instance of the activity from previous state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: starts");
@@ -103,6 +105,9 @@ public class ActivitiesActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initializes the views in the activity.
+     */
     private void initializeComponents() {
         Intent intent = getIntent();
 
@@ -120,6 +125,9 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Handles the floating action buttons's (fabs) clicks.
+     */
     private void setFabs() {
         // Setup up active buttons
         if (mEditMode.equals("true")) {
@@ -153,17 +161,17 @@ public class ActivitiesActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(List<Business> data) {
                                 DebugHelper.Log("Business insert callBack finish with status: Success");
-                                new ProgressNotification(getApplicationContext()).startNotification(new NotificationCallBack() {
-                                    @Override
-                                    public double progress() {
-                                        UploadStatus current = OnlineStorage.getFileStatusById(null);
-
-                                        if(current != null)
-                                            return current.getProgress();
-
-                                        return 0;
-                                    }
-                                });
+//                                new ProgressNotification(getApplicationContext()).startNotification(new NotificationCallBack() {
+//                                    @Override
+//                                    public double progress() {
+//                                        UploadStatus current = OnlineStorage.getFileStatusById(null);
+//
+//                                        if(current != null)
+//                                            return current.getProgress();
+//
+//                                        return 0;
+//                                    }
+//                                });
                             }
 
                             @Override
@@ -217,7 +225,9 @@ public class ActivitiesActivity extends AppCompatActivity {
         });
     }
 
-    //Initializes the views
+    /**
+     * Initializes the views
+     */
     private void initializeViews() {
         rootLayout = (CoordinatorLayout) findViewById(R.id.business_activities_coordinator_layout);
         addButton = (FloatingActionButton) findViewById(R.id.add_fab_button2);
@@ -231,7 +241,9 @@ public class ActivitiesActivity extends AppCompatActivity {
         //businessLogoCardView = (CardView) findViewById(R.id.business_header_card_view);
     }
 
-    //Sets the appbar listener to hide the title while collapsed.
+    /**
+     * Sets the appbar.
+     */
     private void setAppBar() {
 
         appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
@@ -257,7 +269,9 @@ public class ActivitiesActivity extends AppCompatActivity {
         });
     }
 
-    //Inflates the business date from the database.
+    /**
+     * Inflates the business date from the database.
+     */
     private void inflateData() {
 
         if (!businessID.equals("")) {
@@ -298,6 +312,10 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets the business details data.
+     * @param businessID The business ID.
+     */
     private void setData(String businessID) {
         if (businessID.equals("")) {
             //businessItem = new Business();
@@ -318,7 +336,9 @@ public class ActivitiesActivity extends AppCompatActivity {
         }
     }
 
-    //Configures the tab layout's listener.
+    /**
+     * Configures the tab layout's listener.
+     */
     private void setTabLayout() {
 
         if (viewPager != null) {
@@ -348,6 +368,10 @@ public class ActivitiesActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sets the fab's animation on tab transition.
+     * @param position The tab number.
+     */
     private void setFabTab(int position) {
         Log.d(TAG, "setFabTab: starts");
         switch (position) {
@@ -367,6 +391,19 @@ public class ActivitiesActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected.
+     * The default implementation simply returns false to have the normal
+     * processing happen (calling the item's Runnable or sending a message to
+     * its Handler as appropriate).  You can use this method for any items
+     * for which you would like to do processing without those other
+     * facilities.
+     *
+     * @param item The menu item that was selected.
+     *
+     * @return boolean Return false to allow normal menu processing to
+     *         proceed, true to consume it here.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -378,7 +415,9 @@ public class ActivitiesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //Sets the actionbar visibility.
+    /**
+     * Sets the actionbar visibility.
+     */
     private void setActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar == null) {
@@ -397,7 +436,10 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     }
 
-    //Configures and adds the fragments to the view pager.
+    /**
+     * Configures and adds the fragments to the view pager.
+     * @param viewPager The activity's viewpager.
+     */
     private void setupViewPager(ViewPager viewPager) {
         BusinessViewPagerAdapter adapter = new BusinessViewPagerAdapter(getSupportFragmentManager());
 
@@ -419,14 +461,21 @@ public class ActivitiesActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    //Sets the activity title.
+    /**
+     * Sets the activity title.
+     * @param title The business name (used for the title).
+     */
     public void setActivityTitle(String title) {
         ActionBar toolbar = getSupportActionBar();
         if (toolbar != null)
             toolbar.setTitle(title);
     }
 
-    //For future use.
+    /**
+     *  Take care of popping the fragment back stack or finishing the activity
+     * as appropriate.
+     * Also handles the view pager exit animation.
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -438,6 +487,15 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Dispatch onResume() to fragments.  Note that for better inter-operation
+     * with older versions of the platform, at the point of this call the
+     * fragments attached to the activity are <em>not</em> resumed.  This means
+     * that in some cases the previous state may still be saved, not allowing
+     * fragment transactions that modify the state.  To correctly interact
+     * with fragments in their proper state, you should instead override
+     * {@link #onResumeFragments()}.
+     */
     @Override
     protected void onResume() {
         super.onResume();
