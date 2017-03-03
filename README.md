@@ -23,14 +23,6 @@ Screenshots:
 <a href='https://postimg.org/image/szjj6hrdr/' target='_blank'><img src='https://s19.postimg.org/mlug38mhv/image.jpg' border='0' alt="8" width="30%"/></a> 
 <a href='https://postimg.org/image/qw93ytrkv/' target='_blank'><img src='https://s19.postimg.org/al902if37/image.jpg' border='0' alt="9" width="30%"/></a><br/><br/>
 <a href='https://postimg.org/image/hczf5d42n/' target='_blank'><img src='https://s19.postimg.org/h080z6lsz/image.jpg' border='0' alt="10" width="30%"/></a> 
-<br /><a target='_blank' href='https://postimage.org/'>upload an image</a><br /><br />
- 
- 
- 
- 
- 
- 
- 
-
+<br />
  
  <!-- https://postimg.org/gallery/1a3z7btds/14a7dfd2/ -->
