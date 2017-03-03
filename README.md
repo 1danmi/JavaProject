@@ -13,7 +13,7 @@ An Android app that implements:
  
  Screenshots:
  
-![alt tag](https://s19.postimg.org/nf71vusir/image.jpg)
+![alt tag](https://s19.postimg.org/h1hyslnmn/image.jpg)
 
 ![alt tag](https://s19.postimg.org/ovikdzvfn/image.jpg)
 
