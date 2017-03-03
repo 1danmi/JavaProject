@@ -1,4 +1,4 @@
-# JavaProject
+# Foodie
 
 An Android app that implements:
   - Firebase realtime database and storage database.
