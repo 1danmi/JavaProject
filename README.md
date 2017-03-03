@@ -9,9 +9,9 @@ An Android app that implements:
   - Shared element transition.
   - Chrome Custom Tabs integration.
   
- Note: this app was built for learning purposes, so not all the features (especially the Content Provider) are really necessary.
+Note: this app was built for learning purposes, so not all the features (especially the Content Provider) are really necessary.
  
- Screenshots:
+Screenshots:
  
  <a href='https://postimg.org/image/h1hyslnmn/' target='_blank'><img src='https://s19.postimg.org/nf71vusir/image.jpg' border='0' alt="1" width="30%"/></a> 
 <a href='https://postimg.org/image/vlz1nfilb/' target='_blank'><img src='https://s19.postimg.org/ovikdzvfn/image.jpg' border='0' alt="2" width="30%"/></a> 
