@@ -64,14 +64,19 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
 
     private boolean debug = false;
 
-    //Dish values
+    /**
+     * Dish values
+     */
     private com.foodie.app.entities.Activity activityItem;
     private String activityID, businessID, businessName;
     private double mPrice;
     private boolean mEditMode, isPhotoChanged, isPriceChanged, fabLock;
     private Menu mOptionsMenu;
 
-    //Views:
+
+    /**
+     * Views:
+     */
     private CoordinatorLayout rootLayout;
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
@@ -87,6 +92,10 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
     private ImageView doneImage;
     private SuggestionRecyclerViewAdapter suggestionRecyclerViewAdapter;
 
+    /**
+     * Creates the activity where the activity details are presented.
+     * @param savedInstanceState A saves instance of the activity from a previous state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,6 +173,9 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         }
     }
 
+    /**
+     * Handles the price button click.
+     */
     private void setPrice() {
         AlertDialog.Builder alert = new AlertDialog.Builder(ActivityDetails.this, R.style.MyAlertDialogStyle);
         alert.setTitle("Enter dish price");
@@ -221,6 +233,9 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         alert.show();
     }
 
+    /**
+     * Sets the app bar.
+     */
     private void setAppBar() {
         setSupportActionBar(toolbar);
         setActionBar();
@@ -244,6 +259,9 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         });
     }
 
+    /**
+     * Sets the Floating Action Button (FAB) behavior.
+     */
     private void setFabs() {
 
         fabLock = false;
@@ -271,6 +289,9 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         });
     }
 
+    /**
+     * Handles the FAB clicks.
+     */
     protected void fabClick() {
         if (mEditMode) {
             fabProgressCircle.attachListener(this);
@@ -302,6 +323,10 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         }
     }
 
+    /**
+     * Sets the edit mode after insertion.
+     * @param result A boolean that represents whether the insertion was successful.
+     */
     private void postInsert(Boolean result) {
         if (result) {
             fabProgressCircle.beginFinalAnimation();
@@ -314,6 +339,10 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         }
     }
 
+    /**
+     * Add the activity to the database.
+     * @return A boolean that represents the insertion status.
+     */
     private boolean addActivity() {
         try {
             activityItem.setActivityName(dishNameEditText.getText().toString().trim());
@@ -363,6 +392,10 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         return true;
     }
 
+    /**
+     * Validates the input.
+     * @return A boolean that represents whether the input is valid.
+     */
     private boolean inputCheck() {
         Snackbar snackbar = Snackbar.make(rootLayout, "You have to choose a photo!", Snackbar.LENGTH_LONG);
         snackbar.setActionTextColor(getResources().getColor(R.color.accent));
@@ -399,6 +432,9 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         return true;
     }
 
+    /**
+     * Initializes all the views.
+     */
     private void initializeViews() {
         //Initialize views:
         rootLayout = (CoordinatorLayout) findViewById(R.id.activity_details_root_layout);
@@ -424,6 +460,10 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         doneImage = (ImageView) findViewById(R.id.doneImage);
     }
 
+    /**
+     * Sets edit mode.
+     * @param b true if it in edit mode, otherwise - false.
+     */
     private void setEditMode(boolean b) {
         mEditMode = b;
         if (b) {
@@ -441,14 +481,19 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         }
     }
 
-    //Sets the activity title.
+    /**
+     * Sets the activity title.
+     * @param title the activity title.
+     */
     public void setActivityTitle(String title) {
         ActionBar toolbar = getSupportActionBar();
         if (toolbar != null)
             toolbar.setTitle(title);
     }
 
-    //Sets the actionbar visibility.
+    /**
+     * Sets the actionbar visibility.
+     */
     private void setActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar == null) {
@@ -466,6 +511,9 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
 
     }
 
+    /**
+     * Dispatch incoming result to the correct fragment.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -495,6 +543,24 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         }
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected.
+     * The default implementation simply returns false to have the normal
+     * processing happen (calling the item's Runnable or sending a message to
+     * its Handler as appropriate).  You can use this method for any items
+     * for which you would like to do processing without those other
+     * facilities.
+     *
+     * <p>Derived classes should call through to the base class for it to
+     * perform the default menu handling.</p>
+     *
+     * @param item The menu item that was selected.
+     *
+     * @return boolean Return false to allow normal menu processing to
+     *         proceed, true to consume it here.
+     *
+     * @see #onCreateOptionsMenu
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -549,6 +615,10 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Sets the activity date.
+     * @param activityID the activity ID.
+     */
     private void setData(String activityID) {
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -586,7 +656,9 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         }
     }
 
-
+    /**
+     * Handles the recyclerview's item clicks.
+     */
     @Override
     public void onItemClick(View v, int position, MotionEvent e) {
 
@@ -597,11 +669,42 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         }
     }
 
+    /**
+     * Animates the fab after the insertion animation ended.
+     */
     @Override
     public void onFABProgressAnimationEnd() {
         AnimationHelper.showFab(doneImage);
     }
 
+    /**
+     * Initialize the contents of the Activity's standard options menu.  You
+     * should place your menu items in to <var>menu</var>.
+     *
+     * <p>This is only called once, the first time the options menu is
+     * displayed.  To update the menu every time it is displayed, see
+     * {@link #onPrepareOptionsMenu}.
+     *
+     * <p>The default implementation populates the menu with standard system
+     * menu items.  These are placed in the {@link Menu#CATEGORY_SYSTEM} group so that
+     * they will be correctly ordered with application-defined menu items.
+     * Deriving classes should always call through to the base implementation.
+     *
+     * <p>You can safely hold on to <var>menu</var> (and any items created
+     * from it), making modifications to it as desired, until the next
+     * time onCreateOptionsMenu() is called.
+     *
+     * <p>When you add items to the menu, you can implement the Activity's
+     * {@link #onOptionsItemSelected} method to handle them there.
+     *
+     * @param menu The options menu in which you place your items.
+     *
+     * @return You must return true for the menu to be displayed;
+     *         if you return false it will not be shown.
+     *
+     * @see #onPrepareOptionsMenu
+     * @see #onOptionsItemSelected
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -614,6 +717,9 @@ public class ActivityDetails extends AppCompatActivity implements RecyclerItemCl
         return true;
     }
 
+    /**
+     * Deletes an activity.
+     */
     private void deleteActivity() {
         CallBack<com.foodie.app.entities.Activity> callBack = new CallBack<com.foodie.app.entities.Activity>() {
             @Override
