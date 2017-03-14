@@ -36,6 +36,12 @@ import java.util.List;
  * Created by David on 9/1/2017.
  */
 
+
+/**
+ * This class will use google firebase as an online DB
+ * In order to a faster query, the class use the local db
+ * to save the data locally
+ */
 public class FirebaseDB implements IDBManager {
 
     private ListDBManager localDB;
@@ -54,7 +60,10 @@ public class FirebaseDB implements IDBManager {
 
     private FirebaseAuth mAuth;
 
-
+    /**
+     * Default constructor.
+     * The constructor will check if the login was made and start the class
+     */
     public FirebaseDB() {
 
         mAuth = FirebaseAuth.getInstance();
@@ -90,7 +99,10 @@ public class FirebaseDB implements IDBManager {
         mAuth.addAuthStateListener(mAuthListener);
     }
 
-
+    /**
+     * After login, start the database by using the current CPUser id
+     * @param id : The id of the user logged in
+     */
     private void onCreate(String id) {
 
         // User is signed in
@@ -122,18 +134,39 @@ public class FirebaseDB implements IDBManager {
 
     }
 
+    /**
+     * This Function will insert a cpuser to the online DB
+     * @param values : The new data
+     * @return : the entity id
+     */
     @Override
     public String addCPUser(ContentValues values) throws Exception {
 
         if (values == null) {
             throw new NullPointerException("ContentValues is null");
         }
-        CPUser cpuser = Converters.ContentValuesToCPUser(values);
-        CPUserRef.setValue(cpuser);
-        return "";
+        CPUser user = Converters.ContentValuesToCPUser(values);
+        DatabaseReference toInsert = CPUserRef.push();
+
+        if(user.getUserFullName() != null)
+            toInsert.child(AppContract.CPUser.CPUSER_FULL_NAME).setValue(user.getUserFullName());
+
+        if(user.getUserFullName() != null)
+            toInsert.child(AppContract.CPUser.CPUSER_EMAIL).setValue(user.getUserEmail());
+
+        if(user.getUserFullName() != null)
+            toInsert.child(AppContract.CPUser.CPUSER_PWD).setValue(user.getUserPwdHash());
+
+        toInsert.child(AppContract.User.USER_ID).setValue(toInsert.getKey());
+
+        return toInsert.getKey();
     }
 
-
+    /**
+     * This Function will insert a business to the online DB
+     * @param values : The new data
+     * @return : the entity id
+     */
     @Override
     public String addBusiness(ContentValues values) throws Exception {
      
@@ -163,7 +196,11 @@ public class FirebaseDB implements IDBManager {
 
         return toInsert.getKey();
     }
-
+    /**
+     * This Function will insert a activity to the online DB
+     * @param values : The new data
+     * @return : the entity id
+     */
     @Override
     public String addActivity(ContentValues values) throws Exception {
         if(values == null)
@@ -182,7 +219,11 @@ public class FirebaseDB implements IDBManager {
         toInsert.child(AppContract.Activity.ACTIVITY_ID).setValue(toInsert.getKey());
         return toInsert.getKey();
     }
-
+    /**
+     * This Function will insert an user to the online DB
+     * @param values : The new data
+     * @return : the entity id
+     */
     @Override
     public String addUser(ContentValues values) throws Exception {
 
@@ -195,12 +236,23 @@ public class FirebaseDB implements IDBManager {
         return "";
     }
 
+    /**
+     * This function will remove a cpuser entity by id
+     * In this case its not possible to remove a cpuser
+     * @param id : the cpuser id
+     * @return : boolean if the operation is complete successfully
+     */
     @Override
     public boolean removeCPUser(String id) throws Exception {
 
         return false;
     }
 
+    /**
+     * This function will remove a business entity by id
+     * @param id : the entity id
+     * @return : boolean if the operation is complete successfully
+     */
     @Override
     public boolean removeBusiness(String id) throws Exception {
         DebugHelper.Log("removeBusiness: id = "+id);
@@ -214,44 +266,68 @@ public class FirebaseDB implements IDBManager {
         }
         return true;
     }
-
+    /**
+     * This function will remove a activity entity by id
+     * @param id : the entity id
+     * @return : boolean if the operation is complete successfully
+     */
     @Override
     public boolean removeActivity(String id) throws Exception {
         ActivityRef.child(id).removeValue();
         localDB.removeActivity(id);
         return true;
     }
-
+    /**
+     * This function will remove a business entity by id
+     * @param id : the entity id
+     * @return : boolean if the operation is complete successfully
+     */
     @Override
     public boolean removeUser(String id) throws Exception {
-        return true;
+        //No user found
+        return false;
     }
 
+    /**
+     * This function will get a cpuser from the local db
+     */
     @Override
     public Cursor getCPUser(String[] args, String[] columnsArgs) throws Exception {
      
 
         return localDB.getCPUser(args, columnsArgs);
     }
-
+    /**
+     * This function will get a business from the local db
+     */
     @Override
     public Cursor getBusiness(String[] args, String[] columnsArgs) throws Exception {
      
         return localDB.getBusiness(args, columnsArgs);
     }
-
+    /**
+     * This function will get an activity from the local db
+     */
     @Override
     public Cursor getActivity(String[] args, String[] columnsArgs) throws Exception {
      
         return localDB.getActivity(args, columnsArgs);
     }
-
+    /**
+     * This function will get a user from the local db
+     */
     @Override
     public Cursor getUser(String[] args, String[] columnsArgs) throws Exception {
      
         return localDB.getUser(args, columnsArgs);
     }
 
+    /**
+     * This function will update a CPUSER by id
+     * @param id :  The id
+     * @param values: the new data
+     * @return : true in case of success
+     */
     @Override
     public boolean updateCPUser(String id, ContentValues values) throws Exception {
 
@@ -261,7 +337,12 @@ public class FirebaseDB implements IDBManager {
 
         return true;
     }
-
+    /**
+     * This function will update a bussiness by id
+     * @param id :  The id
+     * @param values: the new data
+     * @return : true in case of success
+     */
     @Override
     public boolean updateBusiness(String id, ContentValues values) throws Exception {
 
@@ -275,7 +356,12 @@ public class FirebaseDB implements IDBManager {
 
         return true;
     }
-
+    /**
+     * This function will update an activity by id
+     * @param id :  The id
+     * @param values: the new data
+     * @return : true in case of success
+     */
     @Override
     public boolean updateActivity(String id, ContentValues values) throws Exception {
 
@@ -287,7 +373,12 @@ public class FirebaseDB implements IDBManager {
         }
         return true;
     }
-
+    /**
+     * This function will update a user by id
+     * @param id :  The id
+     * @param values: the new data
+     * @return : true in case of success
+     */
     @Override
     public boolean updateUser(String id, ContentValues values) throws Exception {
 
@@ -296,13 +387,21 @@ public class FirebaseDB implements IDBManager {
         return true;
     }
 
+    /**
+     * This function will return if the local database is updated (not in used)
+     */
     @Override
     public boolean isDBUpdated() {
 
         return localDB.isDBUpdated();
     }
 
-
+    /**
+     * This function will login a CPuser
+     * @param email : The user email
+     * @param password : the user password
+     * @param callBack : The callback to used after the operation with the login status
+     */
     public void login(final String email,final String password,final CallBack<CPUser> callBack) {
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -332,6 +431,11 @@ public class FirebaseDB implements IDBManager {
         });
     }
 
+    /**
+     * This function will register a bew CPuser
+     * @param user : The Cpuser details
+     * @param callBack : The callback to used after the operation with the registration status
+     */
     public void signUp(final CPUser user, final CallBack<CPUser> callBack)
     {
         if(user.getUserEmail().isEmpty())
@@ -349,7 +453,9 @@ public class FirebaseDB implements IDBManager {
         });
     }
 
-
+    /**
+     * This function signout the user
+     */
     public void signOut()
     {
         DebugHelper.Log("Signed out");

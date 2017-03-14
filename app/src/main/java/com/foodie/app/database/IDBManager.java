@@ -7,6 +7,10 @@ import android.database.Cursor;
  * Created by Daniel on 12/13/2016.
  */
 
+
+/**
+ * A interface used to especificate the existent operations in the DB
+ */
 public interface IDBManager {
 
     String addCPUser(ContentValues values) throws Exception;

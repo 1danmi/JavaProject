@@ -91,7 +91,8 @@ public class DBManagerFactory {
             {
                 currentUser.setUserFullName(user.getUserFullName());
                 currentUser.setUserPwdHash(user.getUserPwdHash());
-            }
+            }else
+                DebugHelper.Log("Current user is null");
         }catch (Exception ignored)
         {
 

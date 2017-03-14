@@ -4,6 +4,10 @@ package com.foodie.app.database;
  * Created by David on 25/12/2016.
  */
 
+/**
+ * This class will help to order the query in AsyncData class
+ * The Class is the same as the content provider query but divided by objects
+ */
 public class DBquery {
 
 

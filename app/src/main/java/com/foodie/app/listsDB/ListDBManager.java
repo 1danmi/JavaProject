@@ -18,6 +18,11 @@ import com.foodie.app.entities.User;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * This class will manager a local DB by using list of every entity
+ * This class implements the interface IDBManager
+ */
 public class ListDBManager implements IDBManager {
 
     //lists
@@ -30,12 +35,19 @@ public class ListDBManager implements IDBManager {
 
     boolean isUpdated = false;
 
+    /**
+     * The local list (private)
+     */
     static {
         users = new ArrayList<>();
         cpusers = new ArrayList<>();
         businesses = new ArrayList<>();
         activities = new ArrayList<>();
     }
+
+    /**
+     * Function to reset the database
+     */
     public static void resetDB()
     {
         users.clear();
@@ -44,11 +56,21 @@ public class ListDBManager implements IDBManager {
         activities.clear();
     }
 
+    /**
+     * This function will return the greater id
+     * @param classList : The entity type to search
+     * @return : The id
+     */
     private int getMaxID(String classList) {
 
         return users.size() + cpusers.size() + businesses.size() + activities.size();
     }
 
+    /**
+     * This function will add a CPUser entity to the DB
+     * @param values : The new data
+     * @return : The user id added
+     */
     @Override
     public String addCPUser(ContentValues values) throws Exception {
         // Get values
@@ -63,7 +85,11 @@ public class ListDBManager implements IDBManager {
         isUpdated = true;
         return cpuser.get_ID();
     }
-
+    /**
+     * This function will add a Business entity to the DB
+     * @param values : The new data
+     * @return : The user id added
+     */
     @Override
     public String addBusiness(ContentValues values) throws Exception {
         Business business = Converters.ContentValuesToBusiness(values);
@@ -76,7 +102,11 @@ public class ListDBManager implements IDBManager {
 
         return business.get_ID();
     }
-
+    /**
+     * This function will add a Activity entity to the DB
+     * @param values : The new data
+     * @return : The user id added
+     */
     @Override
     public String addActivity(ContentValues values) throws Exception {
         Activity activity = Converters.ContentValuesToActivity(values);
@@ -89,7 +119,11 @@ public class ListDBManager implements IDBManager {
         isUpdated = true;
         return activity.get_ID();
     }
-
+    /**
+     * This function will add a User entity to the DB
+     * @param values : The new data
+     * @return : The user id added
+     */
     @Override
     public String addUser(ContentValues values) throws Exception {
         User user = Converters.ContentValuesToUser(values);
@@ -104,6 +138,11 @@ public class ListDBManager implements IDBManager {
         return user.get_ID();
     }
 
+    /**
+     * This function will remove a CPUSer entity from the DB
+     * @param id : Entity id to remove
+     * @return : A boolean to know if the operation is completed
+     */
     @Override
     public boolean removeCPUser(String id) throws Exception {
         CPUser cpuserToRemove = null;
@@ -116,7 +155,11 @@ public class ListDBManager implements IDBManager {
 
         return cpusers.remove(cpuserToRemove);
     }
-
+    /**
+     * This function will remove a Business entity from the DB
+     * @param id : Entity id to remove
+     * @return : A boolean to know if the operation is completed
+     */
     @Override
     public boolean removeBusiness(String id) throws Exception {
         Business businessToRemove = null;
@@ -130,6 +173,11 @@ public class ListDBManager implements IDBManager {
         return businesses.remove(businessToRemove);
     }
 
+    /**
+     * This function will remove a Activity entity from the DB
+     * @param id : Entity id to remove
+     * @return : A boolean to know if the operation is completed
+     */
     @Override
     public boolean removeActivity(String id) throws Exception {
         Activity activityToRemove = null;
@@ -143,6 +191,11 @@ public class ListDBManager implements IDBManager {
         return activities.remove(activityToRemove);
     }
 
+    /**
+     * This function will remove a user entity from the DB
+     * @param id : Entity id to remove
+     * @return : A boolean to know if the operation is completed
+     */
     @Override
     public boolean removeUser(String id) throws Exception {
         User userToRemove = null;
@@ -156,6 +209,12 @@ public class ListDBManager implements IDBManager {
         return users.remove(userToRemove);
     }
 
+    /**
+     * This function will make a query to the DB and return a Cpuser entity list
+     * @param args : A array of strings with the arguments (ex: 5, moises )
+     * @param columnsArgs A array of strings with the the arguments columns (ex: id, name )
+     * @return the list with the data
+     */
     @Override
     public Cursor getCPUser(String[] args, String[] columnsArgs) {
 
@@ -206,7 +265,12 @@ public class ListDBManager implements IDBManager {
         } else
             return Converters.CPUserListToCursor(cpusers);
     }
-
+    /**
+     * This function will make a query to the DB and return a business entity list
+     * @param args : A array of strings with the arguments (ex: 5, moises )
+     * @param columnsArgs A array of strings with the the arguments columns (ex: id, name )
+     * @return the list with the data
+     */
     @Override
     public Cursor getBusiness(String[] args, String[] columnsArgs) {
         //    public Business(int id,String businessName, String businessAddress, String businessPhoneNo, String businessEmail, String businessWebsite, int cpuserID, byte[] businessLogo) throws Exception {
@@ -282,6 +346,12 @@ public class ListDBManager implements IDBManager {
             return Converters.BusinessListToCursor(businesses);
     }
 
+    /**
+     * This function will make a query to the DB and return an Activity entity list
+     * @param args : A array of strings with the arguments (ex: 5, moises )
+     * @param columnsArgs A array of strings with the the arguments columns (ex: id, name )
+     * @return the list with the data
+     */
     @Override
     public Cursor getActivity(String[] args, String[] columnsArgs) {
 
@@ -359,6 +429,12 @@ public class ListDBManager implements IDBManager {
             return Converters.ActivitiesListToCursor(activities);
     }
 
+    /**
+     * This function will make a query to the DB and return an User entity list
+     * @param args : A array of strings with the arguments (ex: 5, moises )
+     * @param columnsArgs A array of strings with the the arguments columns (ex: id, name )
+     * @return the list with the data
+     */
     @Override
     public Cursor getUser(String[] args, String[] columnsArgs) {
 
@@ -427,6 +503,12 @@ public class ListDBManager implements IDBManager {
             return Converters.UserListToCursor(users);
     }
 
+    /**
+     * This function will update a CPUser entity by id
+     * @param id : The entity id
+     * @param values : The new data
+     * @return :  A boolean to know if the operation is completed
+     */
     @Override
     public boolean updateCPUser(String id, ContentValues values) throws Exception {
         CPUser cpuser = Converters.ContentValuesToCPUser(values);
@@ -442,7 +524,12 @@ public class ListDBManager implements IDBManager {
         }
         return false;
     }
-
+    /**
+     * This function will update a Business entity by id
+     * @param id : The entity id
+     * @param values : The new data
+     * @return :  A boolean to know if the operation is completed
+     */
     @Override
     public boolean updateBusiness(String id, ContentValues values) throws Exception {
         Business business = Converters.ContentValuesToBusiness(values);
@@ -464,6 +551,12 @@ public class ListDBManager implements IDBManager {
         return false;
     }
 
+    /**
+     * This function will update an activity entity by id
+     * @param id : The entity id
+     * @param values : The new data
+     * @return :  A boolean to know if the operation is completed
+     */
     @Override
     public boolean updateActivity(String id, ContentValues values) throws Exception {
         Activity activity = Converters.ContentValuesToActivity(values);
@@ -486,6 +579,12 @@ public class ListDBManager implements IDBManager {
         return false;
     }
 
+    /**
+     * This function will update an user entity by id
+     * @param id : The entity id
+     * @param values : The new data
+     * @return :  A boolean to know if the operation is completed
+     */
     @Override
     public boolean updateUser(String id, ContentValues values) throws Exception {
         User user = Converters.ContentValuesToUser(values);
@@ -506,12 +605,19 @@ public class ListDBManager implements IDBManager {
         return false;
     }
 
+    /**
+     *
+     * @return if the data base is updated (not in used)
+     */
     @Override
     public boolean isDBUpdated() {
         return isUpdated;
     }
 
-
+    /**
+     * This function will check if the credentials are corrects (by checking if the user/password exist)
+     * @param callBack : the callback function when its done
+     */
     public static void login(final String username, final String password, final CallBack<CPUser> callBack) {
 
         for (CPUser user : cpusers) {
@@ -540,7 +646,11 @@ public class ListDBManager implements IDBManager {
         });
     }
 
-
+    /**
+     *  For the firebase DB class:
+     *  This function will update a CPUSer
+     * @param values : The entity data
+     */
     public void updateCPUser(CPUser values) {
         for (CPUser cpuser:cpusers ) {
             if(values.get_ID().equals(cpuser.get_ID()))
@@ -555,7 +665,11 @@ public class ListDBManager implements IDBManager {
 
     }
 
-
+    /**
+     *  For the firebase DB class:
+     *  This function will update a business
+     * @param values : The entity data
+     */
     public void updateBusiness(Business values) {
 
         for (Business business:businesses ) {
@@ -572,7 +686,11 @@ public class ListDBManager implements IDBManager {
 
     }
 
-
+    /**
+     *  For the firebase DB class:
+     *  This function will update an Activity
+     * @param values : The entity data
+     */
     public void updateActivity(Activity values) {
 
         for (Activity activies:activities ) {
@@ -590,7 +708,11 @@ public class ListDBManager implements IDBManager {
     }
 
 
-
+    /**
+     * For the firebase DB class:
+     * This function will update an user
+     * @param user : The entity data
+     */
     public void updateUser(User user) {
 
 
@@ -607,13 +729,24 @@ public class ListDBManager implements IDBManager {
 
     }
 
+    /**
+     * For the firebase DB class:
+     * This function will insert a CPUser to the database
+     * @param values: The entity data
+     * @return :  the id inserted
+     */
     public String addCPUser(CPUser values) {
         cpusers.add(values);
         isUpdated = true;
         return values.get_ID();
     }
 
-
+    /**
+     * For the firebase DB class:
+     * This function will insert a business to the database
+     * @param values: The entity data
+     * @return :  the id inserted
+     */
     public String addBusiness(Business values) {
 
         boolean update = false;
@@ -631,7 +764,12 @@ public class ListDBManager implements IDBManager {
         return values.get_ID();
     }
 
-
+    /**
+     * For the firebase DB class:
+     * This function will insert an actvity to the database
+     * @param values: The entity data
+     * @return :  the id inserted
+     */
     public String addActivity(Activity values) {
 
 
@@ -646,7 +784,12 @@ public class ListDBManager implements IDBManager {
     }
 
 
-
+    /**
+     * For the firebase DB class:
+     * This function will insert an user to the database
+     * @param values: The entity data
+     * @return :  the id inserted
+     */
     public String addUser(User user) {
 
         users.add(user);
@@ -654,17 +797,12 @@ public class ListDBManager implements IDBManager {
         return user.get_ID();
     }
 
-    public CPUser getCPUserById(String id) {
-        for (CPUser user : cpusers) {
-            if (user.get_ID().equals(id))
-                return user;
-        }
-        return null;
-    }
 
-
-
-
+    /**
+     * This function will register a new user
+     * @param user : The cpuser details
+     * @param callBack : The callback function to execute after the operation
+     */
     public static void signUp(CPUser user, CallBack<CPUser> callBack) {
         for (CPUser localUser : cpusers) {
             if (localUser.getUserEmail().equals(user.getUserEmail())) {
@@ -678,49 +816,38 @@ public class ListDBManager implements IDBManager {
 
     }
 
-    public static void removeOthersUsers() {
-        if (DBManagerFactory.getCurrentUser() == null || businesses == null)
-            return;
-        CPUser current = DBManagerFactory.getCurrentUser();
 
-        for (Business business : businesses) {
-            businesses.remove(business);
-        }
-
-
-        Boolean flag;
-        for (Activity activity : activities) {
-            flag = false;
-            for (Business business : businesses) {
-                if (activity.getBusinessId().equals(business.get_ID()))
-                    flag = true;
-            }
-            if (!flag)
-                activities.remove(activity);
-
-
-        }
-    }
-
-
+    /**
+     * @return : the CPUser list size
+     */
     public static int getCpusersListSize() {
         return cpusers.size();
     }
-
+    /**
+     * @return : the user list size
+     */
     public static int getUsersListSize() {
         return users.size();
     }
-
+    /**
+     * @return : the activity list size
+     */
     public static int getActivitiesListSize() {
         return activities.size();
     }
-
+    /**
+     * @return : the business list size
+     */
     public static int getBusinessListSize() {
         return businesses.size();
     }
 
 
-
+    /**
+     * This function update a business picture by id
+     * @param id : the id
+     * @param img  : the picture
+     */
     public static void UpdateBusinessPicture(String id,byte[] img)
     {
         Business business;
@@ -739,7 +866,11 @@ public class ListDBManager implements IDBManager {
         }
         DBManagerFactory.setDBupdated(false);
     }
-
+    /**
+     * This function update a activity picture by id
+     * @param id : the id
+     * @param img  : the picture
+     */
     public static void UpdateActivityPicture(String id,byte[] img)
     {
         Activity activity;
