@@ -25,6 +25,10 @@ public class RegisterActivity extends AppCompatActivity {
     Snackbar snackbar;
     LoadingButton signUpBtn = null;
 
+    /**
+     * Called when the activity is created.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

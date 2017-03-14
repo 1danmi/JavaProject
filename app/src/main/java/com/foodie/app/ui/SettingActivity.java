@@ -20,6 +20,10 @@ public class SettingActivity extends AppCompatActivity {
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +62,18 @@ public class SettingActivity extends AppCompatActivity {
 
         setTitle("Settings");
     }
+
+    /**
+     *
+     */
     private void setAppBar() {
         setSupportActionBar(toolbar);
         setActionBar();
     }
 
-    //Sets the actionbar visibility.
+    /**
+     * Sets the actionbar visibility.
+     */
     private void setActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar == null) {
@@ -81,6 +91,11 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

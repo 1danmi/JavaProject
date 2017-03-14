@@ -85,6 +85,10 @@ public class BusinessActivity extends AppCompatActivity
     private Intent serviceIntent;
 
 
+    /**
+     * Called when the activity is created.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -164,6 +168,9 @@ public class BusinessActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Sets the username in the navbar.
+     */
     private void setUserName() {
 
 //        new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -180,6 +187,9 @@ public class BusinessActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Sets the recycler view
+     */
     private void setRecyclerView() {
 
         recyclerView = (RecyclerView) findViewById(R.id.business_recycle_view);
@@ -196,6 +206,10 @@ public class BusinessActivity extends AppCompatActivity
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, this));
     }
 
+    /**
+     *
+     * @return
+     */
     private Toolbar setActionBarAndFAB() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -216,6 +230,10 @@ public class BusinessActivity extends AppCompatActivity
         return toolbar;
     }
 
+    /**
+     *
+     * @param toolbar
+     */
     private void setDrawer(Toolbar toolbar) {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -228,6 +246,9 @@ public class BusinessActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     *
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -239,6 +260,11 @@ public class BusinessActivity extends AppCompatActivity
         }
     }
 
+    /**
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -251,6 +277,11 @@ public class BusinessActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -266,7 +297,11 @@ public class BusinessActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -314,6 +349,9 @@ public class BusinessActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     *
+     */
     public void loadData() {
 
         Bundle b = getIntent().getExtras();
@@ -339,6 +377,12 @@ public class BusinessActivity extends AppCompatActivity
 
     }
 
+    /**
+     *
+     * @param v
+     * @param position
+     * @param e
+     */
     @Override
     public void onItemClick(View v, final int position, MotionEvent e) {
         try {
@@ -404,6 +448,10 @@ public class BusinessActivity extends AppCompatActivity
 
     }
 
+    /**
+     *
+     * @param position
+     */
     private void deleteItem(int position) {
         CallBack<Business> callBack = new CallBack<Business>() {
             @Override
@@ -420,6 +468,9 @@ public class BusinessActivity extends AppCompatActivity
         (new AsyncData<>(getApplicationContext(), Business.getURI(), DataManagerType.Delete, callBack)).execute(businessRecyclerViewAdapter.getBusiness(position).get_ID());
     }
 
+    /**
+     *
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -428,6 +479,9 @@ public class BusinessActivity extends AppCompatActivity
         getContentResolver().registerContentObserver(Business.getURI(), true, myContentObserver);
     }
 
+    /**
+     *
+     */
     @Override
     protected void onPause() {
         //getContentResolver().unregisterContentObserver(myContentObserver);
@@ -435,6 +489,9 @@ public class BusinessActivity extends AppCompatActivity
         super.onPause();
     }
 
+    /**
+     *
+     */
     @Override
     protected void onDestroy() {
         DBManagerFactory.signOut();
@@ -443,6 +500,12 @@ public class BusinessActivity extends AppCompatActivity
         super.onDestroy();
     }
 
+    /**
+     *
+     * @param businesses
+     * @param query
+     * @return
+     */
     private List<Business> filterLanguage(List<Business> businesses, String query) {
         final List<Business> filteredModelList = new ArrayList<>();
 
@@ -455,7 +518,11 @@ public class BusinessActivity extends AppCompatActivity
         return filteredModelList;
     }
 
-
+    /**
+     *
+     * @param query
+     * @return
+     */
     @Override
     public boolean onQueryTextChange(String query) {
         // Here is where we are going to implement the filterLanguage logic
@@ -465,18 +532,28 @@ public class BusinessActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     *
+     * @param query
+     * @return
+     */
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
     }
 
-
+    /**
+     *
+     */
     @Override
     public void onRefresh() {
         Log.d(TAG, "onRefresh: starts");
         loadData();
     }
 
+    /**
+     *
+     */
     private void noBusiness() {
         refreshLayout.setRefreshing(false);
         noBusinessesText.setVisibility(View.VISIBLE);

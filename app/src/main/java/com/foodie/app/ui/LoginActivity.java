@@ -45,6 +45,11 @@ public class LoginActivity extends AppCompatActivity {
     ConstraintLayout constraintLayout;
     Snackbar snackbar;
 
+
+    /**
+     * Calles when the activity is created.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +114,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Validates the user credentials.
+     */
     private void checkLogin() {
         final MaterialEditText emailEditText = (MaterialEditText) findViewById(R.id.emailEditText);
         final MaterialEditText pwdEditText = (MaterialEditText) findViewById(R.id.pwdEditText);
@@ -214,7 +222,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * For debugging purposes.
+     */
     void test() {
         CPUser user = new CPUser();
         try {

@@ -58,12 +58,16 @@ public class BusinessDetailsFragment extends Fragment {
     private View snackBarView;
 
 
-    //Fragment requires empty public constructor
+    /**
+     * Fragment requires empty public constructor.
+     */
     public BusinessDetailsFragment() {
 
     }
 
-    //Called when the fragment initializes.
+    /**
+     * Called when the fragment initializes.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,6 +101,9 @@ public class BusinessDetailsFragment extends Fragment {
 
     }
 
+    /**
+     * Lets the user pick an image.
+     */
     public void pickImage() {
         Log.d(TAG, "pickImage: starts");
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -104,7 +111,9 @@ public class BusinessDetailsFragment extends Fragment {
         startActivityForResult(intent, Constants.PICK_PHOTO);
     }
 
-    //Inflates business data from the bundle and from the database.
+    /**
+     * Inflates business data from the bundle and from the database.
+     */
     public void inflateData() {
         String businessID = "";
         Bundle bundle = this.getArguments();
@@ -129,7 +138,9 @@ public class BusinessDetailsFragment extends Fragment {
         }
     }
 
-    //Configure the editBitmap and confirm buttons
+    /**
+     * Configure the editBitmap and confirm buttons
+     */
     private void setFABs(final View rootView) {
         addFAB = (FABProgressCircle) rootView.findViewById(R.id.add_fab);
         editFAB = (FABProgressCircle) rootView.findViewById(R.id.edit_fab);
@@ -149,10 +160,18 @@ public class BusinessDetailsFragment extends Fragment {
 
     }
 
+    /**
+     * Sets the snackbar view to the root layout.
+     * @param view the root view
+     */
     protected void setSnackBarView(View view) {
         snackBarView = view;
     }
 
+    /**
+     * Validates the input.
+     * @return boolean representing if the input is valid.
+     */
     protected boolean inputCheck() {
 
         if (((ActivitiesActivity) getActivity()).isPhotoChanged) {
@@ -184,7 +203,9 @@ public class BusinessDetailsFragment extends Fragment {
         return false;
     }
 
-    //Initialize the views
+    /**
+     * Initialize the views
+     */
     public void initializeViews(View rootView) {
         rootLayout = (CoordinatorLayout) rootView.findViewById(R.id.root_business_details_layout);
         mNameLayout = (RelativeLayout) rootView.findViewById(R.id.name_layout);
@@ -229,7 +250,10 @@ public class BusinessDetailsFragment extends Fragment {
         mEmailText = (TextView) rootView.findViewById(R.id.set_email);
     }
 
-    // On clicking name button
+    /**
+     * On clicking name button.
+     * @param v
+     */
     public void setName(final View v) {
         if (mEditMode) {
             AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle);
@@ -279,7 +303,9 @@ public class BusinessDetailsFragment extends Fragment {
         }
     }
 
-    // On clicking address button
+    /**
+     * On clicking address button.
+     */
     public void setAddress(final View v) {
         if (mEditMode) {
             AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle);
@@ -336,7 +362,9 @@ public class BusinessDetailsFragment extends Fragment {
         }
     }
 
-    // On clicking address button
+    /**
+     * On clicking address button
+     */
     public void setPhone(final View v) {
         if (mEditMode) {
             AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle);
@@ -405,7 +433,9 @@ public class BusinessDetailsFragment extends Fragment {
         }
     }
 
-    // On clicking website button
+    /**
+     * On clicking website button.
+     */
     public void setWebsite(final View v) {
         if (mEditMode) {
             AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle);
@@ -485,7 +515,10 @@ public class BusinessDetailsFragment extends Fragment {
         }
     }
 
-    // On clicking email button
+    /**
+     * On clicking email button.
+     * @param v
+     */
     public void setEmail(final View v) {
         if (mEditMode) {
             AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle);
@@ -556,7 +589,20 @@ public class BusinessDetailsFragment extends Fragment {
         }
     }
 
-
+    /**
+     * Receive the result from a previous call to
+     * {@link #startActivityForResult(Intent, int)}.  This follows the
+     * related Activity API as described there in
+     * {@link Activity#onActivityResult(int, int, Intent)}.
+     *
+     * @param requestCode The integer request code originally supplied to
+     *                    startActivityForResult(), allowing you to identify who this
+     *                    result came from.
+     * @param resultCode The integer result code returned by the child activity
+     *                   through its setResult().
+     * @param data An Intent, which can return result data to the caller
+     *               (various data can be attached to Intent "extras").
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

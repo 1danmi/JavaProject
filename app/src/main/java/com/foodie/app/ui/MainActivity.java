@@ -23,6 +23,10 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
 
+    /**
+     * Called when the main activity is launched.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Calls to the login activity.
+     */
     void openLogin() {
         DebugHelper.Log("No user logged in");
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);

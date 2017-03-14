@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,15 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.foodie.app.Helper.DebugHelper;
 import com.foodie.app.R;
 import com.foodie.app.constants.Constants;
-import com.foodie.app.database.AsyncData;
 import com.foodie.app.database.CallBack;
-import com.foodie.app.database.DataManagerType;
 import com.foodie.app.database.DataStatus;
 import com.foodie.app.entities.Activity;
-import com.foodie.app.entities.Business;
 import com.foodie.app.listsDB.ContentResolverDatabase;
 import com.foodie.app.ui.helpers.IntentHelper;
 import com.foodie.app.ui.view_adapters.ActivityRecyclerViewAdapter;
@@ -49,6 +44,9 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
     private ImageButton btnMore;
     private SwipeRefreshLayout refreshLayout;
 
+    /**
+     * Required empty public constructor
+     */
     public BusinessActivitiesFragment() {
         // Required empty public constructor
     }
@@ -64,6 +62,9 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
         loadData();
     }
 
+    /**
+     * Called when the fragment is created.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,7 +84,9 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
 
     }
 
-
+    /**
+     * Initializes the recyclerview's adapter.
+     */
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         activityRecyclerViewAdapter = new ActivityRecyclerViewAdapter(ContentResolverDatabase.activities, getActivity());
@@ -94,6 +97,9 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
 
     }
 
+    /**
+     * Loads the data into the fragment.
+     */
     public void loadData() {
 
         Bundle bundle = this.getArguments();
@@ -117,6 +123,9 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
         //activityRecyclerViewAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Handles the recyclerview's items click.
+     */
     @Override
     public void onItemClick(View v, final int position, MotionEvent e) {
         btnMore = (ImageButton) v.findViewById(R.id.activity_menu_button);
@@ -126,23 +135,26 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
 //            }
         }
     }
+//
+//    private void deleteItem(int position) {
+//        CallBack<Business> callBack = new CallBack<Business>() {
+//            @Override
+//            public void onSuccess(List<Business> data) {
+//                DebugHelper.Log("Business insert callBack finish with status: Success");
+//                Log.d(TAG, "onSuccess: success");
+//            }
+//
+//            @Override
+//            public void onFailed(DataStatus status, String error) {
+//                Log.d(TAG, "onFailed: failed");
+//            }
+//        };
+//        (new AsyncData<>(getContext(), Activity.getURI(), DataManagerType.Delete, callBack)).execute(activityRecyclerViewAdapter.getActivity(position).get_ID());
+//    }
 
-    private void deleteItem(int position) {
-        CallBack<Business> callBack = new CallBack<Business>() {
-            @Override
-            public void onSuccess(List<Business> data) {
-                DebugHelper.Log("Business insert callBack finish with status: Success");
-                Log.d(TAG, "onSuccess: success");
-            }
-
-            @Override
-            public void onFailed(DataStatus status, String error) {
-                Log.d(TAG, "onFailed: failed");
-            }
-        };
-        (new AsyncData<>(getContext(), Activity.getURI(), DataManagerType.Delete, callBack)).execute(activityRecyclerViewAdapter.getActivity(position).get_ID());
-    }
-
+    /**
+     * Update the recyclerview.
+     */
     @Override
     public void onRefresh() {
         loadData();
