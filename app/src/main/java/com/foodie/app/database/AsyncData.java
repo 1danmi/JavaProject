@@ -19,6 +19,10 @@ import java.util.List;
  * Created by David on 15/12/2016.
  */
 
+/**
+ * This class wil provide the data from the database in a async method
+ * @param <T>: Entities used in this project
+ */
 
 public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
 
@@ -34,18 +38,37 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
     public BusinessRecyclerViewAdapter businessRecyclerViewAdapter;
 
 
+    /**
+     * Default constructor
+     *
+     * @param context : The current context so the class can push data from the content provider
+     * @param uri:    The entity uri
+     */
     public AsyncData(Context context, Uri uri) {
         this.context = context;
         this.uri = uri;
 
     }
 
+    /**
+     * Constructor
+     *
+     * @param context         : The current context so the class can push data from the content provider
+     * @param uri             : The entity uri
+     * @param datamanagerType : The type of operation (insert, query, delete)
+     */
     public AsyncData(Context context, Uri uri, DataManagerType datamanagerType) {
         this.context = context;
         this.uri = uri;
         this.datamanagerType = datamanagerType;
     }
 
+    /**
+     * @param context:         The current context so the class can push data from the content provider
+     * @param uri:             The entity uri
+     * @param datamanagerType: The type of operation (insert, query, delete)
+     * @param callback         : The function that the class will run after receive the data
+     */
     public AsyncData(Context context, Uri uri, DataManagerType datamanagerType, CallBack<T> callback) {
         this.context = context;
         this.uri = uri;
@@ -53,7 +76,12 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
         this.callback = callback;
     }
 
-
+    /**
+     * Default function for async class
+     * This function will push the data from the content provider
+     *
+     * @param objects : The data (new data, query, id to delete)
+     */
     @Override
     protected Void doInBackground(Object... objects) {
 
@@ -75,7 +103,10 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
             runCallBack(DataStatus.InvalidArgumment, null);
             DebugHelper.Log("AsyncData: Total of Objects: " + objects.length);
         }
-
+        /**
+         * In this swicth the function will check what type of operation the user required,
+         * and then check if the data (received) are correct
+         */
         switch (datamanagerType) {
             case Off:
                 break;
@@ -128,6 +159,13 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
         return null;
     }
 
+    /**
+     * In case that the user wants to insert new data, this function will insert it by
+     * using the content provider and his uri
+     * After the operation the function will call the function runCallBack (To run the callback function)
+     *
+     * @param contentValues : the data to insert
+     */
     private void Insert(ContentValues... contentValues) {
         for (ContentValues value : contentValues) {
             Uri u = context.getContentResolver().insert(uri, value);
@@ -140,7 +178,13 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
         }
     }
 
-
+    /**
+     * In case that the user wants to remove data, this function will remove it by
+     * using the content provider and his uri
+     * After the operation the function will call the function runCallBack (To run the callback function)
+     *
+     * @param id : the id to remove
+     */
     private void remove(String id) {
 
         if (context.getContentResolver().delete(uri, id, null) == 1) {
@@ -151,8 +195,17 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
 
     }
 
+    /**
+     * In case that the user wants to get data, this function will get it by
+     * using the content provider and his uri
+     * After the operation the function will call the function runCallBack (To run the callback function)
+     *
+     * @param query : An object from the class DBquery where the query is explicated
+     */
     private void query(DBquery... query) {
         Cursor result;
+
+        //creating the query to send to the Content Provider
         for (DBquery aQuery : query) {
             result = context.getContentResolver().query(uri, aQuery.getProjection(), aQuery.getSelection(), aQuery.getSelectionArgs(), aQuery.getSortOrder());
 
@@ -194,6 +247,13 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
 
     }
 
+    /**
+     * In case that the user wants to update data, this function will update it by getting the data and
+     * using the content provider and his uri
+     * After the operation the function will call the function runCallBack (To run the callback function)
+     *
+     * @param contentValues
+     */
     private void update(ContentValues... contentValues) {
         for (ContentValues value : contentValues) {
 
@@ -213,15 +273,31 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
         }
     }
 
-
+    /**
+     * Set function
+     *
+     * @param callBack
+     */
     public void setCallBack(CallBack<T> callBack) {
         this.callback = callBack;
     }
 
+    /**
+     * Set function
+     *
+     * @param type
+     */
     public void setDatamanagerType(DataManagerType type) {
         datamanagerType = type;
     }
 
+    /**
+     * This function will check if the callback function is set (not null) and then run it
+     * Ps: The function will be executed in the main thread by using the class 'Handler'
+     *
+     * @param status : The status of the operation (Success, failed...)
+     * @param data   : In case of data required by the user,
+     */
     private void runCallBack(final DataStatus status, final List<T> data) {
 
         if (callback == null) {
@@ -249,7 +325,12 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
 
     }
 
-
+    /**
+     * This  function will get the error from the content provider
+     *
+     * @param checkProvider : True to check the provider for errors
+     * @return the error
+     */
     private DataStatus getErrorType(boolean checkProvider) {
         if (checkProvider) {
             contenProviderErrorMessage = MyContentProvider.getLastErrorMessage();
@@ -267,12 +348,5 @@ public class AsyncData<T> extends AsyncTask<Object, Integer, Void> {
 
 
     }
-
-//    @Override
-//    protected void onProgressUpdate(Integer... values) {
-//        if(values!=null&&values.length>0)
-//            if(values[0]==0) {
-//                businessRecyclerViewAdapter.loadNewData((List<Business>) BusinessList);
-//            }
-//    }
 }
+

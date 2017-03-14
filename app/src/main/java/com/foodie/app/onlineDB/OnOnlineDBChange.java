@@ -16,15 +16,28 @@ import com.google.firebase.database.DatabaseError;
  * Created by David on 15/1/2017.
  */
 
+/**
+ * This class will be the mediator between the online db and the local db
+ */
 public class OnOnlineDBChange implements ChildEventListener {
 
     ListDBManager localDB;
     public static boolean updated =false;
 
+    /**
+     * Default constructor
+     * @param localDB : a local DB object
+     */
     public OnOnlineDBChange(ListDBManager localDB) {
         this.localDB = localDB;
     }
 
+    /**
+     * Default function of firebase callback
+     * This function will add/ the new data to the local db
+     * @param dataSnapshot : the new data (list)
+     * @param s : default firebase param
+     */
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -36,6 +49,7 @@ public class OnOnlineDBChange implements ChildEventListener {
                 case "CPUser":
                         CPUser user= getCPUser(data);
                         localDB.addCPUser(user);
+                        DebugHelper.Log("User email: " + user.getUserEmail() + " user name: " + user.getUserFullName());
                         DBManagerFactory.UpdateCurrentUser(user);
                     break;
                 case "Business":
@@ -57,6 +71,11 @@ public class OnOnlineDBChange implements ChildEventListener {
         updated = true;
     }
 
+    /**
+     * This function convert a datasnapshot (of firebase) to Activity
+     * @param data : a datasnapshot
+     * @return : new entiity
+     */
     private Activity getActivity(final DataSnapshot data) {
         try{
             Activity activity = new Activity();
@@ -95,7 +114,11 @@ public class OnOnlineDBChange implements ChildEventListener {
         }
         return null;
     }
-
+    /**
+     * This function convert a datasnapshot (of firebase) to business
+     * @param data : a datasnapshot
+     * @return : new entiity
+     */
     private Business getBusiness(final DataSnapshot data) {
         Business business = new Business();
         business.set_ID(data.getKey());
@@ -127,31 +150,47 @@ public class OnOnlineDBChange implements ChildEventListener {
 
         return business;
     }
-
+    /**
+     * This function convert a datasnapshot (of firebase) to CPuser
+     * @param data : a datasnapshot
+     * @return : new entiity
+     */
     private CPUser getCPUser(DataSnapshot data)
     {
+        for (DataSnapshot a: data.getChildren()) {
+            DebugHelper.Log("getCPUser: " + a.getKey() +" = " + a.getValue() );
+        }
+
+
         CPUser user = new CPUser();
-        user.set_ID(data.getKey());
         try {
 
             if(data.child(AppContract.CPUser.CPUSER_FULL_NAME).getValue() != null)
                 user.setUserFullName(data.child(AppContract.CPUser.CPUSER_FULL_NAME).getValue().toString());
 
             if(data.child(AppContract.CPUser.CPUSER_PWD).getValue() != null)
-                user.setUserFullName(data.child(AppContract.CPUser.CPUSER_PWD).getValue().toString());
+                user.setUserPwd(data.child(AppContract.CPUser.CPUSER_PWD).getValue().toString());
 
             if(data.child(AppContract.CPUser.CPUSER_EMAIL).getValue() != null)
-                user.setUserFullName(data.child(AppContract.CPUser.CPUSER_EMAIL).getValue().toString());
+                user.setUserEmail(data.child(AppContract.CPUser.CPUSER_EMAIL).getValue().toString());
 
 
         } catch (Exception ignored) {
-
+            DebugHelper.Log("getCPUser error:" + ignored.getMessage());
         }
+
+        DebugHelper.Log("getCPUser = User email: " + user.getUserEmail() + " user name: " + user.getUserFullName());
 
 
         return user;
     }
 
+    /**
+     * Default function of firebase callback
+     * This function will update a entity in the local db
+     * @param dataSnapshot : the new data (list)
+     * @param s : default firebase param
+     */
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
