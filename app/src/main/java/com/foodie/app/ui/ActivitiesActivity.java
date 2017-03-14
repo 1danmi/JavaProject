@@ -66,7 +66,7 @@ public class ActivitiesActivity extends AppCompatActivity {
 
     /**
      * Creates the activity where the business details and activities are presented.
-     * @param savedInstanceState A saves instance of the activity from previous state.
+     * @param savedInstanceState A saves instance of the activity from a previous state.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

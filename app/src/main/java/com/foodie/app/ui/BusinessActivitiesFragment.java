@@ -53,6 +53,11 @@ public class BusinessActivitiesFragment extends Fragment implements RecyclerItem
         // Required empty public constructor
     }
 
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally
+     * Activity's lifecycle.
+     */
     @Override
     public void onResume() {
         super.onResume();

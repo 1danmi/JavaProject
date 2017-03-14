@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -19,25 +18,21 @@ import com.foodie.app.R;
 
 public class AboutActivity extends AppCompatActivity {
 
-    private CardView daniel;
-    private CardView david;
     private RelativeLayout danielEmailLayout, danielGitLayout, danielInLayout, danielTelegramLayout;
     private RelativeLayout davidEmailLayout, davidGitLayout, davidInLayout, davidTelegramLayout;
     private TextView danielEmail, danielGit, danielIn, danielTelegram;
     private TextView davidEmail, davidGit, davidIn, davidTelegram;
-    private AppBarLayout appBarLayout;
     private Toolbar toolbar;
 
     /**
      * Creates the activity that shows the developers info details.
-     * @param savedInstanceState A saves instance of the activity from previous state.
+     * @param savedInstanceState A saves instance of the activity from a previous state.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_about);
         toolbar = (Toolbar) findViewById(R.id.toolbar_about);
 
         initializeDaniel();
@@ -121,7 +116,7 @@ public class AboutActivity extends AppCompatActivity {
      * Initializes the views in Daniel's tab.
      */
     private void initializeDaniel() {
-        daniel = (CardView) findViewById(R.id.cardViewDaniel);
+        CardView daniel = (CardView) findViewById(R.id.cardViewDaniel);
         danielEmail = (TextView) daniel.findViewById(R.id.email_text);
         danielGit = (TextView) daniel.findViewById(R.id.github_link);
         danielIn = (TextView) daniel.findViewById(R.id.linkedin_link);
@@ -136,7 +131,7 @@ public class AboutActivity extends AppCompatActivity {
      * Initializes the views in David's tab.
      */
     private void initializeDavid() {
-        david = (CardView) findViewById(R.id.cardViewDavid);
+        CardView david = (CardView) findViewById(R.id.cardViewDavid);
         davidEmail = (TextView) david.findViewById(R.id.email_text);
         davidGit = (TextView) david.findViewById(R.id.github_link);
         davidIn = (TextView) david.findViewById(R.id.linkedin_link);
